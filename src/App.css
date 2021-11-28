@@ -1,38 +1,135 @@
-.App {
-  text-align: center;
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--fontfam);
+  overflow: overlay; 
+}    
+body {
+  overflow: hidden;
+  height: 100%;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+  
+:root { 
+  --fontfam: Montserrat, Arial, Sans Serif;
+  --color: #2f51e8;
+  --lightblue: #2a90ef;
+  --lighterblue: #6cbdf8;
+  --graytxt: #696e93;
+  --white1: #fff;
+  --white2: #fff;
+  --dark1: #141719;
+  --dark2: #191e22;
+}  
+.grid {
+  width: 1320px; 
+  margin: auto;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.xgrid {
+  padding: 50px 0;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.spacer {
+  height: 50px;
+}
+.spacers {
+  height: 30px;
+}
+.spacerl {
+  height: 100px;
+} 
+* {
+  position: relative;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+::selection {
+  background: #222;
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
+::-webkit-scrollbar {
+  width: 7px;
+  height: 10px;
+} 
+.hidescroll::-webkit-scrollbar {
+  display: none;
+} 
+img {
+  object-fit: cover;
+  max-width: 100%;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button {
+  outline: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+a { 
+  text-decoration: none;
+  color: #111;
+}
+a.hoverable:hover {
+  text-decoration: underline;
+}
+p {
+  line-height: 1.8;
+}
+input, select, textarea {
+  padding: 13px 10px;
+  border: 1px solid #ddd; 
+  width: 100%;
+  outline: none;
+  border-radius: 5px;
+  transition: all 0.3s;
+  font-family: inherit;
+} 
+input::placeholder, textarea::placeholder {
+  color: #bbb;
+}
+input:disabled {
+  background: #f1f1f1
+}
+hr {
+  border: none;
+}
+.linkable {
+  cursor: pointer;
+}
+.capitalize {
+  text-transform: capitalize
+}
+.appcontainer.noscroll {
+  overflow-y: hidden;
+  height: 100vh;
+}
+.commoninput h6 {
+  cursor: auto;
+}
+a.hide {
+  display: none;
+}
+.notifscont {
+  position: fixed;
+  bottom: 40px;
+  left: 40px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.flex {
+  display: flex;
+}
+.flexdown {
+  flex-direction: column;
+}
+.sb {
+  justify-content: space-between;
+}
+.ac {
+  align-items: center;
+}
+.flexcenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
