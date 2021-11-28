@@ -29,7 +29,7 @@ export default function Sidebar() {
       </div>
       <AppButton 
         title="Quick Post"
-        url="/quick-post" 
+        url="/quick-post"  
         width="150px" 
         textColor="#fff"
         style={{marginTop: '40px'}}
