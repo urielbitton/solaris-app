@@ -51,6 +51,7 @@
 .sidebar .menu .active-menu-link,
 .sidebar .menu .menu-item:hover {
   background: var(--color);
+  box-shadow: 0 16px 15px 5px rgba(47, 81, 232, 0.1);
 }
 .sidebar .menu .menu-item:hover i {
   color: #fff;

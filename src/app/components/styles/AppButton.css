@@ -10,5 +10,5 @@
   transition: all 0.3s;
 }
 .appbutton:hover {
-  box-shadow: 0 16px 15px 5px rgba(47, 81, 232, 0.1);
+  box-shadow: 0 16px 15px 5px rgba(47, 81, 232, 0.2);
 }
