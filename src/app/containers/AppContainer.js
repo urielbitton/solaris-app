@@ -1,10 +1,13 @@
 import React from 'react'
-import './AppContainer.css'
+import HomeCont from './HomeCont'
+import Sidebar from './Sidebar'
+import './styles/AppContainer.css'
 
 export default function AppContainer() {
   return (
     <div className="app-container">
-      
+      <Sidebar />
+      <HomeCont />
     </div>
   )
 }

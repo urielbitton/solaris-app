@@ -1,19 +1,15 @@
 html, body {
   margin: 0;
   padding: 0;
-  font-family: var(--fontfam);
+  font-family: 'Nunito';
   overflow: overlay; 
 }    
-body {
-  overflow: hidden;
-  height: 100%;
-}
   
 :root { 
-  --fontfam: Montserrat, Arial, Sans Serif;
   --color: #2f51e8;
   --lightblue: #2a90ef;
   --lighterblue: #6cbdf8;
+  --bg: #f8f8fc;
   --graytxt: #696e93;
   --white1: #fff;
   --white2: #fff;
@@ -97,7 +93,7 @@ hr {
 .capitalize {
   text-transform: capitalize
 }
-.appcontainer.noscroll {
+.app-container.noscroll {
   overflow-y: hidden;
   height: 100vh;
 }

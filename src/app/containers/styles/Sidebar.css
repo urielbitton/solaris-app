@@ -1,0 +1,61 @@
+.sidebar {
+  background: var(--bg);
+  padding: 20px;
+  padding-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  padding-bottom: 50px;
+}
+.sidebar .logo-container {
+  width: 100%;
+  gap: 20px;
+}
+.sidebar .logo-container img {
+  width: 35px;
+}
+.sidebar .logo-container h3 {
+  text-transform: capitalize;
+  font-size: 23px;
+  color: #555;
+}
+.sidebar .logo-container h3 span {
+  color: var(--lightblue);
+}
+.sidebar .menu {
+  margin-top: 50px;
+  gap: 15px;
+}
+.sidebar .menu .menu-item {
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 170px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sidebar .menu .menu-item i {
+  width: 20px;
+  font-size: 23px;
+  color: var(--color);
+  margin-right: 20px;
+}
+.sidebar .menu .menu-item h6 {
+  font-size: 16px;
+  color: var(--graytxt);
+}
+.sidebar .menu .active-menu-link,
+.sidebar .menu .menu-item:hover {
+  background: var(--color);
+}
+.sidebar .menu .menu-item:hover i {
+  color: #fff;
+}
+.sidebar .menu .menu-item:hover h6 {
+  color: #fff;
+  font-weight: 500;
+}
