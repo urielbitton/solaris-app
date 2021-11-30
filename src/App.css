@@ -6,10 +6,12 @@ html, body {
 }    
   
 :root { 
-  --color: #2f51e8;
+  --color: #2d54ff;
   --lightblue: #2a90ef;
   --lighterblue: #6cbdf8;
   --bg: #f8f8fc;
+  --red: #f1605e;
+  --blueShadow: 0 16px 15px 5px rgba(47, 81, 232, 0.1);
   --graytxt: #696e93;
   --white1: #fff;
   --white2: #fff;
@@ -71,7 +73,7 @@ p {
 }
 input, select, textarea {
   padding: 13px 10px;
-  border: 1px solid #ddd; 
+  border: none;
   width: 100%;
   outline: none;
   border-radius: 5px;

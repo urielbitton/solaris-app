@@ -11,14 +11,14 @@
 }
 .sidebar .logo-container {
   width: 100%;
-  gap: 20px;
+  gap: 18px;
 }
 .sidebar .logo-container img {
-  width: 35px;
+  width: 30px;
 }
 .sidebar .logo-container h3 {
   text-transform: capitalize;
-  font-size: 23px;
+  font-size: 21px;
   color: #555;
 }
 .sidebar .logo-container h3 span {
@@ -26,7 +26,7 @@
 }
 .sidebar .menu {
   margin-top: 50px;
-  gap: 15px;
+  gap: 10px;
 }
 .sidebar .menu .menu-item {
   padding: 12px;
@@ -45,18 +45,23 @@
   margin-right: 20px;
 }
 .sidebar .menu .menu-item h6 {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--graytxt);
 }
-.sidebar .menu .active-menu-link,
+.sidebar .menu .active-menu-link {
+  background: var(--color);
+  box-shadow: 0 16px 15px 5px var(--blueShadow);
+  border-radius: 10px;
+}
 .sidebar .menu .menu-item:hover {
   background: var(--color);
-  box-shadow: 0 16px 15px 5px rgba(47, 81, 232, 0.1);
 }
-.sidebar .menu .menu-item:hover i {
+.sidebar .menu .menu-item:hover i,
+.sidebar .menu .active-menu-link i {
   color: #fff;
 }
-.sidebar .menu .menu-item:hover h6 {
+.sidebar .menu .menu-item:hover h6,
+.sidebar .menu .active-menu-link h6 {
   color: #fff;
   font-weight: 500;
 }

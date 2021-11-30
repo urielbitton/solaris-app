@@ -1,0 +1,83 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: calc(100% - 250px);
+  height: 90px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+.navbar .side {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.navbar h1.nav-title {
+  color: #333;
+}
+.navbar h6.nav-descript {
+  color: var(--graytxt);
+  font-size: 12px;
+  opacity: 0.7;
+  width: 240px;
+}
+.navbar .side hr {
+  width: 2px;
+  height: 20px;
+  background: var(--graytxt);
+  opacity: 0.12;
+}
+.navbar .nav-create-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  background: var(--color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.navbar .nav-create-btn i {
+  font-size: 15px;
+  color: #fff;
+}
+.navbar .nav-create-btn:hover {
+  box-shadow: var(--blueShadow)
+}
+.navbar .nav-notifs-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.navbar .nav-notifs-btn i {
+  color: var(--graytxt);
+  font-size: 20px;
+}
+.navbar .nav-notifs-btn .notifs-num {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 17px;
+  height: 17px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--red)
+}
+.navbar .nav-notifs-btn .notifs-num small {
+  font-size: 9px;
+  color: #fff;
+}
+.navbar .nav-profile-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px;
+}

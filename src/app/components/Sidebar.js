@@ -2,8 +2,8 @@ import React from 'react'
 import './styles/Sidebar.css'
 import logoOnly from '../assets/imgs/logonly2.png'
 import { menuLinks } from '../api/apis'
-import { BrowserRouter as NavLink } from 'react-router-dom'
-import AppButton from '../components/AppButton'
+import { NavLink } from 'react-router-dom'
+import AppButton from './AppButton'
 
 export default function Sidebar() {
 

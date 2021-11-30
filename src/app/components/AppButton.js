@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './styles/AppButton.css'
 
 export default function AppButton(props) {
@@ -8,7 +8,7 @@ export default function AppButton(props) {
     leftIconStyles, rightIconStyles, width, style, className} = props
 
   return (
-    <Link to={url}>
+    <Link to={url} onClick={onClick}>
       <div className={`appbutton ${className}`} style={{background: bgColor, width, ...style}}>
         <i className={leftIcon} style={leftIconStyles}></i>
         <span style={{color:textColor}}>{title}</span>
