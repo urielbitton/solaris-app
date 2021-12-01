@@ -1,6 +1,6 @@
 .searchbar {
   background: #fff;
-  box-shadow: 0 7px 20px 0px rgba(0,0,0,0.09);
+  box-shadow: 0 7px 20px 0px rgba(0,0,0,0.08);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -31,4 +31,7 @@
 .searchbar input::placeholder {
   font-weight: 600;
   color: #d5d5d5;
+}
+.searchbar input:focus {
+  box-shadow: 0 7px 20px 0px rgba(45, 84, 255,0.09);
 }

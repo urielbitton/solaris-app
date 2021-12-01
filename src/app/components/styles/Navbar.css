@@ -16,6 +16,9 @@
   align-items: center;
   gap: 20px;
 }
+.navbar .side.right {
+  gap: 40px;
+}
 .navbar h1.nav-title {
   color: #333;
 }
@@ -79,5 +82,31 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 200px;
+  width: 160px;
+}
+.nav-profile-container .img-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.nav-profile-container .img-container img {
+  border-radius: 100%;
+  width: 35px;
+  height: 35px;
+}
+.nav-profile-container .img-container i {
+  font-size: 20px;
+}
+.nav-profile-container .text-info-container {
+  display: flex; 
+  flex-direction: column;
+}
+.nav-profile-container .text-info-container h5 {
+  font-size: 13px;
+}
+.nav-profile-container .text-info-container a {
+  font-size: 11px;
+  color: var(--graytxt);
+  font-weight: 600;
 }

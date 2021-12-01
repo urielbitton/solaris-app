@@ -50,7 +50,7 @@
 }
 .sidebar .menu .active-menu-link {
   background: var(--color);
-  box-shadow: 0 16px 15px 5px var(--blueShadow);
+  box-shadow: var(--blueShadow);
   border-radius: 10px;
 }
 .sidebar .menu .menu-item:hover {

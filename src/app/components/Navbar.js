@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { StoreContext } from '../store/store'
 import SearchBar from './SearchBar'
 import './styles/Navbar.css'
+import profImg from '../assets/imgs/prof-img.jpg'
 
 export default function Navbar() {
 
@@ -16,7 +17,7 @@ export default function Navbar() {
         <h6 className="nav-descript">{navDescript}</h6>
         <SearchBar width="300px"/>
       </div>
-      <div className="side">
+      <div className="side right">
         <div className="nav-create-btn">
           <i className="fal fa-plus"></i>
         </div>
@@ -27,9 +28,13 @@ export default function Navbar() {
           </div>
         </div>
         <div className="nav-profile-container">
-          <div>
+          <div className="text-info-container">
             <h5>Jennifer Hejduk</h5>
-            <Link>My Settings</Link>
+            <Link to="/settings" className="linkable">My Settings</Link>
+          </div>
+          <div className="img-container">
+            <img src={profImg} alt=""/>
+            <i className="fal fa-angle-down"></i>
           </div>
         </div>
       </div>

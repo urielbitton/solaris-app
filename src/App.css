@@ -65,7 +65,7 @@ a {
   text-decoration: none;
   color: #111;
 }
-a.hoverable:hover {
+a.linkable:hover {
   text-decoration: underline;
 }
 p {
