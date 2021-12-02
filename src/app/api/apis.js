@@ -5,12 +5,13 @@ export const menuLinks = [
     icon: 'fal fa-book-open', 
     url: '/courses',
     sublinks: [
-      {name: 'Video Courses', icon: 'fal fa-video', url: '/courses/video-courses'},
-      {name: 'Literary Courses', icon: 'fal fa-file-alt', url: '/courses/literary-courses'}
+      {name: 'Video Courses', icon: 'fal fa-chalkboard', url: '/courses/video-courses'},
+      {name: 'Text Courses', icon: 'fal fa-book-reader', url: '/courses/text-courses'},
+      {name: 'Tutorials', icon: 'fab fa-youtube', url: '/courses/tutorials'},
     ]
   },
   {name: 'Instructors', icon: 'fal fa-chalkboard-teacher', url: '/instructors'},
   {name: 'My Library', icon: 'fal fa-books', url: '/my-library'},
-  {name: 'Report', icon: 'fal fa-analytics', url: '/reports'},
+  {name: 'Reports', icon: 'fal fa-analytics', url: '/reports'},
   {name: 'Settings', icon: 'fal fa-cog', url: '/settings'}
 ]

@@ -26,26 +26,37 @@
 }
 .sidebar .menu {
   margin-top: 50px;
-  gap: 10px;
+  gap: 7px;
 }
 .sidebar .menu .menu-item {
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 170px;
+  justify-content: space-between;
+  width: 175px;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s;
 }
+.sidebar .menu .sub-menu-link {
+  padding-left: 20px;
+}
+.sidebar .menu .menu-item .titles {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 .sidebar .menu .menu-item i {
-  width: 20px;
-  font-size: 21px;
+  font-size: 20px;
   color: var(--color);
-  margin-right: 20px;
+  transition: all 0.2s;
+}
+.sidebar .menu .menu-item i.open {
+  transform: rotate(180deg)
 }
 .sidebar .menu .menu-item h6 {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--graytxt);
 }
 .sidebar .menu .active-menu-link {
@@ -65,9 +76,30 @@
   color: #fff;
   font-weight: 500;
 }
+.sidebar .menu .sub-menu-link hr {
+  position: absolute;
+  height: 125%;
+  width: 1px;
+  background: var(--color);
+  left: -5px;
+  opacity: 0.2;
+}
+.sidebar .menu .sub-menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 0;
+  transition: all 0.3s;
+  overflow: hidden;
+}
+.sidebar .menu .sub-menu-container.open {
+  max-height: 300px;
+}
+
 .sidebar .instructor-container {
   width: 100%;
-  height: 200px;
+  height: 170px;
+  margin-top: 60px;
   padding: 20px;
   border-radius: 15px;
   background: var(--color);
@@ -78,7 +110,7 @@
 }
 .sidebar .instructor-container img {
   width: 100%;
-  margin-top: -80px;
+  margin-top: -95px;
   z-index: 10;
 }
 .sidebar .instructor-container button {

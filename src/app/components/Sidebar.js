@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './styles/Sidebar.css'
 import logoOnly from '../assets/imgs/logonly2.png'
 import { menuLinks } from '../api/apis'
-import { NavLink } from 'react-router-dom'
 import becomeInstr from '../assets/imgs/become-instructor.png'
+import MenuLink from './MenuLink'
 
 export default function Sidebar() {
 
+  const [tabOpen, setTabOpen] = useState(false)
+
   const menuRender = menuLinks?.map((link,i) => {
-    return <NavLink exact={link.exact} to={link.url} activeClassName="active-menu-link" key={i}>
-      <div className="menu-item">
-        <i className={link.icon}></i>
-        <h6>{link.name}</h6>
-      </div>
-    </NavLink>
+    return <MenuLink 
+      link={link} 
+      tabOpen={tabOpen}
+      setTabOpen={setTabOpen}
+      i={i} 
+      key={i} 
+    />
   })
 
   return (
