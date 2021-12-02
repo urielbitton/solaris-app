@@ -1,0 +1,25 @@
+.home-page {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 30px;
+}
+.home-page section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.home-page section.full {
+  grid-column: 1/-1;
+}
+.home-page section h3 {
+  color: var(--graytxt);
+  font-size: 17px;
+}
+.home-page section .courses-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-gap: 20px;
+}

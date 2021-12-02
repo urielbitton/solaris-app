@@ -1,13 +1,17 @@
 .sidebar {
   background: var(--bg);
-  padding: 20px;
-  padding-top: 30px;
+  height: 100vh;
+  overflow:hidden;
+  border-right: 1px solid rgba(200,200,200,0.1)
+}
+.sidebar .sidebar-scroll {
+  height: 100%;
+  padding: 30px 20px 50px 20px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
-  padding-bottom: 50px;
+  overflow-y: scroll;
 }
 .sidebar .logo-container {
   width: 100%;
@@ -25,7 +29,7 @@
   color: var(--lightblue);
 }
 .sidebar .menu {
-  margin-top: 50px;
+  margin: 50px 0;
   gap: 7px;
 }
 .sidebar .menu .menu-item {
@@ -38,9 +42,6 @@
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s;
-}
-.sidebar .menu .sub-menu-link {
-  padding-left: 20px;
 }
 .sidebar .menu .menu-item .titles {
   display: flex;
@@ -63,6 +64,9 @@
   background: var(--color);
   box-shadow: var(--blueShadow);
   border-radius: 10px;
+}
+.sidebar .menu .active-sub-menu-link {
+  box-shadow: none;
 }
 .sidebar .menu .menu-item:hover {
   background: var(--color);
@@ -91,6 +95,7 @@
   max-height: 0;
   transition: all 0.3s;
   overflow: hidden;
+  padding-left: 20px;
 }
 .sidebar .menu .sub-menu-container.open {
   max-height: 300px;
@@ -107,6 +112,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 40px;
+  box-shadow: var(--blueShadow)
 }
 .sidebar .instructor-container img {
   width: 100%;

@@ -26,8 +26,7 @@ export default function MenuLink(props) {
           link.sublinks?.map(sublink => {
             return <NavLink 
               to={sublink.url} 
-              onClick={() => setTabOpen(prev => !prev)}
-              activeClassName="active-menu-link" 
+              activeClassName="active-menu-link active-sub-menu-link" 
               className="sub-menu-link"
             >
               <div className={`menu-item ${link.sublinks && "expands"}`}>

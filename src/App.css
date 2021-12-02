@@ -6,13 +6,15 @@ html, body {
 }    
   
 :root { 
-  --color: #2d54ff;
+  --color: #2f86ff;
   --lightblue: #2a90ef;
   --lighterblue: #6cbdf8;
   --bg: #f8f8fc;
   --red: #f1605e;
-  --blueShadow: 0 16px 15px 5px rgba(47, 81, 232, 0.1);
-  --graytxt: #696e93;
+  --orange: #f5c136;
+  --blueShadow: 0 16px 15px 5px rgba(47, 81, 232, 0.12);
+  --shadow: 0 5px 10px rgba(0,0,0,0.1);
+  --graytxt: #4c546e;
   --white1: #fff;
   --white2: #fff;
   --dark1: #141719;
@@ -62,6 +64,9 @@ button {
   transition: all 0.2s;
   padding: 10px 20px;
   border-radius: 10px;
+}
+button:active {
+  transform: scale(0.97)
 }
 a { 
   text-decoration: none;
