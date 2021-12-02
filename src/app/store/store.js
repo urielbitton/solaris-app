@@ -10,7 +10,7 @@ const StoreContextProvider = (props) => {
   const user = firebase.auth().currentUser
   const [myUser, setMyUser] = useState({})
   const [aUser, setAUser] = useState({})
-  const [navTitle, setNavTitle] = useState('Solaris')
+  const [navTitle, setNavTitle] = useState('Home')
   const [navDescript, setNavDescript] = useState('Hi Jeniffer')
 
   useEffect(() => {

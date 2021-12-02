@@ -21,6 +21,7 @@
 }
 .navbar h1.nav-title {
   color: #333;
+  font-size: 28px;
 }
 .navbar h6.nav-descript {
   color: var(--graytxt);
@@ -34,35 +35,21 @@
   background: var(--graytxt);
   opacity: 0.12;
 }
-.navbar .nav-create-btn {
-  width: 35px;
-  height: 35px;
-  border-radius: 10px;
-  background: var(--color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.navbar .nav-create-btn i {
-  font-size: 15px;
-  color: #fff;
-}
-.navbar .nav-create-btn:hover {
-  box-shadow: var(--blueShadow)
-}
-.navbar .nav-notifs-btn {
+.navbar .nav-icon-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
-.navbar .nav-notifs-btn i {
+.navbar .nav-icon-btn i {
   color: var(--graytxt);
   font-size: 20px;
+  transition: all 0.2s;
 }
-.navbar .nav-notifs-btn .notifs-num {
+.navbar .nav-icon-btn:hover i {
+  color: var(--color)
+}
+.navbar .nav-icon-btn .notifs-num {
   position: absolute;
   top: -8px;
   right: -8px;
@@ -72,9 +59,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.navbar .nav-icon-btn.nav-notifs .notifs-num {
   background: var(--red)
 }
-.navbar .nav-notifs-btn .notifs-num small {
+.navbar .nav-icon-btn.nav-messages .notifs-num {
+  background: var(--color)
+}
+.navbar .nav-icon-btn .notifs-num small {
   font-size: 9px;
   color: #fff;
 }

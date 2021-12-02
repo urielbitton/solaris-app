@@ -3,7 +3,7 @@ import './styles/Sidebar.css'
 import logoOnly from '../assets/imgs/logonly2.png'
 import { menuLinks } from '../api/apis'
 import { NavLink } from 'react-router-dom'
-import AppButton from './AppButton'
+import becomeInstr from '../assets/imgs/become-instructor.png'
 
 export default function Sidebar() {
 
@@ -27,15 +27,11 @@ export default function Sidebar() {
           {menuRender}
         </div>
       </div>
-      <AppButton 
-        title="Quick Post"
-        url="/quick-post"  
-        width="150px" 
-        textColor="#fff"
-        style={{marginTop: '40px'}}
-        leftIcon="fal fa-sticky-note"
-        leftIconStyles={{color:"#fff"}}
-      />
+      <div className="instructor-container">
+        <img src={becomeInstr} alt="become an instructor"/>
+        <button>Become an Instructor</button>
+        <div className="square" />
+      </div>
     </div>
   )
 }
