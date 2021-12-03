@@ -14,7 +14,7 @@ export default function HomeCont() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/courses/course/:courseID">
+          <Route exact path="/courses/course/:courseID">
             <CoursePage />
           </Route>
         </Switch>
