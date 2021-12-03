@@ -1,0 +1,61 @@
+.add-review-container .rating-setter {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.add-review-container .rating-setter i {
+  font-size: 19px;
+  color: var(--orange);
+  cursor: pointer;
+}
+.add-review-container .rating-setter .appinput {
+  margin-left: 20px;
+  margin-right: 10px;
+  width: 65px;
+}
+.add-review-container .rating-setter .appinput input {
+  height: 40px;
+  font-size: 16px;
+  color: #555;
+  border: 1px solid #eee;
+  border-radius: 10px;
+}
+.add-review-container .rating-setter small {
+  font-size: 11px;
+  color: #aaa;
+}
+.add-review-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 20px;
+  width: 100%;
+}
+.add-review-container form .commoninput {
+  width: 100%;
+}
+.add-review-container form .appinput input,
+.add-review-container form .apptextarea textarea {
+  border-radius: 10px;
+  border: 1px solid #eee;
+  height: 50px;
+  font-size: 15px;
+  color: #444;
+}
+.add-review-container form .apptextarea textarea {
+  min-height: 120px;
+  max-height: 200px;
+  min-width: 100%;
+  max-width: 100%;
+}
+.add-review-container form button {
+  background: var(--color);
+  color: #fff;
+  padding: 15px 20px;
+  justify-content: flex-start;
+  transition: all 0.2s;
+}
+.add-review-container form button:hover {
+  box-shadow: var(--blueShadow);
+}

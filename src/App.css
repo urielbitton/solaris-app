@@ -72,7 +72,7 @@ button {
   border-radius: 10px;
 }
 button:active {
-  transform: scale(0.97)
+  transform: scale(0.96)
 }
 a { 
   text-decoration: none;

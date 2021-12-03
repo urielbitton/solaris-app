@@ -30,3 +30,11 @@ export const getVideosByLessonID = (courseID, lessonID, setVideos) => {
     setVideos(videosArr) 
   })
 }
+
+export const getReviewsByCourseID = (courseID, setReviews) => {
+  db.collection('courses').doc(courseID).collection('reviews').orderBy('dateAdded', 'desc').onSnapshot(snap => {
+    const reviewsArr = []
+    snap.forEach(doc => reviewsArr.push(doc.data()))
+    setReviews(reviewsArr) 
+  })
+}

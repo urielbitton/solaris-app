@@ -5,7 +5,9 @@ import { getCourseByID, getLessonsByCourseID } from '../services/courseServices'
 import { getInstructorByID } from '../services/InstructorServices'
 import './styles/CoursePage.css'
 import placeholderImg from '../assets/imgs/placeholder.png'
-import LessonCard from '../components/LessonCard'
+import LessonsList from '../components/LessonsList'
+import CourseReviews from '../components/CourseReviews'
+import WriteReview from '../components/WriteReview'
 
 export default function CoursePage() {
 
@@ -40,10 +42,6 @@ export default function CoursePage() {
     </span>
   })
 
-  const lessonsRender = lessons?.map((lesson,i) => {
-    return <LessonCard lesson={lesson} courseID={courseID} key={i} />
-  })
-
   useEffect(() => {
     getCourseByID(courseID, setCourse)
     getLessonsByCourseID(courseID, setLessons)
@@ -55,13 +53,13 @@ export default function CoursePage() {
 
   return (
     <div className="course-page">
-      <header>
+      <header className="banner">
         <div className="side">
           <small>{course.category}</small>
           <h1>{course.title}</h1>
           <h5>{course.short}</h5>
           <div className="info-container">
-            <div className="instructor-container">
+            <div className="instructor-row">
               <span className="title">Instructor</span>
               <img src={instructor?.profilePic ?? placeholderImg} alt="" />
               <h6><Link to={`/instructors/instructor/${course.instructorID}`} className="linkable">{instructor?.name}</Link></h6>
@@ -78,7 +76,7 @@ export default function CoursePage() {
         <div className="text-container">
           <section>
             <h3>Course Overview</h3>
-            <p>{course.description}</p>
+            <p className="course-description">{course.description}</p>
           </section>
           <section>
             <h3>What you'll learn in this course</h3>
@@ -86,13 +84,51 @@ export default function CoursePage() {
               {whatYouLearnRender} 
             </div>
           </section>
-          <section>
-            <h3>Course Content</h3>
-            {lessonsRender}
-          </section>
+          <LessonsList 
+            lessons={lessons}
+            courseID={courseID}
+          />
           <section>
             <h3>Instructor</h3>
-            
+            <div className="instructor-container">
+              <div>
+                <img src={instructor?.profilePic} alt="" />
+                <div className="instructor-info">
+                  <h2>{instructor?.name}</h2>
+                  <h5>{instructor?.title}</h5>
+                  <div className="instructor-data">
+                    <div>
+                      <big>1</big>
+                      <span>Courses</span>
+                    </div>
+                    <div className="border">
+                      <big>0</big>
+                      <span>Reviews</span>
+                    </div>
+                    <div className="border">
+                      <big>4.6</big>
+                      <span>Rating</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="instructor-bio">
+                <p>{instructor?.bio}</p>
+              </div>
+            </div>
+          </section>
+          <section>
+            <CourseReviews
+              courseID={courseID}
+            />
+          </section>
+          <section>
+            <WriteReview 
+              courseID={courseID}
+            />
+          </section>
+          <section>
+
           </section>
         </div>
         <div className="course-info-container">
