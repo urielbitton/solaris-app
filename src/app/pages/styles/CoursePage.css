@@ -42,12 +42,18 @@
 .course-page .info-container .instructor-container {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top: 20px;
 }
 .course-page .info-container .instructor-container h6 {
   font-size: 14px;
   color: #555;
+}
+.course-page .info-container .instructor-container .title {
+  flex-basis: 100%;
+  color: #333;
+  font-weight: 600;
 }
 .course-page .info-container .instructor-container img {
   width: 35px;
@@ -63,4 +69,54 @@
 .course-page .info-container .instructor-container span {
   font-size: 14px;
   color: var(--color)
+}
+.course-page .course-content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 40px 0;
+}
+.course-page .course-content section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.course-page .course-content section h3 {
+  font-size: 27px;
+  color: #333;
+  margin-bottom: 20px;
+}
+.course-page .course-content section p {
+  font-size: 15.5px;
+  color: #555;
+  line-height: 2;
+}
+.course-page .course-content .text-container {
+  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.course-page .course-content .course-info-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.course-page .course-content .course-info {
+  background: #f5f5f5;
+  padding: 30px;
+  border-radius: 10px;
+  width: 450px;
+  border: 1px solid rgba(200,200,200,0.15)
+}
+.course-page .course-content .text-container .list-elements {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.course-page .course-content .text-container .list-elements i {
+  color: var(--color);
+  margin-right: 15px;
+  font-size: 17px;
 }

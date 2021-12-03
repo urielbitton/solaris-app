@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 export default function MenuLink(props) {
 
-  const {link, i, tabOpen, setTabOpen} = props
+  const {link, tabOpen, setTabOpen} = props
 
   return (
     <>
@@ -28,6 +28,7 @@ export default function MenuLink(props) {
               to={sublink.url} 
               activeClassName="active-menu-link active-sub-menu-link" 
               className="sub-menu-link"
+              key={sublink.url}
             >
               <div className={`menu-item ${link.sublinks && "expands"}`}>
                 <div className="titles">

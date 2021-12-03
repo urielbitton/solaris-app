@@ -32,7 +32,7 @@ export default function Sidebar() {
 
   return (
     <div className="sidebar">
-      <div className="sidebar-scroll">
+      <div className="sidebar-scroll hidescroll">
         <div className="top">
           <div className="logo-container flexcenter">
             <img src={logoOnly} alt="" className="web-logo"/>

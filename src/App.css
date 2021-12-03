@@ -48,9 +48,13 @@ html, body {
   color: white;
 }
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 9px;
   height: 10px;
 } 
+::-webkit-scrollbar-thumb {
+  background: var(--color);
+  border-radius: 10px;
+}
 .hidescroll::-webkit-scrollbar {
   display: none;
 } 
