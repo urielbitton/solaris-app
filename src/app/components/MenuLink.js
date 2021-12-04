@@ -10,7 +10,7 @@ export default function MenuLink(props) {
       <NavLink 
         exact={link.exact} 
         to={link.url} 
-        onClick={() => link.sublinks && setTabOpen(prev => !prev)}
+        onClick={(e) => link.sublinks && (setTabOpen(prev => !prev), e.preventDefault()) }
         activeClassName="active-menu-link" 
       >
         <div className={`menu-item ${link.sublinks && "expands"}`}>
@@ -26,8 +26,9 @@ export default function MenuLink(props) {
           link.sublinks?.map(sublink => {
             return <NavLink 
               to={sublink.url} 
-              activeClassName="active-menu-link active-sub-menu-link" 
+              activeClassName="active-sub-menu-link" 
               className="sub-menu-link"
+              exact={sublink.exact}
               key={sublink.url}
             >
               <div className={`menu-item ${link.sublinks && "expands"}`}>

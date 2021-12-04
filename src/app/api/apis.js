@@ -5,6 +5,7 @@ export const menuLinks = [
     icon: 'fal fa-book-open', 
     url: '/courses',
     sublinks: [
+      {name: 'All Courses', icon: 'fal fa-book-open', url: '/courses', exact: true},
       {name: 'Video Courses', icon: 'fal fa-chalkboard', url: '/courses/video-courses'},
       {name: 'Text Courses', icon: 'fal fa-book-reader', url: '/courses/text-courses'},
       {name: 'Tutorials', icon: 'fab fa-youtube', url: '/courses/tutorials'},

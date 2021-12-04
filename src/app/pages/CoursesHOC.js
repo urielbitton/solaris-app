@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function SimilarCourses(props) {
+export default function CoursesHOC() {
   return (
     <div>
       

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CourseCard from '../components/CourseCard'
 import { getCoursesByClass } from '../services/courseServices'
 import './styles/Home.css'
+import {StoreContext} from '../store/store'
 
 export default function Home() {
 
+  const {setNavTitle, setNavDescript} = useContext(StoreContext)
   const [featuredCourses, setFeaturedCourses]= useState([])
 
   const featuredRender = featuredCourses?.map((course,i) => {
@@ -14,6 +16,11 @@ export default function Home() {
   useEffect(() => {
     getCoursesByClass('featured', setFeaturedCourses, 4)
   },[])
+
+  useEffect(() => {
+    setNavTitle('Home')
+    setNavDescript('Welcome Jennifer')
+  }, [])
 
   return (
     <div className="home-page">

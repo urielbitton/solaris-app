@@ -22,7 +22,7 @@ export default function Sidebar() {
   })
 
   useEffect(() => {
-    if(location.pathname.includes('/courses') && tabOpen) {
+    if(location.pathname.includes('/courses')) {
       setTabOpen(true)
     }
     else {

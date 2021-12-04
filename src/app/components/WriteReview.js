@@ -41,6 +41,7 @@ export default function WriteReview({courseID}) {
       .then(res => {
         setReviewTitle('')
         setReviewText('')
+        setRating(1)
         window.alert('Your review has been submitted.')
       })
       .catch(err => {
@@ -63,7 +64,7 @@ export default function WriteReview({courseID}) {
           value={rating < 5 ? rating : 5} 
           step={0.5}
         />
-        <small>*You can enter decimal values in the input field.</small>
+        <small>*Enter decimal values here.</small>
       </div>
       <form onSubmit={(e) => e.preventDefault()}>
         <AppInput 

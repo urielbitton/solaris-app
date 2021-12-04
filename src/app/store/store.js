@@ -11,7 +11,7 @@ const StoreContextProvider = (props) => {
   const [myUser, setMyUser] = useState({})
   const [aUser, setAUser] = useState({})
   const [navTitle, setNavTitle] = useState('Home')
-  const [navDescript, setNavDescript] = useState('Hi Jeniffer')
+  const [navDescript, setNavDescript] = useState('')
 
   useEffect(() => {
     if(user) {

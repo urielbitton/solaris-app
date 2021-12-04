@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useRouteMatch } from 'react-router'
 import { Link } from 'react-router-dom'
 import { getCourseByID, getLessonsByCourseID } from '../services/courseServices'
@@ -8,9 +8,11 @@ import placeholderImg from '../assets/imgs/placeholder.png'
 import LessonsList from '../components/LessonsList'
 import CourseReviews from '../components/CourseReviews'
 import WriteReview from '../components/WriteReview'
+import { StoreContext } from '../store/store'
 
 export default function CoursePage() {
 
+  const {setNavTitle, setNavDescript} = useContext(StoreContext)
   const [course, setCourse] = useState({})
   const [instructor, setInstructor] = useState({})
   const [lessons, setLessons] = useState([])
@@ -49,7 +51,10 @@ export default function CoursePage() {
 
   useEffect(() => {
     getInstructorByID(course?.instructorID ?? "na", setInstructor)
+    setNavTitle('Course')
+    setNavDescript(course.title) 
   },[course])
+
 
   return (
     <div className="course-page">
@@ -127,15 +132,12 @@ export default function CoursePage() {
               courseID={courseID}
             />
           </section>
-          <section>
-
-          </section>
         </div>
         <div className="course-info-container">
           <div className="course-info">
             <div className="header">
               <h4>Price</h4>
-              <big>${course.price}</big>
+              <big>{course.price === 0 ? "Free" : "$"+course.price}</big>
             </div>
             <div className="content">
               {courseInfosRender}

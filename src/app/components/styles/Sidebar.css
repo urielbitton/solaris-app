@@ -65,8 +65,8 @@
   box-shadow: var(--blueShadow);
   border-radius: 10px;
 }
-.sidebar .menu .active-sub-menu-link {
-  box-shadow: none;
+.sidebar .menu .active-sub-menu-link h6 {
+  color: var(--color);
 }
 .sidebar .menu .menu-item:hover {
   background: var(--color);

@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar'
 import { Route, Switch } from 'react-router'
 import Home from '../pages/Home'
 import CoursePage from '../pages/CoursePage'
+import AllCourses from '../pages/AllCourses'
 
 export default function HomeCont() {
   return (
@@ -13,6 +14,9 @@ export default function HomeCont() {
         <Switch>
           <Route exact path="/">
             <Home />
+          </Route>
+          <Route exact path="/courses">
+            <AllCourses />
           </Route>
           <Route exact path="/courses/course/:courseID">
             <CoursePage />
