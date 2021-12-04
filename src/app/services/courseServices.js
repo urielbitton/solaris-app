@@ -8,8 +8,26 @@ export const getAllCourses = (setCourses, limit) => {
   })
 }
 
-export const getCoursesByClass = (courseClass, setCourses, limit) => {
-  db.collection('courses').where('courseClass', '==', courseClass).limit(limit).onSnapshot(snap => {
+export const getAllCoursesFiltered = (setCourses, limit, filterProp1, filterValue1) => {
+  db.collection('courses')
+  .where(filterProp1, '==', filterValue1)
+  .limit(limit).onSnapshot(snap => {
+    const coursesArr = []
+    snap.forEach(doc => coursesArr.push(doc.data()))
+    setCourses(coursesArr)
+  })
+}
+
+export const getFeaturedCourses = (setCourses, limit) => { 
+  db.collection('courses').where('featuredCourse', '==', true).limit(limit).onSnapshot(snap => {
+    const coursesArr = []
+    snap.forEach(doc => coursesArr.push(doc.data()))
+    setCourses(coursesArr)
+  })
+}
+
+export const getNewCourses = (xDaysAgo, setCourses, limit) => { //new courses are less than "xDaysAgo var" old from dateCreated
+  db.collection('courses').where('dateCreated', '>=', xDaysAgo).where('dateCreated', '<=', new Date()).limit(limit).onSnapshot(snap => {
     const coursesArr = []
     snap.forEach(doc => coursesArr.push(doc.data()))
     setCourses(coursesArr)
@@ -45,3 +63,4 @@ export const getReviewsByCourseID = (courseID, setReviews) => {
     setReviews(reviewsArr) 
   })
 }
+

@@ -17,6 +17,10 @@
   color: var(--graytxt);
   font-size: 17px;
 }
+.home-page section small a {
+  font-size: 13px;
+  color: var(--color);
+}
 .home-page section .courses-row {
   width: 100%;
   display: grid;

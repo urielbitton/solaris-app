@@ -3,17 +3,17 @@ import { StoreContext } from '../store/store'
 import './styles/AllCourses.css'
 import { AppSelect } from '../components/AppInputs'
 import { getCourseCategories, getCoursesCount } from '../services/adminServices' 
-import { getAllCourses } from '../services/courseServices'
+import { getAllCoursesFiltered } from '../services/courseServices'
 import CourseCard from '../components/CourseCard'
 
 export default function AllCourses() {
 
   const {setNavTitle, setNavDescript} = useContext(StoreContext)
   const [allCourses, setAllCourses] = useState([])
-  const [category, setCategory] = useState('')
-  const [courseType, setCourseType] = useState('')
-  const [coursePrice, setCoursePrice] = useState('')
-  const [courseSkill, setCourseSkill] = useState('')
+  const [category, setCategory] = useState('all')
+  const [courseType, setCourseType] = useState('all')
+  const [coursePrice, setCoursePrice] = useState('all')
+  const [courseSkill, setCourseSkill] = useState('all')
   const [categoriesArr, setCategoriesArr] = useState([])
   const [limit, setLimit] = useState(10)
   const [coursesCount, setCoursesCount] = useState('')
@@ -53,13 +53,18 @@ export default function AllCourses() {
   useEffect(() => {
     setNavTitle('All Courses')
     setNavDescript(coursesCount + " total courses available")
-  },[])
+  },[coursesCount]) 
 
   useEffect(() => {
     getCourseCategories(setCategoriesArr)
-    getAllCourses(setAllCourses, limit)
     getCoursesCount(setCoursesCount)
   },[])
+  useEffect(() => {
+    getAllCoursesFiltered(
+      setAllCourses, limit,
+      'category', category
+    )
+  },[category])
 
   return (
     <div className="all-courses-page">
@@ -93,7 +98,7 @@ export default function AllCourses() {
         </div>
       </div>
       <div className="sort-row">
-        <h5>Showing {Math.min(limit, coursesCount)} of {coursesCount} results</h5>
+        <h5>Showing {Math.min(limit, allCourses.length)} of {coursesCount} results</h5>
         <div>
           <h5>Sort By:</h5>
           <AppSelect 
