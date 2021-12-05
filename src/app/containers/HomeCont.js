@@ -6,6 +6,7 @@ import Home from '../pages/Home'
 import CoursePage from '../pages/CoursePage'
 import AllCourses from '../pages/AllCourses'
 import InstructorPage from '../pages/InstructorPage'
+import Instructors from '../pages/Instructors'
 
 export default function HomeCont() {
   return (
@@ -21,6 +22,9 @@ export default function HomeCont() {
           </Route>
           <Route exact path="/courses/course/:courseID">
             <CoursePage />
+          </Route>
+          <Route exact path="/instructors">
+            <Instructors />
           </Route>
           <Route exact path="/instructors/instructor/:instructorID">
             <InstructorPage />

@@ -1,0 +1,36 @@
+.page-search-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.page-search-bar h2 {
+  font-size: 30px;
+  font-weight: 600;
+  color: #333;
+}
+.page-search-bar h6 {
+  color: #aaa;
+  font-weight: 500;
+  font-size: 15px;
+}
+.page-search-bar section.search-section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.page-search-bar section.search-section button {
+  padding: 20px 25px;
+  font-size: 17px;
+}
+.page-search-bar section.search-section button i {
+  margin-left: 10px;
+}
+.page-search-bar .searchbar {
+  margin: 10px 0;
+}
+.page-search-bar .searchbar input {
+  font-size: 17px;
+}

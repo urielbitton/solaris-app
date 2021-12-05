@@ -32,6 +32,6 @@
   font-weight: 600;
   color: #d5d5d5;
 }
-.searchbar input:focus {
+.searchbar.focusable input:focus {
   box-shadow: 0 7px 20px 0px rgba(45, 84, 255,0.09);
 }

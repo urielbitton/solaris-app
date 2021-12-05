@@ -73,6 +73,9 @@ button {
   color: #fff;
   background: var(--color);
 }
+button.shadow-hover:hover {
+  box-shadow: var(--blueShadow);
+}
 button:active {
   transform: scale(0.96)
 }

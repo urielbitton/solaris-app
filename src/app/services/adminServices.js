@@ -13,3 +13,9 @@ export const getCoursesCount = (setCount) => {
     setCount(snap.data().coursesCount)
   })
 }
+
+export const getInstructorsCount = (setCount) => {
+  db.collection('admin').doc('instructorSettings').onSnapshot(snap => {
+    setCount(snap.data().instructorsCount)
+  })
+}

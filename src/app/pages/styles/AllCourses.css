@@ -2,6 +2,12 @@
   display: flex;
   flex-direction: column;
 }
+.all-courses-page header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 .all-courses-page .filters-toolbar {
   width: 100%;
   display: flex;

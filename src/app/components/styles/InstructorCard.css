@@ -1,0 +1,70 @@
+.instructor-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 13px 20px rgba(0,0,0,0.03);
+  transition: all 0.2s;
+}
+.instructor-card:hover {
+  box-shadow: 0 13px 20px rgba(0,0,0,0.08);
+}
+.instructor-card .instructor-container {
+  padding: 7px;
+  background: #c8d2db56;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.instructor-card .instructor-container img.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 100%;
+  box-shadow: var(--shadow)
+}
+.instructor-card .instructor-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+.instructor-card .instructor-info .header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.instructor-card .instructor-info small {
+  font-size: 11px;
+  color: #aaa;
+}
+.instructor-card .instructor-info h3 {
+  margin-top: 5px;
+  color: #333;
+}
+.instructor-card .instructor-info h4 {
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+}
+.instructor-card .instructor-info .ratings-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+.instructor-card .instructor-info .ratings-row span {
+  font-size: 13px;
+  color: #444;
+}

@@ -5,6 +5,7 @@ import { AppSelect } from '../components/AppInputs'
 import { getCourseCategories, getCoursesCount } from '../services/adminServices' 
 import { getAllCoursesFiltered } from '../services/courseServices'
 import CourseCard from '../components/CourseCard'
+import PageSearch from '../components/PageSearch'
 
 export default function AllCourses() {
 
@@ -97,39 +98,45 @@ export default function AllCourses() {
 
   return (
     <div className="all-courses-page">
-      <div className="filters-toolbar">
-        <h5><i className="far fa-sliders-h"></i>Filters</h5>
-        <div className="filter-selects">
-          <AppSelect 
-            options={[{name:'All Categories', value:'all'}, ...categoriesRender]}
-            onChange={(e) => setCategory(e.target.value)}
-            value={category}
-            namebased
-          />
-          <AppSelect 
-            options={courseTypesRender}
-            onChange={(e) => setCourseType(e.target.value)}
-            value={courseType}
-            namebased
-          />
-          <AppSelect 
-            options={coursePricesRender}
-            onChange={(e) => setCoursePrice(e.target.value)}
-            value={coursePrice}
-            namebased
-          />
-          <AppSelect 
-            options={courseSkillsRender}
-            onChange={(e) => setCourseSkill(e.target.value)}
-            value={courseSkill}
-            namebased
-          />
-          <button className="reset-btn" onClick={resetFilters}>
-            <i className="fal fa-redo"></i>
-            Reset
-          </button>
+      <header>
+        <div className="filters-toolbar">
+          <h5><i className="far fa-sliders-h"></i>Filters</h5>
+          <div className="filter-selects">
+            <AppSelect 
+              options={[{name:'All Categories', value:'all'}, ...categoriesRender]}
+              onChange={(e) => setCategory(e.target.value)}
+              value={category}
+              namebased
+            />
+            <AppSelect 
+              options={courseTypesRender}
+              onChange={(e) => setCourseType(e.target.value)}
+              value={courseType}
+              namebased
+            />
+            <AppSelect 
+              options={coursePricesRender}
+              onChange={(e) => setCoursePrice(e.target.value)}
+              value={coursePrice}
+              namebased
+            />
+            <AppSelect 
+              options={courseSkillsRender}
+              onChange={(e) => setCourseSkill(e.target.value)}
+              value={courseSkill}
+              namebased
+            />
+            <button className="reset-btn" onClick={resetFilters}>
+              <i className="fal fa-redo"></i>
+              Reset
+            </button>
+          </div>
         </div>
-      </div>
+        <PageSearch 
+          title="Find A Course"
+          description="Search by course name, ID, instructor or category"
+        />
+      </header>
       <div className="sort-row">
         <h5>Showing {Math.min(limit, allCourses.length)} of {coursesCount} results</h5>
         <div>

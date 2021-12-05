@@ -15,7 +15,7 @@ export default function Navbar() {
         <h1 className="nav-title">{navTitle}</h1>
         <hr/>
         <h6 className="nav-descript">{navDescript}</h6>
-        <SearchBar width="300px"/>
+        <SearchBar width="300px" showIcon/>
       </div>
       <div className="side right">
         <div className="nav-icon-btn nav-messages">
