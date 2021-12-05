@@ -37,6 +37,15 @@
   color: #444;
   text-transform: capitalize;
 }
+.all-courses-page .filter-selects .reset-btn {
+  padding: 16px 20px;
+}
+.all-courses-page .filter-selects .reset-btn:hover {
+  box-shadow: var(--blueShadow);
+}
+.all-courses-page .filter-selects .reset-btn i {
+  margin-right: 10px;
+}
 .all-courses-page .sort-row {
   width: 100%;
   display: flex;

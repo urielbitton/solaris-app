@@ -22,24 +22,18 @@ export function AppInput(props) {
 }     
 
 export function AppSelect(props) {
-  const {multiple, options, namebased, title, onChange, onClick, value, defaultValue, className} = props
-  let optionsdata = options?.map((data) =>
-    <option key={data.id} selected={data.selected} disabled={data.disabled} value={namebased?data.value:data.name?data.name.toLowerCase().replaceAll(' ',''):data.name} name={namebased?data.name:null}>  
+  const { options, namebased, title, onChange, onClick, value, className} = props
+  let optionsdata = options?.map((data,i) =>
+    <option key={i} selected={data.selected} disabled={data.disabled} value={namebased?data.value:data.name?data.name.toLowerCase().replaceAll(' ',''):data.name} name={namebased?data.name:null}>  
         {data.name}
     </option>
   )  
   return ( 
     <label className={`appselect commoninput ${className?className:""}`} onClick={(e) => onClick&&onClick(e)}>
       <h6>{title}</h6>
-      {
-        multiple?
-        <select onChange={(e) => onChange(e)} value={value} multiple defaultValue={defaultValue}>
-          {optionsdata}
-        </select>:
-        <select onChange={(e) => onChange(e)} value={value}>
-          {optionsdata}
-        </select>
-      }
+      <select onChange={(e) => onChange(e)} value={value}>
+        {optionsdata}
+      </select>
     </label>
   )
 } 

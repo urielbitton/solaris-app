@@ -17,38 +17,64 @@ export default function AllCourses() {
   const [categoriesArr, setCategoriesArr] = useState([])
   const [limit, setLimit] = useState(10)
   const [coursesCount, setCoursesCount] = useState('')
+  const filterProp1 = category==='all' ? 'filterable' : 'category'
+  const filterValue1 = category==='all' ? true : category
+  const filterProp2 = courseType==='all' ? 'filterable' : 'courseType'
+  const filterValue2 = courseType==='all' ? true : courseType
+  const filterProp3 = coursePrice==='all' ? 'filterable' : 'price'
+  const filterValue3 = coursePrice==='all' ? true : +coursePrice
+  const filterProp4 = courseSkill==='all' ? 'filterable' : 'difficulty'
+  const filterValue4 = courseSkill==='all' ? true : courseSkill
 
-  const courseTypes = ['All Courses', 'Video Courses', 'Text-based Courses', 'Tutorial Courses']
+  const courseTypes = [
+    {name: 'All Courses', value: 'all'},
+    {name: 'Video Courses', value: 'video'},
+    {name: 'Text-based Courses', value: 'text'},
+    {name: 'Tutorial Courses', value: 'tutorials'}
+  ]
   const coursePrices = [
     {name: 'All Prices', value: 'all'},
-    {name: 'Free', value: [0,0]},
-    {name: '$1 - $20', value: [1,20]},
-    {name: '$20 - $50', value: [20,50]},
-    {name: '$50 - $100', value: [50,100]},
-    {name: '$100 +', value: [100,Infinity]}
+    {name: 'Free', value: 0},
+    {name: '$20 and more', value: 20},
+    {name: '$50 and more', value: 50},
+    {name: '$100 and more', value: 100},
+    {name: '$150 and more', value: Infinity}
   ]
-  const courseSkills = ['All Skills', 'Easy', 'Intermediate', 'Advanced']
-  const coursesSortArr = ['Default (Date Added)', 'Alphabetically (Asc)', 'Alphabetically (Desc)', 'Category', 'Course Type', 'Price (Asc)', 'Price (Desc)', 'Skill']
+  const courseSkills = [
+    {name: 'All Skills', value: 'all'},
+    {name: 'Easy', value: 'easy'},
+    {name: 'Intermediate', value: 'intermediate'},
+    {name: 'Advanced', value: 'advanced'}
+  ]
+  const coursesSortArr = ['Default (Date Added)', 'Alphabetically (Asc)', 'Alphabetically (Desc)', 
+    'Category', 'Course Type', 'Price (Asc)', 'Price (Desc)', 'Skill']
 
-  const categoriesRender = categoriesArr?.map((cat,i) => {
+  const categoriesRender = categoriesArr?.map((cat) => {
     return {name: cat.name}
   })
-  const courseTypesRender = courseTypes.map((type,i) => {
-    return {name: type}
-  })
-  const coursePricesRender = coursePrices.map((type,i) => {
+  const courseTypesRender = courseTypes.map((type) => {
     return {name: type.name, value: type.value}
   })
-  const courseSkillsRender = courseSkills.map((type,i) => {
-    return {name: type}
+  const coursePricesRender = coursePrices.map((type) => {
+    return {name: type.name, value: type.value}
   })
-  const courseSortRender = coursesSortArr.map((type,i) => {
+  const courseSkillsRender = courseSkills.map((type) => {
+    return {name: type.name, value: type.value}
+  })
+  const courseSortRender = coursesSortArr.map((type) => {
     return {name: type}
   })
 
   const allCoursesRender = allCourses?.map((course,i) => {
     return <CourseCard course={course} key={i} />
   })
+
+  const resetFilters = () => {
+    setCategory('all')
+    setCourseType('all')
+    setCoursePrice('all')
+    setCourseSkill('all')
+  }
 
   useEffect(() => {
     setNavTitle('All Courses')
@@ -62,9 +88,12 @@ export default function AllCourses() {
   useEffect(() => {
     getAllCoursesFiltered(
       setAllCourses, limit,
-      'category', category
+      filterProp1, filterValue1, '==',
+      filterProp2, filterValue2, '==',
+      filterProp3, filterValue3, coursePrice==='0' ? '==' : '>=',
+      filterProp4, filterValue4, '=='
     )
-  },[category])
+  },[category, courseType, coursePrice, courseSkill])
 
   return (
     <div className="all-courses-page">
@@ -95,6 +124,10 @@ export default function AllCourses() {
             value={courseSkill}
             namebased
           />
+          <button className="reset-btn" onClick={resetFilters}>
+            <i className="fal fa-redo"></i>
+            Reset
+          </button>
         </div>
       </div>
       <div className="sort-row">

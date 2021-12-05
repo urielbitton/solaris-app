@@ -8,9 +8,15 @@ export const getAllCourses = (setCourses, limit) => {
   })
 }
 
-export const getAllCoursesFiltered = (setCourses, limit, filterProp1, filterValue1) => {
+export const getAllCoursesFiltered = (
+    setCourses, limit, filterProp1, filterValue1, filterSign1, filterProp2, filterValue2, 
+    filterSign2, filterProp3, filterValue3, filterSign3, filterProp4, filterValue4, filterSign4
+  ) => {
   db.collection('courses')
-  .where(filterProp1, '==', filterValue1)
+  .where(filterProp1, filterSign1, filterValue1)
+  .where(filterProp2, filterSign2, filterValue2)
+  .where(filterProp3, filterSign3, filterValue3)
+  .where(filterProp4, filterSign4, filterValue4)
   .limit(limit).onSnapshot(snap => {
     const coursesArr = []
     snap.forEach(doc => coursesArr.push(doc.data()))

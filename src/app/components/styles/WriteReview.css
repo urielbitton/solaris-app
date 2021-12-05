@@ -50,7 +50,6 @@
   max-width: 100%;
 }
 .add-review-container form button {
-  background: var(--color);
   color: #fff;
   padding: 15px 20px;
   justify-content: flex-start;
