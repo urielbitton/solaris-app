@@ -23,6 +23,9 @@
   color: #444;
   transition: all 0.2s;
 }
+.app-accordion header small {
+  color: var(--graytxt)
+}
 .app-accordion.open header h5 {
   color: var(--color);
 }
@@ -34,6 +37,13 @@
 .app-accordion header i.down {
   transform: rotate(180deg);
   color: var(--color);
+}
+.app-accordion.active header {
+  background: var(--color);
+}
+.app-accordion.active header h5,
+.app-accordion.active header i {
+  color: #fff;
 }
 .app-accordion .content {
   display: flex;

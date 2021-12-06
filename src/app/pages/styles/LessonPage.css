@@ -1,0 +1,64 @@
+.lesson-page {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 400px auto;
+  grid-gap: 50px;
+  align-items: flex-start;
+}
+.lesson-page .lesson-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 87vh;
+  width: 100%;
+  overflow-y: scroll;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: var(--shadow)
+}
+.lesson-page .lessons-list .appinput input {
+  height: 70px;
+  font-size: 16px;
+  padding-left: 20px;
+}
+.lesson-page .lessons-list .appinput i {
+  right: 20px;
+  top: 25px;
+  font-size: 18px;
+  color: #aaa;
+}
+.lesson-page .lesson-content {
+  display: flex;
+  flex-direction: column;
+  height: 87vh;
+  width: 100%;
+  overflow-y: scroll;
+}
+.lesson-page .leave-reply-section {
+  width: 600px;
+  margin-top: 30px;
+}
+.lesson-page .leave-reply-section h3 {
+  font-size: 27px;
+  color: #333;
+  margin-bottom: 20px;
+}
+.lesson-page .lesson-video-container h3 {
+  color: var(--graytxt);
+  font-size: 25px;
+}
+.lesson-page .lesson-video-container h6 {
+  font-size: 16px;
+  color: var(--graytxt);
+  font-weight: 500;
+}
+.lesson-page .lesson-video-container h6 span {
+  color: var(--color)
+}
+.lesson-page .video-embed-container {
+  margin: 40px 0;
+}
+.lesson-page .lesson-text-contents {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}

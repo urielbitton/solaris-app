@@ -7,6 +7,10 @@ import CoursePage from '../pages/CoursePage'
 import AllCourses from '../pages/AllCourses'
 import InstructorPage from '../pages/InstructorPage'
 import Instructors from '../pages/Instructors'
+import MyLibrary from '../pages/MyLibrary'
+import Reports from '../pages/Reports'
+import Settings from '../pages/Settings'
+import LessonPage from '../pages/LessonPage'
 
 export default function HomeCont() {
   return (
@@ -23,11 +27,23 @@ export default function HomeCont() {
           <Route exact path="/courses/course/:courseID">
             <CoursePage />
           </Route>
+          <Route exact path="/courses/course/:courseID/lesson/:lessonID/:videoID">
+            <LessonPage />
+          </Route>
           <Route exact path="/instructors">
             <Instructors />
           </Route>
           <Route exact path="/instructors/instructor/:instructorID">
             <InstructorPage />
+          </Route>
+          <Route path="/my-library">
+            <MyLibrary />
+          </Route>
+          <Route path="/reports">
+            <Reports />
+          </Route>
+          <Route exact path="/settings">
+            <Settings />
           </Route>
         </Switch>
       </div>

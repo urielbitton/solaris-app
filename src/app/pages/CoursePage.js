@@ -7,7 +7,7 @@ import './styles/CoursePage.css'
 import placeholderImg from '../assets/imgs/placeholder.png'
 import LessonsList from '../components/LessonsList'
 import CourseReviews from '../components/CourseReviews'
-import WriteReview from '../components/WriteReview'
+import WriteComment from '../components/WriteComment'
 import { StoreContext } from '../store/store'
 
 export default function CoursePage() {
@@ -92,6 +92,7 @@ export default function CoursePage() {
           <LessonsList 
             lessons={lessons}
             courseID={courseID}
+            title="Course Content"
           />
           <section>
             <h3>Instructor</h3>
@@ -128,8 +129,12 @@ export default function CoursePage() {
             />
           </section>
           <section>
-            <WriteReview 
+            <WriteComment 
               courseID={courseID}
+              writeType="review"
+              title="Write A Review"
+              titleInput="Review Title"
+              messageInput="Review Summary"
             />
           </section>
         </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import './styles/CourseCard.css'
-import Ratings from '../components/Ratings'
+import Ratings from './Ratings'
 import { useHistory } from 'react-router'
 
 export default function CourseCard(props) {

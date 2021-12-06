@@ -1,7 +1,6 @@
 .home-container {
   background: #fafafa;
-  padding: 20px;
-  padding-top: 100px;
+  padding: 100px 20px 5px 20px;
   overflow: hidden;
   height: 100vh;
 }

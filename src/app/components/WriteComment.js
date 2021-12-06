@@ -1,14 +1,15 @@
 import React, { useContext, useState } from 'react'
 import StarRate from './StarRate'
-import './styles/WriteReview.css'
+import './styles/WriteComment.css'
 import { AppInput, AppTextarea } from './AppInputs'
 import { StoreContext } from '../store/store'
 import { setSubDB } from '../services/CrudDB'
 import { db } from '../firebase/fire' 
 
-export default function WriteReview({courseID}) {
+export default function WriteComment(props) {
 
   const {user} = useContext(StoreContext)
+  const {courseID, writeType, title, titleInput, messageInput} = props
   const [rating, setRating] = useState(1)
   const [reviewTitle, setReviewTitle] = useState('')
   const [reviewText, setReviewText] = useState('')
@@ -25,7 +26,7 @@ export default function WriteReview({courseID}) {
     />
   })
 
-  const handleSubmit = () => {
+  const writeReview = () => {
     const newReviewID = db.collection('courses').doc(courseID).collection('reviews').doc().id
     const reviewObj = {
       authorImg: user?.photoURL ?? "https://i.imgur.com/D4fLSKa.png",
@@ -51,33 +52,46 @@ export default function WriteReview({courseID}) {
     }
   }
 
+  const writeComment = () => {
+
+  }
+
   return (
-    <div className="add-review-container">
-      <h3>Write A Review</h3>
-      <div className="rating-setter"> 
-        {starsRender}
-        <AppInput 
-          onChange={(e) => setRating(e.target.value)} 
-          type="number" 
-          min={1} 
-          max={5} 
-          value={rating < 5 ? rating : 5} 
-          step={0.5}
-        />
-        <small>*Enter decimal values here.</small>
-      </div>
+    <div className="add-comment-container">
+      <h3>{title}</h3>
+      { writeType === 'review' &&
+        <div className="rating-setter"> 
+          {starsRender}
+          <AppInput 
+            onChange={(e) => setRating(e.target.value)} 
+            type="number" 
+            min={1} 
+            max={5} 
+            value={rating < 5 ? rating : 5} 
+            step={0.5}
+          />
+          <small>*Enter decimal values here.</small>
+        </div>
+      }
       <form onSubmit={(e) => e.preventDefault()}>
-        <AppInput 
-          placeholder="Review Title"
-          onChange={(e) => setReviewTitle(e.target.value)}
-          value={reviewTitle}
-        />
+        { writeType === 'review' &&
+          <AppInput 
+            placeholder={titleInput}
+            onChange={(e) => setReviewTitle(e.target.value)}
+            value={reviewTitle}
+          />
+        }
         <AppTextarea 
-          placeholder="Review Summary"  
+          placeholder={messageInput}  
           onChange={(e) => setReviewText(e.target.value)}
           value={reviewText}
         /> 
-        <button onClick={handleSubmit}>Submit Review</button>
+        { writeType === 'review' && 
+          <button onClick={writeReview}>Submit Review</button>
+        }
+        { writeType === 'comment' && 
+          <button onClick={writeComment}>Post Comment</button>
+        }
       </form>
     </div>
   )
