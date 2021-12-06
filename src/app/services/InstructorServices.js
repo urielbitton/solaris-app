@@ -21,3 +21,11 @@ export const getReviewsByInstructorID = (instructorID, setReviews, limit) => {
     setReviews(reviewsArr)
   })
 }
+
+export const getCoursesByInstructor = (instructorID, setCourses, limit) => {
+  db.collection('courses').where('instructorID', '==', instructorID).limit(limit).onSnapshot(snap => {
+    const coursesArr = []
+    snap.forEach(doc => coursesArr.push(doc.data()))
+    setCourses(coursesArr)
+  })
+}

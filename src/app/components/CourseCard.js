@@ -5,8 +5,7 @@ import { useHistory } from 'react-router'
 
 export default function CourseCard(props) {
 
-  const {id, cover, lessonsCount, title, category, studentsEnrolled, 
-    costType} = props.course
+  const {id, cover, lessonsCount, title, category, studentsEnrolled, costType} = props.course
   const history = useHistory()
 
   return (

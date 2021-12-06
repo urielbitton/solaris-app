@@ -6,15 +6,14 @@ import { useHistory } from 'react-router'
 
 export default function InstructorCard(props) {
 
-  const {instructorID, profilePic, name, title, coursesTaught, followersCount, 
-    rating} = props.instructor
+  const {instructorID, profilePic, name, title, coursesTaught, followersCount} = props.instructor
   const [reviews, setReviews] = useState([])
   const reviewsNumTotal = reviews?.reduce((a,b) => a + b?.rating, 0)
   const ratingAvg = reviewsNumTotal / reviews.length
   const history = useHistory()
 
   useEffect(() => {
-    getReviewsByInstructorID(instructorID, setReviews, 10)
+    getReviewsByInstructorID(instructorID, setReviews, Infinity)
   },[instructorID])
 
   return (
