@@ -1,0 +1,10 @@
+.my-library-page {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.my-library-page > h3 {
+  font-size: 25px;
+  color: #333;
+  font-weight: 600;
+}

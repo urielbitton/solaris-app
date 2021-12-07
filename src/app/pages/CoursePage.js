@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useRouteMatch } from 'react-router'
+import { useHistory, useRouteMatch } from 'react-router'
 import { Link } from 'react-router-dom'
 import { getCourseByID, getLessonsByCourseID } from '../services/courseServices'
 import { getInstructorByID } from '../services/InstructorServices'
@@ -9,22 +9,26 @@ import LessonsList from '../components/LessonsList'
 import CourseReviews from '../components/CourseReviews'
 import WriteComment from '../components/WriteComment'
 import { StoreContext } from '../store/store'
+import { getCoursesIDEnrolledByUserID } from '../services/userServices'
 
 export default function CoursePage() {
 
-  const {setNavTitle, setNavDescript} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
   const [course, setCourse] = useState({})
   const [instructor, setInstructor] = useState({})
   const [lessons, setLessons] = useState([])
+  const [userCourses, setUserCourses] = useState([])
   const courseID = useRouteMatch('/courses/course/:courseID')?.params.courseID
+  const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
+  const history= useHistory()
 
   const courseInfos = [
-    {name: 'Course Level', icon: 'fas fa-layer-group', value: course.difficulty},
-    {name: 'Category', icon: 'fas fa-th', value: course.category},
-    {name: 'Course Duration', icon: 'fas fa-clock', value: course.totalDuration},
-    {name: 'Lessons', icon: 'fas fa-book-open', value: course.lessonsCount},
-    {name: 'Certificate', icon: 'fas fa-certificate', value: course.hasCertificate?"Yes":"No"},
-    {name: 'Language', icon: 'fas fa-language', value: course.language},
+    {name: 'Course Level', icon: 'fas fa-layer-group', value: course?.difficulty},
+    {name: 'Category', icon: 'fas fa-th', value: course?.category},
+    {name: 'Course Duration', icon: 'fas fa-clock', value: course?.totalDuration},
+    {name: 'Lessons', icon: 'fas fa-book-open', value: course?.lessonsCount},
+    {name: 'Certificate', icon: 'fas fa-certificate', value: course?.hasCertificate?"Yes":"No"},
+    {name: 'Language', icon: 'fas fa-language', value: course?.language},
   ]
 
   const courseInfosRender = courseInfos?.map((info,i) => {
@@ -37,12 +41,16 @@ export default function CoursePage() {
     </div>
   })
 
-  const whatYouLearnRender = course.whatYouLearn?.map((el,i) => {
+  const whatYouLearnRender = course?.whatYouLearn?.map((el,i) => {
     return <span key={i}>
       <i className="far fa-check"></i>
       {el}
     </span>
   })
+
+  const enrollCourse = () => {
+    history.push(`/checkout/course/${courseID}`)
+  }
 
   useEffect(() => {
     getCourseByID(courseID, setCourse)
@@ -52,36 +60,40 @@ export default function CoursePage() {
   useEffect(() => {
     getInstructorByID(course?.instructorID ?? "na", setInstructor)
     setNavTitle('Course')
-    setNavDescript(course.title) 
+    setNavDescript(course?.title) 
   },[course])
+
+  useEffect(() => {
+    getCoursesIDEnrolledByUserID(user?.uid, setUserCourses)
+  },[user])
 
 
   return (
     <div className="course-page">
       <header className="banner">
         <div className="side">
-          <small>{course.category}</small>
-          <h1>{course.title}</h1>
-          <h5>{course.short}</h5>
+          <small>{course?.category}</small>
+          <h1>{course?.title}</h1>
+          <h5>{course?.short}</h5>
           <div className="info-container">
             <div className="instructor-row">
               <span className="title">Instructor</span>
               <img src={instructor?.profilePic ?? placeholderImg} alt="" />
-              <h6><Link to={`/instructors/instructor/${course.instructorID}`} className="linkable">{instructor?.name}</Link></h6>
+              <h6><Link to={`/instructors/instructor/${course?.instructorID}`} className="linkable">{instructor?.name}</Link></h6>
               <hr/>
-              <span>{course.studentsEnrolled} students enrolled</span>
+              <span>{course?.studentsEnrolled} students enrolled</span>
             </div>
           </div>
         </div>
         <div className="side">
-          <img src={course.cover} className="cover-img" alt="" />
+          <img src={course?.cover} className="cover-img" alt="" />
         </div>
       </header>
       <div className="course-content">
         <div className="text-container">
           <section>
             <h3>Course Overview</h3>
-            <p className="course-description">{course.description}</p>
+            <p className="course-description">{course?.description}</p>
           </section>
           <section>
             <h3>What you'll learn in this course</h3>
@@ -93,6 +105,7 @@ export default function CoursePage() {
             lessons={lessons}
             courseID={courseID}
             title="Course Content"
+            courseUserAccess={courseUserAccess}
           />
           <section>
             <h3>Instructor</h3>
@@ -142,7 +155,7 @@ export default function CoursePage() {
           <div className="course-info">
             <div className="header">
               <h4>Price</h4>
-              <big>{course.price === 0 ? "Free" : "$"+course.price}</big>
+              <big>{course?.price === 0 ? "Free" : "$"+course?.price}</big>
             </div>
             <div className="content">
               {courseInfosRender}
@@ -161,9 +174,9 @@ export default function CoursePage() {
                 </div>
               </div>
             </div>
-            <button className="enrollbtn">
-              Enroll
-              <i className="fal fa-arrow-right"></i>
+            <button className={courseUserAccess ? "enrollbtn enrolled" : "enrollbtn not-enrolled"} onClick={courseUserAccess ? console.log('Already enrolled') : enrollCourse}>
+              {courseUserAccess ? "Enrolled" : "Enroll"}
+              <i className={courseUserAccess ? "fal fa-check" : "fal fa-arrow-right"}></i>
             </button>
           </div>
         </div>

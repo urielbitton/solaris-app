@@ -4,7 +4,7 @@ import {AppInput} from '../components/AppInputs'
 
 export default function LessonsList(props) {
 
-  const {lessons, courseID, title, showSearch, activeLesson} = props
+  const {lessons, courseID, title, showSearch, activeLesson, courseUserAccess} = props
   const [keyword, setKeyword] = useState('')
 
   const lessonsRender = lessons?.map((lesson,i) => {
@@ -13,6 +13,7 @@ export default function LessonsList(props) {
       courseID={courseID} 
       keyword={keyword}
       activeLesson={lesson.lessonID === activeLesson}
+      courseUserAccess={courseUserAccess}
       key={i} 
     />
   })

@@ -54,3 +54,20 @@
   font-size: 15px;
   color: #555;
 }
+.review-card .interact-row {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.review-card .interact-row small {
+  color: var(--graytxt);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.review-card .interact-row small:hover {
+  color: #111;
+}
+.review-card .interact-row small.active {
+  color: var(--color);
+}

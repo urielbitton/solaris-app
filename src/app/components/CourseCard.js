@@ -17,7 +17,7 @@ export default function CourseCard(props) {
         <div className="info-container">
           <div className="header">
             <h6>{lessonsCount} Course{lessonsCount !== 1 ? "s" : ""}</h6>
-            <small className="category-badge">#{category.replaceAll(' ','-')}</small>
+            <small className="category-badge">#{category?.replaceAll(' ','-')}</small>
           </div>
           <h4>{title}</h4>
           <div className="toolbar">

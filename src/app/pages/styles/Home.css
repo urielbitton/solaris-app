@@ -21,12 +21,6 @@
   font-size: 13px;
   color: var(--color);
 }
-.home-page section .courses-row {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  grid-gap: 20px;
-}
 .home-page section .titles-row {
   margin-bottom: 10px;
   display: flex;

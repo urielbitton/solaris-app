@@ -1,0 +1,198 @@
+.login-page {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 100vh;
+}
+.login-page .login-cover {
+  background-image: url('../../assets/imgs/login2.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.login-page .login-info {
+  padding: 30px 50px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.login-page .login-info .container {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+.login-page .login-info img.logo {
+  width: 40px;
+  margin-bottom: 20px;
+}
+.login-page .login-info .container > h4 {
+  font-size: 30px;
+  color: #333;
+}
+.login-page .login-info .container > h6 {
+  font-size: 15px;
+  color: #aaa;
+  font-weight: 600;
+  margin-top: 5px;
+}
+.login-page .login-info .google-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+  border-radius: 40px;
+  border: 1px solid #eee;
+  transition: all 0.2s;
+  cursor: pointer;
+  margin-top: 40px;
+}
+.login-page .login-info .google-btn:hover {
+  background: var(--color);
+}
+.login-page .login-info .google-btn span {
+  color: #333;
+  font-weight: 600;
+}
+.login-page .login-info .google-btn:hover span {
+  color: #fff;
+}
+.login-page .login-info .google-btn img.google-icon {
+  width: 25px;
+  filter: drop-shadow(0 0 1px rgba(255,255,255,0.7))
+}
+.login-page .login-info .sep-alt {
+  margin: 25px 0;
+  color: var(--graytxt);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.login-page .login-info .sep-alt span {
+  white-space: nowrap;
+}
+.login-page .login-info .sep-alt hr {
+  width: 100%;
+  height: 1px;
+  background: #eee;
+}
+.login-page .login-info .email-error {
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 600;
+}
+.login-page .login-info .appinput {
+  margin-top: 20px;
+}
+.login-page .login-info .appinput h6 {
+  font-size: 15px;
+  font-weight: 600;
+}
+.login-page .login-info input {
+  border-bottom: 1px solid #ddd;
+  border-radius: 0;
+  font-size: 15px;
+}
+.login-page .login-info input[type="checkbox"] {
+  border: none;
+}
+.login-page .login-info .login-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.login-page .login-info .login-options label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.login-page .login-info .login-options label input {
+  width: 30px;
+}
+.login-page .login-info .login-options label span {
+  font-size: 14px;
+  color: #555;
+}
+.login-page .login-info .login-options a {
+  font-size: 14px;
+  color: #555;
+}
+.login-page .login-info button.submit-btn {
+  padding: 15px;
+  border-radius: 40px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-size: 16px;
+}
+.login-page .login-info button.submit-btn i {
+  transition: all 0.3s;
+  left: 0;
+}
+.login-page .login-info button.submit-btn:hover i {
+  left: 8px;
+}
+.login-page .login-info .no-account-text {
+  font-weight: 700;
+  color: #333;
+}
+.login-page .login-info .no-account-text a {
+  text-decoration: underline;
+  color: var(--color);
+  margin-left: 5px;
+}
+.login-page .login-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px 0;
+}
+.login-page .login-cover h1 {
+  filter: drop-shadow(0 5px 10px rgba(0,0,0, 0.3))
+}
+.login-page .login-cover .sliding-text {
+  width: 240px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 10px;
+}
+.login-page .login-cover .sliding-text h3 {
+  font-size: 22px;
+}
+.login-page .login-cover .sliding-text h6 {
+  font-size: 14px;
+  color: #777;
+  font-weight: 600;
+}
+.login-page .login-cover .sliding-text .nav-bubbles {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.login-page .login-cover .sliding-text .nav-bubbles > div {
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+  background: var(--color);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.login-page .login-cover .sliding-text .nav-bubbles > div.active,
+.login-page .login-cover .sliding-text .nav-bubbles > div:hover {
+  width: 20px;
+  border-radius: 40px;
+  margin: 0 2px;
+}

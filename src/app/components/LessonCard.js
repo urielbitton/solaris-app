@@ -6,7 +6,7 @@ import VideoRow from './VideoRow'
 
 export default function LessonCard(props) {
 
-  const {courseID, keyword, activeLesson} = props
+  const {courseID, keyword, activeLesson, courseUserAccess} = props
   const {title, lessonID, lessonType} = props.lesson
   const [videos, setVideos] = useState([])
   const [openAccord, setOpenAccord] = useState(true)
@@ -21,6 +21,7 @@ export default function LessonCard(props) {
       lessonType={lessonType} 
       courseID={courseID}
       lessonID={lessonID}
+      courseUserAccess={courseUserAccess}
       key={i} 
     />
   })

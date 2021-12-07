@@ -4,8 +4,8 @@ import './styles/AllCourses.css'
 import { AppSelect } from '../components/AppInputs'
 import { getCourseCategories, getCoursesCount } from '../services/adminServices' 
 import { getAllCoursesFiltered } from '../services/courseServices'
-import CourseCard from '../components/CourseCard'
 import PageSearch from '../components/PageSearch'
+import CourseGrid from '../components/CoursesGrid'
 
 export default function AllCourses() {
 
@@ -64,10 +64,6 @@ export default function AllCourses() {
   })
   const courseSortRender = coursesSortArr.map((type) => {
     return {name: type}
-  })
-
-  const allCoursesRender = allCourses?.map((course,i) => {
-    return <CourseCard course={course} key={i} />
   })
 
   const resetFilters = () => {
@@ -147,7 +143,7 @@ export default function AllCourses() {
         </div>
       </div>
       <div className="courses-content">
-        {allCoursesRender}
+        <CourseGrid courses={allCourses} />
       </div>
     </div>
   )

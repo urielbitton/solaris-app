@@ -1,13 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { StoreContext } from '../store/store'
 import SearchBar from './SearchBar'
 import './styles/Navbar.css'
-import profImg from '../assets/imgs/prof-img.jpg'
+import firebase from 'firebase'
 
 export default function Navbar() {
 
-  const {navTitle, navDescript} = useContext(StoreContext)
+  const {navTitle, navDescript, user} = useContext(StoreContext)
+  const [slideProfile, setSlideProfile] = useState(false)
+
+  const signOut = (e) => {
+    e.preventDefault()
+    if(user) {
+      firebase.auth().signOut()
+    }
+  }
+
+  useEffect(() => {
+    window.onclick = () => setSlideProfile(false)
+  },[slideProfile])
 
   return (
     <div className="navbar">
@@ -32,12 +44,19 @@ export default function Navbar() {
         </div>
         <div className="nav-profile-container">
           <div className="text-info-container">
-            <h5>Jennifer Hejduk</h5>
-            <Link to="/settings" className="linkable">My Settings</Link>
+            <h5>{user.displayName}</h5>
+            <Link to="/my-account" className="linkable">My Account</Link>
           </div>
-          <div className="img-container">
-            <img src={profImg} alt=""/>
+          <div className="img-container" onClick={(e) => {e.stopPropagation();setSlideProfile(prev => !prev)}}>
+            <img src={user.photoURL} alt=""/>
             <i className="fal fa-angle-down"></i>
+          </div>
+          <div className={`profile-slide ${slideProfile ? "open" : ""}`}>
+            <Link to="/my-account"><i class="far fa-user"></i>My Account</Link>
+            <Link to="/settings/preferences"><i class="far fa-sliders-h"></i>Preferences</Link>
+            <Link to="/get-pro"><i class="far fa-user-astronaut"></i>Get Pro</Link>
+            <Link to="/support"><i class="far fa-question-circle"></i>Support</Link>
+            <Link to="/" onClick={(e) => signOut(e)}><i class="far fa-sign-out"></i>Logout</Link>
           </div>
         </div>
       </div>

@@ -8,10 +8,12 @@ export const StoreContext = createContext()
 const StoreContextProvider = (props) => {
 
   const user = firebase.auth().currentUser
+  const [accessApp, setAccessApp] = useState(true)
   const [myUser, setMyUser] = useState({})
   const [aUser, setAUser] = useState({})
   const [navTitle, setNavTitle] = useState('Home')
   const [navDescript, setNavDescript] = useState('')
+  const [loggingAuth, setLoggingAuth] = useState(true)
 
   useEffect(() => {
     if(user) {
@@ -26,7 +28,9 @@ const StoreContextProvider = (props) => {
   },[])
 
   return <StoreContext.Provider value={{ 
-    user, myUser, setMyUser, aUser, setAUser, navTitle, setNavTitle, navDescript, setNavDescript
+    accessApp, setAccessApp,
+    user, myUser, setMyUser, aUser, setAUser, navTitle, setNavTitle, navDescript, setNavDescript,
+    loggingAuth, setLoggingAuth
   }}>
     {props.children}
   </StoreContext.Provider>

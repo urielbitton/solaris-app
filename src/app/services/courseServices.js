@@ -68,9 +68,17 @@ export const getVideosByLessonID = (courseID, lessonID, setVideos) => {
   })
 }
 
-export const ggetVideoByID = (courseID, lessonID, videoID, setVideo) => {
+export const getVideoByID = (courseID, lessonID, videoID, setVideo) => {
   db.collection('courses').doc(courseID).collection('lessons').doc(lessonID).collection('videos').doc(videoID).onSnapshot(snap => {
     setVideo(snap.data())
+  })
+}
+
+export const getCommentsByVideoID = (courseID, lessonID, videoID, setComments) => {
+  db.collection('courses').doc(courseID).collection('lessons').doc(lessonID).collection('videos').doc(videoID).collection('comments').onSnapshot(snap => {
+    const commentsArr = []
+    snap.forEach(doc => commentsArr.push(doc.data()))
+    setComments(commentsArr)
   })
 }
 

@@ -1,17 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './styles/Sidebar.css'
 import logoOnly from '../assets/imgs/logonly2.png'
 import { menuLinks } from '../api/apis'
 import becomeInstr from '../assets/imgs/become-instructor.png'
 import MenuLink from './MenuLink'
 import { useLocation } from 'react-router'
+import { StoreContext } from '../store/store'
+import { isUserInstructor } from '../services/userServices'
 
 export default function Sidebar() {
 
+  const {user} = useContext(StoreContext)
   const [tabOpen, setTabOpen] = useState(false)
+  const [isInstructor, setIsInstructor] = useState(false)
   const location = useLocation()
 
-  const menuRender = menuLinks?.map((link,i) => {
+  const menuRender = menuLinks
+  ?.filter(x => isInstructor ? x : !x.requireInstructor)
+  .map((link,i) => {
     return <MenuLink 
       link={link} 
       tabOpen={tabOpen}
@@ -29,6 +35,10 @@ export default function Sidebar() {
       setTabOpen(false)
     }
   },[location])
+
+  useEffect(() => {
+    isUserInstructor(user?.uid, setIsInstructor)
+  },[user])
 
   return (
     <div className="sidebar">

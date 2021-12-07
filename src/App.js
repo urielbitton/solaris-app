@@ -1,14 +1,14 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
-import AppContainer from './app/containers/AppContainer';
 import StoreContextProvider from './app/store/store'
+import AppSwitcher from './AppSwitcher';
 
 function App() {
   return (
     <div className="App">
       <StoreContextProvider>
         <Router>
-          <AppContainer />
+          <AppSwitcher />
         </Router>
       </StoreContextProvider>
     </div>

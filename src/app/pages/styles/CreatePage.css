@@ -1,0 +1,27 @@
+.create-page {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.create-page .create-poster {
+  padding: 40px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  background: #f1f1f1;
+  border: 1px solid rgba(200,200,200,0.2);
+  min-width: 300px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.create-page .create-poster:hover {
+  background: var(--color);
+}
+.create-page .create-poster:hover .hover-to-white {
+  color: #fff;
+}
+.create-page .create-poster h2 {
+  color: #333;
+}

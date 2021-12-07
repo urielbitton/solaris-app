@@ -11,8 +11,9 @@ export const menuLinks = [
       {name: 'Tutorials', icon: 'fab fa-youtube', url: '/courses/tutorials'},
     ]
   },
-  {name: 'Instructors', icon: 'fal fa-chalkboard-teacher', url: '/instructors'},
   {name: 'My Library', icon: 'fal fa-books', url: '/my-library'},
+  {name: 'Instructors', icon: 'fal fa-chalkboard-teacher', url: '/instructors'},
+  {name: 'Create', icon: 'fal fa-plus-circle', url: '/create', requireInstructor: true},
   {name: 'Reports', icon: 'fal fa-analytics', url: '/reports'},
   {name: 'Settings', icon: 'fal fa-cog', url: '/settings'}
 ]

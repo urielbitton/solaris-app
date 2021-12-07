@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getReviewsByCourseID } from '../services/courseServices'
-import ReviewCard from './ReviewCard'
+import CommentCard from './CommentCard'
 import './styles/CourseReviews.css'
 
 export default function CourseReviews(props) {
@@ -9,7 +9,7 @@ export default function CourseReviews(props) {
   const [reviews, setReviews] = useState([])
 
   const reviewRender = reviews?.map((review,i) => {
-    return <ReviewCard review={review} key={i} />
+    return <CommentCard comment={review} type="review" key={i} />
   })
 
   useEffect(() => {

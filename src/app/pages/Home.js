@@ -4,24 +4,15 @@ import { getAllCourses, getFeaturedCourses, getNewCourses } from '../services/co
 import './styles/Home.css'
 import {StoreContext} from '../store/store'
 import { Link } from 'react-router-dom'
+import CoursesGrid from '../components/CoursesGrid'
 
 export default function Home() {
 
-  const {setNavTitle, setNavDescript} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
   const [featuredCourses, setFeaturedCourses]= useState([])
   const [newCourses, setNewCourses] =  useState([])
   const [allCourses, setAllCourses] = useState([])
   const lessThanAMonth = new Date(Date.now() - 2592000000)
-
-  const featuredRender = featuredCourses?.map((course,i) => {
-    return <CourseCard course={course} key={i}/>
-  })
-  const newCoursesRender = newCourses?.map((course,i) => {
-    return <CourseCard course={course} key={i}/>
-  })
-  const allCoursesRender = allCourses?.map((course,i) => {
-    return <CourseCard course={course} key={i}/>
-  })
 
   useEffect(() => {
     getFeaturedCourses(setFeaturedCourses, 4)
@@ -31,7 +22,7 @@ export default function Home() {
 
   useEffect(() => {
     setNavTitle('Home')
-    setNavDescript('Welcome Jennifer')
+    setNavDescript('Welcome ' + user?.displayName?.split(' ')[0])
   },[])
 
   return (
@@ -44,7 +35,7 @@ export default function Home() {
           </small>
         </div>
         <div className="courses-row">
-          {featuredRender}
+          <CoursesGrid courses={featuredCourses}/>
         </div>
       </section>
       <section className="full">
@@ -55,7 +46,7 @@ export default function Home() {
           </small>
         </div>
         <div className="courses-row">
-          {newCoursesRender}
+          <CoursesGrid courses={newCourses} />
         </div>
       </section>
       <section className="full">
@@ -66,7 +57,7 @@ export default function Home() {
           </small>
         </div>
         <div className="courses-row">
-          {allCoursesRender}
+          <CoursesGrid courses={allCourses} />
         </div>
       </section>
     </div>

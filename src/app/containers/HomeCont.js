@@ -11,6 +11,8 @@ import MyLibrary from '../pages/MyLibrary'
 import Reports from '../pages/Reports'
 import Settings from '../pages/Settings'
 import LessonPage from '../pages/LessonPage'
+import Checkout from '../pages/Checkout'
+import CreatePage from '../pages/CreatePage'
 
 export default function HomeCont() {
   return (
@@ -44,6 +46,12 @@ export default function HomeCont() {
           </Route>
           <Route exact path="/settings">
             <Settings />
+          </Route>
+          <Route path="/checkout/course/:courseID">
+            <Checkout />
+          </Route>
+          <Route exact path="/create">
+            <CreatePage />
           </Route>
         </Switch>
       </div>
