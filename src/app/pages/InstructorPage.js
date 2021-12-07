@@ -29,18 +29,18 @@ export default function InstructorPage() {
   },[instructorID])
 
   useEffect(() => {
-    setNavDescript(instructor.name)
+    setNavDescript(instructor?.name)
   },[instructor])
 
   return (
     <div className="instructor-page">
       <div className="profile-row">
-        <img src={instructor.profilePic} className="profile-pic" alt="" />
+        <img src={instructor?.profilePic} className="profile-pic" alt="" />
         <div className="instructor-info">
-          <h1>{instructor.name}</h1>
-          <h5>{instructor.title}</h5>
+          <h1>{instructor?.name}</h1>
+          <h5>{instructor?.title}</h5>
           <h4>Bio</h4>
-          <p>{instructor.bio}</p>
+          <p>{instructor?.bio}</p>
         </div>
         <hr/>
         <div className="socials-section">
@@ -48,30 +48,30 @@ export default function InstructorPage() {
             facebook
             twitter
             linkedin
-            facebookUrl={instructor.facebookUrl}
-            twitterUrl={instructor.twitterUrl}
-            linkedinUrl={instructor.linkedinUrl}
+            facebookUrl={instructor?.facebookUrl}
+            twitterUrl={instructor?.twitterUrl}
+            linkedinUrl={instructor?.linkedinUrl}
           />
           <h5>
             <i className="fal fa-user-friends"></i>
-            <span> {instructor.followersCount} follower{instructor.followersCount !== 1 ? "s" : ""}</span>
+            <span> {instructor?.followersCount} follower{instructor?.followersCount !== 1 ? "s" : ""}</span>
           </h5>
           <button className="shadow-hover">Follow<i className="fal fa-plus"></i></button>
         </div>
       </div>
       <div className="instructor-stats-container">
         <div>
-          <big>{instructor.coursesTaught?.length}</big>
-          <h5>Course{instructor.coursesTaught?.length !== 1 ? "s" : ""} Taught</h5>
+          <big>{instructor?.coursesTaught?.length}</big>
+          <h5>Course{instructor?.coursesTaught?.length !== 1 ? "s" : ""} Taught</h5>
         </div>
         <hr/>
         <div>
-          <big>{instructor.coursesTaught?.length}</big>
-          <h5>Review{instructor.coursesTaught?.length !== 1 ? "s" : ""}</h5>
+          <big>{instructor?.coursesTaught?.length}</big>
+          <h5>Review{instructor?.coursesTaught?.length !== 1 ? "s" : ""}</h5>
         </div>
         <hr/>
         <div>
-          <big>{ratingAvg.toFixed(2)}</big>
+          <big>{!isNaN(ratingAvg) ? ratingAvg.toFixed(2) : "N/A"}</big>
           <h5>Average Rating</h5>
         </div>
       </div>

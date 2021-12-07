@@ -35,6 +35,7 @@ export default function Instructors() {
           description="Search by instructor ID, name or job title"
         />
       </section>
+      <h3>Instructors</h3>
       <div className="instructors-grid">
         {instructorsRender}
       </div>

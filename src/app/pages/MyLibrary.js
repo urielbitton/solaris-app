@@ -18,12 +18,12 @@ export default function MyLibrary() {
 
   useEffect(() => {
     getCoursesEnrolledByUserID(enrolledList, setCourses)
-  },[coursesIDs])
+  },[coursesIDs, enrolledList])
 
   useEffect(() => {
     setNavTitle('My Library')
-    setNavDescript('x courses in library')
-  },[])
+    setNavDescript(courses.length + ' courses in library')
+  },[courses])
 
   return (
     <div className="my-library-page">

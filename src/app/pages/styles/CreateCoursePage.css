@@ -1,3 +1,80 @@
 .create-course-page {
-  
+  display: grid;
+  grid-template-columns: auto 300px;
+}
+.create-course-page .side-bar {
+  height: 87vh;
+  border-left: 1px solid #eee;
+  overflow-y: scroll;
+  padding: 20px;
+}
+.create-course-page .create-content {
+  width: 800px;
+  height: 87vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+.create-course-page .create-content h3 {
+  text-transform: capitalize;
+  font-size: 23px;
+  color: #333;
+}
+.create-course-page .video-type-container {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.create-course-page .video-type-container h5 {
+  flex-basis: 100%;
+  font-size: 16px;
+  color: var(--graytxt);
+}
+.create-course-page .type-box {
+  width: 220px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 7px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: 2px solid #eee;
+}
+.create-course-page .type-box:hover,
+.create-course-page .type-box.active {
+  background: var(--lightestblue);
+  border-color: var(--color);
+}
+.create-course-page .type-box:hover i.main-icon,
+.create-course-page .type-box:hover h4,
+.create-course-page .type-box.active i.main-icon,
+.create-course-page .type-box.active h4 {
+  color: var(--color);
+}
+.create-course-page .type-box i.main-icon {
+  font-size: 23px;
+  color: #777;
+}
+.create-course-page .type-box h4 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #aaa;
+}
+.create-course-page .type-box i.check-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+}
+.create-course-page .type-box.active i.check-icon {
+  opacity: 1;
+  visibility: visible;
+  color: var(--color);
 }

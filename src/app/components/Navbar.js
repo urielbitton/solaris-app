@@ -30,12 +30,6 @@ export default function Navbar() {
         <SearchBar width="300px" showIcon/>
       </div>
       <div className="side right">
-        <div className="nav-icon-btn nav-messages">
-          <i className="far fa-comment"></i>
-          <div className="notifs-num">
-            <small>2</small>
-          </div>
-        </div>
         <div className="nav-icon-btn nav-notifs">
           <i className="far fa-bell"></i>
           <div className="notifs-num">

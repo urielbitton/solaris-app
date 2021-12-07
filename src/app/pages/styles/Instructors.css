@@ -13,3 +13,8 @@
 .instructors-page section {
   width: 100%;
 }
+.instructors-page > h3 {
+  font-size: 23px;
+  color: #333;
+  font-weight: 600;
+}

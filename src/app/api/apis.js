@@ -22,7 +22,7 @@ export const createCourseArray = [
   {
     title: 'Video Course',
     features: [
-      {text: 'Create video content from Vimeo, YouTube or SproutVideo'},
+      {text: 'Create video content from Vimeo, YouTube or Wistia'},
       {text: 'Create Text-based lessons using our rich text editor'},
       {text: 'Add images and formatted text to your lessons'},
       {text: 'Create quizzes and exams for your lessons'},
@@ -55,5 +55,23 @@ export const createCourseArray = [
     ],
     idea: "Share a quick and free video tip to students",
     url: '/create/create-course/tutorial'
+  }
+]
+
+export const videoTypes = [
+  {
+    name: 'Vimeo',
+    value: 'vimeo',
+    icon: 'fab fa-vimeo-v'
+  },
+  {
+    name: 'YouTube',
+    value: 'youtube',
+    icon: 'fab fa-youtube'
+  },
+  {
+    name: 'Wistia',
+    value: 'wistia',
+    icon: 'fas fa-video'
   }
 ]
