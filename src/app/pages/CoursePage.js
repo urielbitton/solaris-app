@@ -174,7 +174,7 @@ export default function CoursePage() {
                 </div>
               </div>
             </div>
-            <button className={courseUserAccess ? "enrollbtn enrolled" : "enrollbtn not-enrolled"} onClick={courseUserAccess ? console.log('Already enrolled') : enrollCourse}>
+            <button className={courseUserAccess ? "enrollbtn enrolled" : "enrollbtn not-enrolled"} onClick={() => courseUserAccess ? console.log('Already enrolled') : enrollCourse()}>
               {courseUserAccess ? "Enrolled" : "Enroll"}
               <i className={courseUserAccess ? "fal fa-check" : "fal fa-arrow-right"}></i>
             </button>

@@ -17,3 +17,43 @@ export const menuLinks = [
   {name: 'Reports', icon: 'fal fa-analytics', url: '/reports'},
   {name: 'Settings', icon: 'fal fa-cog', url: '/settings'}
 ]
+
+export const createCourseArray = [
+  {
+    title: 'Video Course',
+    features: [
+      {text: 'Create video content from Vimeo, YouTube or SproutVideo'},
+      {text: 'Create Text-based lessons using our rich text editor'},
+      {text: 'Add images and formatted text to your lessons'},
+      {text: 'Create quizzes and exams for your lessons'},
+      {text: 'Create polls for your students'},
+      {text: 'Create subscriptions or pay-per-use courses'},
+    ],
+    idea: "A multi-media lecture experience grabs the most attention",
+    url: '/create/create-course/video'
+  },
+  {
+    title: 'Text Course',
+    features: [
+      {text: 'Create Text-based lessons using our rich text editor'},
+      {text: 'Add images and formatted text to your lessons'},
+      {text: 'Create quizzes and exams for your lessons'},
+      {text: 'Add files to lessons in word or pdf format'},
+      {text: 'Does not support student polls'},
+      {text: 'Create subscriptions or pay-per-use courses'},
+    ],
+    idea: "Concentrate on text based lectures for your students",
+    url: '/create/create-course/text'
+  },
+  {
+    title: 'Tutorial',
+    features: [
+      {text: 'Create video content from Vimeo, YouTube or SproutVideo'},
+      {text: 'Best made for short, captivating videos'},
+      {text: 'Does not support text or image content'},
+      {text: 'Available only as a free video'},
+    ],
+    idea: "Share a quick and free video tip to students",
+    url: '/create/create-course/tutorial'
+  }
+]

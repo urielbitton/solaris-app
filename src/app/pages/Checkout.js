@@ -7,7 +7,7 @@ import { PayPalButton } from 'react-paypal-button-v2'
 import { AppInput } from '../components/AppInputs'
 import { db } from '../firebase/fire'
 import CreateOrder from '../services/CreateOrder'
-import { setSubDB } from '../services/CrudDB'
+import { setDB, setSubDB, updateDB } from '../services/CrudDB'
 
 export default function Checkout() {
 
@@ -26,6 +26,7 @@ export default function Checkout() {
   const coursePrice = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(course.price)
   const totalPrice = (course.price * 0.15) + course.price
   const allowPurchase = validateEmail(email) && address.length && city.length && region.length && country.length && postCode.length
+  const freeCourse = course.price === 0
   const history = useHistory()
 
   const processOrder = () => {
@@ -45,6 +46,8 @@ export default function Checkout() {
     }
     CreateOrder(orderId, orderNumber, customer, totalPrice)
     .then(res => {
+      updateDB('courses', courseID, {studentsEnrolled: course.studentsEnrolled + 1})
+      setSubDB('courses', courseID, 'students', user?.uid, {userID: user.uid, name: user.displayName})
       setSubDB('users', user.uid, 'coursesEnrolled', courseID, {
         courseID,
         name: course.title
@@ -76,8 +79,8 @@ export default function Checkout() {
     <div className="checkout-page">
       <div className="side">
         <h3>Course Checkout</h3>
-        <h5>Billing Details</h5>
-        <form onSubmit={(e) => e.preventDefault()}>
+        <h5>{freeCourse ? "Free Course" : "Billing Details"}</h5>
+        <form onSubmit={(e) => e.preventDefault()} style={{display: freeCourse ? "none": "grid"}}>
           <AppInput placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)} value={email} />
           <AppInput placeholder="Company Name" onChange={(e) => setCompany(e.target.value)} value={company} />
           <AppInput placeholder="Address" onChange={(e) => setAddress(e.target.value)} value={address} />
@@ -87,14 +90,17 @@ export default function Checkout() {
           <AppInput placeholder="Postal Code/ZIP" onChange={(e) => setPostCode(e.target.value)} value={postCode} />
           <AppInput placeholder="Phone Number" onChange={(e) => setPhone(e.target.value)} value={phone} />
         </form>
-        <div className={!!!allowPurchase ? "paypal-container no-access" : "paypal-container"}>
-          <PayPalButton
-            amount={0.01}
-            onSuccess={(details, data) => processOrder()}
-            onError={() => window.alert("The transaction was not successful, please try again later.")}
-            options={{ clientId }}
-          />
-        </div>
+          { !freeCourse ?
+          <div className={!!!allowPurchase ? "paypal-container no-access" : "paypal-container"}>
+            <PayPalButton
+              amount={0.01}
+              onSuccess={(details, data) => processOrder()}
+              onError={() => window.alert("The transaction was not successful, please try again later.")}
+              options={{ clientId }}
+            /> 
+          </div>:
+          <button className="free-enroll-btn shadow-hover" onClick={() => processOrder()}>Enroll Course</button>
+          }
       </div>
       <div className="side">
         <h3 style={{visibility:'hidden'}}>.</h3>

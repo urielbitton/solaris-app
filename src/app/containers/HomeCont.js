@@ -13,6 +13,7 @@ import Settings from '../pages/Settings'
 import LessonPage from '../pages/LessonPage'
 import Checkout from '../pages/Checkout'
 import CreatePage from '../pages/CreatePage'
+import CreateCoursePage from '../pages/CreateCoursePage'
 
 export default function HomeCont() {
   return (
@@ -52,6 +53,9 @@ export default function HomeCont() {
           </Route>
           <Route exact path="/create">
             <CreatePage />
+          </Route>
+          <Route path="/create/create-course/:courseType">
+            <CreateCoursePage />
           </Route>
         </Switch>
       </div>

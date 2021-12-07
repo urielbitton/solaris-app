@@ -1,7 +1,15 @@
 .create-page {
   display: flex;
-  align-items: center;
-  justify-content: space-evenly;
+  flex-direction: column;
+  gap: 40px;
+}
+.create-page > h3 {
+  font-size: 20px;
+  color: #333;
+}
+.create-page .create-flex {
+  display: flex;
+  justify-content: center;
   gap: 30px;
   flex-wrap: wrap;
 }
@@ -9,12 +17,19 @@
   padding: 40px;
   border-radius: 10px;
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
+  gap: 30px;
   background: #f1f1f1;
   border: 1px solid rgba(200,200,200,0.2);
-  min-width: 300px;
+  width: 420px;
   cursor: pointer;
   transition: all 0.2s;
+}
+.create-page .create-poster .side {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 .create-page .create-poster:hover {
   background: var(--color);
@@ -24,4 +39,53 @@
 }
 .create-page .create-poster h2 {
   color: #333;
+  margin-bottom: 20px;
+}
+.create-page .create-poster .features {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.create-page .create-poster .features h5 {
+  font-size: 15px;
+  color: var(--graytxt);
+  font-weight: 600;
+  display: flex;
+  align-items: flex-start;
+}
+.create-page .create-poster .features h5 i {
+  margin-right: 15px;
+  color: var(--color);
+  top: 2px;
+}
+.create-page .create-poster:hover .features h5 i {
+  color: #fff;
+}
+.create-page .create-poster .side > h6 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--graytxt);
+}
+.create-page .create-poster button {
+  padding: 15px 25px;
+  font-size: 15px;
+}
+.create-page .create-poster:hover button {
+  background: none;
+  border-color: #fff;
+  color: #fff;
+}
+.create-page .create-poster button:hover {
+  background: #fff;
+  color: var(--color);
+}
+.create-page .create-poster button i {
+  margin-left: 10px;
+  left: 0;
+  transition: all 0.3s;
+}
+.create-page .create-poster button:hover i {
+  left: 10px;
 }
