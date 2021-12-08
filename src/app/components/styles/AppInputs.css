@@ -27,6 +27,6 @@ label.appinput i {
 .form-switch:active i::after{width:28px;transform:translate3d(2px,2px,0)}
 .form-switch:active input:checked+i::after{transform:translate3d(16px,2px,0)}
 .form-switch input{display:none}
-.form-switch input:checked+i{background:var(--admincolor)}
+.form-switch input:checked+i{background:var(--color)}
 .form-switch input:checked+i::before{transform:translate3d(18px,2px,0) scale3d(0,0,0)}
 .form-switch input:checked+i::after{transform:translate3d(22px,2px,0)} 

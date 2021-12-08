@@ -6,14 +6,15 @@ import VideoRow from './VideoRow'
 
 export default function LessonCard(props) {
 
-  const {courseID, keyword, activeLesson, courseUserAccess} = props
+  const {courseID, keyword, activeLesson, courseUserAccess, createMode, tempVideos, 
+    initComponent, deleteBtn} = props
   const {title, lessonID, lessonType} = props.lesson
   const [videos, setVideos] = useState([])
   const [openAccord, setOpenAccord] = useState(true)
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
 
-  const videosRender = videos
+  const videosRender = createMode ? tempVideos : videos
   ?.filter(x => pattern.test(x.title))
   .map((video,i) => {
     return <VideoRow 
@@ -37,8 +38,11 @@ export default function LessonCard(props) {
       open={openAccord}
       setOpen={setOpenAccord}
       active={activeLesson}
+      createMode={createMode}
+      deleteBtn={deleteBtn}
     >
       <div className="lesson-container">{videosRender}</div>
+      { createMode && initComponent }
     </AppAccordion>
   )
 }

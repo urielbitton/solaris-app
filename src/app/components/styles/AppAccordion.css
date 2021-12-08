@@ -29,7 +29,13 @@
 .app-accordion.open header h5 {
   color: var(--color);
 }
-.app-accordion header i {
+.app-accordion header .action-btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+.app-accordion header .action-btns i {
   font-size: 28px;
   color: #444;
   transition: all 0.3s;
