@@ -75,12 +75,12 @@ export default function CreateCoursePage() {
     </div>
   })
 
-  const clickAddVideo = () => {
+  const clickAddVideo = (lesson) => {
     setShowVideoModal(true)
     setLesson(lesson)
     clearVideoState()
   }
-  const clickAddNotes = () => {
+  const clickAddNotes = (lesson) => {
     setShowNotesModal(true)
     setLesson(lesson)
     clearNotestate()
@@ -105,8 +105,8 @@ export default function CreateCoursePage() {
       courseUserAccess
       initComponent={
         <div className="init-component">
-          <h5 onClick={() => clickAddVideo()}><i className="fas fa-video"></i>Click to add videos to this lesson</h5>
-          <h5 onClick={() => clickAddNotes()}><i className="fas fa-sticky-note"></i>Click to add notes to this lesson</h5>
+          <h5 onClick={() => clickAddVideo(lesson)}><i className="fas fa-video"></i>Click to add videos to this lesson</h5>
+          <h5 onClick={() => clickAddNotes(lesson)}><i className="fas fa-sticky-note"></i>Click to add notes to this lesson</h5>
         </div>
       }
       deleteBtn={
@@ -159,6 +159,7 @@ export default function CreateCoursePage() {
         dateAdded: new Date()
       })
       clearVideoState()
+      setShowVideoModal(false)
     }
   }
 
@@ -170,8 +171,7 @@ export default function CreateCoursePage() {
         dateAdded: new Date()
       })
       lesson.files.push([...notesFile])
-      setNotesTitle('')
-      setNotesText('')
+      clearNotestate()
       setShowNotesModal(false)
     }
   }
@@ -349,8 +349,7 @@ export default function CreateCoursePage() {
               <h5 className="create-title">Course Lessons</h5>
               {lessons.length ? lessonsRender : "No Lessons"} 
               <button 
-                className="create-course-btn shadow-hover" 
-                disabled 
+                className={`create-course-btn ${!lessons.length ? "disabled" : ""} shadow-hover`}  
                 onClick={() => createCourse()}
               >
                 Create Course

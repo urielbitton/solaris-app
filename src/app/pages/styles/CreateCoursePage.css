@@ -353,9 +353,8 @@
   font-size: 15px;
   margin-top: 50px;
 }
-.create-course-page button.create-course-btn[disabled] {
+.create-course-page button.create-course-btn.disabled {
   opacity: 0.4;
-  pointer-events: none;
 }
 .create-course-page button.create-course-btn i {
   margin-left: 10px;
