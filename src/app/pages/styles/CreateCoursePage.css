@@ -105,7 +105,7 @@
   flex-basis: 60%;
   font-size: 14px;
 }
-.create-course-page .course-info .commoninput textarea {
+.create-course-page textarea {
   resize: vertical;
   min-height: 120px;
   max-height: 200px;
@@ -250,4 +250,76 @@
 }
 .create-course-page .added-lessons .app-accordion .init-component h5:hover {
   color: var(--color);
+}
+.create-course-page .slide-container .app-modal .form {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  grid-gap: 30px;
+  width: 100%;
+} 
+.create-course-page .slide-container .app-modal .form .commoninput {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.create-course-page .slide-container .app-modal .form.single-columns .commoninput {
+  grid-column: 1/-1;
+}
+.create-course-page .slide-container .app-modal .form .commoninput h6 {
+  font-size: 13px;
+  color: #444;
+}
+.create-course-page .slide-container .app-modal .form .fileinput input[type="file"] {
+  display: none;
+}
+.create-course-page .slide-container .app-modal .form .fileinput .icon-container {
+  width: 100%;
+  padding: 10px;
+  background: var(--lightestblue);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.create-course-page .slide-container .app-modal .form .fileinput .icon-container small {
+  color: #333;
+}
+.create-course-page .slide-container .app-modal .form .fileinput i {
+  font-size: 20px;
+  color: var(--color);
+}
+.create-course-page .slide-container .app-modal .form input,
+.create-course-page .slide-container .app-modal .form select,
+.create-course-page .slide-container .app-modal .form textarea {
+  border-width: 2px;
+  width: 100%;
+}
+.create-course-page .slide-container .app-modal .form a {
+  color: var(--color);
+  font-size: 14px;
+  background: var(--lightestblue);
+  padding: 10px;
+  width: 150px;
+  transition: all 0.2s;
+}
+.create-course-page .slide-container .app-modal .form a:hover {
+  filter: brightness(95%)
+}
+.create-course-page .slide-container .app-modal .form a i {
+  margin-right: 5px;
+}
+.create-course-page .slide-container .app-modal .form .seperator {
+  grid-column: 1/-1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #777;
+}
+.create-course-page .slide-container .app-modal .form .seperator hr {
+  height: 1px;
+  background: #eee;
+  flex-basis: 30%;
 }

@@ -1,4 +1,4 @@
-.video-row {
+.lesson-item-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -8,19 +8,22 @@
   transition: all 0.2s;
   cursor: pointer;
 }
-.video-row:hover {
+.lesson-item-row:hover {
   background: var(--lightestblue)
 }
-.video-row .side {
+.lesson-item-row .side {
   display: flex;
   align-items: center;
   gap: 20px;
 }
-.video-row h6 {
+.lesson-item-row h6 {
   font-size: 16px;
   color: #333;
   font-weight: 500;
 }
-.video-row .side i {
+.lesson-item-row .side i {
   color: var(--color);
+}
+.lesson-item-row small {
+  color: #777;
 }

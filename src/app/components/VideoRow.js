@@ -1,10 +1,10 @@
 import React from 'react'
 import { useHistory } from 'react-router'
-import './styles/VideoRow.css'
+import './styles/LessonItems.css'
 
 export default function VideoRow(props) {
 
-  const {lessonType, courseID, lessonID, courseUserAccess} = props
+  const {lessonType, courseID, lessonID, courseUserAccess, noClick} = props
   const {title, duration, videoID} = props.video
   const history = useHistory()
 
@@ -19,8 +19,8 @@ export default function VideoRow(props) {
 
   return (
     <div 
-      className="video-row" 
-      onClick={() => courseUserAccess ? goToLesson() : showLockMessage()}>
+      className="lesson-item-row" 
+      onClick={() => !noClick ? courseUserAccess ? goToLesson() : showLockMessage(): null}>
       <div className="side">
           <i className={lessonType === 'video' ? 'fas fa-play-circle' : 'fas fa-book-open'}></i>
           <h6>{title}</h6>

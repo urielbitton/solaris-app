@@ -9,3 +9,28 @@ export const msToDays = (ms) => {
 export const getDaysAgo = (date) => {
   return Math.round(msToDays(Date.now()) - msToDays(date))
 }
+
+export const getTextInBetweenTwoChars = (string, start, end) => {
+  return string.substring(string.indexOf(start)+1, string.lastIndexOf(end))
+}
+
+export const addLeadingZeros = (number) => {
+  return number < 10 ? "0"+number : number
+}
+
+export const convertYoutubeDuration = (string) => {
+  let hours = ''
+  let minutes = ''
+  let seconds = ''
+  if(string.includes('H')) {
+    hours = getTextInBetweenTwoChars(string, 'T', 'H')
+    minutes = getTextInBetweenTwoChars(string, 'H', 'M')
+    seconds = getTextInBetweenTwoChars(string, 'M', 'S')
+  }
+  else {
+    hours = '0'
+    minutes = getTextInBetweenTwoChars(string, 'T', 'M')
+    seconds = getTextInBetweenTwoChars(string, 'M', 'S')
+  }
+  return `${addLeadingZeros(+hours)}:${addLeadingZeros(+minutes)}:${addLeadingZeros(+seconds)}`
+}

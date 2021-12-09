@@ -74,7 +74,6 @@
 }
 .create-page .create-poster:hover button {
   background: none;
-  border-color: #fff;
   color: #fff;
 }
 .create-page .create-poster button:hover {

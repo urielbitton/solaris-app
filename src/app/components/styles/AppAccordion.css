@@ -40,6 +40,9 @@
   color: #444;
   transition: all 0.3s;
 }
+.app-accordion header .action-btns i:hover {
+  color: var(--color);
+}
 .app-accordion header i.down {
   transform: rotate(180deg);
   color: var(--color);

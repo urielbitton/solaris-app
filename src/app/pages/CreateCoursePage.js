@@ -7,6 +7,8 @@ import { AppInput, AppSelect, AppSwitch, AppTextarea } from '../components/AppIn
 import { db } from '../firebase/fire'
 import LessonCard from '../components/LessonCard'
 import AppModal from '../components/AppModal'
+import { getYoutubeVideoDetails } from '../services/youtubeServices'
+import { convertYoutubeDuration } from '../utils/utilities'
 
 export default function CreateCoursePage() {
 
@@ -14,9 +16,17 @@ export default function CreateCoursePage() {
   const courseType = useRouteMatch('/create/create-course/:courseType').params.courseType
   const [videoType, setVideoType] = useState('')
   const [slidePos, setSlidePos] = useState(0)
+  const [lesson, setLesson] = useState({})
   const [lessons, setLessons] = useState([])
   const [lessonTitle, setLessonTitle] = useState('')
-  const [videos, setVideos] = useState([])
+  const [videoTitle, setVideoTitle] = useState('')
+  const [videoDuration, setVideoDuration] = useState(0)
+  const [videoUrl, setVideoUrl] = useState('')
+  const [notesTitle, setNotesTitle] = useState('')
+  const [notesText, setNotesText] = useState('')
+  const [notesFileText, setNotesFileText] = useState('')
+  const [notesFile, setNotesFile] = useState('')
+  const [youtubeLink, setYoutubeLink] = useState('')
   const [showVideoModal, setShowVideoModal] = useState(false)
   const [showNotesModal, setShowNotesModal] = useState(false)
   const newCourseID = db.collection('courses').doc().id
@@ -46,19 +56,25 @@ export default function CreateCoursePage() {
   const lessonsRender = lessons?.map((lesson,i) => {
     return <LessonCard 
       lesson={lesson} 
-      keyword=""
-      createMode
-      tempVideos={videos}
+      keyword="" 
+      createMode 
+      tempVideos={lesson.videos}
+      notes={lesson.notes}
+      files={notesFile}
+      noClick
+      courseUserAccess
       initComponent={
         <div className="init-component">
-          <h5 onClick={() => setShowVideoModal(true)}><i className="fas fa-video"></i>Click to add videos to this lesson</h5>
-          <h5 onClick={() => setShowNotesModal(true)}><i className="fas fa-sticky-note"></i>Click to add notes to this lesson</h5>
+          <h5 onClick={() => {setShowVideoModal(true);setLesson(lesson)}}><i className="fas fa-video"></i>Click to add videos to this lesson</h5>
+          <h5 onClick={() => {setShowNotesModal(true);setLesson(lesson)}}><i className="fas fa-sticky-note"></i>Click to add notes to this lesson</h5>
         </div>
       }
-      deleteBtn={<i className="fas fa-trash-alt" style={{fontSize:16, color: '#444'}}></i>}
+      deleteBtn={
+        <i className="fas fa-trash-alt" style={{fontSize:16}} onClick={(e) => deleteLesson(e, lesson)}></i>
+      }
       key={i} 
     />
-  })
+  }) 
 
   const newLessonEnterPress = (e) => {
     let keyCode = e.code || e.key;
@@ -66,30 +82,110 @@ export default function CreateCoursePage() {
       addLesson()
     }
   }
+  
   const addLesson = () => {
-    setLessons(prev => 
-      [...prev, {
-        title: lessonTitle,
-        lessonID: db.collection('courses').doc(newCourseID).collection('lessons').doc().id,
-        lessonType: videoType,
-        notes: [],
-        videos: []
-      }]
-    )
-    setLessonTitle('')
+    if(lessonTitle.length) {
+      setLessons(prev => 
+        [...prev, {
+          title: lessonTitle,
+          lessonID: db.collection('courses').doc(newCourseID).collection('lessons').doc().id,
+          lessonType: courseType,
+          notes: [],
+          videos: [],
+          files: []
+        }]
+      )
+      setLessonTitle('')
+    }
+  }
+
+  const deleteLesson = (e, lesson) => {
+    e.stopPropagation()
+    const confirm = window.confirm('You are about to delete this lesson.')
+    if(confirm) {
+      const index = lessons.findIndex(x => x.lessonID === lesson.lessonID)
+      lessons.splice(index, 1)
+      setLessons(prev => [...prev])
+    }
   }
 
   const addVideo = () => {
-
+    if(videoTitle.length && videoUrl.length) {
+      lesson.videos.push({
+        title: videoTitle,
+        duration: videoDuration,
+        url: videoUrl,
+        videoID: db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('videos').doc().id,
+        dateAdded: new Date()
+      })
+      setVideoTitle('')
+      setVideoDuration(0)
+      setVideoUrl('')
+      setShowVideoModal(false)
+    }
   }
+
   const addNotes = () => {
-    
+    if(notesTitle.length || notesFile.length) {
+      lesson.notes.push({
+        title: notesTitle,
+        text: notesText,
+        dateAdded: new Date()
+      })
+      lesson.files.push([...notesFile])
+      setNotesTitle('')
+      setNotesText('')
+      setShowNotesModal(false)
+    }
+  }
+
+  const handleFileUpload = (e) => {
+    setNotesFileText(e.target.value)
+    setNotesFile(e.target.files)
+  }
+
+  const showNotesFileNum = (filesNum) => {
+    if(filesNum) {
+      if(filesNum > 1 && filesNum < 3) {
+        return `${notesFile[0].name}, ${notesFile[1].name}`
+      }
+      else if(filesNum > 2) {
+        return `${notesFile[0].name}, ${notesFile[1].name} and ${filesNum - 2} more files`
+      } 
+      else if(filesNum <= 1) {
+        return notesFile[0].name
+      }
+    }
+    else {
+      return "No Documents Attached"
+    }
+  }
+
+  const handleYoutubeLink = (e) => {
+    let videoUrlID = e.target.value
+    if(videoUrlID.includes('watch?v=')) {
+      videoUrlID = videoUrlID.split('watch?v=')[1].split('&')[0]
+    }
+    else {
+      videoUrlID = videoUrlID.split('be/')[1]
+    }
+    setYoutubeLink(videoUrlID)
   }
 
   useEffect(() => {
     setNavTitle('Create')
     setNavDescript(`Create ${courseType} course`)
   },[courseType])
+
+  useEffect(() => {
+    getYoutubeVideoDetails(youtubeLink)
+    .then(res => {
+      setVideoTitle(res.data.items[0].snippet.title)
+      setVideoDuration(convertYoutubeDuration(res.data.items[0].contentDetails.duration))
+      setVideoUrl(youtubeLink)
+    })
+    .catch(err => console.log(err))
+  },[youtubeLink])
 
   return (
     <div className="create-course-page">
@@ -135,20 +231,54 @@ export default function CreateCoursePage() {
                 <div className="icon-container" onClick={() => addLesson()}>
                   <i className="far fa-plus"></i>
                 </div>
-              </div>
+              </div> 
             </div>
             <AppModal 
               title="Add Videos"
               showModal={showVideoModal}
               setShowModal={setShowVideoModal}
               actions={<button onClick={() => addVideo()}>Add</button>}
-            />
+            >
+              <div className="form">
+                <AppInput title="Video Title" onChange={(e) => setVideoTitle(e.target.value)} value={videoTitle} />
+                <AppInput title="Duration (Format: hh:mm:ss)" onChange={(e) => setVideoDuration(e.target.value)} value={videoDuration} />
+                <AppInput title="Video URL ID" onChange={(e) => {setVideoUrl(e.target.value);setYoutubeLink('')}} value={videoUrl}/>
+                { videoUrl && 
+                  <label className="commoninput">
+                    <h6>Video Preview</h6>
+                    <a href={youtubeLink ? `https://youtube.com/watch?v=${videoUrl}`: videoUrl} target="_blank" rel="noreferrer">
+                      <i className="fas fa-play"></i>
+                      Preview
+                    </a>
+                  </label> 
+                }
+                <span className="seperator"><hr/>Or auto-detect with YouTube video link<hr/></span>
+                <AppInput title="YouTube Video Link" onChange={(e) => handleYoutubeLink(e)} value={youtubeLink}/>
+              </div>
+            </AppModal>
             <AppModal 
               title="Add Notes"
               showModal={showNotesModal}
               setShowModal={setShowNotesModal}
               actions={<button onClick={() => addNotes()}>Add</button>}
-            />
+            >
+              <div className="form single-columns">
+                <AppInput title="Notes Title" onChange={(e) => setNotesTitle(e.target.value)} value={notesTitle} />
+                <AppTextarea title="Notes Text" onChange={(e) => setNotesText(e.target.value)} value={notesText} />
+                <label className="commoninput fileinput">
+                    <h6>Add File</h6>
+                    <input 
+                      type="file" multiple 
+                      onChange={(e) => handleFileUpload(e)} 
+                      accept=".pdf, .docx, .doc, .pptx, .ppt, .xlsx, .xls" 
+                    />
+                    <div className="icon-container">
+                      <i className="fal fa-file-pdf"></i>
+                      <small>{showNotesFileNum(notesFile.length)}</small>
+                    </div>
+                </label>
+              </div>
+            </AppModal>
           </div>
         </div>
         <div className="create-nav">
