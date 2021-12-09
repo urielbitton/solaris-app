@@ -2,12 +2,6 @@
   display: grid;
   grid-template-columns: auto 300px;
 }
-.create-course-page .side-bar {
-  height: 87vh;
-  border-left: 1px solid #eee;
-  overflow-y: scroll;
-  padding: 20px;
-}
 .create-course-page .create-content {
   height: 87vh;
   display: flex;
@@ -120,11 +114,13 @@
   align-items: center;
   margin-bottom: 20px;
   background: #f1f1f1;
+  background-position: center;
+  background-size: cover;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s;
 }
 .create-course-page label.upload-container:hover {
-  background: #eee;
+  background-color: #eee;
 }
 .create-course-page .upload-container i {
   font-size: 23px;
@@ -147,13 +143,13 @@
   align-items: center;
   justify-content: space-between;
 }
-.create-course-page .create-nav button {
+.create-course-page .create-nav button:not(.create-course-btn) {
   padding: 10px 20px;
   background: none;
   color: var(--color);
   font-size: 15px;
 }
-.create-course-page .create-nav button:hover {
+.create-course-page .create-nav button:hover:not(.create-course-btn) {
   background: var(--lightestblue)
 }
 .create-course-page .create-nav button.disable {
@@ -273,6 +269,10 @@
 .create-course-page .slide-container .app-modal .form .fileinput input[type="file"] {
   display: none;
 }
+.create-course-page .slide-container .app-modal .form .fileinput.disabled .icon-container {
+  opacity: 0.4;
+  pointer-events: none;
+}
 .create-course-page .slide-container .app-modal .form .fileinput .icon-container {
   width: 100%;
   padding: 10px;
@@ -330,7 +330,7 @@
 }
 .create-course-page .course-review-container .review-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 20px;
   padding: 10px 0;
@@ -338,12 +338,18 @@
 .create-course-page .course-review-container .review-row h6 {
   font-size: 15px;
   color: #555;
+  flex-basis: 20%;
+  font-weight: 800;
 }
 .create-course-page .course-review-container .review-row span {
   font-size: 15px;
-  font-weight: 600;
-  color: var(--color);
+  font-weight: 500;
+  color: #333;
   text-transform: capitalize;
+  text-align: right;
+  word-break: keep-all;
+  flex-basis: 70%;
+  line-height: 1.5;
 }  
 .create-course-page .course-review-container .app-accordion .init-component {
   display: none;
@@ -351,11 +357,57 @@
 .create-course-page button.create-course-btn {
   padding: 15px 20px;
   font-size: 15px;
-  margin-top: 50px;
 }
 .create-course-page button.create-course-btn.disabled {
   opacity: 0.4;
 }
 .create-course-page button.create-course-btn i {
   margin-left: 10px;
+  left: 0;
+  transition: all 0.3s;
+}
+.create-course-page button.create-course-btn:hover i {
+  left: 7px;
+}
+
+.create-course-page .side-bar {
+  height: 87vh;
+  border-left: 1px solid #eee;
+  overflow-y: scroll;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.create-course-page .side-bar > div {
+  padding-bottom: 30px;
+  border-bottom: 1px solid #eee;
+}
+.create-course-page .side-bar > div:last-of-type {
+  border: none;
+}
+.create-course-page .side-bar > div > h5 {
+  font-size: 14px;
+}
+.create-course-page .side-bar > div > h5 span {
+  color: #aaa;
+  font-weight: 600;
+}
+
+@media (max-width: 1550px) {
+  .create-course-page .course-review-container,
+  .create-course-page .add-lessons-container,
+  .create-course-page .course-info,
+  .create-course-page .video-type-container {
+    width: 98%;
+  }
+}
+@media (max-width: 1200px) { 
+  .create-course-page {
+    grid-template-columns: auto;
+    grid-gap: 30px;
+  }
+  .create-course-page .side-bar {
+    border-left: 0;
+  }
 }

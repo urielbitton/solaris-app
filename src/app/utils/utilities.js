@@ -38,3 +38,19 @@ export const convertYoutubeDuration = (string) => {
 export const truncateText = (text, charsNum) => {
   return text.length > charsNum ? (text.slice(0,charsNum) + "...") : text
 }
+
+export const uploadImgLocal = (inputRef, setImage) => {
+  let file = inputRef.current.files[0]
+  if(file.size <= 3097152) {  
+    let reader = new FileReader()
+    reader.onloadend = function(){
+      setImage(reader.result)
+    } 
+    if(file) {
+      reader.readAsDataURL(file)
+    } 
+  }
+  else {
+    alert('Image is too large (max. 3MB)')
+  }
+} 

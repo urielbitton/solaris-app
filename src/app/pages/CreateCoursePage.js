@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useRouteMatch } from 'react-router'
 import './styles/CreateCoursePage.css'
 import {StoreContext} from '../store/store'
@@ -8,7 +8,7 @@ import { db } from '../firebase/fire'
 import LessonCard from '../components/LessonCard'
 import AppModal from '../components/AppModal'
 import { getYoutubeVideoDetails } from '../services/youtubeServices'
-import { convertYoutubeDuration } from '../utils/utilities'
+import { convertYoutubeDuration, uploadImgLocal } from '../utils/utilities'
 
 export default function CreateCoursePage() {
 
@@ -39,7 +39,10 @@ export default function CreateCoursePage() {
   const [youtubeLink, setYoutubeLink] = useState('')
   const [showVideoModal, setShowVideoModal] = useState(false)
   const [showNotesModal, setShowNotesModal] = useState(false)
+  const [editVideoMode, setEditVideoMode] = useState({mode: false, video: {}})
+  const [editNotesMode, setEditNotesMode] = useState({mode: false, notes: {}})
   const newCourseID = db.collection('courses').doc().id
+  const inputRef = useRef()
 
   const languages = [
     {name: 'English', value: 'english'},
@@ -53,7 +56,9 @@ export default function CreateCoursePage() {
 
   const courseSummaryArr = [
     {title: 'Course Name', value: courseTitle},
-    {title: 'Course Type', value: courseType}
+    {title: 'Course Type', value: courseType},
+    {title: 'Course Price', value: coursePrice},
+    {title: 'Course Description', value: courseShortDescript}
   ]
   
   const courseSummaryRender = courseSummaryArr?.map((sum,i) => {
@@ -77,19 +82,28 @@ export default function CreateCoursePage() {
 
   const clickAddVideo = (lesson) => {
     setShowVideoModal(true)
+    setEditVideoMode({mode: false, video: {}})
     setLesson(lesson)
     clearVideoState()
   }
   const clickAddNotes = (lesson) => {
     setShowNotesModal(true)
+    setEditNotesMode({mode: false, notes: {}})
     setLesson(lesson)
     clearNotestate()
   }
   const onVideoClick = (video) => {
     setShowVideoModal(true)
+    setEditVideoMode({mode: true, video: video})
     setVideoTitle(video.title)
     setVideoDuration(video.duration)
     setVideoUrl(video.url)
+  }
+  const onNotesClick = (notes) => {
+    setShowNotesModal(true)
+    setEditNotesMode({mode: true, notes: notes})
+    setNotesTitle(notes.title)
+    setNotesText(notes.text)
   }
 
   const lessonsRender = lessons?.map((lesson,i) => {
@@ -99,9 +113,10 @@ export default function CreateCoursePage() {
       createMode 
       tempVideos={lesson.videos}
       notes={lesson.notes}
-      files={notesFile}
-      noClick
+      files={lesson.files}
+      notOpenVideoPage
       onVideoClick={(video) => onVideoClick(video)}
+      onNotesClick={(notes) => onNotesClick(notes)}
       courseUserAccess
       initComponent={
         <div className="init-component">
@@ -115,7 +130,7 @@ export default function CreateCoursePage() {
       key={i} 
     />
   }) 
- 
+
   const newLessonEnterPress = (e) => {
     let keyCode = e.code || e.key;
     if (keyCode === 'Enter') {
@@ -149,28 +164,52 @@ export default function CreateCoursePage() {
     }
   }
 
-  const addVideo = () => {
+  const addEditVideo = () => {
     if(videoTitle.length && videoUrl.length) {
-      lesson.videos.push({
-        title: videoTitle,
-        duration: videoDuration,
-        url: videoUrl,
-        videoID: db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('videos').doc().id,
-        dateAdded: new Date()
-      })
+      if(!editVideoMode.mode) {
+        lesson.videos.push({
+          title: videoTitle,
+          duration: videoDuration,
+          url: videoUrl,
+          videoID: db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('videos').doc().id,
+          dateAdded: new Date()
+        })
+      }
+      else {
+        let videoIndex = lesson.videos.findIndex(x => x.videoID === editVideoMode.video.videoID)
+        lesson.videos[videoIndex] = {
+          title: videoTitle,
+          duration: videoDuration,
+          url: videoUrl,
+          videoID: lesson.videos[videoIndex].videoID,
+          dateAdded: new Date()
+        }
+      }
       clearVideoState()
-      setShowVideoModal(false)
+      setShowVideoModal(false) 
     }
   }
 
-  const addNotes = () => {
-    if(notesTitle.length || notesFile.length) {
-      lesson.notes.push({
-        title: notesTitle,
-        text: notesText,
-        dateAdded: new Date()
-      })
-      lesson.files.push([...notesFile])
+  const addEditNotes = () => {
+    if(notesTitle.length || notesFile) { 
+      if(!editNotesMode.mode) {
+        lesson.notes.push({
+          title: notesTitle,
+          text: notesText,
+          dateAdded: new Date(),
+          noteID: db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('notes').doc().id
+        })
+        notesFile && lesson.files.push([...notesFile])
+      }
+      else {
+        let notesIndex = lesson.notes.findIndex(x => x.noteID === editNotesMode.notes.noteID)
+        lesson.notes[notesIndex] = {
+          title: notesTitle,
+          text: notesText,
+          noteID: lesson.notes[notesIndex].noteID,
+          dateAdded: new Date()
+        }
+      }
       clearNotestate()
       setShowNotesModal(false)
     }
@@ -223,11 +262,11 @@ export default function CreateCoursePage() {
   }
 
   const createCourse = () => {
-    if(lessons.length) {
+    if(lessons.length && courseTitle.length) {
       
     }
     else {
-      window.alert('Add at least one lesson to create a course.')
+      window.alert('Fill in all course details in order to create a course.')
     }
   }
 
@@ -247,6 +286,7 @@ export default function CreateCoursePage() {
       .catch(err => console.log(err))
     }
   },[youtubeLink])
+  console.log(lessons)
 
   return (
     <div className="create-course-page">
@@ -261,9 +301,14 @@ export default function CreateCoursePage() {
             <div className="course-info">
             <h5 className="create-title">Course Information</h5>
               <h6>Cover Image</h6>
-              <label className="upload-container">
-                <input style={{display:'none'}} type="file" accept='.jpg,.jpeg,.jfif,.png' onChange={(e) => setCourseCover(e.target.files[0])} />
-                <i className="fal fa-images"></i>
+              <label className="upload-container" style={{backgroundImage: `url(${courseCover})`, height: courseCover.length ? "300px" : "100px"}}>
+                <input 
+                  style={{display:'none'}} 
+                  type="file" accept='.jpg,.jpeg,.jfif,.png' 
+                  onChange={(e) => uploadImgLocal(inputRef, setCourseCover)} 
+                  ref={inputRef}
+                />
+                {!courseCover.length && <i className="fal fa-images"></i>}
               </label>
               <AppInput title="Course Title" onChange={(e) => setCourseTitle(e.target.value)} />
               <AppSelect title="Language" options={languages} onChange={(e) => setCourseLang(e.target.value)}/>
@@ -298,7 +343,7 @@ export default function CreateCoursePage() {
               title="Add Videos"
               showModal={showVideoModal}
               setShowModal={setShowVideoModal}
-              actions={<button onClick={() => addVideo()}>Add</button>}
+              actions={<button onClick={() => addEditVideo()}>{editVideoMode.mode ? "Save" : "Add"}</button>}
             >
               <div className="form">
                 <AppInput title="Video Title" onChange={(e) => setVideoTitle(e.target.value)} value={videoTitle} />
@@ -321,21 +366,23 @@ export default function CreateCoursePage() {
               title="Add Notes"
               showModal={showNotesModal}
               setShowModal={setShowNotesModal}
-              actions={<button onClick={() => addNotes()}>Add</button>}
+              actions={<button onClick={() => addEditNotes()}>{editNotesMode.mode ? "Save" : "Add"}</button>}
             >
               <div className="form single-columns">
                 <AppInput title="Notes Title" onChange={(e) => setNotesTitle(e.target.value)} value={notesTitle} />
                 <AppTextarea title="Notes Text" onChange={(e) => setNotesText(e.target.value)} value={notesText} />
-                <label className="commoninput fileinput">
-                    <h6>Add File</h6>
-                    <input 
-                      type="file" multiple 
-                      onChange={(e) => handleFileUpload(e)} 
-                      accept=".pdf, .docx, .doc, .pptx, .ppt, .xlsx, .xls" 
-                    />
+                <label className={`commoninput fileinput ${lesson?.files?.length ? "disabled" : ""}`}>
+                    <h6>Add Files {lesson?.files?.length ? "(Only one set of files per lesson)" : ""}</h6>
+                    { !lesson?.files?.length &&
+                      <input 
+                        type="file" multiple 
+                        onChange={(e) => handleFileUpload(e)} 
+                        accept=".pdf, .docx, .doc, .pptx, .ppt, .xlsx, .xls" 
+                      />
+                    }
                     <div className="icon-container">
                       <i className="fal fa-file-pdf"></i>
-                      <small>{showNotesFileNum(notesFile.length)}</small>
+                      <small>{showNotesFileNum(notesFile?.length)}</small>
                     </div>
                 </label>
               </div>
@@ -348,13 +395,6 @@ export default function CreateCoursePage() {
               <br/>
               <h5 className="create-title">Course Lessons</h5>
               {lessons.length ? lessonsRender : "No Lessons"} 
-              <button 
-                className={`create-course-btn ${!lessons.length ? "disabled" : ""} shadow-hover`}  
-                onClick={() => createCourse()}
-              >
-                Create Course
-                <i className='fal fa-arrow-right'></i>
-              </button>
             </div>
           </div>
         </div>
@@ -364,6 +404,15 @@ export default function CreateCoursePage() {
             className={!(slidePos > 0) ? "disable" : ""}
           >Back
           </button>
+          { slidePos === 2 &&
+            <button 
+              className={`create-course-btn ${!lessons.length ? "disabled" : ""} shadow-hover`}  
+              onClick={() => createCourse()}
+            >
+              Create Course
+              <i className='fal fa-arrow-right'></i>
+            </button>
+          }
           <button 
             onClick={() => slidePos < 2 && setSlidePos(prev => prev + 1)}
             className={!(slidePos < 3) ? "disable" : ""}
@@ -372,7 +421,12 @@ export default function CreateCoursePage() {
         </div>
       </div>
       <div className="side-bar hidescroll">
-        meta sidebar
+        <div className='files-container'>
+          <h5>Files <span></span></h5>
+        </div>
+        <div className='notes-container'>
+          <h5>Notes <span>({lessons?.reduce((a,b) => a + b.notes.length, 0)})</span></h5>
+        </div>
       </div>
     </div>
   )

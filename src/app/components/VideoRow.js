@@ -5,7 +5,7 @@ import './styles/LessonItems.css'
 
 export default function VideoRow(props) {
 
-  const {lessonType, courseID, lessonID, courseUserAccess, noClick, onVideoClick} = props
+  const {lessonType, courseID, lessonID, courseUserAccess, notOpenVideoPage, onVideoClick} = props
   const {title, duration, videoID} = props.video
   const history = useHistory()
 
@@ -21,7 +21,7 @@ export default function VideoRow(props) {
   return (
     <div 
       className="lesson-item-row" 
-      onClick={() => !noClick ? courseUserAccess ? goToLesson() : showLockMessage(): onVideoClick()}>
+      onClick={() => !notOpenVideoPage ? courseUserAccess ? goToLesson() : showLockMessage(): onVideoClick()}>
       <div className="side">
           <i className={lessonType === 'video' ? 'fas fa-play-circle' : 'fas fa-book-open'}></i>
           <h6>{truncateText(title, 70)}</h6>
