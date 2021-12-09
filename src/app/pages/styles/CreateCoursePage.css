@@ -173,7 +173,7 @@
 }
 .create-course-page .slide-element {
   width: 0;
-  left: 100%;
+  left: 50%;
   opacity: 0;
   transition: left 0.4s, opacity 0.3s;
   transition-delay: 0s;
@@ -322,4 +322,41 @@
   height: 1px;
   background: #eee;
   flex-basis: 30%;
+}
+.create-course-page .course-review-container {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+}
+.create-course-page .course-review-container .review-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 10px 0;
+}
+.create-course-page .course-review-container .review-row h6 {
+  font-size: 15px;
+  color: #555;
+}
+.create-course-page .course-review-container .review-row span {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color);
+  text-transform: capitalize;
+}  
+.create-course-page .course-review-container .app-accordion .init-component {
+  display: none;
+}
+.create-course-page button.create-course-btn {
+  padding: 15px 20px;
+  font-size: 15px;
+  margin-top: 50px;
+}
+.create-course-page button.create-course-btn[disabled] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.create-course-page button.create-course-btn i {
+  margin-left: 10px;
 }

@@ -46,11 +46,11 @@ export default function Navbar() {
             <i className="fal fa-angle-down"></i>
           </div>
           <div className={`profile-slide ${slideProfile ? "open" : ""}`}>
-            <Link to="/my-account"><i class="far fa-user"></i>My Account</Link>
-            <Link to="/settings/preferences"><i class="far fa-sliders-h"></i>Preferences</Link>
-            <Link to="/get-pro"><i class="far fa-user-astronaut"></i>Get Pro</Link>
-            <Link to="/support"><i class="far fa-question-circle"></i>Support</Link>
-            <Link to="/" onClick={(e) => signOut(e)}><i class="far fa-sign-out"></i>Logout</Link>
+            <Link to="/my-account"><i className="far fa-user"></i>My Account</Link>
+            <Link to="/settings/preferences"><i className="far fa-sliders-h"></i>Preferences</Link>
+            <Link to="/get-pro"><i className="far fa-user-astronaut"></i>Get Pro</Link>
+            <Link to="/support"><i className="far fa-question-circle"></i>Support</Link>
+            <Link to="/" onClick={(e) => signOut(e)}><i className="far fa-sign-out"></i>Logout</Link>
           </div>
         </div>
       </div>

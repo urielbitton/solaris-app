@@ -34,3 +34,7 @@ export const convertYoutubeDuration = (string) => {
   }
   return `${addLeadingZeros(+hours)}:${addLeadingZeros(+minutes)}:${addLeadingZeros(+seconds)}`
 }
+
+export const truncateText = (text, charsNum) => {
+  return text.length > charsNum ? (text.slice(0,charsNum) + "...") : text
+}

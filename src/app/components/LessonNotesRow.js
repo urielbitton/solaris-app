@@ -1,4 +1,5 @@
 import React from 'react'
+import { truncateText } from '../utils/utilities'
 import './styles/LessonItems.css'
 
 export default function LessonNotesRow(props) {
@@ -11,7 +12,7 @@ export default function LessonNotesRow(props) {
       <div className="side">
         <i className="fas fa-sticky-note"></i>
         <h6>{title.length ? title : "Files"}</h6>
-        <small>{text.length > 90 ? (text.slice(0,90) + "...") : text}</small>
+        <small>{truncateText(text, 90)}</small>
       </div>
       <div className="side">
         <small>{files.length} files</small>

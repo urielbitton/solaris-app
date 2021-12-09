@@ -14,6 +14,16 @@ export default function CreateCoursePage() {
 
   const {setNavTitle, setNavDescript} = useContext(StoreContext)
   const courseType = useRouteMatch('/create/create-course/:courseType').params.courseType
+  const [courseTitle, setCourseTitle] = useState('')
+  const [courseCover, setCourseCover] = useState('')
+  const [courseLang, setCourseLang] = useState('')
+  const [courseDifficulty, setCourseDifficulty] = useState('')
+  const [coursePrice, setCoursePrice] = useState('')
+  const [courseShortDescript, setCourseShortDescript] = useState('')
+  const [courseFullDescript, setCourseFullDescript] = useState('')
+  const [courseSummary, setCourseSummary] = useState('')
+  const [courseCertificate, setCourseCertificate] = useState(true)
+  const [allowReviews, setAllowReviews] = useState(true)
   const [videoType, setVideoType] = useState('')
   const [slidePos, setSlidePos] = useState(0)
   const [lesson, setLesson] = useState({})
@@ -41,6 +51,18 @@ export default function CreateCoursePage() {
     {name: 'Advanced', value: 'advanced'}
   ]
 
+  const courseSummaryArr = [
+    {title: 'Course Name', value: courseTitle},
+    {title: 'Course Type', value: courseType}
+  ]
+  
+  const courseSummaryRender = courseSummaryArr?.map((sum,i) => {
+    return <div className="review-row" key={i}>
+      <h6>{sum.title}</h6>
+      <span>{sum.value}</span>
+    </div>
+  })
+
   const videoTypesRender = videoTypes?.map((type,i) => {
     return <div 
       className={`type-box ${videoType === type.value ? "active" : ""}`} 
@@ -53,6 +75,23 @@ export default function CreateCoursePage() {
     </div>
   })
 
+  const clickAddVideo = () => {
+    setShowVideoModal(true)
+    setLesson(lesson)
+    clearVideoState()
+  }
+  const clickAddNotes = () => {
+    setShowNotesModal(true)
+    setLesson(lesson)
+    clearNotestate()
+  }
+  const onVideoClick = (video) => {
+    setShowVideoModal(true)
+    setVideoTitle(video.title)
+    setVideoDuration(video.duration)
+    setVideoUrl(video.url)
+  }
+
   const lessonsRender = lessons?.map((lesson,i) => {
     return <LessonCard 
       lesson={lesson} 
@@ -62,11 +101,12 @@ export default function CreateCoursePage() {
       notes={lesson.notes}
       files={notesFile}
       noClick
+      onVideoClick={(video) => onVideoClick(video)}
       courseUserAccess
       initComponent={
         <div className="init-component">
-          <h5 onClick={() => {setShowVideoModal(true);setLesson(lesson)}}><i className="fas fa-video"></i>Click to add videos to this lesson</h5>
-          <h5 onClick={() => {setShowNotesModal(true);setLesson(lesson)}}><i className="fas fa-sticky-note"></i>Click to add notes to this lesson</h5>
+          <h5 onClick={() => clickAddVideo()}><i className="fas fa-video"></i>Click to add videos to this lesson</h5>
+          <h5 onClick={() => clickAddNotes()}><i className="fas fa-sticky-note"></i>Click to add notes to this lesson</h5>
         </div>
       }
       deleteBtn={
@@ -75,7 +115,7 @@ export default function CreateCoursePage() {
       key={i} 
     />
   }) 
-
+ 
   const newLessonEnterPress = (e) => {
     let keyCode = e.code || e.key;
     if (keyCode === 'Enter') {
@@ -118,10 +158,7 @@ export default function CreateCoursePage() {
         videoID: db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('videos').doc().id,
         dateAdded: new Date()
       })
-      setVideoTitle('')
-      setVideoDuration(0)
-      setVideoUrl('')
-      setShowVideoModal(false)
+      clearVideoState()
     }
   }
 
@@ -172,19 +209,43 @@ export default function CreateCoursePage() {
     setYoutubeLink(videoUrlID)
   }
 
+  function clearVideoState() {
+    setVideoTitle('')
+    setVideoDuration('')
+    setVideoUrl('')
+    setYoutubeLink('')
+  }
+  function clearNotestate() {
+    setNotesTitle('')
+    setNotesText('')
+    setNotesFile(null)
+    setNotesFileText('')
+  }
+
+  const createCourse = () => {
+    if(lessons.length) {
+      
+    }
+    else {
+      window.alert('Add at least one lesson to create a course.')
+    }
+  }
+
   useEffect(() => {
     setNavTitle('Create')
     setNavDescript(`Create ${courseType} course`)
   },[courseType])
 
   useEffect(() => {
-    getYoutubeVideoDetails(youtubeLink)
-    .then(res => {
-      setVideoTitle(res.data.items[0].snippet.title)
-      setVideoDuration(convertYoutubeDuration(res.data.items[0].contentDetails.duration))
-      setVideoUrl(youtubeLink)
-    })
-    .catch(err => console.log(err))
+    if(youtubeLink.length) {
+      getYoutubeVideoDetails(youtubeLink)
+      .then(res => {
+        setVideoTitle(res.data.items[0].snippet.title)
+        setVideoDuration(convertYoutubeDuration(res.data.items[0].contentDetails.duration))
+        setVideoUrl(youtubeLink)
+      })
+      .catch(err => console.log(err))
+    }
   },[youtubeLink])
 
   return (
@@ -201,18 +262,18 @@ export default function CreateCoursePage() {
             <h5 className="create-title">Course Information</h5>
               <h6>Cover Image</h6>
               <label className="upload-container">
-                <input style={{display:'none'}} type="file" />
+                <input style={{display:'none'}} type="file" accept='.jpg,.jpeg,.jfif,.png' onChange={(e) => setCourseCover(e.target.files[0])} />
                 <i className="fal fa-images"></i>
               </label>
-              <AppInput title="Course Title"/>
-              <AppSelect title="Language" options={languages} />
-              <AppSelect title="Difficulty" options={difficulties} />
-              <AppInput title="Course Price ($CAD)" type="number" min={0} />
-              <AppTextarea title="Short Description" />
-              <AppTextarea title="Full Description" />
-              <AppTextarea title="Course Summary" />
-              <AppSwitch title="Certificate Offered"/>
-              <AppSwitch title="Allow Reviews & Ratings"/>
+              <AppInput title="Course Title" onChange={(e) => setCourseTitle(e.target.value)} />
+              <AppSelect title="Language" options={languages} onChange={(e) => setCourseLang(e.target.value)}/>
+              <AppSelect title="Difficulty" options={difficulties} onChange={(e) => setCourseDifficulty(e.target.value)} />
+              <AppInput title="Course Price ($CAD)" type="number" min={0} onChange={(e) => setCoursePrice(e.target.value)} />
+              <AppTextarea title="Short Description" onChange={(e) => setCourseShortDescript(e.target.value)} />
+              <AppTextarea title="Full Description" onChange={(e) => setCourseFullDescript(e.target.value)} />
+              <AppTextarea title="Course Summary" onChange={(e) => setCourseSummary(e.target.value)} />
+              <AppSwitch title="Certificate Offered" onChange={(e) => setCourseCertificate(e.target.checked)} checked={courseCertificate} />
+              <AppSwitch title="Allow Reviews & Ratings" onChange={(e) => setAllowReviews(e.target.value)} checked={allowReviews} />
             </div>
           </div>
           <div className={`slide-element ${slidePos === 1 ? "active" : slidePos > 1 ? "prev" : ""}`}>
@@ -280,6 +341,23 @@ export default function CreateCoursePage() {
               </div>
             </AppModal>
           </div>
+          <div className={`slide-element ${slidePos === 2 ? "active" : slidePos > 2 ? "prev" : ""}`}>
+            <div className="course-review-container">
+              <h5 className="create-title">Review Course Details</h5>
+              {courseSummaryRender}
+              <br/>
+              <h5 className="create-title">Course Lessons</h5>
+              {lessons.length ? lessonsRender : "No Lessons"} 
+              <button 
+                className="create-course-btn shadow-hover" 
+                disabled 
+                onClick={() => createCourse()}
+              >
+                Create Course
+                <i className='fal fa-arrow-right'></i>
+              </button>
+            </div>
+          </div>
         </div>
         <div className="create-nav">
           <button 
@@ -288,7 +366,7 @@ export default function CreateCoursePage() {
           >Back
           </button>
           <button 
-            onClick={() => slidePos < 3 && setSlidePos(prev => prev + 1)}
+            onClick={() => slidePos < 2 && setSlidePos(prev => prev + 1)}
             className={!(slidePos < 3) ? "disable" : ""}
           >Next
           </button>
