@@ -9,15 +9,19 @@ import LessonCard from '../components/LessonCard'
 import AppModal from '../components/AppModal'
 import { getYoutubeVideoDetails } from '../services/youtubeServices'
 import { convertYoutubeDuration, fileTypeConverter, truncateText, uploadImgLocal } from '../utils/utilities'
+import { setDB, setSubDB } from '../services/CrudDB'
+import { getCourseCategories } from '../services/adminServices'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 export default function CreateCoursePage() {
 
-  const {setNavTitle, setNavDescript, setWindowPadding} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, setWindowPadding, user} = useContext(StoreContext)
   const courseType = useRouteMatch('/create/create-course/:courseType').params.courseType
   const [courseTitle, setCourseTitle] = useState('')
   const [courseCover, setCourseCover] = useState('')
   const [courseLang, setCourseLang] = useState('')
   const [courseDifficulty, setCourseDifficulty] = useState('')
+  const [courseCategory, setCourseCategory] = useState('')
   const [coursePrice, setCoursePrice] = useState('')
   const [courseShortDescript, setCourseShortDescript] = useState('')
   const [courseFullDescript, setCourseFullDescript] = useState('')
@@ -41,12 +45,15 @@ export default function CreateCoursePage() {
   const [showNotesModal, setShowNotesModal] = useState(false)
   const [editVideoMode, setEditVideoMode] = useState({mode: false, video: {}})
   const [editNotesMode, setEditNotesMode] = useState({mode: false, notes: {}})
+  const [categoriesArr, setCategoriesArr] = useState([])
   const newCourseID = db.collection('courses').doc().id
   const inputRef = useRef()
+  const history = useHistory()
   const totalNotesNum = lessons?.reduce((a,b) => a + b.notes.length, 0)
   const totalFilesNum = lessons?.reduce((a,b) => a + b.files.reduce((x,y) => x + y.length, 0), 0)
   const createCourseAccess = lessons.length && courseTitle.length && courseCover.length && coursePrice.length 
     && courseShortDescript && videoType.length
+  const batch = db.batch()
 
   const languages = [
     {name: 'English', value: 'english'},
@@ -57,7 +64,6 @@ export default function CreateCoursePage() {
     {name: 'Intermediate', value: 'intermediate'},
     {name: 'Advanced', value: 'advanced'}
   ]
-
   const courseSummaryArr = [
     {title: 'Course Name', value: courseTitle},
     {title: 'Course Type', value: courseType},
@@ -65,6 +71,10 @@ export default function CreateCoursePage() {
     {title: 'Course Description', value: courseShortDescript}
   ]
   
+  const courseCategoriesOpts = categoriesArr?.map((cat,i) => {
+    return {name: cat.name}
+  })
+
   const courseSummaryRender = courseSummaryArr?.map((sum,i) => {
     return <div className="review-row" key={i}>
       <h6>{sum.title}</h6>
@@ -129,14 +139,16 @@ export default function CreateCoursePage() {
     setLesson(lesson)
     clearNotestate()
   }
-  const onVideoClick = (video) => {
+  const onVideoClick = (lesson, video) => {
+    setLesson(lesson)
     setShowVideoModal(true)
     setEditVideoMode({mode: true, video: video})
     setVideoTitle(video.title)
     setVideoDuration(video.duration)
     setVideoUrl(video.url)
   }
-  const onNotesClick = (notes) => {
+  const onNotesClick = (lesson, notes) => {
+    setLesson(lesson)
     setShowNotesModal(true)
     setEditNotesMode({mode: true, notes: notes})
     setNotesTitle(notes.title)
@@ -152,8 +164,8 @@ export default function CreateCoursePage() {
       notes={lesson.notes}
       files={lesson.files}
       notOpenVideoPage
-      onVideoClick={(video) => onVideoClick(video)}
-      onNotesClick={(notes) => onNotesClick(notes)}
+      onVideoClick={(video) => onVideoClick(lesson, video)}
+      onNotesClick={(notes) => onNotesClick(lesson, notes)}
       courseUserAccess
       initComponent={
         <div className="init-component">
@@ -297,16 +309,62 @@ export default function CreateCoursePage() {
     setNotesFile(null)
     setNotesFileText('')
   }
-
+  
   const createCourse = () => {
     if(createCourseAccess) {
-      
+      setDB('courses', newCourseID, {
+        category: courseCategory,
+        costType: coursePrice > 0 ? 'pro' : 'free',
+        courseType,
+        cover: courseCover,
+        dateCreated: new Date(),
+        dateUpdated: new Date(),
+        description: courseFullDescript,
+        short: courseShortDescript,
+        summary: courseSummary,
+        difficulty: courseDifficulty,
+        featuredCourse: false,
+        filterable: true,
+        hasCertificate: courseCertificate,
+        id: newCourseID,
+        instructorID: user?.uid ?? 'tnHjCJ22kpM06xQtiVm0dPIKjL62', // fallback admin instructor ID
+        language: courseLang,
+        lessonsCount: lessons.length,
+        notes: '',
+        price: coursePrice,
+        studentsEnrolled: 0,
+        title: courseTitle,
+        totalDuration: 0, 
+        whatYouLearn: []
+      }).then(() => {
+        lessons.forEach(lesson => {
+          const docRef = db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID)
+          batch.set(docRef, {lessonID: lesson.lessonID, lessonType: 'video', title: lesson.title})
+        })
+        lessons.forEach(lesson => {
+          lesson.videos.forEach(video => {
+            const docRef = db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('videos').doc(video.videoID)
+            batch.set(docRef, {videoID: video.videoID, title: video.title, duration: video.duration, url: video.url, dateAdded: new Date()})
+          })
+        })
+        lessons.forEach(lesson => {
+          lesson.notes.forEach(note => {
+            const docRef = db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('notes').doc(note.noteID)
+            batch.set(docRef, {noteID: note.noteID, text: note.text, title: note.title, dateAdded: new Date()})
+          })
+        })
+        batch.commit().then(() => {
+          window.alert('Course successfully created.')
+          history.push(`/courses/course/${newCourseID}`)
+        })
+        .catch(err => console.log(err))
+      })
     }
     else {
       window.alert('Fill in all course details in order to create a course.')
     }
   }
-
+  
   useEffect(() => {
     setNavTitle('Create')
     setNavDescript(`Create ${courseType} course`)
@@ -323,6 +381,10 @@ export default function CreateCoursePage() {
       .catch(err => console.log(err))
     }
   },[youtubeLink])
+
+  useEffect(() => {
+    getCourseCategories(setCategoriesArr)
+  },[])
 
   useEffect(() => {
     setWindowPadding('100px 0px 5px 30px')
@@ -352,8 +414,9 @@ export default function CreateCoursePage() {
                 {!courseCover.length && <i className="fal fa-images"></i>}
               </label>
               <AppInput title="Course Title" onChange={(e) => setCourseTitle(e.target.value)} />
-              <AppSelect title="Language" options={languages} onChange={(e) => setCourseLang(e.target.value)}/>
+              <AppSelect title="Language" options={languages} onChange={(e) => setCourseLang(e.target.value)} />
               <AppSelect title="Difficulty" options={difficulties} onChange={(e) => setCourseDifficulty(e.target.value)} />
+              <AppSelect title="Category" options={courseCategoriesOpts} onChange={(e) => setCourseCategory(e.target.value)} />
               <AppInput title="Course Price ($CAD)" type="number" min={0} onChange={(e) => setCoursePrice(e.target.value)} />
               <AppTextarea title="Short Description" onChange={(e) => setCourseShortDescript(e.target.value)} />
               <AppTextarea title="Full Description" onChange={(e) => setCourseFullDescript(e.target.value)} />
@@ -460,7 +523,7 @@ export default function CreateCoursePage() {
           }
           <button 
             onClick={() => slidePos < 2 && setSlidePos(prev => prev + 1)}
-            className={!(slidePos < 3) ? "disable" : ""}
+            className={!(slidePos < 2) ? "disable" : ""}
           >Next
           </button>
         </div>
@@ -468,11 +531,11 @@ export default function CreateCoursePage() {
       <div className="side-bar hidescroll">
         <div className='files-container'>
           <h5>Files <span>({totalFilesNum})</span></h5>
-          {courseFilesRender}
+          {totalFilesNum> 0 ? courseFilesRender : ""}
         </div>
         <div className='notes-container'>
           <h5>Notes <span>({totalNotesNum})</span></h5>
-          {courseNotesRender}
+          {totalNotesNum > 0 ? courseNotesRender : ""}
         </div>
       </div>
     </div>

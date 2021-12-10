@@ -21,9 +21,9 @@ export default function HomeCont() {
   const {windowPadding} = useContext(StoreContext)
 
   return (
-    <div className="home-container" style={{padding: windowPadding}}>
+    <div className="home-container">
       <Navbar />
-      <div className="app-window">
+      <div className="app-window" style={{padding: windowPadding}}>
         <Switch>
           <Route exact path="/">
             <Home />

@@ -82,6 +82,7 @@ export default function AllCourses() {
     getCourseCategories(setCategoriesArr)
     getCoursesCount(setCoursesCount)
   },[])
+  
   useEffect(() => {
     getAllCoursesFiltered(
       setAllCourses, limit,

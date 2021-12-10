@@ -36,6 +36,7 @@
   flex-direction: column;
   gap: 5px;
   padding: 15px;
+  min-height: 170px;
   background: #fff;
   border-radius: 0 0 10px 10px;
 }

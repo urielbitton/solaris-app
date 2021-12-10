@@ -4,16 +4,21 @@ import { StoreContext } from '../store/store'
 import SearchBar from './SearchBar'
 import './styles/Navbar.css'
 import firebase from 'firebase'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 export default function Navbar() {
 
   const {navTitle, navDescript, user} = useContext(StoreContext)
   const [slideProfile, setSlideProfile] = useState(false)
+  const history = useHistory()
 
   const signOut = (e) => {
     e.preventDefault()
     if(user) {
       firebase.auth().signOut()
+      .then(() => {
+        history.push('/')
+      })
     }
   }
 

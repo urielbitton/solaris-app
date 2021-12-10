@@ -36,7 +36,7 @@ export const convertYoutubeDuration = (string) => {
 }
 
 export const truncateText = (text, charsNum) => {
-  return text.length > charsNum ? (text.slice(0,charsNum) + "...") : text
+  return text?.length > charsNum ? (text?.slice(0,charsNum) + "...") : text
 }
 
 export const fileTypeConverter = (string) => {

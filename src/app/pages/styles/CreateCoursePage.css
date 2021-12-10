@@ -99,6 +99,9 @@
   flex-basis: 60%;
   font-size: 14px;
 }
+.create-course-page .course-info .commoninput select {
+  text-transform: capitalize;
+}
 .create-course-page textarea {
   resize: vertical;
   min-height: 120px;
