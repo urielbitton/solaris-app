@@ -1,13 +1,14 @@
 .home-container {
   background: #fafafa;
-  padding: 100px 20px 5px 20px;
+  /* padding: 100px 30px 5px 30px; */
   overflow: hidden;
   height: 100vh;
+  transition: all 0.1s;
 }
 .app-window {
   width: 100%;
   height: 100%;
   overflow: scroll;
-  padding: 0 20px;
+  /* padding: 0 20px; */
   transition: all 0.3s;
 }

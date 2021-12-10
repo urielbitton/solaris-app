@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './styles/HomeCont.css'
 import Navbar from '../components/Navbar'
 import { Route, Switch } from 'react-router'
@@ -14,10 +14,14 @@ import LessonPage from '../pages/LessonPage'
 import Checkout from '../pages/Checkout'
 import CreatePage from '../pages/CreatePage'
 import CreateCoursePage from '../pages/CreateCoursePage'
+import { StoreContext } from '../store/store'
 
 export default function HomeCont() {
+
+  const {windowPadding} = useContext(StoreContext)
+
   return (
-    <div className="home-container">
+    <div className="home-container" style={{padding: windowPadding}}>
       <Navbar />
       <div className="app-window">
         <Switch>

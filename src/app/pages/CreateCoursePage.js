@@ -8,11 +8,11 @@ import { db } from '../firebase/fire'
 import LessonCard from '../components/LessonCard'
 import AppModal from '../components/AppModal'
 import { getYoutubeVideoDetails } from '../services/youtubeServices'
-import { convertYoutubeDuration, uploadImgLocal } from '../utils/utilities'
+import { convertYoutubeDuration, fileTypeConverter, truncateText, uploadImgLocal } from '../utils/utilities'
 
 export default function CreateCoursePage() {
 
-  const {setNavTitle, setNavDescript} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, setWindowPadding} = useContext(StoreContext)
   const courseType = useRouteMatch('/create/create-course/:courseType').params.courseType
   const [courseTitle, setCourseTitle] = useState('')
   const [courseCover, setCourseCover] = useState('')
@@ -43,6 +43,10 @@ export default function CreateCoursePage() {
   const [editNotesMode, setEditNotesMode] = useState({mode: false, notes: {}})
   const newCourseID = db.collection('courses').doc().id
   const inputRef = useRef()
+  const totalNotesNum = lessons?.reduce((a,b) => a + b.notes.length, 0)
+  const totalFilesNum = lessons?.reduce((a,b) => a + b.files.reduce((x,y) => x + y.length, 0), 0)
+  const createCourseAccess = lessons.length && courseTitle.length && courseCover.length && coursePrice.length 
+    && courseShortDescript && videoType.length
 
   const languages = [
     {name: 'English', value: 'english'},
@@ -57,7 +61,7 @@ export default function CreateCoursePage() {
   const courseSummaryArr = [
     {title: 'Course Name', value: courseTitle},
     {title: 'Course Type', value: courseType},
-    {title: 'Course Price', value: coursePrice},
+    {title: 'Course Price', value: "$"+coursePrice},
     {title: 'Course Description', value: courseShortDescript}
   ]
   
@@ -78,6 +82,39 @@ export default function CreateCoursePage() {
       <h4>{type.name}</h4>
       <i className="fas fa-check-circle check-icon"></i>
     </div>
+  })
+  
+  const courseFilesRender = lessons?.map((lesson,i) => {
+    return <div className='lesson-block'>
+      <h5>{lesson.title}</h5>
+      {
+        lesson?.files?.map((file,j) => { 
+          return file?.map((fl,k) => { 
+          return <div className='file-item' key={k}>
+            <div className='icon-container' style={{background: `${fileTypeConverter(fl.type).color}33`}}>
+              <i className={fileTypeConverter(fl.type).icon} style={{color: fileTypeConverter(fl.type).color}}></i>
+            </div>
+            <div className='file-name'>
+              <h6 title={fl.name}>{truncateText(fl.name, 30)}</h6>
+              <small>{fileTypeConverter(fl.type).name} file</small>
+            </div>
+          </div>
+          })
+        })
+      }
+    </div>
+  })
+
+  const courseNotesRender = lessons?.map((lesson,i) => {
+    return lesson?.notes?.map((note,j) => { 
+      <h5>{lesson.title}</h5>
+      return <div className='lesson-block'>
+        <div className='note-item' key={j}>
+          <h6 title={note.title}>{truncateText(note.title, 40)}</h6>
+          <small>{truncateText(note.text, 300)}</small>
+        </div>
+      </div>
+    })
   })
 
   const clickAddVideo = (lesson) => {
@@ -206,7 +243,7 @@ export default function CreateCoursePage() {
         lesson.notes[notesIndex] = {
           title: notesTitle,
           text: notesText,
-          noteID: lesson.notes[notesIndex].noteID,
+          noteID: lesson.notes[notesIndex]?.noteID,
           dateAdded: new Date()
         }
       }
@@ -262,7 +299,7 @@ export default function CreateCoursePage() {
   }
 
   const createCourse = () => {
-    if(lessons.length && courseTitle.length) {
+    if(createCourseAccess) {
       
     }
     else {
@@ -286,7 +323,11 @@ export default function CreateCoursePage() {
       .catch(err => console.log(err))
     }
   },[youtubeLink])
-  console.log(lessons)
+
+  useEffect(() => {
+    setWindowPadding('100px 0px 5px 30px')
+    return () => setWindowPadding('100px 30px 5px 30px')
+  },[])
 
   return (
     <div className="create-course-page">
@@ -377,7 +418,7 @@ export default function CreateCoursePage() {
                       <input 
                         type="file" multiple 
                         onChange={(e) => handleFileUpload(e)} 
-                        accept=".pdf, .docx, .doc, .pptx, .ppt, .xlsx, .xls" 
+                        accept=".pdf, .docx, .doc, .pptx, .ppt, .xlsx, .xls, .png, .jpg, jpeg, jfif, .mp3, .wav, .zip, .rar" 
                       />
                     }
                     <div className="icon-container">
@@ -391,9 +432,13 @@ export default function CreateCoursePage() {
           <div className={`slide-element ${slidePos === 2 ? "active" : slidePos > 2 ? "prev" : ""}`}>
             <div className="course-review-container">
               <h5 className="create-title">Review Course Details</h5>
+              <div className="review-row">
+                <h6>Cover Image</h6>
+                <span><img src={courseCover} alt="" /></span>
+              </div>
               {courseSummaryRender}
               <br/>
-              <h5 className="create-title">Course Lessons</h5>
+              <h5 className="create-title">Course Lessons ({lessons.length})</h5>
               {lessons.length ? lessonsRender : "No Lessons"} 
             </div>
           </div>
@@ -422,10 +467,12 @@ export default function CreateCoursePage() {
       </div>
       <div className="side-bar hidescroll">
         <div className='files-container'>
-          <h5>Files <span></span></h5>
+          <h5>Files <span>({totalFilesNum})</span></h5>
+          {courseFilesRender}
         </div>
         <div className='notes-container'>
-          <h5>Notes <span>({lessons?.reduce((a,b) => a + b.notes.length, 0)})</span></h5>
+          <h5>Notes <span>({totalNotesNum})</span></h5>
+          {courseNotesRender}
         </div>
       </div>
     </div>
