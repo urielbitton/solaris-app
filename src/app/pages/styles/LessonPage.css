@@ -42,7 +42,24 @@
   font-size: 25px;
   color: #333;
 }
-.lesson-page .leave-reply-section h3 {
+.lesson-page .lesson-video-container .title-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.lesson-page .lesson-video-container .title-row button {
+  padding: 10px;
+  background: none;
+  color: var(--color);
+}
+.lesson-page .lesson-video-container .title-row button:hover {
+  background: var(--lightestblue);
+}
+.lesson-page .lesson-video-container .title-row button i {
+  margin-right: 5px;
+}
+.lesson-page .leave-reply-section .title-row h3 {
   margin-bottom: 20px;
   font-size: 25px;
   color: #333;

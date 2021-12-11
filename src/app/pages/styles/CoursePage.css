@@ -37,6 +37,7 @@
   width: 400px;
   opacity: 0.6;
   filter: grayscale();
+  border-radius: 10px;
 }
 .course-page .info-container .instructor-row {
   display: flex;

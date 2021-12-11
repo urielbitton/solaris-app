@@ -75,7 +75,7 @@ export default function AllCourses() {
 
   useEffect(() => {
     setNavTitle('All Courses')
-    setNavDescript(coursesCount + " total courses available")
+    setNavDescript(coursesCount + " courses in total")
   },[coursesCount]) 
 
   useEffect(() => {

@@ -5,22 +5,23 @@ import {StoreContext} from '../store/store'
 import { videoTypes } from '../api/apis'
 import { AppInput, AppSelect, AppSwitch, AppTextarea } from '../components/AppInputs'
 import { db } from '../firebase/fire'
+import firebase from 'firebase'
 import LessonCard from '../components/LessonCard'
 import AppModal from '../components/AppModal'
 import { getYoutubeVideoDetails } from '../services/youtubeServices'
 import { convertYoutubeDuration, fileTypeConverter, truncateText, uploadImgLocal } from '../utils/utilities'
-import { setDB, setSubDB } from '../services/CrudDB'
+import { setDB, updateDB } from '../services/CrudDB'
 import { getCourseCategories } from '../services/adminServices'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 export default function CreateCoursePage() {
 
-  const {setNavTitle, setNavDescript, setWindowPadding, user} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, setWindowPadding, myUser, user} = useContext(StoreContext)
   const courseType = useRouteMatch('/create/create-course/:courseType').params.courseType
   const [courseTitle, setCourseTitle] = useState('')
   const [courseCover, setCourseCover] = useState('')
-  const [courseLang, setCourseLang] = useState('')
-  const [courseDifficulty, setCourseDifficulty] = useState('')
+  const [courseLang, setCourseLang] = useState('english')
+  const [courseDifficulty, setCourseDifficulty] = useState('easy')
   const [courseCategory, setCourseCategory] = useState('')
   const [coursePrice, setCoursePrice] = useState('')
   const [courseShortDescript, setCourseShortDescript] = useState('')
@@ -194,6 +195,7 @@ export default function CreateCoursePage() {
           title: lessonTitle,
           lessonID: db.collection('courses').doc(newCourseID).collection('lessons').doc().id,
           lessonType: courseType,
+          videoType,
           notes: [],
           videos: [],
           files: []
@@ -286,7 +288,7 @@ export default function CreateCoursePage() {
     }
   }
 
-  const handleYoutubeLink = (e) => {
+  const convertYoutubeLink = (e) => {
     let videoUrlID = e.target.value
     if(videoUrlID.includes('watch?v=')) {
       videoUrlID = videoUrlID.split('watch?v=')[1].split('&')[0]
@@ -327,7 +329,7 @@ export default function CreateCoursePage() {
         filterable: true,
         hasCertificate: courseCertificate,
         id: newCourseID,
-        instructorID: user?.uid ?? 'tnHjCJ22kpM06xQtiVm0dPIKjL62', // fallback admin instructor ID
+        instructorID: myUser?.instructorID ?? user?.uid,
         language: courseLang,
         lessonsCount: lessons.length,
         notes: '',
@@ -337,6 +339,12 @@ export default function CreateCoursePage() {
         totalDuration: 0, 
         whatYouLearn: []
       }).then(() => {
+        updateDB('instructors', myUser?.instructorID, {
+          'coursesTaught': firebase.firestore.FieldValue.arrayUnion(newCourseID)
+        })
+        updateDB('admin', 'courseSettings', {
+          'coursesCount': firebase.firestore.FieldValue.increment(1)
+        })
         lessons.forEach(lesson => {
           const docRef = db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID)
           batch.set(docRef, {lessonID: lesson.lessonID, lessonType: 'video', title: lesson.title})
@@ -371,14 +379,17 @@ export default function CreateCoursePage() {
   },[courseType])
 
   useEffect(() => {
-    if(youtubeLink.length) {
+    if(youtubeLink?.length) {
       getYoutubeVideoDetails(youtubeLink)
       .then(res => {
         setVideoTitle(res.data.items[0].snippet.title)
         setVideoDuration(convertYoutubeDuration(res.data.items[0].contentDetails.duration))
-        setVideoUrl(youtubeLink)
+        setVideoUrl(`https://youtube.com/watch?v=${youtubeLink}`) 
       })
       .catch(err => console.log(err))
+    }
+    else {
+      console.log('No youtube link provided.')
     }
   },[youtubeLink])
 
@@ -387,8 +398,8 @@ export default function CreateCoursePage() {
   },[])
 
   useEffect(() => {
-    setWindowPadding('100px 0px 5px 30px')
-    return () => setWindowPadding('100px 30px 5px 30px')
+    setWindowPadding('100px 0px 30px 30px')
+    return () => setWindowPadding('100px 30px 30px 30px')
   },[])
 
   return (
@@ -414,13 +425,13 @@ export default function CreateCoursePage() {
                 {!courseCover.length && <i className="fal fa-images"></i>}
               </label>
               <AppInput title="Course Title" onChange={(e) => setCourseTitle(e.target.value)} />
-              <AppSelect title="Language" options={languages} onChange={(e) => setCourseLang(e.target.value)} />
-              <AppSelect title="Difficulty" options={difficulties} onChange={(e) => setCourseDifficulty(e.target.value)} />
-              <AppSelect title="Category" options={courseCategoriesOpts} onChange={(e) => setCourseCategory(e.target.value)} />
-              <AppInput title="Course Price ($CAD)" type="number" min={0} onChange={(e) => setCoursePrice(e.target.value)} />
-              <AppTextarea title="Short Description" onChange={(e) => setCourseShortDescript(e.target.value)} />
-              <AppTextarea title="Full Description" onChange={(e) => setCourseFullDescript(e.target.value)} />
-              <AppTextarea title="Course Summary" onChange={(e) => setCourseSummary(e.target.value)} />
+              <AppSelect title="Language" options={languages} onChange={(e) => setCourseLang(e.target.value)} value={courseLang} />
+              <AppSelect title="Difficulty" options={difficulties} onChange={(e) => setCourseDifficulty(e.target.value)} value={courseDifficulty} />
+              <AppSelect title="Category" options={[{name: 'Choose a Category', value: ""}, ...courseCategoriesOpts]} onChange={(e) => setCourseCategory(e.target.value)} value={courseCategory} />
+              <AppInput title="Course Price ($CAD)" type="number" min={0} onChange={(e) => setCoursePrice(e.target.value)} value={coursePrice} />
+              <AppTextarea title="Short Description" onChange={(e) => setCourseShortDescript(e.target.value)} value={courseShortDescript} />
+              <AppTextarea title="Full Description" onChange={(e) => setCourseFullDescript(e.target.value)} value={courseFullDescript} />
+              <AppTextarea title="Course Summary" onChange={(e) => setCourseSummary(e.target.value)} value={courseSummary} />
               <AppSwitch title="Certificate Offered" onChange={(e) => setCourseCertificate(e.target.checked)} checked={courseCertificate} />
               <AppSwitch title="Allow Reviews & Ratings" onChange={(e) => setAllowReviews(e.target.value)} checked={allowReviews} />
             </div>
@@ -452,18 +463,18 @@ export default function CreateCoursePage() {
               <div className="form">
                 <AppInput title="Video Title" onChange={(e) => setVideoTitle(e.target.value)} value={videoTitle} />
                 <AppInput title="Duration (Format: hh:mm:ss)" onChange={(e) => setVideoDuration(e.target.value)} value={videoDuration} />
-                <AppInput title="Video URL ID" onChange={(e) => {setVideoUrl(e.target.value);setYoutubeLink('')}} value={videoUrl}/>
+                <AppInput title="Video URL" onChange={(e) => {setVideoUrl(e.target.value);setYoutubeLink('')}} value={videoUrl}/>
                 { videoUrl && 
                   <label className="commoninput">
                     <h6>Video Preview</h6>
-                    <a href={youtubeLink ? `https://youtube.com/watch?v=${videoUrl}`: videoUrl} target="_blank" rel="noreferrer">
+                    <a href={videoUrl} target="_blank" rel="noreferrer">
                       <i className="fas fa-play"></i>
                       Preview
                     </a>
                   </label> 
                 }
                 <span className="seperator"><hr/>Or auto-detect with YouTube video link<hr/></span>
-                <AppInput title="YouTube Video Link" onChange={(e) => handleYoutubeLink(e)} value={youtubeLink}/>
+                <AppInput title="YouTube Video Link" onChange={(e) => convertYoutubeLink(e)} value={youtubeLink}/>
               </div>
             </AppModal>
             <AppModal 

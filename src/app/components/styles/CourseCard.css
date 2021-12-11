@@ -60,6 +60,7 @@
 .course-card .info-container h4 {
   color: #333;
   font-size: 19px;
+  min-height: 52px;
 }
 .course-card .toolbar small {
   color: #aaa;

@@ -70,12 +70,15 @@ export default function LessonPage(props) {
       <div className="lesson-content">
         { courseUserAccess ? <>
           <div className="lesson-video-container">
-            <h3>{lesson.title}</h3>
+            <div className='title-row'>
+              <h3>{lesson.title}</h3>
+              <button onClick={() => history.push(`/courses/course/${courseID}`)}><i className='fal fa-arrow-left'></i>Back to Course</button>
+            </div>
             <h6><span>{videos.length}</span> video{videos.length !== 1 ? "s" : ""} in this lesson</h6>
             <VideoEmbed 
               videoWidth="90%"
               videoHeight="450"
-              embedUrl={video.url}
+              embedUrl={lesson.videoType === "youtube" ? `https://www.youtube.com/embed/${video.url}` : video.url}
             />
           </div>
           <div className="lesson-text-contents">
