@@ -329,6 +329,8 @@ export default function CreateCoursePage() {
         difficulty: courseDifficulty,
         featuredCourse: false,
         filterable: true,
+        firstVideoID: lessons[0]?.videos[0].videoID ?? '',
+        firstLessonID: lessons[0]?.lessonID ?? "",
         hasCertificate: courseCertificate,
         id: newCourseID,
         instructorID: myUser?.instructorID ?? user?.uid,
@@ -381,7 +383,7 @@ export default function CreateCoursePage() {
 
   useEffect(() => {
     setWindowPadding('100px 0px 0px 30px')
-    return () => setWindowPadding('100px 30px 30px 30px')
+    return () => setWindowPadding('100px 30px 0px 30px')
   },[])
 
   useEffect(() => {

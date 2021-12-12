@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouteMatch } from 'react-router'
-import { getCoursesByInstructor, getInstructorByID, getReviewsByInstructorID } from '../services/InstructorServices'
+import { getCoursesByInstructorID, getInstructorByID, getReviewsByInstructorID } from '../services/InstructorServices'
 import './styles/InstructorPage.css'
 import {StoreContext} from '../store/store'
 import SocialLinks from '../components/SocialLinks'
@@ -24,7 +24,7 @@ export default function InstructorPage() {
   useEffect(() => {
     getInstructorByID(instructorID, setInstructor)
     getReviewsByInstructorID(instructorID, setReviews, Infinity)
-    getCoursesByInstructor(instructorID, setCourses, coursesLimit)
+    getCoursesByInstructorID(instructorID, setCourses, coursesLimit)
     setNavTitle('Instructor')
   },[instructorID])
 

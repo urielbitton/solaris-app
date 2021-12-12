@@ -8,11 +8,16 @@ import { db } from '../firebase/fire'
 
 export default function WriteComment(props) {
 
-  const {user} = useContext(StoreContext)
-  const {courseID, writeType, mainTitle, titleInput, messageInput} = props
+  const {user, myUser} = useContext(StoreContext)
+  const {courseID, lessonID, videoID, writeType, mainTitle, titleInput, messageInput} = props
   const [rating, setRating] = useState(1)
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
+
+  const newCommentID = db.collection('courses').doc(courseID)
+    .collection('lessons').doc(lessonID)
+    .collection('videos').doc(videoID)
+    .collection('comments').doc().id
 
   const stars = [1,2,3,4,5]
 
@@ -53,7 +58,26 @@ export default function WriteComment(props) {
   }
 
   const writeComment = () => {
-    
+    if(text.length) {
+      db.collection('courses').doc(courseID)
+      .collection('lessons').doc(lessonID)
+      .collection('videos').doc(videoID)
+      .collection('comments').doc(newCommentID).set({
+        authorImg: myUser?.photoURL,
+        authorName: user?.displayName,
+        dateAdded: new Date(),
+        likes: [],
+        text,
+        commentID: newCommentID,
+        userID: user?.uid
+      }).then(() => {
+        setText('')
+      })
+      .catch(err => console.log(err))
+    }
+    else {
+      window.alert('Fill in title and text fields to post a comment.')
+    }
   }
 
   return (

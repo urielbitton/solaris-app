@@ -21,7 +21,7 @@ export default function CoursePage() {
   const [userCourses, setUserCourses] = useState([])
   const courseID = useRouteMatch('/courses/course/:courseID')?.params.courseID
   const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
-  const history= useHistory()
+  const history = useHistory()
   const location = useLocation()
   const lessonsScrollRef = useRef()
 
@@ -64,7 +64,7 @@ export default function CoursePage() {
     getInstructorByID(course?.instructorID ?? "na", setInstructor)
     setNavTitle('Course')
     setNavDescript(course?.title) 
-  },[course])
+  },[course, courseID, location])
 
   useEffect(() => {
     getCoursesIDEnrolledByUserID(user?.uid, setUserCourses)
@@ -117,7 +117,15 @@ export default function CoursePage() {
             videoTitleLength={75}
             lessonsScrollRef={lessonsScrollRef}
           />
-          {courseUserAccess && <button className='start-course-btn shadow-hover'>Start</button>}
+          {
+            courseUserAccess && 
+            <button 
+              className='start-course-btn shadow-hover' 
+              onClick={() => history.push(`/courses/course/${courseID}/lesson/${course.firstLessonID}/${course.firstVideoID}`)}
+            >
+              Start
+            </button>
+          }
           <section>
             <h3>Instructor</h3>
             <div className="instructor-container">

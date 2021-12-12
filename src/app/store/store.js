@@ -14,7 +14,7 @@ const StoreContextProvider = (props) => {
   const [navTitle, setNavTitle] = useState('Home')
   const [navDescript, setNavDescript] = useState('')
   const [loggingAuth, setLoggingAuth] = useState(true)
-  const [windowPadding, setWindowPadding] = useState('100px 30px 30px 30px')
+  const [windowPadding, setWindowPadding] = useState('100px 30px 0px 30px')
 
   useEffect(() => {
     if(user) {

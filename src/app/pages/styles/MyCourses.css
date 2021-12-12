@@ -1,0 +1,9 @@
+.my-courses-page > h3 {
+  font-size: 23px;
+  color: #333;
+  font-weight: 600;
+  margin-top: 20px;
+}
+.my-courses-page .courses-grid-container {
+  margin-top: 40px;
+}

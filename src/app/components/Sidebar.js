@@ -6,17 +6,15 @@ import becomeInstr from '../assets/imgs/become-instructor.png'
 import MenuLink from './MenuLink'
 import { useLocation } from 'react-router'
 import { StoreContext } from '../store/store'
-import { isUserInstructor } from '../services/userServices'
 
 export default function Sidebar() {
 
-  const {user} = useContext(StoreContext)
+  const {myUser} = useContext(StoreContext)
   const [tabOpen, setTabOpen] = useState(false)
-  const [isInstructor, setIsInstructor] = useState(false)
   const location = useLocation()
 
   const menuRender = menuLinks
-  ?.filter(x => isInstructor ? x : !x.requireInstructor)
+  ?.filter(x => myUser?.isInstructor ? x : !x.requireInstructor)
   .map((link,i) => {
     return <MenuLink 
       link={link} 
@@ -35,10 +33,6 @@ export default function Sidebar() {
       setTabOpen(false)
     }
   },[location])
-
-  useEffect(() => {
-    isUserInstructor(user?.uid, setIsInstructor)
-  },[user])
 
   return (
     <div className="sidebar">

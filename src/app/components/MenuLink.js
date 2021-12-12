@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
+import { StoreContext } from '../store/store'
 
 export default function MenuLink(props) {
 
   const {link, tabOpen, setTabOpen} = props
+  const {myUser} = useContext(StoreContext)
 
   return (
     <>
@@ -23,7 +25,9 @@ export default function MenuLink(props) {
       </NavLink>
       <div className={`sub-menu-container ${tabOpen && "open"}`}>
         {
-          link.sublinks?.map(sublink => {
+          link.sublinks
+          ?.filter(x => myUser?.isInstructor ? x : !x.requireInstructor)
+          .map(sublink => {
             return <NavLink 
               to={sublink.url} 
               activeClassName="active-sub-menu-link" 

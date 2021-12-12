@@ -9,6 +9,7 @@ export const menuLinks = [
       {name: 'Video Courses', icon: 'fal fa-chalkboard', url: '/courses/video-courses'},
       {name: 'Text Courses', icon: 'fal fa-book-reader', url: '/courses/text-courses'},
       {name: 'Tutorials', icon: 'fab fa-youtube', url: '/courses/tutorials'},
+      {name: 'My Courses', icon: 'fal fa-users-class', url: '/courses/my-courses', requireInstructor: true},
     ]
   },
   {name: 'My Library', icon: 'fal fa-books', url: '/my-library'},

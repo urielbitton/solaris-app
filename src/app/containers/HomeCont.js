@@ -15,10 +15,12 @@ import CourseCheckout from '../pages/CourseCheckout'
 import CreatePage from '../pages/CreatePage'
 import CreateCoursePage from '../pages/CreateCoursePage'
 import { StoreContext } from '../store/store'
+import ErrorPage from "../pages/ErrorPage"
+import MyCourses from "../pages/MyCourses"
 
 export default function HomeCont() {
 
-  const {windowPadding} = useContext(StoreContext)
+  const {windowPadding, myUser} = useContext(StoreContext)
 
   return (
     <div className="home-container">
@@ -55,11 +57,21 @@ export default function HomeCont() {
           <Route path="/checkout/course/:courseID">
             <CourseCheckout />
           </Route>
-          <Route exact path="/create">
-            <CreatePage />
-          </Route>
-          <Route path="/create/create-course/:courseType">
-            <CreateCoursePage />
+          { myUser?.isInstructor &&
+           <>
+            <Route exact path="/create">
+              <CreatePage />
+            </Route>
+            <Route path="/create/create-course/:courseType">
+              <CreateCoursePage />
+            </Route>
+            <Route path="/courses/my-courses">
+              <MyCourses />
+            </Route>
+           </> 
+          }
+          <Route>
+            <ErrorPage />
           </Route>
         </Switch>
       </div>

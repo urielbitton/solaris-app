@@ -32,7 +32,14 @@ export default function LessonPage(props) {
   const history = useHistory()
 
   const commentsRender = comments?.map((comment,i) => {
-    return <CommentCard comment={comment} key={i} type="comment" />
+    return <CommentCard 
+      comment={comment} 
+      key={i} 
+      type="comment"
+      courseID={courseID}
+      lessonID={lessonID}
+      videoID={videoID}
+    />
   })
 
   const lessonNotesRender = notes?.map((note,i) => {
@@ -120,6 +127,8 @@ export default function LessonPage(props) {
           <div className="leave-reply-section">
             <WriteComment 
               courseID={courseID}
+              lessonID={lessonID}
+              videoID={videoID}
               writeType="comment"
               mainTitle="Leave a Reply"
               messageInput="Enter Reply"
