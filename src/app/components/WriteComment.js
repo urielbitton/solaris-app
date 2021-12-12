@@ -9,10 +9,10 @@ import { db } from '../firebase/fire'
 export default function WriteComment(props) {
 
   const {user} = useContext(StoreContext)
-  const {courseID, writeType, title, titleInput, messageInput} = props
+  const {courseID, writeType, mainTitle, titleInput, messageInput} = props
   const [rating, setRating] = useState(1)
-  const [reviewTitle, setReviewTitle] = useState('')
-  const [reviewText, setReviewText] = useState('')
+  const [title, setTitle] = useState('')
+  const [text, setText] = useState('')
 
   const stars = [1,2,3,4,5]
 
@@ -33,15 +33,15 @@ export default function WriteComment(props) {
       authorName: user?.displayName ?? "Guest User",
       dateAdded: new Date(),
       rating,
-      reviewTitle,
-      reviewText,
+      title,
+      text,
       userID: user?.uid ?? "na"
     }
-    if(reviewTitle.length && reviewText.length) {
+    if(title.length && text.length) {
       setSubDB('courses', courseID, 'reviews', newReviewID, reviewObj)
       .then(res => {
-        setReviewTitle('')
-        setReviewText('')
+        setTitle('')
+        setText('')
         setRating(1)
         window.alert('Your review has been submitted.')
       })
@@ -53,12 +53,12 @@ export default function WriteComment(props) {
   }
 
   const writeComment = () => {
-
+    
   }
 
   return (
     <div className="add-comment-container">
-      <h3>{title}</h3>
+      <h3>{mainTitle}</h3>
       { writeType === 'review' &&
         <div className="rating-setter"> 
           {starsRender}
@@ -77,14 +77,14 @@ export default function WriteComment(props) {
         { writeType === 'review' &&
           <AppInput 
             placeholder={titleInput}
-            onChange={(e) => setReviewTitle(e.target.value)}
-            value={reviewTitle}
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
           />
         }
         <AppTextarea 
           placeholder={messageInput}  
-          onChange={(e) => setReviewText(e.target.value)}
-          value={reviewText}
+          onChange={(e) => setText(e.target.value)}
+          value={text}
         /> 
         { writeType === 'review' && 
           <button onClick={writeReview}>Submit Review</button>

@@ -22,15 +22,40 @@ export const convertYoutubeDuration = (string) => {
   let hours = ''
   let minutes = ''
   let seconds = ''
-  if(string.includes('H')) {
+  if(string.includes('H') && string.includes('M') && string.includes('S')) { //all 3
     hours = getTextInBetweenTwoChars(string, 'T', 'H')
     minutes = getTextInBetweenTwoChars(string, 'H', 'M')
     seconds = getTextInBetweenTwoChars(string, 'M', 'S')
   }
-  else {
-    hours = '0'
+  if (string.includes('H') && !string.includes('M') && string.includes('S')) { //hours & seconds
+    hours = getTextInBetweenTwoChars(string, 'T', 'H')
+    minutes = '00'
+    seconds = getTextInBetweenTwoChars(string, 'H', 'S')
+  }
+  if(string.includes('H') && string.includes('M') && !string.includes('S')) { // hours & minutes
+    hours = getTextInBetweenTwoChars(string, 'T', 'H')
+    minutes = getTextInBetweenTwoChars(string, 'H', 'M')
+    seconds = '00'
+  }
+  if(!string.includes('H') && string.includes('M') && string.includes('S')) { // minutes & seconds
+    hours = '00'
     minutes = getTextInBetweenTwoChars(string, 'T', 'M')
     seconds = getTextInBetweenTwoChars(string, 'M', 'S')
+  }
+  if(string.includes('H') && !string.includes('M') && !string.includes('S')) { //hours only
+    hours = getTextInBetweenTwoChars(string, 'T', 'H')
+    minutes = '00'
+    seconds = '00'
+  }
+  if(!string.includes('H') && string.includes('M') && !string.includes('S')) { //minutes only
+    hours = '00'
+    minutes = getTextInBetweenTwoChars(string, 'T', 'M')
+    seconds = '00'
+  }
+  if(!string.includes('H') && !string.includes('M') && string.includes('S')) { //seconds only
+    hours = '00'
+    minutes = '00'
+    seconds = getTextInBetweenTwoChars(string, 'T', 'S')
   }
   return `${addLeadingZeros(+hours)}:${addLeadingZeros(+minutes)}:${addLeadingZeros(+seconds)}`
 }
@@ -60,7 +85,7 @@ export const fileTypeConverter = (string) => {
 
 export const uploadImgLocal = (inputRef, setImage) => {
   let file = inputRef.current.files[0]
-  if(file.size <= 31_457_280) {  
+  if(file?.size <= 31_457_280) {  
     let reader = new FileReader()
     reader.onloadend = function(){
       setImage(reader.result)

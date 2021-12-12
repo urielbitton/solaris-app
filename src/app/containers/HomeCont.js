@@ -11,7 +11,7 @@ import MyLibrary from '../pages/MyLibrary'
 import Reports from '../pages/Reports'
 import Settings from '../pages/Settings'
 import LessonPage from '../pages/LessonPage'
-import Checkout from '../pages/Checkout'
+import CourseCheckout from '../pages/CourseCheckout'
 import CreatePage from '../pages/CreatePage'
 import CreateCoursePage from '../pages/CreateCoursePage'
 import { StoreContext } from '../store/store'
@@ -53,7 +53,7 @@ export default function HomeCont() {
             <Settings />
           </Route>
           <Route path="/checkout/course/:courseID">
-            <Checkout />
+            <CourseCheckout />
           </Route>
           <Route exact path="/create">
             <CreatePage />

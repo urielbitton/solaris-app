@@ -5,17 +5,17 @@ import {StoreContext} from '../store/store'
 import { videoTypes } from '../api/apis'
 import { AppInput, AppSelect, AppSwitch, AppTextarea } from '../components/AppInputs'
 import { db } from '../firebase/fire'
-import firebase from 'firebase'
 import LessonCard from '../components/LessonCard'
 import AppModal from '../components/AppModal'
 import { getYoutubeVideoDetails } from '../services/youtubeServices'
 import { convertYoutubeDuration, fileTypeConverter, truncateText, uploadImgLocal } from '../utils/utilities'
-import { setDB, updateDB } from '../services/CrudDB'
 import { getCourseCategories } from '../services/adminServices'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { CreateCourse } from '../services/CreateCourse'
+import PageLoader from '../components/PageLoader'
 
 export default function CreateCoursePage() {
-
+ 
   const {setNavTitle, setNavDescript, setWindowPadding, myUser, user} = useContext(StoreContext)
   const courseType = useRouteMatch('/create/create-course/:courseType').params.courseType
   const [courseTitle, setCourseTitle] = useState('')
@@ -47,14 +47,15 @@ export default function CreateCoursePage() {
   const [editVideoMode, setEditVideoMode] = useState({mode: false, video: {}})
   const [editNotesMode, setEditNotesMode] = useState({mode: false, notes: {}})
   const [categoriesArr, setCategoriesArr] = useState([])
+  const [loading, setLoading] = useState(false)
   const newCourseID = db.collection('courses').doc().id
   const inputRef = useRef()
+  const scrollTopRef = useRef()
   const history = useHistory()
   const totalNotesNum = lessons?.reduce((a,b) => a + b.notes.length, 0)
   const totalFilesNum = lessons?.reduce((a,b) => a + b.files.reduce((x,y) => x + y.length, 0), 0)
   const createCourseAccess = lessons.length && courseTitle.length && courseCover.length && coursePrice.length 
     && courseShortDescript && videoType.length
-  const batch = db.batch()
 
   const languages = [
     {name: 'English', value: 'english'},
@@ -314,7 +315,8 @@ export default function CreateCoursePage() {
   
   const createCourse = () => {
     if(createCourseAccess) {
-      setDB('courses', newCourseID, {
+      setLoading(true)
+      CreateCourse(newCourseID, lessons, myUser, {
         category: courseCategory,
         costType: coursePrice > 0 ? 'pro' : 'free',
         courseType,
@@ -339,33 +341,13 @@ export default function CreateCoursePage() {
         totalDuration: 0, 
         whatYouLearn: []
       }).then(() => {
-        updateDB('instructors', myUser?.instructorID, {
-          'coursesTaught': firebase.firestore.FieldValue.arrayUnion(newCourseID)
-        })
-        updateDB('admin', 'courseSettings', {
-          'coursesCount': firebase.firestore.FieldValue.increment(1)
-        })
-        lessons.forEach(lesson => {
-          const docRef = db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID)
-          batch.set(docRef, {lessonID: lesson.lessonID, lessonType: 'video', title: lesson.title})
-        })
-        lessons.forEach(lesson => {
-          lesson.videos.forEach(video => {
-            const docRef = db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('videos').doc(video.videoID)
-            batch.set(docRef, {videoID: video.videoID, title: video.title, duration: video.duration, url: video.url, dateAdded: new Date()})
-          })
-        })
-        lessons.forEach(lesson => {
-          lesson.notes.forEach(note => {
-            const docRef = db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('notes').doc(note.noteID)
-            batch.set(docRef, {noteID: note.noteID, text: note.text, title: note.title, dateAdded: new Date()})
-          })
-        })
-        batch.commit().then(() => {
-          window.alert('Course successfully created.')
-          history.push(`/courses/course/${newCourseID}`)
-        })
-        .catch(err => console.log(err))
+        setLoading(false)
+        window.alert('Course successfully created.')
+        history.push(`/courses/course/${newCourseID}`)
+      })
+      .catch(err => {
+        console.log(err)
+        setLoading(false)
       })
     }
     else {
@@ -398,15 +380,19 @@ export default function CreateCoursePage() {
   },[])
 
   useEffect(() => {
-    setWindowPadding('100px 0px 30px 30px')
+    setWindowPadding('100px 0px 0px 30px')
     return () => setWindowPadding('100px 30px 30px 30px')
   },[])
+
+  useEffect(() => {
+    scrollTopRef.current.scroll({top:0, behavior:'smooth'})
+  },[slidePos])
 
   return (
     <div className="create-course-page">
       <div className="create-content">
         <h3>Create {courseType} Course</h3>
-        <div className="slide-container">
+        <div className="slide-container" ref={scrollTopRef}>
           <div className={`slide-element ${slidePos === 0 ? "active" : slidePos > 0 ? "prev" : ""}`}>
             <div className="video-type-container">
               <h5 className="create-title">Choose a video type</h5>
@@ -428,7 +414,7 @@ export default function CreateCoursePage() {
               <AppSelect title="Language" options={languages} onChange={(e) => setCourseLang(e.target.value)} value={courseLang} />
               <AppSelect title="Difficulty" options={difficulties} onChange={(e) => setCourseDifficulty(e.target.value)} value={courseDifficulty} />
               <AppSelect title="Category" options={[{name: 'Choose a Category', value: ""}, ...courseCategoriesOpts]} onChange={(e) => setCourseCategory(e.target.value)} value={courseCategory} />
-              <AppInput title="Course Price ($CAD)" type="number" min={0} onChange={(e) => setCoursePrice(e.target.value)} value={coursePrice} />
+              <AppInput title="Course Price (CAD)" type="number" min={0} onChange={(e) => setCoursePrice(e.target.value)} value={coursePrice} />
               <AppTextarea title="Short Description" onChange={(e) => setCourseShortDescript(e.target.value)} value={courseShortDescript} />
               <AppTextarea title="Full Description" onChange={(e) => setCourseFullDescript(e.target.value)} value={courseFullDescript} />
               <AppTextarea title="Course Summary" onChange={(e) => setCourseSummary(e.target.value)} value={courseSummary} />
@@ -549,6 +535,7 @@ export default function CreateCoursePage() {
           {totalNotesNum > 0 ? courseNotesRender : ""}
         </div>
       </div>
+      <PageLoader loading={loading} />
     </div>
   )
 }

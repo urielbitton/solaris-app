@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router'
 import { Link } from 'react-router-dom'
 import { getCourseByID, getLessonsByCourseID } from '../services/courseServices'
@@ -10,6 +10,7 @@ import CourseReviews from '../components/CourseReviews'
 import WriteComment from '../components/WriteComment'
 import { StoreContext } from '../store/store'
 import { getCoursesIDEnrolledByUserID } from '../services/userServices'
+import { useLocation } from 'react-router'
 
 export default function CoursePage() {
 
@@ -21,6 +22,8 @@ export default function CoursePage() {
   const courseID = useRouteMatch('/courses/course/:courseID')?.params.courseID
   const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
   const history= useHistory()
+  const location = useLocation()
+  const lessonsScrollRef = useRef()
 
   const courseInfos = [
     {name: 'Course Level', icon: 'fas fa-layer-group', value: course?.difficulty},
@@ -67,6 +70,11 @@ export default function CoursePage() {
     getCoursesIDEnrolledByUserID(user?.uid, setUserCourses)
   },[user])
 
+  useEffect(() => {
+    if(location.search.includes('scrollToLessons')) {
+      lessonsScrollRef.current.scrollIntoView()
+    }
+  },[])
 
   return (
     <div className="course-page">
@@ -81,7 +89,7 @@ export default function CoursePage() {
               <img src={instructor?.profilePic ?? placeholderImg} alt="" />
               <h6><Link to={`/instructors/instructor/${course?.instructorID}`} className="linkable">{instructor?.name}</Link></h6>
               <hr/>
-              <span>{course?.studentsEnrolled} students enrolled</span>
+              <span>{course?.studentsEnrolled} student{course?.studentsEnrolled !== 1 ? "s" : ""} enrolled</span>
             </div>
           </div>
         </div>
@@ -106,14 +114,17 @@ export default function CoursePage() {
             courseID={courseID}
             title="Course Content"
             courseUserAccess={courseUserAccess}
+            videoTitleLength={75}
+            lessonsScrollRef={lessonsScrollRef}
           />
+          {courseUserAccess && <button className='start-course-btn shadow-hover'>Start</button>}
           <section>
             <h3>Instructor</h3>
             <div className="instructor-container">
               <div>
                 <img src={instructor?.profilePic} alt="" />
                 <div className="instructor-info">
-                  <h2>{instructor?.name}</h2>
+                  <h2><Link to={`/instructors/instructor/${instructor?.instructorID}`}>{instructor?.name}</Link></h2>
                   <h5>{instructor?.title}</h5>
                   <div className="instructor-data">
                     <div>
@@ -145,7 +156,7 @@ export default function CoursePage() {
             <WriteComment 
               courseID={courseID}
               writeType="review"
-              title="Write A Review"
+              mainTitle="Write A Review"
               titleInput="Review Title"
               messageInput="Review Summary"
             />

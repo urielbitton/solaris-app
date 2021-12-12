@@ -2,13 +2,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   flex-wrap: wrap;
   padding: 20px;
   transition: all 0.2s;
   cursor: pointer;
 }
-.lesson-item-row:hover {
+.lesson-item-row:hover,
+.lesson-item-row.active {
   background: var(--lightestblue)
 }
 .lesson-item-row .side {

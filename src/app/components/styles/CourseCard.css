@@ -54,6 +54,14 @@
   background: var(--color);
   padding: 2px 4px;
 }
+.course-card .info-container small.purchased-badge {
+  font-size: 11px;
+  color: var(--color);
+  font-weight: 600;
+}
+.course-card .info-container small.purchased-badge i {
+  margin-right: 5px;
+}
 .course-card .info-container h6 {
   color: #aaa;
 }
@@ -65,6 +73,9 @@
 .course-card .toolbar small {
   color: #aaa;
   font-size: 11px;
+}
+.course-card .meta-info-container {
+  margin-top: 5px;
 }
 .course-card .meta-info-container > div {
   display: flex;

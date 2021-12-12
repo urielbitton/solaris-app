@@ -180,6 +180,7 @@
 .create-course-page .slide-element.prev {
   left: -100%;
   width: 0;
+  height: 0;
   transition-delay: 0s;
 }
 .create-course-page .slide-element.active {

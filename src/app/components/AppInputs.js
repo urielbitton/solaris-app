@@ -24,7 +24,7 @@ export function AppInput(props) {
 export function AppSelect(props) {
   const { options, namebased, title, onChange, onClick, value, className} = props
   let optionsdata = options?.map((data,i) =>
-    <option key={i} selected={data.selected} disabled={data.disabled} value={namebased?data.value:data.name?data.name.toLowerCase().replaceAll(' ',''):data.name} name={namebased?data.name:null}>  
+    <option key={i} selected={data.selected} disabled={data.disabled} value={namebased?data.value:data.name?data.name.toLowerCase():data.name} name={namebased?data.name:null}>  
         {data.name}
     </option>
   )  

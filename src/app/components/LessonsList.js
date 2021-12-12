@@ -4,7 +4,8 @@ import {AppInput} from '../components/AppInputs'
 
 export default function LessonsList(props) {
 
-  const {lessons, courseID, title, showSearch, activeLesson, courseUserAccess} = props
+  const {lessons, courseID, title, showSearch, activeLesson, courseUserAccess, videoTitleLength,
+    lessonsScrollRef} = props
   const [keyword, setKeyword] = useState('')
 
   const lessonsRender = lessons?.map((lesson,i) => {
@@ -14,12 +15,14 @@ export default function LessonsList(props) {
       keyword={keyword}
       activeLesson={lesson.lessonID === activeLesson}
       courseUserAccess={courseUserAccess}
+      videoTitleLength={videoTitleLength}
       key={i} 
     />
   })
 
   return (
     <section className="lessons-list">
+      <div ref={lessonsScrollRef} className='lessons-anchor'/>
       <h3>{title}</h3>
       {
         showSearch &&

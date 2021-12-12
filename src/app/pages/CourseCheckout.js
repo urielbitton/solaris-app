@@ -7,9 +7,10 @@ import { PayPalButton } from 'react-paypal-button-v2'
 import { AppInput } from '../components/AppInputs'
 import { db } from '../firebase/fire'
 import CreateOrder from '../services/CreateOrder'
-import { setDB, setSubDB, updateDB } from '../services/CrudDB'
+import { setSubDB, updateDB } from '../services/CrudDB'
+import PageLoader from '../components/PageLoader'
 
-export default function Checkout() {
+export default function CourseCheckout() {
 
   const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
   const [course, setCourse] = useState({})
@@ -23,6 +24,7 @@ export default function Checkout() {
   const [country,setCountry] = useState('')
   const [postCode, setPostCode] = useState('')
   const [phone, setPhone] = useState('')
+  const [loading, setLoading] = useState(false)
   const coursePrice = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(course.price)
   const totalPrice = (course.price * 0.15) + course.price
   const allowPurchase = validateEmail(email) && address.length && city.length && region.length && country.length && postCode.length
@@ -30,6 +32,7 @@ export default function Checkout() {
   const history = useHistory()
 
   const processOrder = () => {
+    setLoading(true)
     const orderId = db.collection("orders").doc().id;
     const orderNumber = `${db.collection('orders').doc().id.slice(0,3)}-${db.collection('orders').doc().id.slice(0,7)}`
     const customer = {
@@ -52,11 +55,15 @@ export default function Checkout() {
         courseID,
         name: course.title
       }).then(() => {
-        window.alert('Payment successfull. You have been enrolled in the course.')
+        setLoading(false)
+        window.alert('Payment successful. You have been enrolled in the course.')
         history.push(`/courses/course/${courseID}`)
       })
       
-    }).catch(err => console.log(err))
+    }).catch(err => {
+      setLoading(false)
+      console.log(err)
+    })
   }
 
   function validateEmail(email) {
@@ -140,7 +147,7 @@ export default function Checkout() {
           </div>
         </div>
       </div>
-     
+          <PageLoader loading={loading} />
     </div>
   )
 }

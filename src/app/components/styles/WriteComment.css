@@ -48,6 +48,8 @@
   max-height: 200px;
   min-width: 100%;
   max-width: 100%;
+  border: none;
+  box-shadow: 0 0px 6px 1px rgba(0,0,0,0.05);
 }
 .add-comment-container form button {
   color: #fff;

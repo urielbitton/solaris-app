@@ -262,8 +262,11 @@
   display: flex;
   flex-direction: column;
 }
-.course-page .instructor-container .instructor-data > div.border {
-  
+.course-page .start-course-btn {
+  padding: 15px;
+  font-size: 15px;
+  width: 120px;
+  margin-top: -30px;
 }
 .course-page .instructor-container .instructor-data big {
   font-size: 26px;

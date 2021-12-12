@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router'
 import LessonsList from '../components/LessonsList'
 import WriteComment from '../components/WriteComment'
-import { getCourseByID, getLessonByID, getLessonsByCourseID, getVideosByLessonID, getVideoByID, getCommentsByVideoID } from '../services/courseServices'
+import { getCourseByID, getLessonByID, getLessonsByCourseID, getVideosByLessonID, getVideoByID, getCommentsByVideoID, getNotesByLessonID } from '../services/courseServices'
 import { StoreContext } from '../store/store'
 import './styles/LessonPage.css'
 import VideoEmbed from '../components/VideoEmbed'
@@ -10,6 +10,7 @@ import Showdown from 'showdown'
 import CommentCard from '../components/CommentCard'
 import { getCoursesIDEnrolledByUserID } from '../services/userServices'
 import lockedImg from '../assets/imgs/locked-content.png'
+import { convertFireDateToString } from '../utils/utilities'
 
 export default function LessonPage(props) {
 
@@ -20,8 +21,10 @@ export default function LessonPage(props) {
   const [videos, setVideos] = useState([])
   const [lesson, setLesson] = useState({})
   const [video, setVideo] = useState({})
+  const [notes, setNotes] = useState([])
   const [comments, setComments] = useState([])
   const [userCourses, setUserCourses] = useState([])
+  const [foldSidebar, setFoldSidebar] = useState(false)
   const courseID = useRouteMatch('/courses/course/:courseID')?.params.courseID
   const lessonID = useRouteMatch('/courses/course/:courseID/lesson/:lessonID')?.params.lessonID
   const videoID = useRouteMatch('/courses/course/:courseID/lesson/:lessonID/:videoID')?.params.videoID
@@ -32,14 +35,25 @@ export default function LessonPage(props) {
     return <CommentCard comment={comment} key={i} type="comment" />
   })
 
+  const lessonNotesRender = notes?.map((note,i) => {
+    return <div className='lesson-note-section' key={'note'+i}>
+      <div>
+        <h4>{note.title}</h4>
+        <small>{convertFireDateToString(note.dateAdded)}</small>
+      </div>
+      <p>{note.text}</p>
+    </div>
+  })
+
   useEffect(() => {
     getLessonsByCourseID(courseID, setLessons)
     getCourseByID(courseID, setCourse)
-    getVideosByLessonID(courseID, lessonID, setVideos)
   },[courseID])
 
   useEffect(() => {
     getLessonByID(courseID, lessonID, setLesson)
+    getVideosByLessonID(courseID, lessonID, setVideos)
+    getNotesByLessonID(courseID, lessonID, setNotes)
   },[lessonID])
 
   useEffect(() => {
@@ -53,36 +67,49 @@ export default function LessonPage(props) {
 
   useEffect(() => {
     setNavTitle('Lesson')
-    setNavDescript(course.title)
-  },[course])
+    setNavDescript(course?.title)
+  },[course])  
 
   return (
     <div className="lesson-page">
-      <div className="lesson-sidebar hidescroll">
-        <LessonsList 
-          lessons={lessons} 
-          courseID={courseID} 
-          showSearch
-          activeLesson={lessonID}
-          courseUserAccess={courseUserAccess}
-        />
+      <div className={`lesson-sidebar ${foldSidebar ? "folded" : ""}`}>
+        <div className='lesson-sidebar-container hidescroll'>
+          <LessonsList 
+            lessons={lessons} 
+            courseID={courseID} 
+            showSearch
+            activeLesson={lessonID}
+            courseUserAccess={courseUserAccess}
+            videoTitleLength={32}
+          />
+        </div>
+        <div className='side-bar-latch' onClick={() => setFoldSidebar(prev => !prev)}>
+          <i className={`fal fa-angle-${foldSidebar ? "right" : "left"}`}></i>
+        </div>
       </div>
-      <div className="lesson-content">
-        { courseUserAccess ? <>
-          <div className="lesson-video-container">
-            <div className='title-row'>
-              <h3>{lesson.title}</h3>
-              <button onClick={() => history.push(`/courses/course/${courseID}`)}><i className='fal fa-arrow-left'></i>Back to Course</button>
-            </div>
-            <h6><span>{videos.length}</span> video{videos.length !== 1 ? "s" : ""} in this lesson</h6>
+      <div className={`lesson-content ${foldSidebar ? "full" : ""}`}>
+        <div className="lesson-video-container">
+          <div className='title-row'>
+            <h3>Lesson: {lesson?.title}</h3>
+            <button onClick={() => history.push(`/courses/course/${courseID}`)}><i className='fal fa-arrow-left'></i>Back to Course</button>
+          </div>
+          <h6>{videos.length} video{videos.length !== 1 ? "s" : ""} in this lesson</h6>
+          <h6 className='video-title'>{video?.title}</h6>
+          {
+            courseUserAccess ? 
             <VideoEmbed 
               videoWidth="90%"
               videoHeight="450"
-              embedUrl={lesson.videoType === "youtube" ? `https://www.youtube.com/embed/${video.url}` : video.url}
-            />
-          </div>
+              embedUrl={lesson.videoType === "youtube" ? `https://www.youtube.com/embed/${video?.url}` : video?.url}
+            /> : ""
+          }
+        </div>
+        { courseUserAccess ? <>
           <div className="lesson-text-contents">
             <h3 className="page-title">Lesson Material</h3>
+            <div className='lesson-material'>
+              {lessonNotesRender}
+            </div>
           </div>
           <div className="lesson-comments-section">
             <h3 className="page-title">Comments ({comments.length})</h3>
@@ -94,18 +121,18 @@ export default function LessonPage(props) {
             <WriteComment 
               courseID={courseID}
               writeType="comment"
-              title="Leave a Reply"
+              mainTitle="Leave a Reply"
               messageInput="Enter Reply"
             />
-          </div></> :
-          <div className="locked-content">
-            <h3>This lesson is locked.</h3>
-            <h5>Please purchase the course in order to view this lesson.</h5>
-            <img src={lockedImg} alt="" />
-            <button className="shadow-hover" onClick={() => history.push(`/checkout/course/${courseID}`)}>Purchase Course</button>
           </div>
+        </> :
+        <div className="locked-content">
+          <h3>This lesson is locked.</h3>
+          <h5>Please purchase the course in order to view this lesson.</h5>
+          <img src={lockedImg} alt="" />
+          <button className="shadow-hover" onClick={() => history.push(`/checkout/course/${courseID}`)}>Purchase Course</button>
+        </div>
         }
-        
       </div>
     </div>
   )
