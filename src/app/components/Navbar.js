@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 export default function Navbar() {
 
-  const {navTitle, navDescript, user} = useContext(StoreContext)
+  const {navTitle, navDescript, user, openSidebar, setOpenSidebar} = useContext(StoreContext)
   const [slideProfile, setSlideProfile] = useState(false)
   const history = useHistory()
 
@@ -29,6 +29,9 @@ export default function Navbar() {
   return (
     <div className="navbar">
       <div className="side">
+        <div className={`mobile-menu-btn ${openSidebar ? "open" : ""}`} onClick={() => setOpenSidebar(prev => !prev)}>
+          <i className="fal fa-bars"></i>
+        </div>
         <h1 className="nav-title">{navTitle}</h1>
         <hr/>
         <h6 className="nav-descript">{navDescript}</h6>

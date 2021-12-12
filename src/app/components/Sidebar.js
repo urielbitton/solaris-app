@@ -9,7 +9,7 @@ import { StoreContext } from '../store/store'
 
 export default function Sidebar() {
 
-  const {myUser} = useContext(StoreContext)
+  const {myUser, openSidebar, setOpenSidebar} = useContext(StoreContext)
   const [tabOpen, setTabOpen] = useState(false)
   const location = useLocation()
 
@@ -32,10 +32,11 @@ export default function Sidebar() {
     else {
       setTabOpen(false)
     }
+    setOpenSidebar(false)
   },[location])
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${openSidebar ? "open" : ""}`}>
       <div className="sidebar-scroll hidescroll">
         <div className="top">
           <div className="logo-container flexcenter">
@@ -51,6 +52,9 @@ export default function Sidebar() {
           <button>Become an Instructor</button>
           <div className="square" />
         </div>
+      </div>
+      <div className="close-container" onClick={() => setOpenSidebar(false)}>
+        <i className="fal fa-times"></i>
       </div>
     </div>
   )

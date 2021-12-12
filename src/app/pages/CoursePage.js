@@ -64,7 +64,7 @@ export default function CoursePage() {
     getInstructorByID(course?.instructorID ?? "na", setInstructor)
     setNavTitle('Course')
     setNavDescript(course?.title) 
-  },[course, courseID, location])
+  },[course])
 
   useEffect(() => {
     getCoursesIDEnrolledByUserID(user?.uid, setUserCourses)

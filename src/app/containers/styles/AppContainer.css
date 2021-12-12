@@ -6,3 +6,9 @@
   overflow: hidden;
   align-items: flex-start;
 }
+
+@media (max-width: 1080px) {
+  .app-container {
+    grid-template-columns: auto;
+  }
+}

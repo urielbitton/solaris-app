@@ -1,7 +1,7 @@
 .navbar {
   position: fixed;
   top: 0;
-  right: 0;
+  right: 9px;
   width: calc(100% - 250px);
   height: 80px;
   background: #fff;
@@ -141,4 +141,45 @@
 }
 .nav-profile-container .profile-slide a i {
   margin-right: 10px;
+}
+.navbar .mobile-menu-btn {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .navbar {
+    width: 100vw;
+    right: 0;
+    left: 0;
+  }
+  .navbar .mobile-menu-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    transition: all 0.2s;
+    cursor: pointer;
+    background: #fafafa;
+  }
+  .navbar .mobile-menu-btn:hover,
+  .navbar .mobile-menu-btn.open {
+    background: var(--lightestblue);
+  }
+  .navbar .mobile-menu-btn:hover i,
+  .navbar .mobile-menu-btn.open i {
+    color: var(--color);
+  }
+  .navbar .mobile-menu-btn i {
+    font-size: 24px;
+    color: #aaa;
+  }
+  .navbar .nav-profile-container .text-info-container {
+    display: none;
+  }
+  .navbar .nav-descript {
+    display: none;
+  }
+
 }

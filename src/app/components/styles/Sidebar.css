@@ -140,3 +140,59 @@
   left: -50px;
   transform: rotate(35deg);
 }
+.sidebar .close-container {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -75vw;
+    width: 70vw;
+    transition: all 0.3s;
+    z-index: 999;
+  }
+  .sidebar.open {
+    display: flex;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    box-shadow: 0 10px 15px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+  }
+  .sidebar .instructor-container img {
+    width: 200px;
+  }
+  .sidebar .sidebar-scroll {
+    align-items: flex-start;
+  }
+  .sidebar .logo-container {
+    justify-content: flex-start;
+  }
+  .sidebar .close-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #f1f1f1;
+  }
+  .sidebar .close-container i {
+    font-size: 25px;
+    color: #aaa;
+  }
+  .sidebar .close-container:hover {
+    background: var(--lightestblue);
+  }
+  .sidebar .close-container:hover i {
+    color: var(--color);
+  }
+
+}

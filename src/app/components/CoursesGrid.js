@@ -10,7 +10,7 @@ export default function CoursesGrid({courses}) {
   return (
     <div 
       className="courses-grid-container"
-      style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gridGap: '20px'}}
+      style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gridGap: '20px'}}
     >
       {coursesRender}
     </div>
