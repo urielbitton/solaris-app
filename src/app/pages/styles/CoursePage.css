@@ -9,6 +9,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 .course-page header.banner > div {
   display: flex;
@@ -71,10 +72,10 @@
   color: var(--color)
 }
 .course-page .course-content {
+  width: 100%;
   display: flex;
-  flex-direction: row;
   align-items: flex-start;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   gap: 40px;
   padding: 40px 0;
 }
@@ -233,6 +234,7 @@
 .course-page .instructor-container > div {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 30px;
 }
 .course-page .instructor-container img {
@@ -257,6 +259,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
   width: 90%;
 }
 .course-page .instructor-container .instructor-data > div {
@@ -285,7 +289,19 @@
 }
 
 @media (max-width: 1370px) {
-  .course-page .course-content > div {
-    flex-basis: 100%;
+  .course-page .course-content {
+    flex-direction: column-reverse;
+  }
+  .course-page .course-info-container {
+    justify-content: flex-start;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  .course-page .course-content .text-container {
+    width: 100%;
+    min-width: 100%;
+  }
+  .course-page .course-info-container .course-info {
+    width: 100%;
   }
 }

@@ -2,20 +2,19 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router'
 import LessonsList from '../components/LessonsList'
 import WriteComment from '../components/WriteComment'
-import { getCourseByID, getLessonByID, getLessonsByCourseID, getVideosByLessonID, getVideoByID, getCommentsByVideoID, getNotesByLessonID } from '../services/courseServices'
+import { getCourseByID, getLessonByID, getLessonsByCourseID, getVideosByLessonID, getVideoByID, getCommentsByVideoID, getNotesByLessonID, getAllVideosByCourseID } from '../services/courseServices'
 import { StoreContext } from '../store/store'
 import './styles/LessonPage.css'
 import VideoEmbed from '../components/VideoEmbed'
-import Showdown from 'showdown'
 import CommentCard from '../components/CommentCard'
 import { getCoursesIDEnrolledByUserID } from '../services/userServices'
 import lockedImg from '../assets/imgs/locked-content.png'
 import { convertFireDateToString } from '../utils/utilities'
+import { useWindowDimensions } from "../utils/customHooks"
 
-export default function LessonPage(props) {
+export default function LessonPage() {
 
   const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
-  const {} = props
   const [course, setCourse] = useState([])
   const [lessons, setLessons] = useState([])
   const [videos, setVideos] = useState([])
@@ -25,12 +24,15 @@ export default function LessonPage(props) {
   const [comments, setComments] = useState([])
   const [userCourses, setUserCourses] = useState([])
   const [foldSidebar, setFoldSidebar] = useState(false)
+  const [allCourseVideos, setAllCourseVideos] = useState([])
+  const [playPosition, setPlayPosition] = useState(0)
   const courseID = useRouteMatch('/courses/course/:courseID')?.params.courseID
   const lessonID = useRouteMatch('/courses/course/:courseID/lesson/:lessonID')?.params.lessonID
   const videoID = useRouteMatch('/courses/course/:courseID/lesson/:lessonID/:videoID')?.params.videoID
   const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
   const history = useHistory()
-
+  const { screenWidth } = useWindowDimensions()
+ 
   const commentsRender = comments?.map((comment,i) => {
     return <CommentCard 
       comment={comment} 
@@ -55,6 +57,9 @@ export default function LessonPage(props) {
   useEffect(() => {
     getLessonsByCourseID(courseID, setLessons)
     getCourseByID(courseID, setCourse)
+    if(!allCourseVideos.length) {
+      getAllVideosByCourseID(courseID, setAllCourseVideos) 
+    }
   },[courseID])
 
   useEffect(() => {
@@ -77,6 +82,18 @@ export default function LessonPage(props) {
     setNavDescript(course?.title)
   },[course])  
 
+  // useEffect(() => {
+  //   if(allCourseVideos.length) {
+  //     setPlayPosition(allCourseVideos.findIndex(x => x.split('/')[1] === videoID))
+  //   }
+  // },[videoID, allCourseVideos])
+
+  useEffect(() => {
+    if(courseID.length && lessonID.length && allCourseVideos.length) {
+      history.push(`/courses/course/${courseID}/lesson/${allCourseVideos[playPosition]}`)
+    }
+  },[courseID, lessonID, playPosition])
+
   return (
     <div className="lesson-page">
       <div className={`lesson-sidebar ${foldSidebar ? "folded" : ""}`}>
@@ -87,7 +104,7 @@ export default function LessonPage(props) {
             showSearch
             activeLesson={lessonID}
             courseUserAccess={courseUserAccess}
-            videoTitleLength={32}
+            videoTitleLength={screenWidth < 1370 ? 100 : 32}
           />
         </div>
         <div className='side-bar-latch' onClick={() => setFoldSidebar(prev => !prev)}>
@@ -105,11 +122,23 @@ export default function LessonPage(props) {
           {
             courseUserAccess ? 
             <VideoEmbed 
-              videoWidth="90%"
-              videoHeight="450"
               embedUrl={lesson.videoType === "youtube" ? `https://www.youtube.com/embed/${video?.url}` : video?.url}
             /> : ""
           }
+          <div className="video-actions-nav">
+            <button 
+              className="shadow-hover"
+              onClick={() => playPosition > 0 && setPlayPosition(prev => prev - 1)}
+            >
+              Previous
+            </button>
+            <button 
+              className="shadow-hover"
+              onClick={() => playPosition < allCourseVideos.length && setPlayPosition(prev => prev + 1)}
+            >
+              Next
+            </button>
+          </div>
         </div>
         { courseUserAccess ? <>
           <div className="lesson-text-contents">

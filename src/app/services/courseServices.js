@@ -98,3 +98,14 @@ export const getReviewsByCourseID = (courseID, setReviews) => {
   })
 }
 
+export const getAllVideosByCourseID = (courseID, setVideos) => {
+  db.collection('courses').doc(courseID).collection('lessons').get().then(snapshot => {
+    snapshot.forEach(lessonDoc => {
+      db.collection('courses').doc(courseID).collection('lessons').doc(lessonDoc.id).collection('videos').get().then(videosDoc => {
+        videosDoc.forEach(doc => {
+          setVideos(prev => [...prev, `${lessonDoc.id}/${doc.id}`])
+        })
+      })
+    })
+  })
+}

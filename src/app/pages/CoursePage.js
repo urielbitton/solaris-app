@@ -11,6 +11,7 @@ import WriteComment from '../components/WriteComment'
 import { StoreContext } from '../store/store'
 import { getCoursesIDEnrolledByUserID } from '../services/userServices'
 import { useLocation } from 'react-router'
+import { useWindowDimensions } from "../utils/customHooks"
 
 export default function CoursePage() {
 
@@ -24,6 +25,7 @@ export default function CoursePage() {
   const history = useHistory()
   const location = useLocation()
   const lessonsScrollRef = useRef()
+  const { screenWidth } = useWindowDimensions()
 
   const courseInfos = [
     {name: 'Course Level', icon: 'fas fa-layer-group', value: course?.difficulty},
@@ -114,7 +116,7 @@ export default function CoursePage() {
             courseID={courseID}
             title="Course Content"
             courseUserAccess={courseUserAccess}
-            videoTitleLength={75}
+            videoTitleLength={screenWidth < 1370 ? 100 : 75}
             lessonsScrollRef={lessonsScrollRef}
           />
           {

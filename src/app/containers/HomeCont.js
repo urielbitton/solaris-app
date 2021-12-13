@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import './styles/HomeCont.css'
 import Navbar from '../components/Navbar'
 import { Route, Switch } from 'react-router'
@@ -17,10 +17,21 @@ import CreateCoursePage from '../pages/CreateCoursePage'
 import { StoreContext } from '../store/store'
 import ErrorPage from "../pages/ErrorPage"
 import MyCourses from "../pages/MyCourses"
+import { useWindowDimensions } from "../utils/customHooks"
 
 export default function HomeCont() {
 
-  const {windowPadding, myUser} = useContext(StoreContext)
+  const {windowPadding, setWindowPadding, myUser} = useContext(StoreContext)
+  const { screenWidth } = useWindowDimensions()
+
+  useEffect(() => {
+    if(screenWidth <= 1080) {
+      setWindowPadding('100px 20px 0px 20px')
+    }
+    else {
+      setWindowPadding('100px 30px 0px 30px')
+    }
+  },[screenWidth])
 
   return (
     <div className="home-container">

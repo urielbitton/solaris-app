@@ -13,7 +13,7 @@ html, body {
   --bg: #f8f8fc;
   --red: #f1605e;
   --orange: #f5c136;
-  --blueShadow: 0 16px 15px 5px rgba(47, 81, 232, 0.12);
+  --blueShadow: 0 13px 15px 5px rgba(47, 81, 232, 0.12);
   --blueGradient: linear-gradient(90deg, rgba(47,134,255,1) 10%, rgba(120,194,249,1) 100%);
   --shadow: 0 5px 10px rgba(0,0,0,0.1);
   --graytxt: #696e93;
