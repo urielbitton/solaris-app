@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import { useHistory } from "react-router"
 
 export default function ErrorPage() {
 

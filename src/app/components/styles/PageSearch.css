@@ -35,3 +35,10 @@
 .page-search-bar .searchbar input {
   font-size: 17px;
 }
+
+@media (max-width: 600px) {
+  .page-search-bar .search-section {
+    flex-direction: column;
+    width: 100%;
+  }
+}

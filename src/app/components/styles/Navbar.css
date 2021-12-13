@@ -183,3 +183,12 @@
   }
 
 }
+
+@media (max-width: 700px) {
+  .navbar .searchbar {
+    display: none;
+  }
+  .navbar .side > hr {
+    display: none;
+  }
+}

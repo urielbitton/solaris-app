@@ -83,3 +83,11 @@
 .all-courses-page .courses-content {
   margin-top: 30px;
 }
+
+@media (max-width: 600px) {
+  .all-courses-page .sort-row {
+    margin-top: 50px;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+}

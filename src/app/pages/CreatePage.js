@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { createCourseArray } from '../api/apis'
+import { StoreContext } from "../store/store"
 import './styles/CreatePage.css'
 
 export default function CreatePage() {
 
+  const {setNavTitle, setNavDescript} = useContext(StoreContext)
   const history = useHistory()
 
   const createRender = createCourseArray?.map((poster,i) => {
@@ -28,6 +30,11 @@ export default function CreatePage() {
       </div>
     </div>
   })
+
+  useEffect(() => {
+    setNavTitle('Create')
+    setNavDescript('3 types of courses available.')
+  },[])
 
   return (
     <div className="create-page">

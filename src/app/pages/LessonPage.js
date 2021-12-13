@@ -32,7 +32,6 @@ export default function LessonPage() {
   const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
   const history = useHistory()
   const { screenWidth } = useWindowDimensions()
-  const [flag, setFlag] = useState(true)
  
   const commentsRender = comments?.map((comment,i) => {
     return <CommentCard 
@@ -83,17 +82,17 @@ export default function LessonPage() {
     setNavDescript(course?.title)
   },[course])  
 
-  useEffect(() => {
-    if(allCourseVideos.length) {
-      setPlayPosition(allCourseVideos.findIndex(x => x === `${lessonID}/${videoID}`))
-    }
-  },[allCourseVideos])
+  // useEffect(() => { //buggy code - review 
+  //   if(allCourseVideos.length) {
+  //     setPlayPosition(allCourseVideos.findIndex(x => x === `${lessonID}/${videoID}`))
+  //   }
+  // },[allCourseVideos])
 
-  useEffect(() => {
-    if(courseID.length && lessonID.length && allCourseVideos.length) {
-      history.push(`/courses/course/${courseID}/lesson/${allCourseVideos[playPosition]}`)
-    }
-  },[courseID, playPosition])
+  // useEffect(() => {
+  //   if(courseID.length && lessonID.length && allCourseVideos.length) {
+  //     history.push(`/courses/course/${courseID}/lesson/${allCourseVideos[playPosition]}`)
+  //   }
+  // },[courseID, playPosition])
 
   return (
     <div className="lesson-page">
