@@ -32,6 +32,7 @@ export default function LessonPage() {
   const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
   const history = useHistory()
   const { screenWidth } = useWindowDimensions()
+  const [flag, setFlag] = useState(true)
  
   const commentsRender = comments?.map((comment,i) => {
     return <CommentCard 
@@ -82,11 +83,12 @@ export default function LessonPage() {
     setNavDescript(course?.title)
   },[course])  
 
-  // useEffect(() => {
-  //   if(allCourseVideos.length) {
-  //     setPlayPosition(allCourseVideos.findIndex(x => x.split('/')[1] === videoID))
-  //   }
-  // },[videoID, allCourseVideos])
+  useEffect(() => {
+    if(allCourseVideos.length && flag) {
+      setPlayPosition(allCourseVideos.findIndex(x => x.split('/')[1] === videoID))
+      setFlag(false)
+    }
+  },[videoID, allCourseVideos])
 
   useEffect(() => {
     if(courseID.length && lessonID.length && allCourseVideos.length) {
@@ -134,7 +136,7 @@ export default function LessonPage() {
             </button>
             <button 
               className="shadow-hover"
-              onClick={() => playPosition < allCourseVideos.length && setPlayPosition(prev => prev + 1)}
+              onClick={() => playPosition < allCourseVideos.length-1 && setPlayPosition(prev => prev + 1)}
             >
               Next
             </button>
