@@ -84,17 +84,16 @@ export default function LessonPage() {
   },[course])  
 
   useEffect(() => {
-    if(allCourseVideos.length && flag) {
-      setPlayPosition(allCourseVideos.findIndex(x => x.split('/')[1] === videoID))
-      setFlag(false)
+    if(allCourseVideos.length) {
+      setPlayPosition(allCourseVideos.findIndex(x => x === `${lessonID}/${videoID}`))
     }
-  },[videoID, allCourseVideos])
+  },[allCourseVideos])
 
   useEffect(() => {
     if(courseID.length && lessonID.length && allCourseVideos.length) {
       history.push(`/courses/course/${courseID}/lesson/${allCourseVideos[playPosition]}`)
     }
-  },[courseID, lessonID, playPosition])
+  },[courseID, playPosition])
 
   return (
     <div className="lesson-page">
