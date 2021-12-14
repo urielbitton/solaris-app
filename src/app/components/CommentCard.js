@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './styles/ReviewCard.css'
 import Ratings from './Ratings'
 import { convertFireDateToString } from '../utils/utilities'
@@ -8,6 +8,8 @@ import firebase from 'firebase'
 import AppModal from './AppModal'
 import { AppSelect, AppTextarea } from "./AppInputs"
 import { setDB } from "../services/CrudDB"
+import { isUserInstructor } from "../services/userServices"
+import { Link } from "react-router-dom"
 
 export default function CommentCard(props) {
 
@@ -18,6 +20,13 @@ export default function CommentCard(props) {
   const [openReport, setOpenReport] = useState(false)
   const [reportMessage, setReportMessage] = useState('')
   const [reportReason, setReportReason] = useState('')
+  const [isInstructor, setIsInstructor] = useState(false)
+  const [editMode, setEditMode] = useState(false)
+  const [editText, setEditText] = useState(text)
+  const docRef = db.collection('courses').doc(courseID)
+    .collection('lessons').doc(lessonID)
+    .collection('videos').doc(videoID)
+    .collection('comments').doc(commentID)
 
   const reportReasons = [
     {name: 'Please choose a reason of report', value: ''},
@@ -28,10 +37,6 @@ export default function CommentCard(props) {
   ]
 
   const likeComment = () => {
-    const docRef = db.collection('courses').doc(courseID)
-    .collection('lessons').doc(lessonID)
-    .collection('videos').doc(videoID)
-    .collection('comments').doc(commentID)
     if(!likes?.includes(user?.uid)) {
       docRef.update({
         likes: firebase.firestore.FieldValue.arrayUnion(user?.uid)
@@ -42,6 +47,19 @@ export default function CommentCard(props) {
         likes: firebase.firestore.FieldValue.arrayRemove(user?.uid)
       })
     }
+  }
+
+  const saveComment= () => {
+    docRef.update({
+      text: editText
+    }).then(() => {
+      setEditMode(false)
+    })
+    .catch(err => console.log(err))
+  }
+  const cancelSave = () => {
+    setEditMode(false)
+    setEditText(text)
   }
 
   const sendReport = () => {
@@ -65,14 +83,24 @@ export default function CommentCard(props) {
     }
   }
 
+  useEffect(() => {
+    isUserInstructor(user?.uid, setIsInstructor)
+  },[user])
+  
+
   return (
     <div className="review-card">
       <img src={authorImg} alt="" />
       <div className="review-body">
         <div className="titles">
-          <h4>{authorName}</h4>
-          {user?.uid === userID ? <small>Edit</small> : <></>}
-        </div>
+        <h4>
+            <Link to={isInstructor ? `/instructors/instructor/${userID}` : `/users/user/${userID}`}>
+              {authorName} 
+              {isInstructor && <span className="instructor-badge">Instructor</span>}
+            </Link>
+          </h4>
+          {user?.uid === userID ? <small onClick={() => setEditMode(true)}>Edit</small> : <></>}
+        </div> 
         <h5>{convertFireDateToString(dateAdded)}</h5>
         { type === 'review' && 
           <>
@@ -80,7 +108,16 @@ export default function CommentCard(props) {
             <q>{title}</q>
           </>
         }
-        <p className="review-text">{text}</p>
+        { !editMode ?
+          <p className="review-text">{text}</p> :
+          <>
+            <AppTextarea onChange={(e) => setEditText(e.target.value)} value={editText} className="review-text-textarea" />
+            <div className="edit-actions">
+              <small onClick={() => saveComment()}>Save</small>
+              <small onClick={() => cancelSave()}>Cancel</small>
+            </div>
+          </>
+        }
         {
           type === 'comment' &&
           <div className="interact-row">

@@ -6,6 +6,7 @@
 .instructor-page .profile-row {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   gap: 50px;
   margin-top: 20px;
 }
@@ -62,12 +63,17 @@
 .instructor-page .socials-section button i {
   margin-left: 10px;
 }
+.instructor-page .profile-row .socials-section .fa-user-friends {
+  margin-right: 10px;
+}
 .instructor-page .instructor-stats-container {
   margin-top: 60px;
   width: 100%;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: space-evenly;
+  gap: 40px;
   background: var(--color);
   border-radius: 10px;
   padding: 30px;
@@ -109,4 +115,20 @@
   margin: 20px 0;
   font-size: 28px;
   color: var(--graytxt);
+}
+
+@media (max-width: 1400px) {
+  .instructor-page .profile-row hr {
+    display: none;
+  }
+}
+
+@media (max-width: 585px) {
+  .instructor-page .instructor-stats-container {
+    flex-direction: column;
+    gap: 60px;
+  }
+  .instructor-page .instructor-stats-container hr {
+    display: none;
+  }
 }

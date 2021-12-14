@@ -54,7 +54,7 @@ export default function InstructorPage() {
           />
           <h5>
             <i className="fal fa-user-friends"></i>
-            <span> {instructor?.followersCount} follower{instructor?.followersCount !== 1 ? "s" : ""}</span>
+            <span>{instructor?.followersCount} follower{instructor?.followersCount !== 1 ? "s" : ""}</span>
           </h5>
           <button className="shadow-hover">Follow<i className="fal fa-plus"></i></button>
         </div>
@@ -71,7 +71,7 @@ export default function InstructorPage() {
         </div>
         <hr/>
         <div>
-          <big>{!isNaN(ratingAvg) ? ratingAvg.toFixed(2) : "N/A"}</big>
+          <big>{!isNaN(ratingAvg) ? ratingAvg.toFixed(2) : "0"}</big>
           <h5>Average Rating</h5>
         </div>
       </div>

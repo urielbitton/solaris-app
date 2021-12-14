@@ -21,7 +21,7 @@ import { useWindowDimensions } from "../utils/customHooks"
 
 export default function HomeCont() {
 
-  const {windowPadding, setWindowPadding, myUser} = useContext(StoreContext)
+  const {windowPadding, setWindowPadding, myUser, openSidebar, setOpenSidebar} = useContext(StoreContext)
   const { screenWidth } = useWindowDimensions()
 
   useEffect(() => {
@@ -32,6 +32,11 @@ export default function HomeCont() {
       setWindowPadding('100px 30px 0px 30px')
     }
   },[screenWidth])
+
+  useEffect(() => {
+    if(openSidebar) 
+      window.onclick = () => setOpenSidebar(false)
+  },[openSidebar])
 
   return (
     <div className="home-container">

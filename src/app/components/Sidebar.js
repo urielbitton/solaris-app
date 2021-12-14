@@ -36,7 +36,7 @@ export default function Sidebar() {
   },[location])
 
   return (
-    <div className={`sidebar ${openSidebar ? "open" : ""}`}>
+    <div className={`sidebar ${openSidebar ? "open" : ""}`} onClick={(e) => e.stopPropagation()}>
       <div className="sidebar-scroll hidescroll">
         <div className="top">
           <div className="logo-container flexcenter">

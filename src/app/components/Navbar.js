@@ -29,7 +29,13 @@ export default function Navbar() {
   return (
     <div className="navbar">
       <div className="side">
-        <div className={`mobile-menu-btn ${openSidebar ? "open" : ""}`} onClick={() => setOpenSidebar(prev => !prev)}>
+        <div 
+          className={`mobile-menu-btn ${openSidebar ? "open" : ""}`} 
+          onClick={(e) => {
+            e.stopPropagation()
+            setOpenSidebar(prev => !prev)}
+          }
+        >
           <i className="fal fa-bars"></i>
         </div>
         <h1 className="nav-title">{navTitle}</h1>
