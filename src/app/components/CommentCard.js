@@ -84,7 +84,7 @@ export default function CommentCard(props) {
   }
 
   useEffect(() => {
-    isUserInstructor(user?.uid, setIsInstructor)
+    isUserInstructor(userID, setIsInstructor)
   },[user])
   
 
