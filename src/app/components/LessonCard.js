@@ -45,6 +45,7 @@ export default function LessonCard(props) {
     getVideosByLessonID(courseID, lessonID, setVideos)
   },[])
 
+
   return (
     <AppAccordion
       title={title}

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import CourseCard from '../components/CourseCard'
 import { getAllCourses, getFeaturedCourses, getNewCourses } from '../services/courseServices'
 import './styles/Home.css'
 import {StoreContext} from '../store/store'

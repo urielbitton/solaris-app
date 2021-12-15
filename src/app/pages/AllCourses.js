@@ -18,6 +18,7 @@ export default function AllCourses() {
   const [categoriesArr, setCategoriesArr] = useState([])
   const [limit, setLimit] = useState(10)
   const [coursesCount, setCoursesCount] = useState('')
+  const [courseSort, setCourseSort] = useState('dateCreatedDesc')
   const filterProp1 = category==='all' ? 'filterable' : 'category'
   const filterValue1 = category==='all' ? true : category
   const filterProp2 = courseType==='all' ? 'filterable' : 'courseType'
@@ -47,8 +48,17 @@ export default function AllCourses() {
     {name: 'Intermediate', value: 'intermediate'},
     {name: 'Advanced', value: 'advanced'}
   ]
-  const coursesSortArr = ['Default (Date Added)', 'Alphabetically (Asc)', 'Alphabetically (Desc)', 
-    'Category', 'Course Type', 'Price (Asc)', 'Price (Desc)', 'Skill']
+  const coursesSortArr = [
+    {name: 'Date Created (Desc)', value: 'dateCreatedDesc'},
+    {name: 'Date Created (Asc)', value: 'dateCreatedAsc'},
+    {name: 'Alphabetically (Desc)', value: 'azDesc'},
+    {name:'Alphabetically (Asc)', value: 'azAsc'}, 
+    {name: 'Category', value: 'category'},
+    {name: 'Course Type', value: 'courseType'}, 
+    {name: 'Price (Desc)', value: 'priceDesc'}, 
+    {name: 'Price (Asc)', value: 'priceAsc'}, 
+    {name: 'Skill', value: 'skill'}
+  ]
 
   const categoriesRender = categoriesArr?.map((cat) => {
     return {name: cat.name}
@@ -63,7 +73,7 @@ export default function AllCourses() {
     return {name: type.name, value: type.value}
   })
   const courseSortRender = coursesSortArr.map((type) => {
-    return {name: type}
+    return {name: type.name, value: type.value}
   })
 
   const resetFilters = () => {
@@ -140,11 +150,16 @@ export default function AllCourses() {
           <h5>Sort By:</h5>
           <AppSelect 
             options={courseSortRender}
+            onChange={(e) => setCourseSort(e.target.value)}
+            namebased
           />
         </div>
       </div>
       <div className="courses-content">
-        <CourseGrid courses={allCourses} />
+        <CourseGrid 
+          courses={allCourses} 
+          courseSort={courseSort}
+        />
       </div>
     </div>
   )

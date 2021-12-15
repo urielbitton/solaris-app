@@ -13,11 +13,13 @@ import { getCourseCategories } from '../services/adminServices'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { CreateCourse } from '../services/CreateCourse'
 import PageLoader from '../components/PageLoader'
+import { getCourseByID, getLessonsByCourseID, getVideosByLessonID } from "../services/courseServices"
 
-export default function CreateCoursePage() {
+export default function CreateCoursePage({editMode}) {
  
   const {setNavTitle, setNavDescript, setWindowPadding, myUser, user} = useContext(StoreContext)
-  const courseType = useRouteMatch('/create/create-course/:courseType').params.courseType
+  const courseType = useRouteMatch('/create/create-course/:courseType')?.params.courseType
+  const courseID = useRouteMatch('/edit-course/:courseID')?.params.courseID
   const [courseTitle, setCourseTitle] = useState('')
   const [courseCover, setCourseCover] = useState('')
   const [courseLang, setCourseLang] = useState('english')
@@ -56,6 +58,9 @@ export default function CreateCoursePage() {
   const totalFilesNum = lessons?.reduce((a,b) => a + b.files.reduce((x,y) => x + y.length, 0), 0)
   const createCourseAccess = lessons.length && courseTitle.length && courseCover.length && coursePrice.length 
     && courseShortDescript && videoType.length
+  // Editing mdoe states
+  const [course, setCourse] = useState({})
+  const [courseLessons, setCourseLessons] = useState([])
 
   const languages = [
     {name: 'English', value: 'english'},
@@ -157,9 +162,11 @@ export default function CreateCoursePage() {
     setNotesText(notes.text)
   }
 
-  const lessonsRender = lessons?.map((lesson,i) => {
+  const lessonsRender = [...lessons, ...courseLessons]
+  ?.map((lesson,i) => {
     return <LessonCard 
       lesson={lesson} 
+      courseID={courseID}
       keyword="" 
       createMode 
       tempVideos={lesson.videos}
@@ -228,12 +235,12 @@ export default function CreateCoursePage() {
         })
       }
       else {
-        let videoIndex = lesson.videos.findIndex(x => x.videoID === editVideoMode.video.videoID)
+        let videoIndex = lesson.videos?.findIndex(x => x.videoID === editVideoMode.video.videoID)
         lesson.videos[videoIndex] = {
           title: videoTitle,
           duration: videoDuration,
           url: videoUrl,
-          videoID: lesson.videos[videoIndex].videoID,
+          videoID: lesson.videos[videoIndex]?.videoID,
           dateAdded: new Date()
         }
       }
@@ -332,8 +339,10 @@ export default function CreateCoursePage() {
         firstVideoID: lessons[0]?.videos[0].videoID ?? '',
         firstLessonID: lessons[0]?.lessonID ?? "",
         hasCertificate: courseCertificate,
+        allowReviews,
         id: newCourseID,
         instructorID: myUser?.instructorID ?? user?.uid,
+        instructorName: user?.displayName,
         language: courseLang,
         lessonsCount: lessons.length,
         notes: '',
@@ -358,8 +367,8 @@ export default function CreateCoursePage() {
   }
   
   useEffect(() => {
-    setNavTitle('Create')
-    setNavDescript(`Create ${courseType} course`)
+    setNavTitle(!editMode ? 'Create' : 'Edit Course')
+    setNavDescript(!editMode ? `Create ${courseType} course` : '')
   },[courseType])
 
   useEffect(() => {
@@ -390,6 +399,28 @@ export default function CreateCoursePage() {
     scrollTopRef.current.scroll({top:0, behavior:'smooth'})
   },[slidePos])
 
+  useEffect(() => {
+    getCourseByID(courseID, setCourse)
+    getLessonsByCourseID(courseID, setCourseLessons)
+  },[courseID])
+
+  useEffect(() => {
+    if(editMode) {
+      setCourseTitle(course.title)
+      setVideoType('youtube')
+      setCourseCover(course.cover)
+      setCourseLang(course.language)
+      setCourseDifficulty(course.difficulty)
+      setCourseCategory(course.category)
+      setCoursePrice(course.price)
+      setCourseShortDescript(course.short)
+      setCourseSummary(course.summary)
+      setCourseFullDescript(course.description)
+      setCourseCertificate(course.hasCertificate)
+      setAllowReviews(course.allowReviews)
+    }
+  },[course])
+
   return (
     <div className="create-course-page">
       <div className="create-content">
@@ -403,16 +434,16 @@ export default function CreateCoursePage() {
             <div className="course-info">
             <h5 className="create-title">Course Information</h5>
               <h6>Cover Image</h6>
-              <label className="upload-container" style={{backgroundImage: `url(${courseCover})`, height: courseCover.length ? "300px" : "100px"}}>
+              <label className="upload-container" style={{backgroundImage: `url(${courseCover})`, height: courseCover?.length ? "300px" : "100px"}}>
                 <input 
                   style={{display:'none'}} 
                   type="file" accept='.jpg,.jpeg,.jfif,.png' 
                   onChange={(e) => uploadImgLocal(inputRef, setCourseCover)} 
                   ref={inputRef}
                 />
-                {!courseCover.length && <i className="fal fa-images"></i>}
+                {!courseCover?.length && <i className="fal fa-images"></i>}
               </label>
-              <AppInput title="Course Title" onChange={(e) => setCourseTitle(e.target.value)} />
+              <AppInput title="Course Title" onChange={(e) => setCourseTitle(e.target.value)} value={courseTitle} />
               <AppSelect title="Language" options={languages} onChange={(e) => setCourseLang(e.target.value)} value={courseLang} />
               <AppSelect title="Difficulty" options={difficulties} onChange={(e) => setCourseDifficulty(e.target.value)} value={courseDifficulty} />
               <AppSelect title="Category" options={[{name: 'Choose a Category', value: ""}, ...courseCategoriesOpts]} onChange={(e) => setCourseCategory(e.target.value)} value={courseCategory} />
@@ -421,7 +452,7 @@ export default function CreateCoursePage() {
               <AppTextarea title="Full Description" onChange={(e) => setCourseFullDescript(e.target.value)} value={courseFullDescript} />
               <AppTextarea title="Course Summary" onChange={(e) => setCourseSummary(e.target.value)} value={courseSummary} />
               <AppSwitch title="Certificate Offered" onChange={(e) => setCourseCertificate(e.target.checked)} checked={courseCertificate} />
-              <AppSwitch title="Allow Reviews & Ratings" onChange={(e) => setAllowReviews(e.target.value)} checked={allowReviews} />
+              <AppSwitch title="Allow Reviews & Ratings" onChange={(e) => setAllowReviews(e.target.checked)} checked={allowReviews} />
             </div>
           </div>
           <div className={`slide-element ${slidePos === 1 ? "active" : slidePos > 1 ? "prev" : ""}`}>

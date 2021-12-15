@@ -5,8 +5,7 @@ import './styles/LessonItems.css'
 
 export default function VideoRow(props) {
 
-  const {lessonType, courseID, lessonID, courseUserAccess, notOpenVideoPage, onVideoClick, videoTitleLength,
-    active} = props
+  const {lessonType, courseID, lessonID, courseUserAccess, notOpenVideoPage, onVideoClick, videoTitleLength} = props
   const {title, duration, videoID} = props.video
   const history = useHistory()
   const location = useLocation()

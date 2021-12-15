@@ -37,7 +37,7 @@ export default function WriteComment(props) {
       authorImg: user?.photoURL ?? "https://i.imgur.com/D4fLSKa.png",
       authorName: user?.displayName ?? "Guest User",
       dateAdded: new Date(),
-      rating,
+      rating: +rating,
       title,
       text,
       userID: user?.uid ?? "na"

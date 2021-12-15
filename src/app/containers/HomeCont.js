@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import './styles/HomeCont.css'
 import Navbar from '../components/Navbar'
-import { Route, Switch, Redirect } from 'react-router'
+import { Route, Switch } from 'react-router'
 import Home from '../pages/Home'
 import CoursePage from '../pages/CoursePage'
 import AllCourses from '../pages/AllCourses'
@@ -77,12 +77,15 @@ export default function HomeCont() {
             {myUser?.isInstructor && <CreatePage />}
           </Route>
           <Route path="/create/create-course/:courseType">
-            {myUser?.isInstructor && <CreateCoursePage />}
+            {myUser?.isInstructor && <CreateCoursePage editMode={false} />}
           </Route>
           <Route path="/courses/my-courses">
             {myUser?.isInstructor && <MyCourses />}
           </Route>
-          <Route exact path="*" component={ErrorPage}/>
+          <Route path="/edit-course/:courseID">
+            <CreateCoursePage editMode />
+          </Route>
+          <Route exact path="*" component={ErrorPage} />
         </Switch>
       </div>
     </div>

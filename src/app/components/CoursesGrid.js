@@ -1,10 +1,13 @@
 import React from 'react'
 import CourseCard from './CourseCard'
+import { courseSorting } from '../utils/utilities'
 
-export default function CoursesGrid({courses}) {
+export default function CoursesGrid({courses, courseSort}) {
 
-  const coursesRender = courses?.map((course,i) => {
-    return <CourseCard course={course} ley={i} />
+  const coursesRender = courses
+  ?.sort((a,b) => courseSorting(a, b, courseSort))
+  .map((course,i) => {
+    return <CourseCard course={course} key={i} />
   })
 
   return (
