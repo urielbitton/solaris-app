@@ -77,7 +77,7 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 20px;
   border-top: 1px solid #eee;
 }
 .app-modal-container .app-modal footer button {

@@ -11,7 +11,7 @@ import { getYoutubeVideoDetails } from '../services/youtubeServices'
 import { convertYoutubeDuration, fileTypeConverter, truncateText, uploadImgLocal } from '../utils/utilities'
 import { getCourseCategories } from '../services/adminServices'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { CreateCourse } from '../services/CreateCourse'
+import { CreateCourse, saveCourse } from '../services/CreateCourse'
 import PageLoader from '../components/PageLoader'
 import { getCourseByID, getLessonsByCourseID, getVideosByLessonID } from "../services/courseServices"
 
@@ -54,13 +54,17 @@ export default function CreateCoursePage({editMode}) {
   const inputRef = useRef()
   const scrollTopRef = useRef()
   const history = useHistory()
-  const totalNotesNum = lessons?.reduce((a,b) => a + b.notes.length, 0)
-  const totalFilesNum = lessons?.reduce((a,b) => a + b.files.reduce((x,y) => x + y.length, 0), 0)
-  const createCourseAccess = lessons.length && courseTitle.length && courseCover.length && coursePrice.length 
-    && courseShortDescript && videoType.length
-  // Editing mdoe states
+  // Edit mode states
   const [course, setCourse] = useState({})
   const [courseLessons, setCourseLessons] = useState([])
+  const [editLessons, setEditLessons] = useState([])
+  const totalNotesNum = lessons?.reduce((a,b) => a + b.notes?.length, 0)
+  const totalFilesNum = lessons?.reduce((a,b) => a + b.files?.reduce((x,y) => x + y.length, 0), 0)
+  const courseLessonsNotesNum = courseLessons?.reduce((a,b) => a + b.notes?.length, 0)
+  const courseLessonsFilesNum = courseLessons?.reduce((a,b) => a + b.files?.reduce((x,y) => x + y.length, 0), 0)
+  const createCourseAccess = (!editMode ? lessons.length : courseLessons.length) && courseTitle.length && courseCover.length && coursePrice.length 
+    && courseShortDescript && videoType.length
+
 
   const languages = [
     {name: 'English', value: 'english'},
@@ -101,7 +105,7 @@ export default function CreateCoursePage({editMode}) {
     </div>
   })
   
-  const courseFilesRender = lessons?.map((lesson,i) => {
+  const courseFilesRender = [...lessons, ...courseLessons]?.map((lesson,i) => {
     return <div className='lesson-block'>
       <h5>{lesson.title}</h5>
       {
@@ -121,8 +125,8 @@ export default function CreateCoursePage({editMode}) {
       }
     </div>
   })
-
-  const courseNotesRender = lessons?.map((lesson,i) => {
+  
+  const courseNotesRender = [...lessons, ...courseLessons]?.map((lesson,i) => {
     return lesson?.notes?.map((note,j) => { 
       <h5>{lesson.title}</h5>
       return <div className='lesson-block'>
@@ -162,24 +166,25 @@ export default function CreateCoursePage({editMode}) {
     setNotesText(notes.text)
   }
 
-  const lessonsRender = [...lessons, ...courseLessons]
-  ?.map((lesson,i) => {
+  const lessonsRender = [...editLessons, ...lessons]?.map((lesson,i) => {
     return <LessonCard 
       lesson={lesson} 
       courseID={courseID}
       keyword="" 
       createMode 
-      tempVideos={lesson.videos}
+      editMode={editMode}
+      addedVideos={lesson.videos} 
       notes={lesson.notes}
       files={lesson.files}
       notOpenVideoPage
       onVideoClick={(video) => onVideoClick(lesson, video)}
       onNotesClick={(notes) => onNotesClick(lesson, notes)}
       courseUserAccess
+      maxAccordionHeight={3000}
       initComponent={
         <div className="init-component">
           <h5 onClick={() => clickAddVideo(lesson)}><i className="fas fa-video"></i>Click to add videos to this lesson</h5>
-          <h5 onClick={() => clickAddNotes(lesson)}><i className="fas fa-sticky-note"></i>Click to add notes to this lesson</h5>
+          <h5 onClick={() => clickAddNotes(lesson)}><i className="fas fa-sticky-note"></i>Click to add notes/files to this lesson</h5>
         </div>
       }
       deleteBtn={
@@ -222,7 +227,7 @@ export default function CreateCoursePage({editMode}) {
       setLessons(prev => [...prev])
     }
   }
-
+  
   const addEditVideo = () => {
     if(videoTitle.length && videoUrl.length) {
       if(!editVideoMode.mode) {
@@ -274,6 +279,10 @@ export default function CreateCoursePage({editMode}) {
     }
   }
 
+  const deleteVideo = () => {
+
+  }
+
   const handleFileUpload = (e) => {
     setNotesFileText(e.target.value)
     setNotesFile(e.target.files)
@@ -319,47 +328,86 @@ export default function CreateCoursePage({editMode}) {
     setNotesFile(null)
     setNotesFileText('')
   }
-  
+
+  const repopulateCourseLessonsFromDB = () => {
+    courseLessons.forEach(lesson => {
+      lesson['videos'] = []
+      lesson['notes'] = []
+      lesson['files'] = []
+      //repopulate videos docs
+      db.collection('courses').doc(courseID)
+      .collection('lessons').doc(lesson.lessonID)
+      .collection('videos').get().then(videoDocs => {
+        videoDocs.forEach(doc => {
+          lesson['videos'].push(doc.data())
+        })
+      })
+      //repopulate notes docs
+      db.collection('courses').doc(courseID)
+      .collection('lessons').doc(lesson.lessonID)
+      .collection('notes').get().then(notesDocs => {
+        notesDocs.forEach(doc => {
+          lesson['notes'].push(doc.data())
+        })
+      })
+    })
+    setEditLessons(courseLessons)
+  }
+
   const createCourse = () => {
     if(createCourseAccess) {
       setLoading(true)
-      CreateCourse(newCourseID, lessons, myUser, {
+      const courseObject = {
         category: courseCategory,
         costType: coursePrice > 0 ? 'pro' : 'free',
-        courseType,
+        courseType: courseType ?? 'video',
         cover: courseCover,
-        dateCreated: new Date(),
+        dateCreated: !editMode ? new Date() : course.dateCreated,
         dateUpdated: new Date(),
         description: courseFullDescript,
         short: courseShortDescript,
         summary: courseSummary,
         difficulty: courseDifficulty,
-        featuredCourse: false,
+        featuredCourse: !editMode ? false : course.featuredCourse,
         filterable: true,
-        firstVideoID: lessons[0]?.videos[0].videoID ?? '',
-        firstLessonID: lessons[0]?.lessonID ?? "",
+        firstVideoID: !editMode ? lessons[0]?.videos[0].videoID ?? '' : courseLessons[0]?.videos[0].videoID,
+        firstLessonID: !editMode ? lessons[0]?.lessonID ?? "" : courseLessons[0]?.lessonID ?? "",
         hasCertificate: courseCertificate,
         allowReviews,
-        id: newCourseID,
+        id: !editMode ? newCourseID : courseID,
         instructorID: myUser?.instructorID ?? user?.uid,
         instructorName: user?.displayName,
         language: courseLang,
-        lessonsCount: lessons.length,
+        lessonsCount: !editMode ? lessons.length : courseLessons.length,
         notes: '',
         price: coursePrice,
-        studentsEnrolled: 0,
+        studentsEnrolled: !editMode ? 0 : course.studentsEnrolled,
         title: courseTitle,
         totalDuration: 0, 
         whatYouLearn: []
-      }).then(() => {
-        setLoading(false)
-        window.alert('Course successfully created.')
-        history.push(`/courses/course/${newCourseID}`)
-      })
-      .catch(err => {
-        console.log(err)
-        setLoading(false)
-      })
+      }
+      if(!editMode) {
+        CreateCourse(newCourseID, lessons, myUser, courseObject).then(() => {
+          setLoading(false)
+          window.alert('Course successfully created.')
+          history.push(`/courses/course/${newCourseID}`)
+        })
+        .catch(err => {
+          console.log(err)
+          setLoading(false)
+        })
+      }
+      else {
+        saveCourse(courseID, courseLessons, courseObject).then(() => {
+          setLoading(false)
+          window.alert('Course successfully saved.')
+          history.push(`/courses/course/${courseID}`)
+        })
+        .catch(err => {
+          console.log(err)
+          setLoading(false)
+        })
+      }
     }
     else {
       window.alert('Fill in all course details in order to create a course.')
@@ -401,8 +449,16 @@ export default function CreateCoursePage({editMode}) {
 
   useEffect(() => {
     getCourseByID(courseID, setCourse)
-    getLessonsByCourseID(courseID, setCourseLessons)
+    if(editMode) {
+      getLessonsByCourseID(courseID, setCourseLessons)
+    }
   },[courseID])
+
+  useEffect(() => {
+    if(editMode) {
+      repopulateCourseLessonsFromDB()
+    }
+  },[courseLessons]) 
 
   useEffect(() => {
     if(editMode) {
@@ -424,7 +480,7 @@ export default function CreateCoursePage({editMode}) {
   return (
     <div className="create-course-page">
       <div className="create-content">
-        <h3>Create {courseType} Course</h3>
+        <h3>{!editMode ? "Create" : "Edit"} {!editMode ? courseType : course.courseType} Course</h3>
         <div className="slide-container" ref={scrollTopRef}>
           <div className={`slide-element ${slidePos === 0 ? "active" : slidePos > 0 ? "prev" : ""}`}>
             <div className="video-type-container">
@@ -477,7 +533,11 @@ export default function CreateCoursePage({editMode}) {
               title="Add Videos"
               showModal={showVideoModal}
               setShowModal={setShowVideoModal}
-              actions={<button onClick={() => addEditVideo()}>{editVideoMode.mode ? "Save" : "Add"}</button>}
+              actions={<>
+                <button onClick={() => addEditVideo()}>{editVideoMode.mode ? "Save" : "Add"}</button>
+                {editVideoMode.mode && <button className="delete-btn" onClick={() => deleteVideo()}>Delete</button>}
+              </>
+              }
             >
               <div className="form">
                 <AppInput title="Video Title" onChange={(e) => setVideoTitle(e.target.value)} value={videoTitle} />
@@ -531,8 +591,8 @@ export default function CreateCoursePage({editMode}) {
               </div>
               {courseSummaryRender}
               <br/>
-              <h5 className="create-title">Course Lessons ({lessons.length})</h5>
-              {lessons.length ? lessonsRender : "No Lessons"} 
+              <h5 className="create-title">Course Lessons ({!editMode ? lessons.length : courseLessons.length})</h5>
+              {(!editMode ? lessons.length : courseLessons.length) ? lessonsRender : "No Lessons"} 
             </div>
           </div>
         </div>
@@ -544,11 +604,11 @@ export default function CreateCoursePage({editMode}) {
           </button>
           { slidePos === 2 &&
             <button 
-              className={`create-course-btn ${!lessons.length ? "disabled" : ""} shadow-hover`}  
+              className={`create-course-btn ${!editMode ? !lessons.length ? "disabled" : "" : !courseLessons.length ? "disabled" : ""} shadow-hover`}  
               onClick={() => createCourse()}
             >
-              Create Course
-              <i className='fal fa-arrow-right'></i>
+              { !editMode ? "Create Course" : "Save Course" }
+              <i className={!editMode ? 'fal fa-arrow-right' : 'fal fa-save'}></i>
             </button>
           }
           <button 
@@ -561,11 +621,11 @@ export default function CreateCoursePage({editMode}) {
       <div className="side-bar hidescroll">
         <div className='files-container'>
           <h5>Files <span>({totalFilesNum})</span></h5>
-          {totalFilesNum> 0 ? courseFilesRender : ""}
+          {totalFilesNum > 0 || courseLessonsFilesNum > 0 ? courseFilesRender : ""}
         </div>
         <div className='notes-container'>
           <h5>Notes <span>({totalNotesNum})</span></h5>
-          {totalNotesNum > 0 ? courseNotesRender : ""}
+          {totalNotesNum > 0 || courseLessonsNotesNum > 0 ? courseNotesRender : ""}
         </div>
       </div>
       <PageLoader loading={loading} />

@@ -1,11 +1,11 @@
 import { db } from '../firebase/fire'
 
-export function updateDB(col, doc, value) {
-  return db.collection(col).doc(doc).update(value)
-}
-
 export function setDB(col, doc, value) {
   return db.collection(col).doc(doc).set(value)
+}
+
+export function updateDB(col, doc, value) {
+  return db.collection(col).doc(doc).update(value)
 }
 
 export function deleteDB(col, doc) {

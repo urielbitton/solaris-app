@@ -76,6 +76,9 @@ button {
 button.shadow-hover:hover {
   box-shadow: var(--blueShadow);
 }
+button.delete-btn {
+  background: var(--red);
+}
 button:active {
   transform: scale(0.96)
 }

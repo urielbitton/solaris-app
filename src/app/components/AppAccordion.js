@@ -3,7 +3,7 @@ import './styles/AppAccordion.css'
 
 export default function AppAccordion(props) {
 
-  const {maxHeight=300, children, title, open, setOpen, className, noPadding, active, deleteBtn,
+  const {maxAccordionHeight=300, children, title, open, setOpen, className, noPadding, active, deleteBtn,
     headerMetaTitle} = props
 
   return (
@@ -15,7 +15,7 @@ export default function AppAccordion(props) {
           <i className={`far fa-angle-up ${open && "down"}`}></i>
         </div>
       </header>
-      <div className="content" style={{maxHeight: open ? maxHeight : "0", padding: noPadding ? "0" : open ? "20px" : "0 20px"}}>
+      <div className="content" style={{maxHeight: open ? maxAccordionHeight : "0", padding: noPadding ? "0" : open ? "20px" : "0 20px"}}>
         {children}
       </div>
     </div>

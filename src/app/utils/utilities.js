@@ -100,19 +100,19 @@ export const uploadImgLocal = (inputRef, setImage) => {
 } 
 
 export const courseSorting = (a, b, courseSort) => {
-  if(courseSort.includes('dateCreated')) {
+  if(courseSort?.includes('dateCreated')) {
     if(a.dateCreated - b.dateCreated && courseSort === 'dateCreatedDesc')
       return (a.dateCreated - b.dateCreated)
     else
       return (b.dateCreated - a.dateCreated)
   }
-  if(courseSort.includes('az')) {
+  if(courseSort?.includes('az')) {
     if(a.title < b.title && courseSort === 'azDesc') 
       return -1
     else 
       return 1
   }
-  if(courseSort.includes('price')) {
+  if(courseSort?.includes('price')) {
     if (a.price - b.price && courseSort === 'priceDesc')
       return b.price - a.price
     else

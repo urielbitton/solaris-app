@@ -11,6 +11,18 @@
   align-items: center;
   flex-wrap: wrap;
 }
+.course-page header.banner .edit-icon {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  opacity: 0.4;
+  color: var(--color);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.course-page header.banner:hover .edit-icon {
+  opacity: 1;
+}
 .course-page header.banner > div {
   display: flex;
   flex-direction: column;
