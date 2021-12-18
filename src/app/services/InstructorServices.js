@@ -29,3 +29,11 @@ export const getCoursesByInstructorID = (instructorID, setCourses, limit) => {
     setCourses(coursesArr)
   })
 }
+
+export const getFollowersByInstructorID = (instructorID, setFollowers) => {
+  db.collection('instructors').doc(instructorID).collection('followers').onSnapshot(snap => {
+    const followersArr = []
+    snap.forEach(doc => followersArr.push(doc.data()))
+    setFollowers(followersArr)
+  })
+}

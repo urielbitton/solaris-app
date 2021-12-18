@@ -1,21 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouteMatch } from 'react-router'
-import { getCoursesByInstructorID, getInstructorByID, getReviewsByInstructorID } from '../services/InstructorServices'
+import { getCoursesByInstructorID, getFollowersByInstructorID, getInstructorByID, getReviewsByInstructorID } from '../services/InstructorServices'
 import './styles/InstructorPage.css'
 import {StoreContext} from '../store/store'
 import SocialLinks from '../components/SocialLinks'
 import CourseCard from '../components/CourseCard'
+import FollowInstructorBtn from "../components/FollowInstructorBtn"
 
 export default function InstructorPage() {
 
-  const {setNavTitle, setNavDescript} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
   const [instructor, setInstructor] = useState({})
   const [reviews, setReviews] = useState([])
   const [courses, setCourses] = useState([])
   const [coursesLimit, setCoursesLimit] = useState(10)
+  const [followers, setFollowers] = useState([])
   const instructorID = useRouteMatch('/instructors/instructor/:instructorID')?.params.instructorID
   const reviewsNumTotal = reviews?.reduce((a,b) => a + b?.rating, 0)
   const ratingAvg = reviewsNumTotal / reviews.length
+  const isCurrentUserFollowing = followers?.findIndex(x => x.userID === user?.uid) > -1
 
   const coursesRender = courses?.map((course,i) => {
     return <CourseCard course={course} key={i} />
@@ -25,6 +28,7 @@ export default function InstructorPage() {
     getInstructorByID(instructorID, setInstructor)
     getReviewsByInstructorID(instructorID, setReviews, Infinity)
     getCoursesByInstructorID(instructorID, setCourses, coursesLimit)
+    getFollowersByInstructorID(instructorID, setFollowers)
     setNavTitle('Instructor')
   },[instructorID])
 
@@ -56,7 +60,11 @@ export default function InstructorPage() {
             <i className="fal fa-user-friends"></i>
             <span>{instructor?.followersCount} follower{instructor?.followersCount !== 1 ? "s" : ""}</span>
           </h5>
-          <button className="shadow-hover">Follow<i className="fal fa-plus"></i></button>
+          <FollowInstructorBtn 
+            isCurrentUserFollowing={isCurrentUserFollowing}
+            instructorID={instructorID}
+            currentUserID={user?.uid}
+          />
         </div>
       </div>
       <div className="instructor-stats-container">

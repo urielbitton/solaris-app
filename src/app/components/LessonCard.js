@@ -16,7 +16,7 @@ export default function LessonCard(props) {
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
 
-  const videosRender = videos
+  const videosRender = [...videos, ...addedVideos]
   ?.filter(x => pattern.test(x.title))
   .map((video,i) => {
     return <VideoRow 

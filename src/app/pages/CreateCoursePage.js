@@ -8,12 +8,13 @@ import { db } from '../firebase/fire'
 import LessonCard from '../components/LessonCard'
 import AppModal from '../components/AppModal'
 import { getYoutubeVideoDetails } from '../services/youtubeServices'
-import { convertYoutubeDuration, fileTypeConverter, truncateText, uploadImgLocal } from '../utils/utilities'
+import { convertYoutubeDuration, fileTypeConverter, truncateText } from '../utils/utilities'
 import { getCourseCategories } from '../services/adminServices'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { CreateCourse, saveCourse } from '../services/CreateCourse'
 import PageLoader from '../components/PageLoader'
-import { getCourseByID, getLessonsByCourseID, getVideosByLessonID } from "../services/courseServices"
+import { getCourseByID, getLessonsByCourseID } from "../services/courseServices"
+import { uploadImgToFireStorage } from "../services/ImageUploadServices"
 
 export default function CreateCoursePage({editMode}) {
  
@@ -165,7 +166,7 @@ export default function CreateCoursePage({editMode}) {
     setNotesTitle(notes.title)
     setNotesText(notes.text)
   }
-
+  
   const lessonsRender = [...editLessons, ...lessons]?.map((lesson,i) => {
     return <LessonCard 
       lesson={lesson} 
@@ -227,7 +228,7 @@ export default function CreateCoursePage({editMode}) {
       setLessons(prev => [...prev])
     }
   }
-  
+
   const addEditVideo = () => {
     if(videoTitle.length && videoUrl.length) {
       if(!editVideoMode.mode) {
@@ -251,6 +252,9 @@ export default function CreateCoursePage({editMode}) {
       }
       clearVideoState()
       setShowVideoModal(false) 
+    }
+    else {
+      window.alert('Please enter a video URL and title to proceed.')
     }
   }
 
@@ -303,6 +307,10 @@ export default function CreateCoursePage({editMode}) {
     else {
       return "No Documents Attached"
     }
+  }
+
+  const uploadCoverToFireStorage = (e, ) => {
+    uploadImgToFireStorage(e, `/courses/${!editMode ? newCourseID : courseID}/cover`, 'cover-img', setCourseCover)
   }
 
   const convertYoutubeLink = (e) => {
@@ -494,7 +502,7 @@ export default function CreateCoursePage({editMode}) {
                 <input 
                   style={{display:'none'}} 
                   type="file" accept='.jpg,.jpeg,.jfif,.png' 
-                  onChange={(e) => uploadImgLocal(inputRef, setCourseCover)} 
+                  onChange={(e) => uploadCoverToFireStorage(e)} 
                   ref={inputRef}
                 />
                 {!courseCover?.length && <i className="fal fa-images"></i>}
