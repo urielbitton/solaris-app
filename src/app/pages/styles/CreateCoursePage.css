@@ -503,6 +503,60 @@
   opacity: 0.8;
   word-break: break-all;
 }
+.create-course-page .what-you-learn-section {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.create-course-page .what-you-learn-section > h6 {
+  font-size: 16px;
+  color: var(--graytxt);
+  top: 3px;
+  margin-bottom: 15px;
+}
+.create-course-page .what-you-learn-section .appinput {
+  width: 100%;
+  height: 55px;
+  margin-top: 20px;
+}
+.create-course-page .what-you-learn-section .appinput input {
+  flex-basis: 100%;
+  height: 100%;
+  font-size: 15px;
+}
+.create-course-page .what-you-learn-section .appinput h6 {
+  display: none;
+}
+.create-course-page .what-you-learn-section .list-element {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--graytxt);
+}
+.create-course-page .what-you-learn-section .list-element i.fa-check {
+  color: var(--color);
+  margin-right: 15px;
+  font-size: 17px;
+}
+.create-course-page .what-you-learn-section .list-element i.edit-icon {
+  font-size: 13px;
+  margin-left: 7px;
+  cursor: pointer;
+  transition: all 0.2s;
+  opacity: 0;
+}
+.create-course-page .what-you-learn-section .list-element:hover i {
+  opacity: 1;
+}
+.create-course-page .what-you-learn-section .list-element i.edit-icon:hover {
+  color: var(--color);
+}
+.create-course-page .what-you-learn-section small {
+  font-size: 11px;
+  color: #555;
+  margin-bottom: 40px;
+}
 
 @media (max-width: 1550px) {
   .create-course-page .course-review-container,

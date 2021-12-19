@@ -50,9 +50,13 @@ export default function CreateCoursePage({editMode}) {
   const [showVideoModal, setShowVideoModal] = useState(false)
   const [showNotesModal, setShowNotesModal] = useState(false)
   const [showLessonTitleModal, setShowLessonTitleModal] = useState(false)
+  const [showLearnElModal, setShowLearnElModal] = useState(false)
   const [editVideoMode, setEditVideoMode] = useState({mode: false, video: {}})
   const [editNotesMode, setEditNotesMode] = useState({mode: false, notes: {}})
   const [categoriesArr, setCategoriesArr] = useState([])
+  const [whatYouLearn, setWhatYouLearn] = useState([])
+  const [whatYouLearnText, setWhatYouLearnText] = useState('')
+  const [whatYouLearnIndex, setWhatYouLearnIndex] = useState(-1)
   const [loading, setLoading] = useState(false)
   const newCourseID = db.collection('courses').doc().id
   const inputRef = useRef()
@@ -85,6 +89,17 @@ export default function CreateCoursePage({editMode}) {
     {title: 'Course Price', value: "$"+coursePrice},
     {title: 'Course Description', value: courseShortDescript}
   ]
+
+  const whatYouLearnRender = whatYouLearn?.map((el,i) => {
+    return <span key={i} className="list-element">
+      <i className="far fa-check"></i>
+      <span>
+        {el}
+        <i className="far fa-pen edit-icon" onClick={() => editLearnElement(el, i)}></i>
+        <i className="far fa-trash-alt edit-icon" onClick={() => deleteLearnElement(el)}></i>
+      </span>
+    </span>
+  })
   
   const courseCategoriesOpts = categoriesArr?.map((cat,i) => {
     return {name: cat.name}
@@ -108,6 +123,23 @@ export default function CreateCoursePage({editMode}) {
       <i className="fas fa-check-circle check-icon"></i>
     </div>
   })
+
+  const editLearnElement = (el, i) => {
+    setWhatYouLearnText(el) 
+    setWhatYouLearnIndex(i)
+    setShowLearnElModal(true)
+  }
+  const deleteLearnElement = (el) => {
+    const index = whatYouLearn.findIndex(x => x === el)
+    whatYouLearn.splice(index, 1)
+    setWhatYouLearn(prev => [...prev])
+  }
+  const saveLearnElement = () => {
+    whatYouLearn[whatYouLearnIndex] = whatYouLearnText
+    setWhatYouLearnText('')
+    setWhatYouLearnIndex(-1)
+    setShowLearnElModal(false)
+  }
   
   const courseFilesRender = [...lessons, ...courseLessons]?.map((lesson,i) => {
     return <div className='lesson-block'>
@@ -205,6 +237,14 @@ export default function CreateCoursePage({editMode}) {
       key={i} 
     />
   }) 
+
+  const whatYouLearnEnterPress = (e) => {
+    let keyCode = e.code || e.key
+    if (keyCode === 'Enter' && (whatYouLearnText.length < 400 && whatYouLearnText.length)) {
+      setWhatYouLearn(prev => [...prev, whatYouLearnText])
+      setWhatYouLearnText('') 
+    }
+  }
 
   const newLessonEnterPress = (e) => {
     let keyCode = e.code || e.key;
@@ -417,7 +457,7 @@ export default function CreateCoursePage({editMode}) {
         studentsEnrolled: !editMode ? 0 : course.studentsEnrolled,
         title: courseTitle,
         totalDuration: 0, 
-        whatYouLearn: []
+        whatYouLearn
       }
       if(!editMode) {
         CreateCourse(newCourseID, lessons, myUser, courseObject).then(() => {
@@ -506,6 +546,12 @@ export default function CreateCoursePage({editMode}) {
   },[courseLessons]) 
 
   useEffect(() => {
+    if(!showLearnElModal) {
+      setWhatYouLearnText('')
+    }
+  },[showLearnElModal])
+
+  useEffect(() => {
     if(editMode) {
       setCourseTitle(course.title)
       setVideoType('youtube')
@@ -555,6 +601,19 @@ export default function CreateCoursePage({editMode}) {
               <AppTextarea title="Short Description" onChange={(e) => setCourseShortDescript(e.target.value)} value={courseShortDescript} />
               <AppTextarea title="Full Description" onChange={(e) => setCourseFullDescript(e.target.value)} value={courseFullDescript} />
               <AppTextarea title="Course Summary" onChange={(e) => setCourseSummary(e.target.value)} value={courseSummary} />
+              <div className="what-you-learn-section">
+                <h6>What you will learn in this course</h6>
+                {whatYouLearnRender}
+                <div style={{marginBottom: 40}}>
+                  <AppInput 
+                    placeholder="Add a learning element...(press enter to save*)"
+                    onChange={(e) => setWhatYouLearnText(e.target.value)} 
+                    value={whatYouLearnText} 
+                    onKeyPress={(e) => whatYouLearnEnterPress(e)}
+                  />
+                  <small>*400 characters max</small>
+                </div>
+              </div>
               <AppSwitch title="Certificate Offered" onChange={(e) => setCourseCertificate(e.target.checked)} checked={courseCertificate} />
               <AppSwitch title="Allow Reviews & Ratings" onChange={(e) => setAllowReviews(e.target.checked)} checked={allowReviews} />
             </div>
@@ -688,6 +747,20 @@ export default function CreateCoursePage({editMode}) {
       >
         <form onSubmit={(e) => e.preventDefault()}>
           <AppInput title="Notes Title" onChange={(e) => setLessonTitleTemp(e.target.value)} value={lessonTitleTemp} />
+        </form>
+      </AppModal>
+      <AppModal
+        title="Edit Element"
+        showModal={showLearnElModal}
+        setShowModal={setShowLearnElModal}
+        actions={ <button onClick={() => saveLearnElement()}>Save</button> }
+      >
+        <form onSubmit={(e) =>e.preventDefault()}>
+          <AppInput 
+            placeholder="Edit learning element" 
+            onChange={(e) => setWhatYouLearnText(e.target.value)} 
+            value={whatYouLearnText} 
+          />
         </form>
       </AppModal>
     </div>
