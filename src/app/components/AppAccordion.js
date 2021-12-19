@@ -4,7 +4,7 @@ import './styles/AppAccordion.css'
 export default function AppAccordion(props) {
 
   const {maxAccordionHeight=300, children, title, open, setOpen, className, noPadding, active, deleteBtn,
-    headerMetaTitle} = props
+    editBtn, headerMetaTitle} = props
 
   return (
     <div className={`app-accordion ${active ? "active": ""} ${className} ${open && "open"}`}>
@@ -12,6 +12,7 @@ export default function AppAccordion(props) {
         <h5 title={headerMetaTitle}>{title}</h5>
         <div className="action-btns">
           {deleteBtn}
+          {editBtn}
           <i className={`far fa-angle-up ${open && "down"}`}></i>
         </div>
       </header>

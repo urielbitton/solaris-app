@@ -37,6 +37,7 @@ export default function CreateCoursePage({editMode}) {
   const [lesson, setLesson] = useState({})
   const [lessons, setLessons] = useState([])
   const [lessonTitle, setLessonTitle] = useState('')
+  const [lessonTitleTemp, setLessonTitleTemp] = useState('')
   const [videoTitle, setVideoTitle] = useState('')
   const [videoDuration, setVideoDuration] = useState(0)
   const [videoUrl, setVideoUrl] = useState('')
@@ -47,6 +48,7 @@ export default function CreateCoursePage({editMode}) {
   const [youtubeLink, setYoutubeLink] = useState('')
   const [showVideoModal, setShowVideoModal] = useState(false)
   const [showNotesModal, setShowNotesModal] = useState(false)
+  const [showLessonTitleModal, setShowLessonTitleModal] = useState(false)
   const [editVideoMode, setEditVideoMode] = useState({mode: false, video: {}})
   const [editNotesMode, setEditNotesMode] = useState({mode: false, notes: {}})
   const [categoriesArr, setCategoriesArr] = useState([])
@@ -166,6 +168,12 @@ export default function CreateCoursePage({editMode}) {
     setNotesTitle(notes.title)
     setNotesText(notes.text)
   }
+  const editLessonTitle = (e, lesson) => {
+    e.stopPropagation()
+    setLesson(lesson)
+    setShowLessonTitleModal(true)
+    setLessonTitleTemp(lesson.title)
+  }
   
   const lessonsRender = [...editLessons, ...lessons]?.map((lesson,i) => {
     return <LessonCard 
@@ -188,9 +196,8 @@ export default function CreateCoursePage({editMode}) {
           <h5 onClick={() => clickAddNotes(lesson)}><i className="fas fa-sticky-note"></i>Click to add notes/files to this lesson</h5>
         </div>
       }
-      deleteBtn={
-        <i className="fas fa-trash-alt" style={{fontSize:16}} onClick={(e) => deleteLesson(e, lesson)}></i>
-      }
+      deleteBtn={ <i className="far fa-trash-alt" style={{fontSize:16}} onClick={(e) => deleteLesson(e, lesson)}></i> }
+      editBtn={ <i className="far fa-pen" style={{fontSize:16}} onClick={(e) => editLessonTitle(e, lesson)}></i> }
       key={i} 
     />
   }) 
@@ -227,6 +234,12 @@ export default function CreateCoursePage({editMode}) {
       lessons.splice(index, 1)
       setLessons(prev => [...prev])
     }
+  }
+  const saveLessonTitle = () => {
+    const index = lessons.findIndex(x => x.lessonID === lesson.lessonID)
+    lessons[index].title = lessonTitleTemp
+    setLessonTitleTemp('')
+    setShowLessonTitleModal(false)
   }
 
   const addEditVideo = () => {
@@ -284,9 +297,16 @@ export default function CreateCoursePage({editMode}) {
   }
 
   const deleteVideo = () => {
-
+    const index = lesson.videos.findIndex(x => x.videoID === editVideoMode.video.videoID)
+    lesson.videos.splice(index, 1)
+    setShowVideoModal(false)
   }
-
+  const deleteNote = () => {
+    const index = lesson.notes.findIndex(x => x.noteID === editNotesMode.notes.noteID)
+    lesson.notes.splice(index, 1)
+    setShowNotesModal(false)
+  }
+  
   const handleFileUpload = (e) => {
     setNotesFileText(e.target.value)
     setNotesFile(e.target.files)
@@ -568,7 +588,10 @@ export default function CreateCoursePage({editMode}) {
               title="Add Notes"
               showModal={showNotesModal}
               setShowModal={setShowNotesModal}
-              actions={<button onClick={() => addEditNotes()}>{editNotesMode.mode ? "Save" : "Add"}</button>}
+              actions={<>
+                <button onClick={() => addEditNotes()}>{editNotesMode.mode ? "Save" : "Add"}</button>
+                <button className="delete-btn" onClick={() => deleteNote()}>Delete</button>
+              </>}
             >
               <div className="form single-columns">
                 <AppInput title="Notes Title" onChange={(e) => setNotesTitle(e.target.value)} value={notesTitle} />
@@ -637,6 +660,16 @@ export default function CreateCoursePage({editMode}) {
         </div>
       </div>
       <PageLoader loading={loading} />
+      <AppModal 
+        title="Edit Lesson Title"
+        showModal={showLessonTitleModal}
+        setShowModal={setShowLessonTitleModal}
+        actions={<button onClick={() => saveLessonTitle()}>Save</button>}
+      >
+        <form onSubmit={(e) => e.preventDefault()}>
+          <AppInput title="Notes Title" onChange={(e) => setLessonTitleTemp(e.target.value)} value={lessonTitleTemp} />
+        </form>
+      </AppModal>
     </div>
   )
 }
