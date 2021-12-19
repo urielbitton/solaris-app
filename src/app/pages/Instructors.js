@@ -5,6 +5,7 @@ import { getInstructorsCount } from '../services/adminServices'
 import { StoreContext } from '../store/store'
 import './styles/Instructors.css'
 import PageSearch from '../components/PageSearch'
+import SkeletonLoader from "../components/SkeletonLoader"
 
 export default function Instructors() {
 
@@ -37,7 +38,11 @@ export default function Instructors() {
       </section>
       <h3>Instructors</h3>
       <div className="instructors-grid">
-        {instructorsRender}
+        { 
+          instructors.length ? 
+          instructorsRender : 
+          <SkeletonLoader width="240px" height="270px" amount={3} />
+        }
       </div>
     </div>
   )

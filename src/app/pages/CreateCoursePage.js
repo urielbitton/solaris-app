@@ -15,6 +15,7 @@ import { CreateCourse, saveCourse } from '../services/CreateCourse'
 import PageLoader from '../components/PageLoader'
 import { getCourseByID, getLessonsByCourseID } from "../services/courseServices"
 import { uploadImgToFireStorage } from "../services/ImageUploadServices"
+import { deleteDB } from "../services/CrudDB"
 
 export default function CreateCoursePage({editMode}) {
  
@@ -65,7 +66,7 @@ export default function CreateCoursePage({editMode}) {
   const totalFilesNum = lessons?.reduce((a,b) => a + b.files?.reduce((x,y) => x + y.length, 0), 0)
   const courseLessonsNotesNum = courseLessons?.reduce((a,b) => a + b.notes?.length, 0)
   const courseLessonsFilesNum = courseLessons?.reduce((a,b) => a + b.files?.reduce((x,y) => x + y.length, 0), 0)
-  const createCourseAccess = (!editMode ? lessons.length : courseLessons.length) && courseTitle.length && courseCover.length && coursePrice.length 
+  const createCourseAccess = (!editMode ? lessons.length : courseLessons.length) && courseTitle.length && coursePrice.length 
     && courseShortDescript && videoType.length
 
 
@@ -154,6 +155,7 @@ export default function CreateCoursePage({editMode}) {
     clearNotestate()
   }
   const onVideoClick = (lesson, video) => {
+    setSlidePos(1)
     setLesson(lesson)
     setShowVideoModal(true)
     setEditVideoMode({mode: true, video: video})
@@ -162,6 +164,7 @@ export default function CreateCoursePage({editMode}) {
     setVideoUrl(video.url)
   }
   const onNotesClick = (lesson, notes) => {
+    setSlidePos(1)
     setLesson(lesson)
     setShowNotesModal(true)
     setEditNotesMode({mode: true, notes: notes})
@@ -170,6 +173,7 @@ export default function CreateCoursePage({editMode}) {
   }
   const editLessonTitle = (e, lesson) => {
     e.stopPropagation()
+    setSlidePos(1)
     setLesson(lesson)
     setShowLessonTitleModal(true)
     setLessonTitleTemp(lesson.title)
@@ -228,6 +232,7 @@ export default function CreateCoursePage({editMode}) {
 
   const deleteLesson = (e, lesson) => {
     e.stopPropagation()
+    setSlidePos(1)
     const confirm = window.confirm('You are about to delete this lesson.')
     if(confirm) {
       const index = lessons.findIndex(x => x.lessonID === lesson.lessonID)
@@ -389,7 +394,7 @@ export default function CreateCoursePage({editMode}) {
         category: courseCategory,
         costType: coursePrice > 0 ? 'pro' : 'free',
         courseType: courseType ?? 'video',
-        cover: courseCover,
+        cover: courseCover.length ? courseCover : "https://i.imgur.com/aRXh4Z6.png",
         dateCreated: !editMode ? new Date() : course.dateCreated,
         dateUpdated: new Date(),
         description: courseFullDescript,
@@ -417,7 +422,6 @@ export default function CreateCoursePage({editMode}) {
       if(!editMode) {
         CreateCourse(newCourseID, lessons, myUser, courseObject).then(() => {
           setLoading(false)
-          window.alert('Course successfully created.')
           history.push(`/courses/course/${newCourseID}`)
         })
         .catch(err => {
@@ -428,7 +432,6 @@ export default function CreateCoursePage({editMode}) {
       else {
         saveCourse(courseID, courseLessons, courseObject).then(() => {
           setLoading(false)
-          window.alert('Course successfully saved.')
           history.push(`/courses/course/${courseID}`)
         })
         .catch(err => {
@@ -439,6 +442,20 @@ export default function CreateCoursePage({editMode}) {
     }
     else {
       window.alert('Fill in all course details in order to create a course.')
+    }
+  }
+
+  const deleteCourse = () => {
+    if(editMode) {
+      const confirm = window.confirm('Are you sure you would like to remove this course?')
+      if(confirm) {
+        setLoading(true)
+        history.push('/courses')
+        deleteDB('courses', courseID).then(res => {
+          window.alert('The course has been removed.')
+          setLoading(false)
+        })
+      }
     }
   }
   
@@ -508,7 +525,10 @@ export default function CreateCoursePage({editMode}) {
   return (
     <div className="create-course-page">
       <div className="create-content">
-        <h3>{!editMode ? "Create" : "Edit"} {!editMode ? courseType : course.courseType} Course</h3>
+        <div className="create-content-titles">
+          <h3>{!editMode ? "Create" : "Edit"} {!editMode ? courseType : course?.courseType} Course</h3>
+          { editMode && <button onClick={() => deleteCourse()}>Delete Course</button> }
+        </div>
         <div className="slide-container" ref={scrollTopRef}>
           <div className={`slide-element ${slidePos === 0 ? "active" : slidePos > 0 ? "prev" : ""}`}>
             <div className="video-type-container">

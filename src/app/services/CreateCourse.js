@@ -19,7 +19,7 @@ export const CreateCourse = (courseID, lessons, myUser, courseObject) => {
       lesson.videos.forEach(video => {
         const docRef = db.collection('courses').doc(courseID).collection('lessons').doc(lesson?.lessonID).collection('videos').doc(video?.videoID)
         batch.set(docRef, {
-          videoID: video?.videoID, title: video?.title, duration: video?.duration, url: video?.url?.split('watch?v=')[1]?.split('&')[0], dateAdded: new Date()
+          videoID: video?.videoID, title: video?.title, duration: video?.duration, url: video?.url, dateAdded: new Date()
         })
       })
     })

@@ -15,13 +15,14 @@ import { useWindowDimensions } from "../utils/customHooks"
 
 export default function CoursePage() {
 
-  const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, user, myUser} = useContext(StoreContext)
   const [course, setCourse] = useState({})
   const [instructor, setInstructor] = useState({})
   const [lessons, setLessons] = useState([])
   const [userCourses, setUserCourses] = useState([])
   const courseID = useRouteMatch('/courses/course/:courseID')?.params.courseID
   const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
+  const inCourseInstructor = instructor?.instructorID === myUser?.instructorID
   const history = useHistory()
   const location = useLocation()
   const lessonsScrollRef = useRef()
@@ -66,7 +67,7 @@ export default function CoursePage() {
     getInstructorByID(course?.instructorID ?? "na", setInstructor)
     setNavTitle('Course')
     setNavDescript(course?.title) 
-  },[course])
+  },[course, courseID])
 
   useEffect(() => {
     getCoursesIDEnrolledByUserID(user?.uid, setUserCourses)
@@ -77,11 +78,12 @@ export default function CoursePage() {
       lessonsScrollRef.current.scrollIntoView()
     }
   },[])
+  console.log(instructor?.name)
 
   return (
     <div className="course-page">
       <header className="banner">
-        <i className="far fa-pen edit-icon" onClick={() => history.push(`/edit-course/${courseID}`)}></i>
+        { inCourseInstructor && <i className="far fa-pen edit-icon" onClick={() => history.push(`/edit-course/${courseID}`)}></i> }
         <div className="side">
           <small>{course?.category}</small>
           <h1>{course?.title}</h1>

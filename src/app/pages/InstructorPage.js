@@ -4,8 +4,8 @@ import { getCoursesByInstructorID, getFollowersByInstructorID, getInstructorByID
 import './styles/InstructorPage.css'
 import {StoreContext} from '../store/store'
 import SocialLinks from '../components/SocialLinks'
-import CourseCard from '../components/CourseCard'
 import FollowInstructorBtn from "../components/FollowInstructorBtn"
+import CoursesGrid from "../components/CoursesGrid"
 
 export default function InstructorPage() {
 
@@ -19,10 +19,6 @@ export default function InstructorPage() {
   const reviewsNumTotal = reviews?.reduce((a,b) => a + b?.rating, 0)
   const ratingAvg = reviewsNumTotal / reviews.length
   const isCurrentUserFollowing = followers?.findIndex(x => x.userID === user?.uid) > -1
-
-  const coursesRender = courses?.map((course,i) => {
-    return <CourseCard course={course} key={i} />
-  })
 
   useEffect(() => {
     getInstructorByID(instructorID, setInstructor)
@@ -85,9 +81,7 @@ export default function InstructorPage() {
       </div>
       <div className="courses-grid-container">
         <h3>Courses</h3>
-        <div className="courses-grid">
-          {coursesRender}
-        </div>
+        <CoursesGrid courses={courses} />
       </div>
     </div>
   )
