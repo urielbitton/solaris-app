@@ -1,0 +1,115 @@
+.become-instructor-page {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  height: 88vh;
+  width: 100%;
+}
+.become-instructor-page .cover-side {
+  flex-basis: 40%;
+  width: 100%;
+  height: 100%;
+  background: var(--color);
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 50px;
+  overflow: hidden;
+}
+.become-instructor-page .cover-side img {
+  width: 320px;
+  z-index: 1;
+}
+.become-instructor-page .cover-side h3 {
+  font-size: 23px;
+  color: #fff;
+  font-weight: 500;
+  z-index: 1;
+}
+.become-instructor-page .cover-side .blob {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  animation: moveAround 22s linear infinite;
+  transition: all 0.3s;
+  z-index: 0;
+}
+.become-instructor-page .cover-side .blob div {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  top: 30px;
+  left: 80px;
+  background: rgba(255,255,255,0.1);
+  transform: rotate(0deg)
+}
+@keyframes moveAround {
+  from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+}
+.become-instructor-page .cover-side .slide-navigator {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+}
+.become-instructor-page .cover-side .slide-navigator button {
+  background: none;
+}
+.become-instructor-page .cover-side .slide-navigator button:hover {
+  background: var(--lightestblue);
+}
+
+.become-instructor-page .slide-container {
+  flex-basis: 60%;
+  height: 100%;
+  background: #fff;
+  border-radius: 0 10px 10px 0;
+  box-shadow: 0 10px 10px rgba(0,0,0,0.05)
+}
+.become-instructor-page .slide-container .slide-element {
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.become-instructor-page  .intro-slide h4 {
+  font-size: 20px;
+  color: #444;
+}
+.become-instructor-page  .intro-slide h6 {
+  font-size: 15px;
+  color: var(--graytxt);
+  margin: 10px 0;
+}
+.become-instructor-page  .intro-slide button {
+  width: 120px;
+  padding: 15px;
+  margin-top: 50px;
+}
+.become-instructor-page .slide-container .list-element-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.become-instructor-page .slide-container .list-element {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--graytxt);
+}
+.become-instructor-page .slide-container .list-element i {
+  color: var(--color);
+  margin-right: 15px;
+  font-size: 17px;
+}

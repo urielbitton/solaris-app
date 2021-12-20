@@ -39,7 +39,7 @@ export default function Navbar() {
           <i className="fal fa-bars"></i>
         </div>
         <h1 className="nav-title">{navTitle}</h1>
-        <hr/>
+        { navDescript.length ? <hr/> : ""}
         <h6 className="nav-descript">{navDescript}</h6>
         <SearchBar width="300px" showIcon/>
       </div>

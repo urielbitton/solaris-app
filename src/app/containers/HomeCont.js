@@ -18,6 +18,7 @@ import { StoreContext } from '../store/store'
 import ErrorPage from "../pages/ErrorPage"
 import MyCourses from "../pages/MyCourses"
 import { useWindowDimensions } from "../utils/customHooks"
+import BecomeInstructor from "../pages/BecomeInstructor"
 
 export default function HomeCont() {
 
@@ -60,6 +61,9 @@ export default function HomeCont() {
           </Route>
           <Route exact path="/instructors/instructor/:instructorID">
             <InstructorPage />
+          </Route>
+          <Route path="/become-an-instructor">
+            <BecomeInstructor />
           </Route>
           <Route path="/my-library">
             <MyLibrary />

@@ -6,12 +6,14 @@ import becomeInstr from '../assets/imgs/become-instructor.png'
 import MenuLink from './MenuLink'
 import { useLocation } from 'react-router'
 import { StoreContext } from '../store/store'
+import { useHistory } from "react-router-dom"
 
 export default function Sidebar() {
 
   const {myUser, openSidebar, setOpenSidebar} = useContext(StoreContext)
   const [tabOpen, setTabOpen] = useState(false)
   const location = useLocation()
+  const history = useHistory()
 
   const menuRender = menuLinks
   ?.filter(x => myUser?.isInstructor ? x : !x.requireInstructor)
@@ -49,7 +51,7 @@ export default function Sidebar() {
         </div>
         <div className="instructor-container">
           <img src={becomeInstr} alt="become an instructor"/>
-          <button>Become an Instructor</button>
+          <button onClick={() => history.push('/become-an-instructor')}>Become an Instructor</button>
           <div className="square" />
         </div>
       </div>
