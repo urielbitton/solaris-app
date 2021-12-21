@@ -59,6 +59,13 @@ export default function Home() {
           <CoursesGrid courses={allCourses} />
         </div>
       </section>
+      <section>
+        <h3>Popular Instructors</h3>
+      </section>
+      <section>
+        <h3>Latest Tutorials</h3>
+      </section>
+      <div className="spacer-m"></div>
     </div>
   )
 }

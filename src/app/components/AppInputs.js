@@ -7,7 +7,7 @@ export function AppInput(props) {
    
   return ( 
     <label className={`appinput commoninput ${className?className:""} ${descriptText?"descriptinput":""}`}> 
-      <h6>{title}</h6>
+      { title && <h6>{title}</h6> }
       <i className={iconclass}></i> 
       {
         descriptText?<div>

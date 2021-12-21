@@ -8,7 +8,7 @@
   width: 5px;
 }
 .slide-container .slide-element {
-  width: 0;
+  position: absolute;
   left: 100%;
   opacity: 0;
   transition: left 0.6s, opacity 0.3s, width 0.3s;

@@ -82,17 +82,18 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  height: 100%;
 }
-.become-instructor-page  .intro-slide h4 {
+.become-instructor-page .slide-element h4 {
   font-size: 20px;
   color: #444;
 }
-.become-instructor-page  .intro-slide h6 {
+.become-instructor-page .intro-slide h6 {
   font-size: 15px;
   color: var(--graytxt);
   margin: 10px 0;
 }
-.become-instructor-page  .intro-slide button {
+.become-instructor-page .intro-slide button {
   width: 120px;
   padding: 15px;
   margin-top: 50px;
@@ -112,4 +113,73 @@
   color: var(--color);
   margin-right: 15px;
   font-size: 17px;
+}
+.become-instructor-page .slide-element form {
+  margin-top: 40px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 30px;
+}
+.become-instructor-page .slide-element form .commoninput.full {
+  grid-column: 1/-1;
+}
+.become-instructor-page .slide-element form select {
+  text-transform: capitalize;
+}
+.become-instructor-page .slide-element form input,
+.become-instructor-page .slide-element form select,
+.become-instructor-page .slide-element form textarea {
+  border-radius: 10px;
+}
+.become-instructor-page .slide-element form .appinput h6 {
+  flex-basis: 40%;
+}
+.become-instructor-page .slide-element form .appinput input[type="file"] {
+  border: none;
+  top: -2px;
+}
+.become-instructor-page .slide-element form textarea {
+  max-width: 100%;
+  min-width: 100%;
+  max-height: 200px;
+  min-height: 120px;
+}
+.become-instructor-page .slide-element .commoninput {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.become-instructor-page .slide-element .commoninput h6 {
+  font-size: 14px;
+  color: var(--graytxt);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.become-instructor-page .slide-element.slide-other button {
+  width: 100px;
+  padding: 15px;
+  margin-top: 20px;
+  font-size: 15px;
+}
+.become-instructor-page .slide-element.slide-other button i {
+  margin-left: 10px;
+}
+.become-instructor-page .slide-element.slide-end {
+  gap: 30px;
+  align-items: center;
+}
+.become-instructor-page .slide-element.slide-end i {
+  font-size: 50px;
+}
+.become-instructor-page .slide-element.slide-end h4 {
+  text-align: center;
+  color: var(--graytxt);
+  width: 600px;
+  line-height: 2;
+}
+.become-instructor-page .slide-element.slide-end button {
+  margin-top: 20px;
+  padding: 15px 20px;
+  font-size: 15px;
 }
