@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import LessonCard from './LessonCard'
-import {AppInput} from '../components/AppInputs'
+import {AppInput} from '../ui/AppInputs'
 
 export default function LessonsList(props) {
 

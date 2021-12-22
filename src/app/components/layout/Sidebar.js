@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import './styles/Sidebar.css'
-import logoOnly from '../assets/imgs/logonly2.png'
-import { menuLinks } from '../api/apis'
-import becomeInstr from '../assets/imgs/become-instructor.png'
+import '.././styles/Sidebar.css'
+import { menuLinks } from '../../api/apis'
+import becomeInstr from '../../assets/imgs/become-instructor.png'
+import logoOnly from '../../assets/imgs/logonly2.png'
 import MenuLink from './MenuLink'
 import { useLocation } from 'react-router'
-import { StoreContext } from '../store/store'
+import { StoreContext } from '../../store/store'
 import { useHistory } from "react-router-dom"
 
 export default function Sidebar() {

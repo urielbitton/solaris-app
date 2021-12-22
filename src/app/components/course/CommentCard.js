@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
-import './styles/ReviewCard.css'
-import Ratings from './Ratings'
-import { convertFireDateToString } from '../utils/utilities'
-import {StoreContext} from '../store/store'
-import { db } from "../firebase/fire"
+import '.././styles/ReviewCard.css'
+import Ratings from '../ui/Ratings'
+import { convertFireDateToString } from '../../utils/utilities'
+import {StoreContext} from '../../store/store'
+import { db } from "../../firebase/fire"
 import firebase from 'firebase'
-import AppModal from './AppModal'
-import { AppSelect, AppTextarea } from "./AppInputs"
-import { setDB } from "../services/CrudDB"
-import { isUserInstructor } from "../services/userServices"
+import AppModal from '../ui/AppModal'
+import { AppSelect, AppTextarea } from "../ui/AppInputs"
+import { setDB } from "../../services/CrudDB"
+import { isUserInstructor } from "../../services/userServices"
 import { Link } from "react-router-dom"
 
 export default function CommentCard(props) {

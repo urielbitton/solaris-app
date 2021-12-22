@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { StoreContext } from '../store/store'
-import SearchBar from './SearchBar'
-import './styles/Navbar.css'
+import { StoreContext } from '../../store/store'
+import SearchBar from '../ui/SearchBar'
+import '.././styles/Navbar.css'
 import firebase from 'firebase'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
@@ -39,7 +39,7 @@ export default function Navbar() {
           <i className="fal fa-bars"></i>
         </div>
         <h1 className="nav-title">{navTitle}</h1>
-        { navDescript.length ? <hr/> : ""}
+        { navDescript?.length ? <hr/> : ""}
         <h6 className="nav-descript">{navDescript}</h6>
         <SearchBar width="300px" showIcon/>
       </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import CourseCard from './CourseCard'
-import { courseSorting } from '../utils/utilities'
-import SkeletonLoader from './SkeletonLoader'
+import { courseSorting } from '../../utils/utilities'
+import SkeletonLoader from '../ui/SkeletonLoader'
 
 export default function CoursesGrid({courses, courseSort}) {
 

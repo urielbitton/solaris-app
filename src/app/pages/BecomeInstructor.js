@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/BecomeInstructor.css'
 import { StoreContext } from '../store/store'
-import SlideContainer from '../components/SlideContainer'
+import SlideContainer from '../components/ui/SlideContainer'
 import becomeInstructorImg from '../assets/imgs/become-instructor.png'
-import SlideElement from '../components/SlideElement'
-import { AppInput, AppSelect, AppSwitch, AppTextarea } from '../components/AppInputs'
+import SlideElement from '../components/ui/SlideElement'
+import { AppInput, AppSelect, AppSwitch, AppTextarea } from '../components/ui/AppInputs'
 import { getCourseCategories } from '../services/adminServices'
-import PageLoader from '../components/PageLoader'
+import PageLoader from '../components/ui/PageLoader'
 import { setDB } from '../services/CrudDB'
 import { db } from "../firebase/fire"
 import { useHistory } from "react-router-dom"

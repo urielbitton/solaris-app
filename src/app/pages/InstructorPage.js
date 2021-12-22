@@ -3,9 +3,9 @@ import { useRouteMatch } from 'react-router'
 import { getCoursesByInstructorID, getFollowersByInstructorID, getInstructorByID, getReviewsByInstructorID } from '../services/InstructorServices'
 import './styles/InstructorPage.css'
 import {StoreContext} from '../store/store'
-import SocialLinks from '../components/SocialLinks'
-import FollowInstructorBtn from "../components/FollowInstructorBtn"
-import CoursesGrid from "../components/CoursesGrid"
+import SocialLinks from '../components/ui/SocialLinks'
+import FollowInstructorBtn from "../components/instructor/FollowInstructorBtn"
+import CoursesGrid from "../components/course/CoursesGrid"
 
 export default function InstructorPage() {
 

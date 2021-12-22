@@ -1,7 +1,7 @@
 import React from 'react'
-import './styles/PageSearch.css'
+import '.././styles/PageSearch.css'
 import SearchBar from './SearchBar'
-import { useWindowDimensions } from "../utils/customHooks"
+import { useWindowDimensions } from "../../utils/customHooks"
 
 export default function PageSearch(props) {
 

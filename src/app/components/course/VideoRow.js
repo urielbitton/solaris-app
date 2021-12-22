@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory, useLocation } from 'react-router'
-import { truncateText } from '../utils/utilities'
-import './styles/LessonItems.css'
+import { truncateText } from '../../utils/utilities'
+import '.././styles/LessonItems.css'
 
 export default function VideoRow(props) {
 

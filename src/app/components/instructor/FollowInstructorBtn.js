@@ -1,5 +1,5 @@
 import React from 'react'
-import { db } from "../firebase/fire"
+import { db } from "../../firebase/fire"
 import firebase from 'firebase'
 
 export default function FollowInstructorBtn(props) {

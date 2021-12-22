@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import './styles/HomeCont.css'
-import Navbar from '../components/Navbar'
+import Navbar from '../components/layout/Navbar'
 import { Route, Switch } from 'react-router'
 import Home from '../pages/Home'
 import CoursePage from '../pages/CoursePage'

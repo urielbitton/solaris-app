@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import InstructorCard from '../components/InstructorCard'
+import InstructorCard from '../components/instructor/InstructorCard'
 import { getAllInstructors } from '../services/InstructorServices'
 import { getInstructorsCount } from '../services/adminServices'
 import { StoreContext } from '../store/store'
 import './styles/Instructors.css'
-import PageSearch from '../components/PageSearch'
-import SkeletonLoader from "../components/SkeletonLoader"
+import PageSearch from '../components/ui/PageSearch'
+import SkeletonLoader from "../components/ui/SkeletonLoader"
 
 export default function Instructors() {
 

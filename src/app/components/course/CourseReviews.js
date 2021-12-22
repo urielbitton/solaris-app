@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { getReviewsByCourseID } from '../services/courseServices'
-import CommentCard from './CommentCard'
-import './styles/CourseReviews.css'
+import { getReviewsByCourseID } from '../../services/courseServices'
+import CommentCard from '../course/CommentCard'
+import '.././styles/CourseReviews.css'
 
 export default function CourseReviews(props) {
 

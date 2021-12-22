@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import './styles/InstructorCard.css'
-import Ratings from '../components/Ratings'
-import { getReviewsByInstructorID } from '../services/InstructorServices'
+import '.././styles/InstructorCard.css'
+import Ratings from '../ui/Ratings'
+import { getReviewsByInstructorID } from '../../services/InstructorServices'
 import { useHistory } from 'react-router'
 
 export default function InstructorCard(props) {

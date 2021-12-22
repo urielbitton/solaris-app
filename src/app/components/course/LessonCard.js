@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { getVideosByLessonID } from '../services/courseServices'
-import AppAccordion from './AppAccordion'
+import { getVideosByLessonID } from '../../services/courseServices'
+import AppAccordion from '../ui/AppAccordion'
 import LessonNotesRow from './LessonNotesRow'
-import './styles/LessonCard.css'
+import '.././styles/LessonCard.css'
 import VideoRow from './VideoRow'
 
 export default function LessonCard(props) {

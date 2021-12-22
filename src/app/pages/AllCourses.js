@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StoreContext } from '../store/store'
 import './styles/AllCourses.css'
-import { AppSelect } from '../components/AppInputs'
+import { AppSelect } from '../components/ui/AppInputs'
 import { getCourseCategories, getCoursesCount } from '../services/adminServices' 
 import { getAllCoursesFiltered } from '../services/courseServices'
-import PageSearch from '../components/PageSearch'
-import CourseGrid from '../components/CoursesGrid'
+import PageSearch from '../components/ui/PageSearch'
+import CourseGrid from '../components/course/CoursesGrid'
 
 export default function AllCourses() {
 

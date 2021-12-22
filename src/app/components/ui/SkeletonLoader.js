@@ -1,5 +1,5 @@
 import React from 'react'
-import './styles/SkeletonLoader.css'
+import '.././styles/SkeletonLoader.css'
 
 export default function SkeletonLoader(props) {
 

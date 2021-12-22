@@ -4,7 +4,7 @@ import firebase from 'firebase'
 import './styles/Auth.css'
 import appLogo from '../assets/imgs/logonly2.png'
 import googleIcon from '../assets/imgs/google-icon.png'
-import { AppInput } from '../components/AppInputs'
+import { AppInput } from '../components/ui/AppInputs'
 import { Link } from 'react-router-dom'
 
 export default function Login() {

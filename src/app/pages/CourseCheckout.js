@@ -4,11 +4,11 @@ import { getCourseByID } from '../services/courseServices'
 import { StoreContext } from '../store/store'
 import './styles/Checkout.css'
 import { PayPalButton } from 'react-paypal-button-v2'
-import { AppInput } from '../components/AppInputs'
+import { AppInput } from '../components/ui/AppInputs'
 import { db } from '../firebase/fire'
 import CreateOrder from '../services/CreateOrder'
 import { setSubDB, updateDB } from '../services/CrudDB'
-import PageLoader from '../components/PageLoader'
+import PageLoader from '../components/ui/PageLoader'
 
 export default function CourseCheckout() {
 

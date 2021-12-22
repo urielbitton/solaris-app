@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/MyCourses.css'
-import PageSearch from '../components/PageSearch'
+import PageSearch from '../components/ui/PageSearch'
 import { getCoursesByInstructorID } from '../services/InstructorServices'
 import { StoreContext } from '../store/store'
-import CoursesGrid from '../components/CoursesGrid'
+import CoursesGrid from '../components/course/CoursesGrid'
 
 export default function MyCourses() {
 

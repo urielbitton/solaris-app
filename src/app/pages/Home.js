@@ -3,7 +3,7 @@ import { getAllCourses, getFeaturedCourses, getNewCourses } from '../services/co
 import './styles/Home.css'
 import {StoreContext} from '../store/store'
 import { Link } from 'react-router-dom'
-import CoursesGrid from '../components/CoursesGrid'
+import CoursesGrid from '../components/course/CoursesGrid'
 
 export default function Home() {
 

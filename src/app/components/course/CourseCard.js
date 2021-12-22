@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import './styles/CourseCard.css'
-import Ratings from './Ratings'
+import '.././styles/CourseCard.css'
+import Ratings from '../ui/Ratings'
 import { useHistory } from 'react-router'
-import { getCoursesIDEnrolledByUserID } from '../services/userServices'
-import { StoreContext } from '../store/store'
-import { getReviewsByCourseID } from '../services/courseServices'
+import { getCoursesIDEnrolledByUserID } from '../../services/userServices'
+import { StoreContext } from '../../store/store'
+import { getReviewsByCourseID } from '../../services/courseServices'
 
 export default function CourseCard(props) {
 

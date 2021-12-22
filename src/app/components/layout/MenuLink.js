@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
-import { StoreContext } from '../store/store'
+import { StoreContext } from '../../store/store'
 
 export default function MenuLink(props) {
 

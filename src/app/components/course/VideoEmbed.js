@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Loader from './Loader'
+import Loader from '../ui/Loader'
 
 export default function VideoEmbed(props) {
 
