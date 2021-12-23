@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router'
 import { Link } from 'react-router-dom'
 import { getCourseByID, getLessonsByCourseID } from '../services/courseServices'
-import { getInstructorByID } from '../services/InstructorServices'
+import { getInstructorByID, getReviewsByInstructorID } from '../services/InstructorServices'
 import './styles/CoursePage.css'
 import placeholderImg from '../assets/imgs/placeholder.png'
 import LessonsList from '../components/course/LessonsList'
@@ -20,6 +20,7 @@ export default function CoursePage() {
   const [instructor, setInstructor] = useState({})
   const [lessons, setLessons] = useState([])
   const [userCourses, setUserCourses] = useState([])
+  const [instructorReviews, setInstructorReviews] = useState([])
   const courseID = useRouteMatch('/courses/course/:courseID')?.params.courseID
   const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
   const inCourseInstructor = instructor?.instructorID === myUser?.instructorID
@@ -27,6 +28,8 @@ export default function CoursePage() {
   const location = useLocation()
   const lessonsScrollRef = useRef()
   const { screenWidth } = useWindowDimensions()
+  const instructorRatingSum = instructorReviews.reduce((a,b) => a + b.rating, 0)
+  const isntructorRatingAvg = instructorRatingSum / instructorReviews.length
 
   const courseInfos = [
     {name: 'Course Level', icon: 'fas fa-layer-group', value: course?.difficulty},
@@ -74,11 +77,14 @@ export default function CoursePage() {
   },[user])
 
   useEffect(() => {
+    getReviewsByInstructorID(course?.instructorID, setInstructorReviews, Infinity)
+  },[course?.instructorID])
+
+  useEffect(() => {
     if(location.search.includes('scrollToLessons')) {
       lessonsScrollRef.current.scrollIntoView()
     }
   },[])
-  console.log(instructor?.name)
 
   return (
     <div className="course-page">
@@ -141,15 +147,15 @@ export default function CoursePage() {
                   <h5>{instructor?.title}</h5>
                   <div className="instructor-data">
                     <div>
-                      <big>1</big>
-                      <span>Courses</span>
+                      <big>{instructor?.coursesTaught?.length}</big>
+                      <span>Course{instructor?.coursesTaught?.length !== 1 ? "s" : ""}</span>
                     </div>
                     <div className="border">
-                      <big>0</big>
-                      <span>Reviews</span>
+                      <big>{instructorReviews?.length}</big>
+                      <span>Review{instructorReviews?.length !== 1 ? "s" : ""}</span>
                     </div>
                     <div className="border">
-                      <big>4.6</big>
+                      <big>{isNaN(isntructorRatingAvg.toFixed(1)) ? "N/A" : isntructorRatingAvg.toFixed(1)}</big>
                       <span>Rating</span>
                     </div>
                   </div>

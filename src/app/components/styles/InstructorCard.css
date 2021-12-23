@@ -68,3 +68,9 @@
   font-size: 13px;
   color: #444;
 }
+.instructor-card small.followers-count {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}

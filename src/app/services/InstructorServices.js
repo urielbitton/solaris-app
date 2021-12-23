@@ -37,3 +37,11 @@ export const getFollowersByInstructorID = (instructorID, setFollowers) => {
     setFollowers(followersArr)
   })
 }
+
+export const getTopRatedInstructors = (minRating, setInstructor, limit) => {
+  db.collection('instructors').where('rating', '>=', minRating).onSnapshot(snap => {
+    const instructorsArr = []
+    snap.forEach(doc => instructorsArr.push(doc.data()))
+    setInstructor(instructorsArr)
+  })
+}

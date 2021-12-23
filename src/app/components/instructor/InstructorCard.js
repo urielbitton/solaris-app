@@ -23,7 +23,6 @@ export default function InstructorCard(props) {
         <div className="instructor-info">
           <div className="header">
             <small>{coursesTaught.length} course{coursesTaught.length !== 1 ? "s" : ""} taught</small>
-            <small style={{color:'var(--color)'}}>{followersCount} follower{followersCount !== 1 ? "s" : ""}</small>
           </div>
           <h3>{name}</h3>
           <h4>{title}</h4>
@@ -32,6 +31,7 @@ export default function InstructorCard(props) {
             <span>{isNaN(ratingAvg) ? 0 : ratingAvg}</span>
             <span>({reviews.length})</span>
           </div>
+          <small className="followers-count">{followersCount} follower{followersCount !== 1 ? "s" : ""}</small>
         </div>
       </div>
     </div>

@@ -4,6 +4,10 @@ import './styles/Home.css'
 import {StoreContext} from '../store/store'
 import { Link } from 'react-router-dom'
 import CoursesGrid from '../components/course/CoursesGrid'
+import { getTopRatedInstructors } from "../services/InstructorServices"
+import InstructorCard from '../components/instructor/InstructorCard'
+import { getCoursesIDEnrolledByUserID } from "../services/userServices"
+import onlineLearningImg from '../assets/imgs/online-learning.png'
 
 export default function Home() {
 
@@ -11,12 +15,20 @@ export default function Home() {
   const [featuredCourses, setFeaturedCourses]= useState([])
   const [newCourses, setNewCourses] =  useState([])
   const [allCourses, setAllCourses] = useState([])
+  const [topInstructors, setTopInstructors] = useState([])
+  const [coursesEnrolled, setCoursesEnrolled] = useState([])
   const lessThanAMonth = new Date(Date.now() - 2592000000)
+
+  const topInstructorsRender = topInstructors?.map((instructor, i) => {
+    return <InstructorCard instructor={instructor} key={i} />
+  })
 
   useEffect(() => {
     getFeaturedCourses(setFeaturedCourses, 4)
     getNewCourses(lessThanAMonth, setNewCourses, 4)
     getAllCourses(setAllCourses, 4)
+    getTopRatedInstructors(4.5, setTopInstructors, Infinity)
+    getCoursesIDEnrolledByUserID(user?.uid, setCoursesEnrolled)
   },[])
 
   useEffect(() => {
@@ -26,6 +38,14 @@ export default function Home() {
 
   return (
     <div className="home-page">
+      <section className="intro">
+        <div>
+          <h4>Hi {user?.displayName}</h4>
+          <h6>{new Date().toDateString('en-CA', {weekday: 'long', month: 'long'})}</h6>
+          <span>You are enrolled in {coursesEnrolled.length} course{coursesEnrolled.length !== 1 ? "s" : ""}</span>
+        </div>
+        <img src={onlineLearningImg} alt="" />
+      </section>
       <section className="full">
         <div className="titles-row">
           <h3>Featured Courses</h3>
@@ -59,10 +79,13 @@ export default function Home() {
           <CoursesGrid courses={allCourses} />
         </div>
       </section>
-      <section>
-        <h3>Popular Instructors</h3>
+      <section className="full">
+        <h3>Top Rated Instructors</h3>
+        <div className="instructors-row">
+          {topInstructorsRender}
+        </div>
       </section>
-      <section>
+      <section className="full">
         <h3>Latest Tutorials</h3>
       </section>
       <div className="spacer-m"></div>
