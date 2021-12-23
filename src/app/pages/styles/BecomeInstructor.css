@@ -162,8 +162,11 @@
   margin-top: 20px;
   font-size: 15px;
 }
-.become-instructor-page .slide-element.slide-other button i {
+.become-instructor-page .slide-element.slide-other button i.fa-arrow-right {
   margin-left: 10px;
+}
+.become-instructor-page .slide-element.slide-other button i.fa-arrow-left {
+  margin-right: 10px;
 }
 .become-instructor-page .slide-element.slide-end {
   gap: 30px;
@@ -182,4 +185,31 @@
   margin-top: 20px;
   padding: 15px 20px;
   font-size: 15px;
+}
+.become-instructor-page .button-group {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.become-instructor-page .back-btn {
+  display: none;
+}
+
+@media (max-width: 1400px) {
+  .become-instructor-page .cover-side {
+    display: none;
+  }
+  .become-instructor-page .back-btn {
+    display: block;
+  }
+  .become-instructor-page .slide-container {
+    flex-basis: 100%;
+  }
+}
+
+@media (max-width: 650px) {
+  .become-instructor-page .slide-element form {
+    grid-template-columns: auto;
+  }
 }

@@ -21,6 +21,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 .home-page section.intro > div:first-of-type {
   display: flex;
@@ -67,5 +69,7 @@
 }
 
 @media (max-width: 1080px) {
-  
+  .home-page section.intro {
+    grid-column: 1/-1;
+  }
 }

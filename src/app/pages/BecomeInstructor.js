@@ -168,13 +168,22 @@ export default function BecomeInstructor() {
               className="full"
               onChange={(e) => setResume(e.target.value)}
             />
-            <button 
-              className="shadow-hover" 
-              onClick={() => setSlidePosition(2)}
-            >
-              Next
-              <i className="fal fa-arrow-right"></i>
-            </button>
+            <div className="button-group">
+              <button 
+                className="shadow-hover back-btn" 
+                onClick={() => setSlidePosition(0)}
+              >
+                <i className="fal fa-arrow-left"></i>
+                Back
+              </button>
+              <button 
+                className="shadow-hover" 
+                onClick={() => setSlidePosition(2)}
+              >
+                Next
+                <i className="fal fa-arrow-right"></i>
+              </button>
+            </div>
           </form>
         </SlideElement>
         <SlideElement
@@ -194,12 +203,21 @@ export default function BecomeInstructor() {
               onChange={(e) => setBio(e.target.value)}
               className="full"
             />
-            <button 
-              className="shadow-hover" 
-              onClick={() => submitApplication()}
-            >
-              Submit
-            </button>
+            <div className="button-group">
+              <button 
+                className="shadow-hover back-btn" 
+                onClick={() => setSlidePosition(1)}
+              >
+                <i className="fal fa-arrow-left"></i>
+                Back
+              </button>
+              <button 
+                className="shadow-hover" 
+                onClick={() => submitApplication()}
+              >
+                Submit
+              </button>
+            </div>
           </form>
         </SlideElement>
         <SlideElement
