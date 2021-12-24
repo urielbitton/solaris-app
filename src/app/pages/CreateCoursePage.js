@@ -453,7 +453,7 @@ export default function CreateCoursePage({editMode}) {
         language: courseLang,
         lessonsCount: !editMode ? lessons.length : courseLessons.length,
         notes: '',
-        price: coursePrice,
+        price: +coursePrice,
         studentsEnrolled: !editMode ? 0 : course.studentsEnrolled,
         title: courseTitle,
         totalDuration: 0, 
