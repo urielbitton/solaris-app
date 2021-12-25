@@ -8,7 +8,7 @@ import { searchClient } from '../algolia/index'
 export default function AppContainer() {
   return (
     <div className="app-container">
-      <InstantSearch indexName="courses_new" searchClient={searchClient}>
+      <InstantSearch indexName="courses_index" searchClient={searchClient}>
         <Sidebar />
         <HomeCont />
       </InstantSearch>
