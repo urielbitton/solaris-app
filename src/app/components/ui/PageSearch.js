@@ -1,7 +1,7 @@
 import React from 'react'
 import '.././styles/PageSearch.css'
-import SearchBar from './SearchBar'
 import { useWindowDimensions } from "../../utils/customHooks"
+import { SearchBox } from 'react-instantsearch-dom';
 
 export default function PageSearch(props) {
 
@@ -13,8 +13,9 @@ export default function PageSearch(props) {
       <h2>{title}</h2>
       <h6>{description}</h6>
       <section className="search-section">
-        <SearchBar width={screenWidth < 600 ? "100%" : "60%"} height="60px"/>
-        <button className="shadow-hover">Search<i className="fal fa-arrow-right"></i></button>
+        <SearchBox 
+          className={`algolia-search-box ${screenWidth < 600 ? "full" : 'adapt'}`}
+        />
       </section>
     </div>
   )

@@ -5,7 +5,8 @@ import { AppSelect } from '../components/ui/AppInputs'
 import { getCourseCategories, getCoursesCount } from '../services/adminServices' 
 import { getAllCoursesFiltered } from '../services/courseServices'
 import PageSearch from '../components/ui/PageSearch'
-import CourseGrid from '../components/course/CoursesGrid'
+import { Hits } from "react-instantsearch-dom"
+import SearchCourseCard from "../components/course/SearchCourseCard"
 
 export default function AllCourses() {
 
@@ -156,10 +157,13 @@ export default function AllCourses() {
         </div>
       </div>
       <div className="courses-content">
-        <CourseGrid 
+        {/* <CourseGrid 
           courses={allCourses} 
           courseSort={courseSort}
-        />
+        /> */}
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gridGap: '20px'}}>
+          <Hits hitComponent={SearchCourseCard} />
+        </div>
       </div>
     </div>
   )

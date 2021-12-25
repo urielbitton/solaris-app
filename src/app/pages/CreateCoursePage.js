@@ -70,9 +70,7 @@ export default function CreateCoursePage({editMode}) {
   const totalFilesNum = lessons?.reduce((a,b) => a + b.files?.reduce((x,y) => x + y.length, 0), 0)
   const courseLessonsNotesNum = courseLessons?.reduce((a,b) => a + b.notes?.length, 0)
   const courseLessonsFilesNum = courseLessons?.reduce((a,b) => a + b.files?.reduce((x,y) => x + y.length, 0), 0)
-  const createCourseAccess = (!editMode ? lessons.length : courseLessons.length) && courseTitle.length && coursePrice.length 
-    && courseShortDescript && videoType.length
-
+  const createCourseAccess = (!editMode ? lessons.length : courseLessons.length) && !!courseTitle && !!coursePrice && !!courseShortDescript
 
   const languages = [
     {name: 'English', value: 'english'},

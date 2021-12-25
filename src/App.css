@@ -193,6 +193,10 @@ a.hide {
   margin-right: 8px;
 }
 
+ul.ais-Hits-list {
+  list-style-type: none;
+  padding-left: 0;
+}
 
 @media (max-width: 600px) {
   ::-webkit-scrollbar {
