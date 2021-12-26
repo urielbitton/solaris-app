@@ -193,9 +193,43 @@ a.hide {
   margin-right: 8px;
 }
 
-ul.ais-Hits-list {
+ul.ais-Hits-list,
+.ais-Pagination ul {
   list-style-type: none;
   padding-left: 0;
+}
+.ais-Pagination {
+  margin: 10px 0 20px 0;
+}
+.ais-Pagination ul {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.ais-Pagination ul li {
+  width: 30px;
+  height: 30px;
+  background: #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ais-Pagination ul li:hover {
+  background: #d9d9d9;
+}
+.ais-Pagination ul li span {
+  font-size: 24px;
+}
+.ais-Pagination ul li.ais-Pagination-item--selected {
+  background: var(--color);
+}
+.ais-Pagination ul li.ais-Pagination-item--selected a {
+  color: #fff;
+}
+.ais-Pagination .ais-Pagination-item--disabled span {
+  color: #777;
 }
 
 @media (max-width: 600px) {

@@ -9,6 +9,7 @@ import { db } from '../firebase/fire'
 import CreateOrder from '../services/CreateOrder'
 import { setSubDB, updateDB } from '../services/CrudDB'
 import PageLoader from '../components/ui/PageLoader'
+import firebase from 'firebase'
 
 export default function CourseCheckout() {
 
@@ -49,14 +50,14 @@ export default function CourseCheckout() {
     }
     CreateOrder(orderId, orderNumber, customer, totalPrice)
     .then(res => {
-      updateDB('courses', courseID, {studentsEnrolled: course.studentsEnrolled + 1})
-      setSubDB('courses', courseID, 'students', user?.uid, {userID: user.uid, name: user.displayName})
-      setSubDB('users', user.uid, 'coursesEnrolled', courseID, {
+      updateDB('courses', courseID, {studentsEnrolled: firebase.firestore.fieldValue.increment(1)})
+      setSubDB('courses', courseID, 'students', user?.uid, {userID: user?.uid, name: user?.displayName})
+      setSubDB('users', user?.uid, 'coursesEnrolled', courseID, {
         courseID,
-        name: course.title
+        name: course?.title
       }).then(() => {
         setLoading(false)
-        window.alert('Payment successful. You have been enrolled in the course.')
+        window.alert(`Payment successful. You have been enrolled in the course "${course?.title}".`)
         history.push(`/courses/course/${courseID}`)
       })
       

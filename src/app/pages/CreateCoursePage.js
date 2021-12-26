@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useRouteMatch } from 'react-router'
 import './styles/CreateCoursePage.css'
+import noAccessImg from '../assets/imgs/access-img.png'
 import {StoreContext} from '../store/store'
 import { videoTypes } from '../api/apis'
 import { AppInput, AppSelect, AppSwitch, AppTextarea } from '../components/ui/AppInputs'
@@ -71,6 +72,8 @@ export default function CreateCoursePage({editMode}) {
   const courseLessonsNotesNum = courseLessons?.reduce((a,b) => a + b.notes?.length, 0)
   const courseLessonsFilesNum = courseLessons?.reduce((a,b) => a + b.files?.reduce((x,y) => x + y.length, 0), 0)
   const createCourseAccess = (!editMode ? lessons.length : courseLessons.length) && !!courseTitle && !!coursePrice && !!courseShortDescript
+  const isCourseInstructor = editMode && course?.instructorID === myUser?.instructorID
+  const canEditPage = editMode && (isCourseInstructor || myUser?.isSuperAdmin)
 
   const languages = [
     {name: 'English', value: 'english'},
@@ -568,8 +571,9 @@ export default function CreateCoursePage({editMode}) {
   },[course])
 
   return (
-    <div className="create-course-page">
-      <div className="create-content">
+    canEditPage ?
+      <div className="create-course-page">
+        <div className="create-content">
         <div className="create-content-titles">
           <h3>{!editMode ? "Create" : "Edit"} {!editMode ? courseType : course?.courseType} Course</h3>
           <div>
@@ -736,42 +740,47 @@ export default function CreateCoursePage({editMode}) {
           >Next
           </button>
         </div>
-      </div>
-      <div className="side-bar hidescroll">
-        <div className='files-container'>
-          <h5>Files <span>({totalFilesNum})</span></h5>
-          {totalFilesNum > 0 || courseLessonsFilesNum > 0 ? courseFilesRender : ""}
         </div>
-        <div className='notes-container'>
-          <h5>Notes <span>({totalNotesNum})</span></h5>
-          {totalNotesNum > 0 || courseLessonsNotesNum > 0 ? courseNotesRender : ""}
+        <div className="side-bar hidescroll">
+          <div className='files-container'>
+            <h5>Files <span>({totalFilesNum})</span></h5>
+            {totalFilesNum > 0 || courseLessonsFilesNum > 0 ? courseFilesRender : ""}
+          </div>
+          <div className='notes-container'>
+            <h5>Notes <span>({totalNotesNum})</span></h5>
+            {totalNotesNum > 0 || courseLessonsNotesNum > 0 ? courseNotesRender : ""}
+          </div>
         </div>
+        <PageLoader loading={loading} />
+        <AppModal 
+          title="Edit Lesson Title"
+          showModal={showLessonTitleModal}
+          setShowModal={setShowLessonTitleModal}
+          actions={<button onClick={() => saveLessonTitle()}>Save</button>}
+        >
+          <form onSubmit={(e) => e.preventDefault()}>
+            <AppInput title="Notes Title" onChange={(e) => setLessonTitleTemp(e.target.value)} value={lessonTitleTemp} />
+          </form>
+        </AppModal>
+        <AppModal
+          title="Edit Element"
+          showModal={showLearnElModal}
+          setShowModal={setShowLearnElModal}
+          actions={ <button onClick={() => saveLearnElement()}>Save</button> }
+        >
+          <form onSubmit={(e) =>e.preventDefault()}>
+            <AppInput 
+              placeholder="Edit learning element" 
+              onChange={(e) => setWhatYouLearnText(e.target.value)} 
+              value={whatYouLearnText} 
+            />
+          </form>
+        </AppModal> 
+      </div> :
+      <div className="no-access-container">
+        <img src={noAccessImg} alt=""/>
+        <h3>You do not have access to edit this page</h3>
+        <button onClick={() => history.push('/')} className="shadow-hover">Return Home</button>
       </div>
-      <PageLoader loading={loading} />
-      <AppModal 
-        title="Edit Lesson Title"
-        showModal={showLessonTitleModal}
-        setShowModal={setShowLessonTitleModal}
-        actions={<button onClick={() => saveLessonTitle()}>Save</button>}
-      >
-        <form onSubmit={(e) => e.preventDefault()}>
-          <AppInput title="Notes Title" onChange={(e) => setLessonTitleTemp(e.target.value)} value={lessonTitleTemp} />
-        </form>
-      </AppModal>
-      <AppModal
-        title="Edit Element"
-        showModal={showLearnElModal}
-        setShowModal={setShowLearnElModal}
-        actions={ <button onClick={() => saveLearnElement()}>Save</button> }
-      >
-        <form onSubmit={(e) =>e.preventDefault()}>
-          <AppInput 
-            placeholder="Edit learning element" 
-            onChange={(e) => setWhatYouLearnText(e.target.value)} 
-            value={whatYouLearnText} 
-          />
-        </form>
-      </AppModal>
-    </div>
   )
 }

@@ -89,7 +89,7 @@ export default function CoursePage() {
   return (
     <div className="course-page">
       <header className="banner">
-        { inCourseInstructor && <i className="far fa-pen edit-icon" onClick={() => history.push(`/edit-course/${courseID}`)}></i> }
+        { (inCourseInstructor || myUser?.isSuperAdmin) && <i className="far fa-pen edit-icon" onClick={() => history.push(`/edit-course/${courseID}`)}></i> }
         <div className="side">
           <small>{course?.category}</small>
           <h1>{course?.title}</h1>

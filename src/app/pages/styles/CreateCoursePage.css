@@ -563,6 +563,25 @@
   color: #555;
   margin-bottom: 40px;
 }
+.no-access-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  height: 88vh;
+}
+.no-access-container h3 {
+  color: var(--graytxt);
+  font-size: 24px;
+}
+.no-access-container img {
+  width: 300px;
+}
+.no-access-container button {
+  font-size: 15px;
+}
 
 @media (max-width: 1550px) {
   .create-course-page .course-review-container,

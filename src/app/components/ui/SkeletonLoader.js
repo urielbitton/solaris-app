@@ -9,6 +9,7 @@ export default function SkeletonLoader(props) {
     return <div 
       className="skeleton-loader"
       style={{width, height}}
+      key={i}
     >
       <div className="rect-img" />
       <div>
