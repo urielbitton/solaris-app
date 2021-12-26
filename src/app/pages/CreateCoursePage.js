@@ -11,7 +11,7 @@ import { getYoutubeVideoDetails } from '../services/youtubeServices'
 import { convertYoutubeDuration, fileTypeConverter, truncateText } from '../utils/utilities'
 import { getCourseCategories } from '../services/adminServices'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { CreateCourse, saveCourse } from '../services/CreateCourse'
+import { CreateCourse, saveCourse } from '../services/CRUDCourse'
 import PageLoader from '../components/ui/PageLoader'
 import { getCourseByID, getLessonsByCourseID } from "../services/courseServices"
 import { uploadImgToFireStorage } from "../services/ImageUploadServices"

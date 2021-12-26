@@ -1,4 +1,4 @@
-import { setDB, updateDB } from "./CrudDB"
+import { deleteDB, setDB, updateDB } from "./CrudDB"
 import firebase from 'firebase'
 import { db } from "../firebase/fire"
 
@@ -57,5 +57,17 @@ export const saveCourse = (courseID, lessons, courseObject) => {
       })
     })
     return batch.commit()
+  })
+}
+
+export const deleteCourse = (courseID, myUser) => {
+  const batch = db.batch()
+  return deleteDB('courses', courseID).then(() => {
+    updateDB('instructors', myUser?.instructorID, {
+      'coursesTaught': firebase.firestore.FieldValue.arrayRemove(courseID)
+    })
+    updateDB('admin', 'courseSettings', {
+      'coursesCount': firebase.firestore.FieldValue.increment(-1)
+    })
   })
 }

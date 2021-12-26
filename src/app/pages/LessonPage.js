@@ -119,51 +119,48 @@ export default function LessonPage() {
           </div>
           <h6>{videos.length} video{videos.length !== 1 ? "s" : ""} in this lesson</h6>
           <h6 className='video-title'>{video?.title}</h6>
-          {
-            courseUserAccess ? 
+          { courseUserAccess ? 
+          <>
             <VideoEmbed 
               embedUrl={lesson.videoType === "youtube" ? `https://www.youtube.com/embed/${video?.url?.split('v=')[1]}` : video?.url}
-            /> : ""
-          }
-          <div className="video-actions-nav">
-            <button 
-              className="shadow-hover"
-              onClick={() => playPosition > 0 && setPlayPosition(prev => prev - 1)}
-            >
-              Previous
-            </button>
-            <button 
-              className="shadow-hover"
-              onClick={() => playPosition < allCourseVideos.length-1 && setPlayPosition(prev => prev + 1)}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-        { courseUserAccess ? <>
-          <div className="lesson-text-contents">
-            <h3 className="page-title">Lesson Material</h3>
-            <div className='lesson-material'>
-              {lessonNotesRender}
-            </div>
-          </div>
-          <div className="lesson-comments-section">
-            <h3 className="page-title">Comments ({comments.length})</h3>
-            <div className="comments-container">
-              {commentsRender}
-            </div>
-          </div>
-          <div className="leave-reply-section">
-            <WriteComment 
-              courseID={courseID}
-              lessonID={lessonID}
-              videoID={videoID}
-              writeType="comment"
-              mainTitle="Leave a Reply"
-              messageInput="Enter Reply"
             />
-          </div>
-        </> :
+            <div className="video-actions-nav">
+              <button 
+                className="shadow-hover"
+                onClick={() => playPosition > 0 && setPlayPosition(prev => prev - 1)}
+              >
+                Previous
+              </button>
+              <button 
+                className="shadow-hover"
+                onClick={() => playPosition < allCourseVideos.length-1 && setPlayPosition(prev => prev + 1)}
+              >
+                Next
+              </button>
+            </div>
+            <div className="lesson-text-contents">
+              <h3 className="page-title">Lesson Material</h3>
+              <div className='lesson-material'>
+                {lessonNotesRender}
+              </div>
+            </div>
+            <div className="lesson-comments-section">
+              <h3 className="page-title">Comments ({comments.length})</h3>
+              <div className="comments-container">
+                {commentsRender}
+              </div>
+            </div>
+            <div className="leave-reply-section">
+              <WriteComment 
+                courseID={courseID}
+                lessonID={lessonID}
+                videoID={videoID}
+                writeType="comment"
+                mainTitle="Leave a Reply"
+                messageInput="Enter Reply"
+              />
+            </div>
+          </> :
         <div className="locked-content">
           <h3>This lesson is locked.</h3>
           <h5>Please purchase the course in order to view this lesson.</h5>
@@ -171,6 +168,7 @@ export default function LessonPage() {
           <button className="shadow-hover" onClick={() => history.push(`/checkout/course/${courseID}`)}>Purchase Course</button>
         </div>
         }
+      </div>
       </div>
     </div>
   )

@@ -19,6 +19,7 @@ import ErrorPage from "../pages/ErrorPage"
 import MyCourses from "../pages/MyCourses"
 import { useWindowDimensions } from "../utils/customHooks"
 import BecomeInstructor from "../pages/BecomeInstructor"
+import NotificationsPage from "../pages/NotificationsPage"
 
 export default function HomeCont() {
 
@@ -76,6 +77,9 @@ export default function HomeCont() {
           </Route>
           <Route path="/checkout/course/:courseID">
             <CourseCheckout />
+          </Route>
+          <Route path="/notifications">
+            <NotificationsPage />
           </Route>
           <Route exact path="/create">
             {myUser?.isInstructor && <CreatePage />}

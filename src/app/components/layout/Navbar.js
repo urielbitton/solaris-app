@@ -4,13 +4,19 @@ import { StoreContext } from '../../store/store'
 import SearchBar from '../ui/SearchBar'
 import '.././styles/Navbar.css'
 import firebase from 'firebase'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { getUnreadNotificationsByUserID } from "../../services/userServices"
+import NotificationsDropdown from "./NotificationsDropdown"
+import { useLocation, useHistory } from "react-router-dom"
 
 export default function Navbar() {
 
   const {navTitle, navDescript, user, openSidebar, setOpenSidebar} = useContext(StoreContext)
   const [slideProfile, setSlideProfile] = useState(false)
+  const [slideNotifs, setSlideNotifs] = useState(false)
+  const [unreadNotifs, setUnreadNotifs] = useState(0)
+  const [notifsLimit, setNotifsLimit] = useState(7)
   const history = useHistory()
+  const location = useLocation()
 
   const signOut = (e) => {
     e.preventDefault()
@@ -22,8 +28,22 @@ export default function Navbar() {
     }
   }
 
+  const openNotifs = (e) => {
+    if(!location.pathname.includes('notifications')) {
+      e.stopPropagation()
+      setSlideNotifs(prev => !prev)
+    }
+  }
+
   useEffect(() => {
-    window.onclick = () => setSlideProfile(false)
+    getUnreadNotificationsByUserID(user?.uid, setUnreadNotifs)
+  },[user])
+
+  useEffect(() => {
+    window.onclick = () => {
+      setSlideProfile(false)
+      setSlideNotifs(false)
+    }
   },[slideProfile])
 
   return (
@@ -44,11 +64,20 @@ export default function Navbar() {
         <SearchBar width="300px" showIcon/>
       </div>
       <div className="side right">
-        <div className="nav-icon-btn nav-notifs">
-          <i className="far fa-bell"></i>
-          <div className="notifs-num">
-            <small>12</small>
-          </div>
+        <div className="nav-icon-btn nav-notifs" onClick={(e) => openNotifs(e)}>
+          <i className={`far fa-bell ${location.pathname.includes('notifications') ? "active" : ""}`}></i>
+          { unreadNotifs.length ?
+            <div className="notifs-num">
+              <small>{unreadNotifs.length}</small>
+            </div> : ""
+          }
+        </div>
+        <div className={`notifications-dropdown ${slideNotifs ? "open" : ""}`} onClick={(e) => e.stopPropagation()}>
+          <NotificationsDropdown 
+            setSlideNotifs={setSlideNotifs}
+            notifsLimit={notifsLimit}
+            viewAll
+          />
         </div>
         <div className="nav-profile-container">
           <div className="text-info-container">

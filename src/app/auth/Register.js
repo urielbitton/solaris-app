@@ -7,6 +7,7 @@ import googleIcon from '../assets/imgs/google-icon.png'
 import { AppInput } from '../components/ui/AppInputs'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
+import { setDB } from '../services/CrudDB'
 
 export default function Register() {
 
@@ -54,7 +55,7 @@ export default function Register() {
           displayName: `${fullName?.split(' ')[0]} ${fullName?.split(' ')[1]}`,
           photoURL: 'https://i.imgur.com/D4fLSKa.png'
         })
-        db.collection('users').doc(user.uid).set({
+        setDB('users', user.uid, {
           firstName: fullName?.split(' ')[0],
           lastName: fullName?.split(' ')[1],
           email,
@@ -64,6 +65,16 @@ export default function Register() {
           dateCreated: new Date(),
           isInstructor: false
         }).then(res => { 
+          const notifID = db.collection('users').doc(user.uid).collection('notifications').doc().id
+          db.collection('users').doc(user.uid).collection('notifications').doc(notifID).set({
+            dateAdded: new Date(),
+            notifID,
+            text: 'Welcome to Solaris! Discover more about Solaris by clicking here.',
+            title: `Welcome ${user?.displayName.split(' ')[0]}`,
+            type: 'welcome',
+            url: '/welcome',
+            read: false
+          })
           setAUser(user)
         })
       }

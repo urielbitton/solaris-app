@@ -52,7 +52,9 @@
   font-size: 20px;
   transition: all 0.2s;
 }
-.navbar .nav-icon-btn:hover i {
+.navbar .nav-icon-btn:hover i,
+.navbar .nav-icon-btn i.active
+ {
   color: var(--color)
 }
 .navbar .nav-icon-btn .notifs-num {

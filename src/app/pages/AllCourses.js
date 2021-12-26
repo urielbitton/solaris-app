@@ -5,7 +5,7 @@ import { AppSelect } from '../components/ui/AppInputs'
 import { getCourseCategories, getCoursesCount } from '../services/adminServices' 
 import { getAllCoursesFiltered } from '../services/courseServices'
 import PageSearch from '../components/ui/PageSearch'
-import { Hits } from "react-instantsearch-dom"
+import { Hits, Pagination } from "react-instantsearch-dom"
 import SearchCourseCard from "../components/course/SearchCourseCard"
 
 export default function AllCourses() {
@@ -18,7 +18,7 @@ export default function AllCourses() {
   const [courseSkill, setCourseSkill] = useState('all')
   const [categoriesArr, setCategoriesArr] = useState([])
   const [limit, setLimit] = useState(10)
-  const [coursesCount, setCoursesCount] = useState('')
+  const [coursesCount, setCoursesCount] = useState(0)
   const [courseSort, setCourseSort] = useState('dateCreatedDesc')
   const filterProp1 = category==='all' ? 'filterable' : 'category'
   const filterValue1 = category==='all' ? true : category
@@ -163,6 +163,7 @@ export default function AllCourses() {
         /> */}
         <Hits hitComponent={SearchCourseCard} />
       </div>
+      <Pagination />
     </div>
   )
 }

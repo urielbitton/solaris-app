@@ -8,6 +8,7 @@ import { getTopRatedInstructors } from "../services/InstructorServices"
 import InstructorCard from '../components/instructor/InstructorCard'
 import { getCoursesIDEnrolledByUserID } from "../services/userServices"
 import onlineLearningImg from '../assets/imgs/online-learning.png'
+import { db } from "../firebase/fire"
 
 export default function Home() {
 
@@ -34,7 +35,7 @@ export default function Home() {
   useEffect(() => {
     setNavTitle('Home')
     setNavDescript('Welcome ' + user?.displayName?.split(' ')[0])
-  },[])
+  },[]) 
 
   return (
     <div className="home-page">

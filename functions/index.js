@@ -7,6 +7,10 @@ const ADMIN_KEY = functions.config().algolia.key
 const client = algoliasearch(APP_ID, ADMIN_KEY)
 const index = client.initIndex('courses_index')
 
+index.search('query', {
+  hitsPerPage: 2
+})
+
 exports.addToIndex = functions.firestore.document('courses/{courseID}').onCreate(snapshot => {
   const data = snapshot.data()
   const objectID = snapshot.id

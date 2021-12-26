@@ -23,3 +23,24 @@ export const isUserInstructor = (userID, setIsInstructor) => {
     }
   })
 }
+
+export const getAllNotificationsByUserID = (userID, setNotifications, limit) => {
+  db.collection('users').doc(userID)
+  .collection('notifications')
+  .orderBy('dateAdded', 'desc')
+  .limit(limit).onSnapshot(snap => {
+    const notifsArr = []
+    snap.forEach(doc => notifsArr.push(doc.data()))
+    setNotifications(notifsArr)
+  })
+}
+
+export const getUnreadNotificationsByUserID = (userID, setNotifications) => {
+  db.collection('users').doc(userID)
+  .collection('notifications')
+  .where('read', '==', false).onSnapshot(snap => {
+    const notifsArr = []
+    snap.forEach(doc => notifsArr.push(doc.data()))
+    setNotifications(notifsArr)
+  })
+}
