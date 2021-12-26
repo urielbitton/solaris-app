@@ -5,7 +5,7 @@ const APP_ID = functions.config().algolia.app
 const ADMIN_KEY = functions.config().algolia.key
 
 const client = algoliasearch(APP_ID, ADMIN_KEY)
-const index = client.initIndex('courses')
+const index = client.initIndex('courses_index')
 
 exports.addToIndex = functions.firestore.document('courses/{courseID}').onCreate(snapshot => {
   const data = snapshot.data()

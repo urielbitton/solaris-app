@@ -563,6 +563,7 @@ export default function CreateCoursePage({editMode}) {
       setCourseFullDescript(course.description)
       setCourseCertificate(course.hasCertificate)
       setAllowReviews(course.allowReviews)
+      setWhatYouLearn(course.whatYouLearn)
     }
   },[course])
 
@@ -571,7 +572,17 @@ export default function CreateCoursePage({editMode}) {
       <div className="create-content">
         <div className="create-content-titles">
           <h3>{!editMode ? "Create" : "Edit"} {!editMode ? courseType : course?.courseType} Course</h3>
-          { editMode && <button onClick={() => deleteCourse()}>Delete Course</button> }
+          <div>
+            { 
+              editMode && <button 
+                  className={`save-course-btn ${!courseLessons.length ? "disabled" : ""}`}  
+                  onClick={() => createCourse()}
+                >
+                  Save Course
+              </button> 
+            }
+            { editMode && <button className="delete" onClick={() => deleteCourse()}>Delete Course</button> }
+          </div>
         </div>
         <div className="slide-container" ref={scrollTopRef}>
           <div className={`slide-element ${slidePos === 0 ? "active" : slidePos > 0 ? "prev" : ""}`}>

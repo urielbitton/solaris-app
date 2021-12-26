@@ -161,9 +161,7 @@ export default function AllCourses() {
           courses={allCourses} 
           courseSort={courseSort}
         /> */}
-        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gridGap: '20px'}}>
-          <Hits hitComponent={SearchCourseCard} />
-        </div>
+        <Hits hitComponent={SearchCourseCard} />
       </div>
     </div>
   )

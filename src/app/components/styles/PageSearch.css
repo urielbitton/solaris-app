@@ -81,6 +81,27 @@
   font-size: 13px;
 }
 
+.page-search-bar .ais-SearchBox-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.page-search-bar .ais-SearchBox-form input {
+  height: 60px;
+  border-radius: 10px;
+}
+.page-search-bar .ais-SearchBox-form button {
+  height: 60px;
+}
+.page-search-bar .ais-SearchBox-form button:hover {
+  box-shadow: var(--blueShadow);
+}
+.page-search-bar .ais-SearchBox-form button svg {
+  width: 18px;
+  height: 18px;
+  color: #fff;
+}
+
 
 @media (max-width: 600px) {
   .page-search-bar .search-section {

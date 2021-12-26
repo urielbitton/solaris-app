@@ -24,10 +24,16 @@
 }
 .create-course-page .create-content .create-content-titles button {
   background: none;
-  color: var(--red);
   padding: 10px 15px;
+  color: var(--color);
+}
+.create-course-page .create-content .create-content-titles button.delete {
+  color: var(--red);
 }
 .create-course-page .create-content .create-content-titles button:hover {
+  background: var(--lightestblue);
+}
+.create-course-page .create-content .create-content-titles button.delete:hover {
   background: var(--lightRed);
 }
 .create-course-page .video-type-container {

@@ -83,6 +83,12 @@
 .all-courses-page .courses-content {
   margin-top: 30px;
 }
+.all-courses-page .ais-Hits-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-gap: 20px;
+  margin-bottom: 30px;
+}
 
 @media (max-width: 600px) {
   .all-courses-page .sort-row {

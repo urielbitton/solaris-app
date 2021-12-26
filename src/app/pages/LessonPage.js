@@ -122,7 +122,7 @@ export default function LessonPage() {
           {
             courseUserAccess ? 
             <VideoEmbed 
-              embedUrl={lesson.videoType === "youtube" ? `https://www.youtube.com/embed/${video?.url}` : video?.url}
+              embedUrl={lesson.videoType === "youtube" ? `https://www.youtube.com/embed/${video?.url?.split('v=')[1]}` : video?.url}
             /> : ""
           }
           <div className="video-actions-nav">
