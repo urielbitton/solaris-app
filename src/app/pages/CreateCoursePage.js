@@ -12,7 +12,7 @@ import { getYoutubeVideoDetails } from '../services/youtubeServices'
 import { convertYoutubeDuration, fileTypeConverter, truncateText } from '../utils/utilities'
 import { getCourseCategories } from '../services/adminServices'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { CreateCourse, saveCourse } from '../services/CRUDCourse'
+import { CreateCourse, deleteCourse, saveCourse } from '../services/CRUDCourse'
 import PageLoader from '../components/ui/PageLoader'
 import { getCourseByID, getLessonsByCourseID } from "../services/courseServices"
 import { uploadImgToFireStorage } from "../services/ImageUploadServices"
@@ -486,13 +486,13 @@ export default function CreateCoursePage({editMode}) {
     }
   }
 
-  const deleteCourse = () => {
+  const deleteACourse = () => {
     if(editMode) {
       const confirm = window.confirm('Are you sure you would like to remove this course?')
       if(confirm) {
         setLoading(true)
         history.push('/courses')
-        deleteDB('courses', courseID).then(res => {
+        deleteCourse(courseID, myUser).then(res => {
           window.alert('The course has been removed.')
           setLoading(false)
         })
@@ -585,7 +585,7 @@ export default function CreateCoursePage({editMode}) {
                   Save Course
               </button> 
             }
-            { editMode && <button className="delete" onClick={() => deleteCourse()}>Delete Course</button> }
+            { editMode && <button className="delete" onClick={() => deleteACourse()}>Delete Course</button> }
           </div>
         </div>
         <div className="slide-container" ref={scrollTopRef}>
