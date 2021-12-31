@@ -73,7 +73,7 @@ export default function CreateCoursePage({editMode}) {
   const courseLessonsFilesNum = courseLessons?.reduce((a,b) => a + b.files?.reduce((x,y) => x + y.length, 0), 0)
   const createCourseAccess = (!editMode ? lessons.length : courseLessons.length) && !!courseTitle && !!coursePrice && !!courseShortDescript
   const isCourseInstructor = editMode && course?.instructorID === myUser?.instructorID
-  const canEditPage = editMode && (isCourseInstructor || myUser?.isSuperAdmin)
+  const canAccessPage = editMode ? (isCourseInstructor || myUser?.isSuperAdmin) : myUser?.isInstructor
 
   const languages = [
     {name: 'English', value: 'english'},
@@ -530,7 +530,7 @@ export default function CreateCoursePage({editMode}) {
   },[])
 
   useEffect(() => {
-    scrollTopRef.current.scroll({top:0, behavior:'smooth'})
+    scrollTopRef?.current?.scroll({top:0, behavior:'smooth'})
   },[slidePos])
 
   useEffect(() => {
@@ -571,7 +571,7 @@ export default function CreateCoursePage({editMode}) {
   },[course])
 
   return (
-    canEditPage ?
+    canAccessPage ?
       <div className="create-course-page">
         <div className="create-content">
         <div className="create-content-titles">
