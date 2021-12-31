@@ -115,6 +115,10 @@ export default function CoursePage() {
             <p className="course-description">{course?.description}</p>
           </section>
           <section>
+            <h3>Course Summary</h3>
+            <p className="course-description">{course?.summary}</p>
+          </section>
+          <section>
             <h3>What you'll learn in this course</h3>
             <div className="list-elements">
               {whatYouLearnRender} 

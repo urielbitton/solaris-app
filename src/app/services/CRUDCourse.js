@@ -11,22 +11,22 @@ export const CreateCourse = (courseID, lessons, myUser, courseObject) => {
     updateDB('admin', 'courseSettings', {
       'coursesCount': firebase.firestore.FieldValue.increment(1)
     })
-    lessons.forEach(lesson => {
+    lessons.forEach((lesson,i) => {
       const docRef = db.collection('courses').doc(courseID).collection('lessons').doc(lesson?.lessonID)
-      batch.set(docRef, {lessonID: lesson?.lessonID, lessonType: 'video', title: lesson?.title, videoType: lesson?.videoType})
+      batch.set(docRef, {lessonID: lesson?.lessonID, lessonType: 'video', title: lesson?.title, videoType: lesson?.videoType, order:(i+1)})
     })
     lessons.forEach(lesson => {
-      lesson.videos.forEach(video => {
+      lesson.videos.forEach((video,i) => {
         const docRef = db.collection('courses').doc(courseID).collection('lessons').doc(lesson?.lessonID).collection('videos').doc(video?.videoID)
         batch.set(docRef, {
-          videoID: video?.videoID, title: video?.title, duration: video?.duration, url: video?.url, dateAdded: new Date()
+          videoID: video?.videoID, title: video?.title, duration: video?.duration, url: video?.url, dateAdded: new Date(), order: (i+1)
         })
       })
     })
     lessons.forEach(lesson => {
-      lesson.notes.forEach(note => {
+      lesson.notes.forEach((note,i) => {
         const docRef = db.collection('courses').doc(courseID).collection('lessons').doc(lesson?.lessonID).collection('notes').doc(note?.noteID)
-        batch.set(docRef, {noteID: note?.noteID, text: note?.text, title: note?.title, dateAdded: new Date()})
+        batch.set(docRef, {noteID: note?.noteID, text: note?.text, title: note?.title, dateAdded: new Date(), order:(i+1)})
       })
     })
     return batch.commit()

@@ -47,7 +47,7 @@ export const getCourseByID = (courseID, setCourse) => {
 }
 
 export const getLessonsByCourseID = (courseID, setLessons) => {
-  db.collection('courses').doc(courseID).collection('lessons').onSnapshot(snap => {
+  db.collection('courses').doc(courseID).collection('lessons').orderBy('order', 'asc').onSnapshot(snap => {
     const lessonsArr = []
     snap.forEach(doc => lessonsArr.push(doc.data()))
     setLessons(lessonsArr) 
@@ -61,7 +61,7 @@ export const getLessonByID = (courseID, lessonID, setLesson) => {
 }
 
 export const getVideosByLessonID = (courseID, lessonID, setVideos) => {
-  db.collection('courses').doc(courseID).collection('lessons').doc(lessonID).collection('videos').onSnapshot(snap => {
+  db.collection('courses').doc(courseID).collection('lessons').doc(lessonID).collection('videos').orderBy('order', 'asc').onSnapshot(snap => {
     const videosArr = []
     snap.forEach(doc => videosArr.push(doc.data()))
     setVideos(videosArr) 
@@ -69,7 +69,7 @@ export const getVideosByLessonID = (courseID, lessonID, setVideos) => {
 }
 
 export const getNotesByLessonID = (courseID, lessonID, setNotes) => {
-  db.collection('courses').doc(courseID).collection('lessons').doc(lessonID).collection('notes').onSnapshot(snap => {
+  db.collection('courses').doc(courseID).collection('lessons').doc(lessonID).collection('notes').orderBy('order', 'asc').onSnapshot(snap => {
     const notesArr = []
     snap.forEach(doc => notesArr.push(doc.data()))
     setNotes(notesArr) 

@@ -49,7 +49,7 @@
 }
 .course-page header.banner img.cover-img  {
   width: 400px;
-  opacity: 0.6;
+  opacity: 1;
   border-radius: 10px;
 }
 .course-page .info-container .instructor-row {
