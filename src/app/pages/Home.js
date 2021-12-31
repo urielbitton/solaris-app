@@ -18,7 +18,8 @@ export default function Home() {
   const [allCourses, setAllCourses] = useState([])
   const [topInstructors, setTopInstructors] = useState([])
   const [coursesEnrolled, setCoursesEnrolled] = useState([])
-  const lessThanAMonth = new Date(Date.now() - 2592000000)
+  const withinAMonth = new Date(Date.now() - 2592000000)
+  const withinAWeek = new Date(Date.now() - 1209600000)
 
   const topInstructorsRender = topInstructors?.map((instructor, i) => {
     return <InstructorCard instructor={instructor} key={i} />
@@ -26,7 +27,7 @@ export default function Home() {
 
   useEffect(() => {
     getFeaturedCourses(setFeaturedCourses, 4)
-    getNewCourses(lessThanAMonth, setNewCourses, 4)
+    getNewCourses(withinAWeek, setNewCourses, 4)
     getAllCourses(setAllCourses, 4)
     getTopRatedInstructors(4.5, setTopInstructors, Infinity)
     getCoursesIDEnrolledByUserID(user?.uid, setCoursesEnrolled)
