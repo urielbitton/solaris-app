@@ -7,7 +7,7 @@ import { PayPalButton } from 'react-paypal-button-v2'
 import { AppInput } from '../components/ui/AppInputs'
 import { db } from '../firebase/fire'
 import CreateOrder from '../services/CreateOrder'
-import { setSubDB, updateDB } from '../services/CrudDB'
+import { setDB, setSubDB, updateDB } from '../services/CrudDB'
 import PageLoader from '../components/ui/PageLoader'
 import firebase from 'firebase'
 
@@ -50,7 +50,10 @@ export default function CourseCheckout() {
     }
     CreateOrder(orderId, orderNumber, customer, totalPrice)
     .then(res => {
-      updateDB('courses', courseID, {studentsEnrolled: firebase.firestore.fieldValue.increment(1)})
+      db.collection('courses').doc(courseID).set(
+        {studentsEnrolled: firebase.firestore.fieldValue.increment(1)},
+        {merge:true}
+      )
       setSubDB('courses', courseID, 'students', user?.uid, {userID: user?.uid, name: user?.displayName})
       setSubDB('users', user?.uid, 'coursesEnrolled', courseID, {
         courseID,
