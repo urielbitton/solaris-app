@@ -78,6 +78,7 @@
 .quiz-page .already-taken {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 20px;
 }
 .quiz-page .quiz-img {

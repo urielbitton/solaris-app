@@ -9,6 +9,7 @@ import { StoreContext } from "../store/store"
 import { msToTime } from "../utils/utilities"
 import './styles/QuizPage.css'
 import quizImg from '../assets/imgs/quiz-img.png'
+import { updateSubDB } from '../services/CrudDB'
 
 export default function QuizPage() {
 
@@ -21,11 +22,12 @@ export default function QuizPage() {
   const [startTimer, setStartTimer] = useState(false)
   const [userQuiz, setUserQuiz] = useState({})
   const [userAnswers, setUserAnswers] = useState([])
-  const alreadyTaken = userQuiz.status === 'taken' ? true : false
+  const alreadyTaken = userQuiz.status === 'taken'
   const history = useHistory()
   const location = useLocation()
   const timeSinceStarted = Date.now() - (userQuiz?.takenOn?.seconds * 1000)
   const stillTimeLeft = timeSinceStarted < (quiz.maxDuration * 60000)
+  const timeExpired = timeSinceStarted > (quiz.maxDuration * 60000)
 
   const questionsRender = questions?.map((question, i) => {
     return <QuizItem 
@@ -37,18 +39,23 @@ export default function QuizPage() {
 
   const initiateTimer = () => {
     setStartTimer(true)
-    db.collection('users').doc(user?.uid)
-    .collection('quizes').doc(quizID).update({
+    updateSubDB('users', user?.uid, 'quizes', quizID, {
       status: 'in-progress',
       takenOn: new Date()
     })
   }
 
   const submitQuiz = () => {
-    const confirm = window.confirm('Are you sure you want to submit this quiz?')
-    if(confirm) {
-      console.log('Quiz Submitted')
-    }
+    updateSubDB('users', user?.uid, 'quizes', quizID, {
+      status: 'taken',
+      completedOn: new Date()
+    }).then(() => {
+      history.push({
+        pathname: `/courses/quiz/${quizID}/results`,
+        search: "?status=taken"
+      })
+    })
+    .catch(err => console.log(err))
   }
 
   useEffect(() => {
@@ -77,7 +84,7 @@ export default function QuizPage() {
   },[userQuiz])
 
   useEffect(() => {
-    if(location.search === '?status=in-progress' || stillTimeLeft) {
+    if(location.search === '?status=in-progress' && stillTimeLeft) {
       setStartTimer(true)
     }
     else {
@@ -86,10 +93,20 @@ export default function QuizPage() {
   },[stillTimeLeft])
   
   useEffect(() => {
-    if(timeSinceStarted > (quiz.maxDuration * 60000)) {
+    if(timeExpired && !alreadyTaken) {
       submitQuiz()
     }
   },[timeSinceStarted])
+
+  useEffect(() => {
+    if(userQuiz.status === 'not-taken') {
+      history.push({
+        search: `?status=not-taken` 
+      })
+      setStartTimer(false)
+      setTimer(0)
+    }
+  },[userQuiz])
 
   useEffect(() => {
     setNavTitle('Quiz')
@@ -110,7 +127,7 @@ export default function QuizPage() {
         </div>
       </div>
       {
-        startTimer ? 
+        startTimer && !alreadyTaken ? 
         <div className="timer-container">
           <span>
             <i className="far fa-stopwatch"></i>
@@ -149,7 +166,18 @@ export default function QuizPage() {
         </>  :
         <div className="already-taken">
           <span>You already took this quiz.</span>
-          <button onClick={() => history.push(`/courses/course/${courseID}`)}>Back to Course</button>
+          <button 
+            onClick={() => history.push(`/courses/quiz/${quizID}/results`)}
+            className="shadow-hover"
+          >
+            View Results
+          </button>
+          <button 
+            onClick={() => history.push(`/courses/course/${courseID}`)}
+            className="shadow-hover"
+          >
+            Back to Course
+          </button>
         </div>
       }
     </div>
