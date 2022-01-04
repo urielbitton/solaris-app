@@ -20,6 +20,8 @@ import MyCourses from "../pages/MyCourses"
 import { useWindowDimensions } from "../utils/customHooks"
 import BecomeInstructor from "../pages/BecomeInstructor"
 import NotificationsPage from "../pages/NotificationsPage"
+import CreateQuiz from "../pages/CreateQuiz"
+import QuizPage from "../pages/QuizPage"
 
 export default function HomeCont() {
 
@@ -80,6 +82,12 @@ export default function HomeCont() {
           </Route>
           <Route path="/notifications">
             <NotificationsPage />
+          </Route>
+          <Route exact path="/create/quiz">
+            <CreateQuiz />
+          </Route>
+          <Route path="/courses/:courseID/quiz/:quizID">
+            <QuizPage />
           </Route>
           <Route exact path="/create">
             {myUser?.isInstructor && <CreatePage />}

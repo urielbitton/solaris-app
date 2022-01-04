@@ -1,0 +1,48 @@
+.quiz-item {
+  width: 100%;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  background: #fff;
+}
+.quiz-item header {
+  margin-bottom: 20px;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+.quiz-item header h4 {
+  font-weight: 600;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.quiz-item .answer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.quiz-item .multiple-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  list-style-type: lower-alpha;
+  padding-left: 20px;
+}
+.quiz-item .multiple-choice .appinput {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.quiz-item .multiple-choice .appinput h6 {
+  font-size: 15px;
+  color: #555;
+  font-weight: 600;
+}
+.quiz-item .multiple-choice .appinput input {
+  width: 15px;
+  height: 15px;
+  flex-basis: 50px;
+}

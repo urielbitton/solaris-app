@@ -6,6 +6,16 @@ export const msToDays = (ms) => {
   return (ms / (60*60*24*1000))
 }
 
+export const msToTime = (ms) => {
+    let seconds = Math.floor((ms / 1000) % 60),
+    minutes = Math.floor((ms / (1000 * 60)) % 60),
+    hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+    return hours + ":" + minutes + ":" + seconds
+}
+
 export const getDaysAgo = (date) => {
   return Math.round(msToDays(Date.now()) - msToDays(date))
 }

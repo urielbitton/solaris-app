@@ -44,3 +44,21 @@ export const getUnreadNotificationsByUserID = (userID, setNotifications) => {
     setNotifications(notifsArr)
   })
 }
+
+export const getQuizesTakenByUserID = (userID, setQuizes) => {
+  db.collection('users').doc(userID)
+  .collection('quizes')
+  .onSnapshot(snap => {
+    const quizesArr = []
+    snap.forEach(doc => quizesArr.push(doc.data()))
+    setQuizes(quizesArr)
+  })
+}
+
+export const getUserQuizByID = (userID, quizID, setQuiz) => {
+  db.collection('users').doc(userID)
+  .collection('quizes').doc(quizID)
+  .onSnapshot(snap => {
+    setQuiz(snap.data())
+  })
+}

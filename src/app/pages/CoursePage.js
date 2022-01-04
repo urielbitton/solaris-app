@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router'
 import { Link } from 'react-router-dom'
-import { getCourseByID, getLessonsByCourseID } from '../services/courseServices'
+import { getAllQuizzesByCourseID, getCourseByID, getLessonsByCourseID } from '../services/courseServices'
 import { getInstructorByID, getReviewsByInstructorID } from '../services/InstructorServices'
 import './styles/CoursePage.css'
 import placeholderImg from '../assets/imgs/placeholder.png'
@@ -12,6 +12,7 @@ import { StoreContext } from '../store/store'
 import { getCoursesIDEnrolledByUserID } from '../services/userServices'
 import { useLocation } from 'react-router'
 import { useWindowDimensions } from "../utils/customHooks"
+import QuizCard from "../components/quiz/QuizCard"
 
 export default function CoursePage() {
 
@@ -21,6 +22,7 @@ export default function CoursePage() {
   const [lessons, setLessons] = useState([])
   const [userCourses, setUserCourses] = useState([])
   const [instructorReviews, setInstructorReviews] = useState([])
+  const [quizes, setQuizes] = useState([])
   const courseID = useRouteMatch('/courses/course/:courseID')?.params.courseID
   const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
   const inCourseInstructor = instructor?.instructorID === myUser?.instructorID
@@ -57,6 +59,14 @@ export default function CoursePage() {
     </span>
   })
 
+  const quizesRender = quizes?.map((quiz, i) => {
+    return <QuizCard 
+      quiz={quiz} 
+      courseID={courseID}
+      key={i} 
+    />
+  })
+
   const enrollCourse = () => {
     history.push(`/checkout/course/${courseID}`)
   }
@@ -64,6 +74,7 @@ export default function CoursePage() {
   useEffect(() => {
     getCourseByID(courseID, setCourse)
     getLessonsByCourseID(courseID, setLessons)
+    getAllQuizzesByCourseID(courseID, setQuizes)
   },[courseID])
 
   useEffect(() => {
@@ -141,6 +152,12 @@ export default function CoursePage() {
               Start
             </button>
           }
+          <section>
+            <h3>Quizzes</h3>
+            <div className="quiz-container">
+              {quizesRender}
+            </div>
+          </section>
           <section>
             <h3>Instructor</h3>
             <div className="instructor-container">
