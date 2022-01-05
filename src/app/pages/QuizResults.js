@@ -67,7 +67,7 @@ export default function QuizResults() {
       <header>
         <div>
           <h3>Quiz Results</h3>
-          <big>Score</big>
+          <big>Your Score</big>
           <h4>
             {score.toFixed(0)}% 
             <span>- ({correctNum}/{numOfQuestions})</span>
