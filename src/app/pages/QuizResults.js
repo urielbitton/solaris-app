@@ -7,6 +7,7 @@ import { getUserQuizByID } from "../services/userServices"
 import scoreImg from '../assets/imgs/score-img.png'
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import { cleanAnswer } from "../utils/utilities"
+import { updateSubDB }  from '../services/CrudDB'
 
 export default function QuizResults() {
 
@@ -17,6 +18,7 @@ export default function QuizResults() {
   const [userQuiz, setUserQuiz] = useState({})
   const [questions, setQuestions] = useState([])
   const [score, setScore] = useState(0)
+  const [displayedScore, setDisplayedScore] = useState(0)
   const [correctNum, setCorrectNum] = useState(0)
   const history= useHistory()
   let numOfQuestions = questions.length
@@ -54,6 +56,7 @@ export default function QuizResults() {
     if(userQuiz?.submission) {
       calculateScore(userQuiz.submission)
     }
+    setDisplayedScore((userQuiz?.score/numOfQuestions) * 100)
   },[userQuiz])
 
   useEffect(() => {
@@ -69,8 +72,8 @@ export default function QuizResults() {
           <h3>Quiz Results</h3>
           <big>Your Score</big>
           <h4>
-            {score.toFixed(0)}% 
-            <span>- ({correctNum}/{numOfQuestions})</span>
+            {displayedScore}% 
+            {/* <span>- ({displayedScore}/{numOfQuestions})</span> */}
           </h4>
         </div>
         <img src={scoreImg} alt="" />
