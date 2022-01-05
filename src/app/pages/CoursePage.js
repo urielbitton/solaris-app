@@ -152,11 +152,21 @@ export default function CoursePage() {
               Start
             </button>
           }
-          <section>
+          <section className="quiz-section">
             <h3>Quizzes</h3>
             <div className="quiz-container">
               {quizesRender}
             </div>
+            {
+              inCourseInstructor ?
+              <button 
+                className="create-quiz-btn shadow-hover"
+                onClick={() => history.push('/create/quiz')}
+              >
+                Create Quiz
+              </button> :
+              ""
+            }
           </section>
           <section>
             <h3>Instructor</h3>
