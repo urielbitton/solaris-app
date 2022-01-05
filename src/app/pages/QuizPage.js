@@ -63,7 +63,7 @@ export default function QuizPage() {
     updateSubDB('users', user?.uid, 'quizes', quizID, {
       status: 'taken',
       completedOn: new Date(),
-      minutesTaken: (+timer / 60_000).toFixed(1),
+      minutesTaken: +(+timer / 60_000).toFixed(1),
       submission: userAnswers
     }).then(() => {
       setLoading(false)

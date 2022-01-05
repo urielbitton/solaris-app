@@ -6,7 +6,7 @@ import { getQuestionsByQuizID, getQuizByID } from "../services/courseServices"
 import { getUserQuizByID } from "../services/userServices"
 import scoreImg from '../assets/imgs/score-img.png'
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
-import { cleanAnswer } from "../utils/utilities"
+import { cleanAnswer, msToTime } from "../utils/utilities"
 import { updateSubDB }  from '../services/CrudDB'
 
 export default function QuizResults() {
@@ -56,7 +56,7 @@ export default function QuizResults() {
     if(userQuiz?.submission) {
       calculateScore(userQuiz.submission)
     }
-    setDisplayedScore((userQuiz?.score/numOfQuestions) * 100)
+    setDisplayedScore((userQuiz?.customScore/numOfQuestions) * 100)
   },[userQuiz])
 
   useEffect(() => {
@@ -72,9 +72,10 @@ export default function QuizResults() {
           <h3>Quiz Results</h3>
           <big>Your Score</big>
           <h4>
-            {displayedScore}% 
+            {!isNaN(displayedScore) ? displayedScore : score}% 
             {/* <span>- ({displayedScore}/{numOfQuestions})</span> */}
           </h4>
+          <small>Time Taken: {msToTime(userQuiz?.minutesTaken * 60_000)}</small>
         </div>
         <img src={scoreImg} alt="" />
       </header>

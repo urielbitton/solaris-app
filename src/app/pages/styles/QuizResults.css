@@ -42,6 +42,9 @@
 .quiz-results-page header img {
   width: 200px;
 }
+.quiz-results-page header small {
+  color: #777;
+}
 .quiz-results-page .footer {
   margin-bottom: 40px;
 }
