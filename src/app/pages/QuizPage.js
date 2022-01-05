@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useRouteMatch } from "react-router-dom"
 import { useHistory, useLocation } from "react-router-dom/cjs/react-router-dom.min"
 import QuizItem from "../components/quiz/QuizItem"
-import { db } from "../firebase/fire"
 import { getQuestionsByQuizID, getQuizByID } from "../services/courseServices"
 import { getUserQuizByID } from "../services/userServices"
 import { StoreContext } from "../store/store"
@@ -10,10 +9,11 @@ import { msToTime } from "../utils/utilities"
 import './styles/QuizPage.css'
 import quizImg from '../assets/imgs/quiz-img.png'
 import { updateSubDB } from '../services/CrudDB'
+import PageLoader from '../components/ui/PageLoader'
 
 export default function QuizPage() {
 
-  const { setNavTitle, setNavDescription, user } = useContext(StoreContext)
+  const { setNavTitle, setNavDescript, user } = useContext(StoreContext)
   const courseID = useRouteMatch('/courses/:courseID/quiz/:quizID').params.courseID
   const quizID = useRouteMatch('/courses/:courseID/quiz/:quizID').params.quizID
   const [quiz, setQuiz] = useState({})
@@ -22,6 +22,7 @@ export default function QuizPage() {
   const [startTimer, setStartTimer] = useState(false)
   const [userQuiz, setUserQuiz] = useState({})
   const [userAnswers, setUserAnswers] = useState([])
+  const [loading, setLoading] = useState(false)
   const alreadyTaken = userQuiz.status === 'taken'
   const history = useHistory()
   const location = useLocation()
@@ -32,6 +33,7 @@ export default function QuizPage() {
   const questionsRender = questions?.map((question, i) => {
     return <QuizItem 
       question={question} 
+      userAnswers={userAnswers}
       setUserAnswers={setUserAnswers}
       key={i} 
     />
@@ -46,12 +48,16 @@ export default function QuizPage() {
   }
 
   const submitQuiz = () => {
+    setLoading(true)
     updateSubDB('users', user?.uid, 'quizes', quizID, {
       status: 'taken',
-      completedOn: new Date()
+      completedOn: new Date(),
+      minutesTaken: +timer / 60_000,
+      submission: userAnswers
     }).then(() => {
+      setLoading(false)
       history.push({
-        pathname: `/courses/quiz/${quizID}/results`,
+        pathname: `/courses/${courseID}/quiz/${quizID}/results`,
         search: "?status=taken"
       })
     })
@@ -110,7 +116,8 @@ export default function QuizPage() {
 
   useEffect(() => {
     setNavTitle('Quiz')
-  },[])
+    setNavDescript(quiz.name)
+  },[quiz])
 
   return (
     <div className="quiz-page">
@@ -167,7 +174,7 @@ export default function QuizPage() {
         <div className="already-taken">
           <span>You already took this quiz.</span>
           <button 
-            onClick={() => history.push(`/courses/quiz/${quizID}/results`)}
+            onClick={() => history.push(`/courses/${courseID}/quiz/${quizID}/results`)}
             className="shadow-hover"
           >
             View Results
@@ -180,6 +187,7 @@ export default function QuizPage() {
           </button>
         </div>
       }
+      <PageLoader loading={loading} />
     </div>
   )
 }

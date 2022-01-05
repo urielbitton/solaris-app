@@ -129,3 +129,7 @@ export const courseSorting = (a, b, courseSort) => {
       return a.price - b.price
   }
 }
+
+export const cleanAnswer = (answer) => {
+  return answer?.toLowerCase().replaceAll(' ','').replaceAll(';','')
+}

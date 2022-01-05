@@ -47,3 +47,9 @@
   height: 15px;
   flex-basis: 50px;
 }
+.quiz-item textarea {
+  max-height: 200px;
+  min-height: 100px;
+  max-width: 100%;
+  min-width: 100%;
+}

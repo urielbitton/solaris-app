@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './styles/QuizItem.css'
 import { AppInput } from '../ui/AppInputs'
 
@@ -6,7 +6,7 @@ export default function QuizItem(props) {
 
   const { answer, choices, hint, multipleChoice, points, questionID,
     title, order, multipleAnswers } = props.question
-  const { setUserAnswers } = props
+  const { userAnswers, setUserAnswers } = props
 
   const choicesRender = choices?.map((choice, i) => {
     return <li key={i}>
@@ -21,7 +21,8 @@ export default function QuizItem(props) {
   })
 
   const addAnswer = (e) => {
-    setUserAnswers(prev => [...prev, {selection: e.target.value}])
+    userAnswers[order-1] = e.target.value
+    setUserAnswers(prev => [...prev])
   }
 
   return (
@@ -36,7 +37,10 @@ export default function QuizItem(props) {
             {choicesRender}
           </ul> :
           <div className="short-answer">
-            <textarea />
+            <textarea 
+              placeholder="Answer here..." 
+              onChange={(e) => addAnswer(e)}
+            />
           </div>
         }
       </section>

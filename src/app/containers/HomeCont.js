@@ -22,6 +22,7 @@ import BecomeInstructor from "../pages/BecomeInstructor"
 import NotificationsPage from "../pages/NotificationsPage"
 import CreateQuiz from "../pages/CreateQuiz"
 import QuizPage from "../pages/QuizPage"
+import QuizResults from "../pages/QuizResults"
 
 export default function HomeCont() {
 
@@ -86,8 +87,11 @@ export default function HomeCont() {
           <Route exact path="/create/quiz">
             <CreateQuiz />
           </Route>
-          <Route path="/courses/:courseID/quiz/:quizID">
+          <Route exact path="/courses/:courseID/quiz/:quizID">
             <QuizPage />
+          </Route>
+          <Route path="/courses/:courseID/quiz/:quizID/results">
+            <QuizResults />
           </Route>
           <Route exact path="/create">
             {myUser?.isInstructor && <CreatePage />}
