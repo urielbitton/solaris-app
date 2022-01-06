@@ -124,6 +124,7 @@
   border: 1px solid #fff;
   padding: 13px;
   z-index: 20;
+  font-size: 14px;
 }
 .sidebar .instructor-container button:hover {
   background: #fff;

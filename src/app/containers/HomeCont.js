@@ -84,7 +84,7 @@ export default function HomeCont() {
           <Route path="/notifications">
             <NotificationsPage />
           </Route>
-          <Route exact path="/create/quiz">
+          <Route exact path="/courses/course/:courseID/create/quiz">
             <CreateQuiz />
           </Route>
           <Route exact path="/courses/:courseID/quiz/:quizID">

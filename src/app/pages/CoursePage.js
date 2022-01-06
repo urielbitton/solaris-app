@@ -161,7 +161,7 @@ export default function CoursePage() {
               inCourseInstructor ?
               <button 
                 className="create-quiz-btn shadow-hover"
-                onClick={() => history.push('/create/quiz')}
+                onClick={() => history.push(`/courses/course/${courseID}/create/quiz`)}
               >
                 Create Quiz
               </button> :

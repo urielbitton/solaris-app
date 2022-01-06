@@ -76,3 +76,18 @@ export const videoTypes = [
     icon: 'fas fa-video'
   }
 ]
+
+export const quizTypes = [
+  {
+    name: 'Multiple Choice',
+    subName: '& short answers',
+    value: 'multipleChoice',
+    icon: 'far fa-list-ol'
+  },
+  {
+    name: 'Written Answers',
+    value: 'writtenAnswers',
+    subName: '& long texts',
+    icon: 'far fa-text-size'
+  }
+]

@@ -75,6 +75,7 @@ button {
   transition: all 0.2s;
   padding: 10px 20px;
   border-radius: 10px;
+  font-size: 15px;
   color: #fff;
   background: var(--color);
 }

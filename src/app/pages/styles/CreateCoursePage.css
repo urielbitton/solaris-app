@@ -172,7 +172,6 @@
   padding: 10px 20px;
   background: none;
   color: var(--color);
-  font-size: 15px;
 }
 .create-course-page .create-nav button:hover:not(.create-course-btn) {
   background: var(--lightestblue)
@@ -387,7 +386,6 @@
 }
 .create-course-page button.create-course-btn {
   padding: 15px 20px;
-  font-size: 15px;
 }
 .create-course-page button.create-course-btn.disabled {
   opacity: 0.4;
@@ -578,9 +576,6 @@
 }
 .no-access-container img {
   width: 300px;
-}
-.no-access-container button {
-  font-size: 15px;
 }
 
 @media (max-width: 1550px) {

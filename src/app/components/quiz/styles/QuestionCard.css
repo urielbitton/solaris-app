@@ -1,0 +1,146 @@
+.question-card {
+  width: 100%;
+  padding: 25px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 4px 1px rgba(0,0,0,0.1);
+  background: #fff;
+}
+.question-card header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 30px;
+}
+.question-card header textarea {
+  width: 60%;
+  min-width: 60%;
+  max-width: 60%;
+  min-height: 80px;
+  max-height: 200px;
+  border: none;
+  border-bottom: 1px solid #eee;
+  resize: vertical;
+  background: #f9f9f9;
+}
+.question-card header textarea::-webkit-scrollbar {
+  width: 5px;
+}
+.question-card header .appselect {
+  width: 40%;
+  min-width: 200px;
+}
+
+.question-card section {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px 0;
+}
+.question-card section .choice-row {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+.question-card section .choice-row .radio {
+  flex-basis: 30px;
+  width: 18px;
+  height: 18px;
+}
+.question-card section .choice-row .appinput {
+  width: 100%;
+}
+.question-card section .choice-row input {
+  border: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s;
+  border-radius: 0;
+}
+.question-card section .choice-row input:focus,
+.question-card section .choice-row input:hover {
+  border-color: #ddd;
+}
+.question-card section .choice-row .icon-container {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+.question-card section .choice-row:hover .icon-container {
+  opacity: 1;
+}
+.question-card section .choice-row .icon-container i {
+  font-size: 20px;
+  color: #aaa;
+}
+.question-card section .choice-row .icon-container:hover {
+  background: var(--lightestblue);
+}
+.question-card section .choice-row .icon-container:hover i {
+  color: var(--color);
+}
+.question-card .enter-reminder {
+  position: absolute;
+  top: 12px;
+  right: 50px;
+  background: var(--lightestblue);
+  color: var(--color);
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 5px;
+  opacity: 0;
+  visibility: hidden;
+}
+.question-card .enter-reminder.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.question-card footer {
+  padding: 10px 0;
+  border-top: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+}
+.question-card .icon-container {
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.question-card .icon-container:hover {
+  background: var(--lightestblue);
+}
+.question-card .icon-container i {
+  transition: all 0.2s;
+}
+.question-card .icon-container:hover i {
+  color: var(--color);
+}
+.question-card footer .appswitch {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-left: 2px solid #eee;
+  padding-left: 20px;
+  margin-left: 10px;
+}
+.question-card footer .appswitch h6 {
+  font-size: 14px;
+  color: #444;
+  font-weight: 600;
+}
