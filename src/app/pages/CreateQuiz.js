@@ -32,10 +32,13 @@ export default function CreateQuiz() {
   const questionsRender = questionsArr?.map((question, i) => {
     return <QuestionCard 
       question={question}
+      questionsArr={questionsArr}
+      setQuestionsArr={setQuestionsArr}
+      index={i}
       key={i} 
     />
   })
-
+  console.log(questionsArr)
   const handlePressEnter = (e) => {
     if(e.key === 'Enter' && e.shiftKey) return
     else if(e.key === 'Enter') {

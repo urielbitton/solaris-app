@@ -33,7 +33,7 @@
 
 .question-card section {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
   gap: 15px;
   padding: 20px 0;
@@ -45,11 +45,6 @@
   align-items: center;
   gap: 10px;
 }
-.question-card section .choice-row .radio {
-  flex-basis: 30px;
-  width: 18px;
-  height: 18px;
-}
 .question-card section .choice-row .appinput {
   width: 100%;
 }
@@ -58,6 +53,14 @@
   border-bottom: 1px solid transparent;
   transition: all 0.2s;
   border-radius: 0;
+}
+.question-card section .choice-row input:disabled {
+  background: none;
+}
+.question-card section .choice-row input.q-type {
+  flex-basis: 30px;
+  width: 18px;
+  height: 18px;
 }
 .question-card section .choice-row input:focus,
 .question-card section .choice-row input:hover {
@@ -86,6 +89,29 @@
 }
 .question-card section .choice-row .icon-container:hover i {
   color: var(--color);
+}
+.question-card .answer-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.question-card .answer-row .appinput {
+  width: 100%;
+}
+.question-card .answer-row input {
+  border: none;
+  border-bottom: 1px solid #eee;
+}
+.question-card .add-answer-text {
+  color: var(--color);
+  cursor: pointer;
+}
+.question-card .add-answer-text:hover {
+  text-decoration: underline;
+}
+.question-card .answer-row {
+  padding: 10px 0;
 }
 .question-card .enter-reminder {
   position: absolute;
@@ -143,4 +169,20 @@
   font-size: 14px;
   color: #444;
   font-weight: 600;
+}
+.question-card .points-worth {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.question-card .points-worth h6 {
+  font-size: 12px;
+  color: #444;
+  font-weight: 600;
+}
+.question-card .points-worth input {
+  width: 60px;
+  height: 25px;
+  border: none;
+  border-bottom: 1px solid #eee;
 }

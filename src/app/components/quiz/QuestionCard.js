@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AppInput, AppSelect, AppSwitch } from "../ui/AppInputs"
 import './styles/QuestionCard.css'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -6,6 +6,7 @@ import TextareaAutosize from 'react-textarea-autosize'
 export default function QuestionCard(props) {
 
   const { title } = props.question
+  const { questionsArr, setQuestionsArr, index } = props
   const [questionTitle, setQuestionTitle] = useState(title)
   const [questionType, setQuestionType] = useState('radio')
   const [isRequired, setIsRequired] = useState(true)
@@ -13,18 +14,25 @@ export default function QuestionCard(props) {
   const [choices, setChoices] = useState([])
   const [editingChoice, setEditingChoice] = useState(-1)
   const [enterReminder, setEnterReminder] = useState(-1)
+  const [optionPlaceholder, setOptionPlaceholder] = useState('Add option')
+  const [answerText, setAnswerText] = useState('')
+  const [hasAnswer, setHasAnswer] = useState(false)
+  const [pointsWorth, setPointsWorth] = useState(1)
+  const disableAddOptions = optionPlaceholder !== 'Add option'
 
   const quizTypeOptions = [
     {name: 'Multiple Choice', value: 'radio'},
     {name: 'Checkboxes', value: 'checkbox'},
-    {name: 'Short Answer', value: 'text'},
+    {name: 'Short Answer', value: 'shortText'},
+    {name: 'Long Answer', value: 'longText'},
   ]
 
   const choicesRender = choices?.map((choice, i) => {
     return <div className="choice-row" key={i}>
       <input 
         type={questionType} 
-        className="radio"
+        className="q-type"
+        style={{display: (questionType === 'radio' || questionType === 'checkbox') ? "block" : "none"}}
         disabled 
       />
       <AppInput 
@@ -55,7 +63,7 @@ export default function QuestionCard(props) {
 
   const handleOptionPressEnter = (e, editing, index) => {
     if(e.key === 'Enter' && e.shiftKey) return
-    else if(e.key === 'Enter') {
+    else if(e.key === 'Enter' && !disableAddOptions) {
       e.preventDefault()
       setEnterReminder(-1)
       if(optionText.length) {
@@ -77,6 +85,35 @@ export default function QuestionCard(props) {
     setChoices(prev => [...prev])
   }
 
+  const fillInQuestion = () => {
+    questionsArr[index] = {
+      title: questionTitle,
+      answer: answerText,
+      choices,
+      isRequired,
+      multipleChoice: questionType === 'radio',
+      hint: '',
+      multipleAnswers: questionType === 'checkbox',
+      order: index + 1,
+      points: 1,
+      questionID: `question-${index}`
+    }
+    setQuestionsArr(prev => [...prev])
+  }
+  
+  useEffect(() => {
+    if(questionType === 'shortText')
+      setOptionPlaceholder('Short answer text')
+    if(questionType === 'shortText')
+      setOptionPlaceholder('Long answer text')
+    else 
+    setOptionPlaceholder('Add option')
+  },[questionType])
+
+  useEffect(() => {
+    fillInQuestion()
+  },[questionTitle, questionType, choices, isRequired, answerText])
+
   return (
     <div className="question-card">
       <header>
@@ -90,24 +127,43 @@ export default function QuestionCard(props) {
         <AppSelect 
           options={quizTypeOptions} 
           onChange={(e) => setQuestionType(e.target.value)}
+          namebased
         />
       </header>
       <section>
         <div className="choice-row">
           <input 
             type={questionType} 
-            className="radio"
+            className="q-type"
+            style={{display: (questionType === 'radio' || questionType === 'checkbox')? "block" : "none"}}
             disabled 
           />
           <AppInput 
-            placeholder="Add option"
+            placeholder={optionPlaceholder}
             onChange={(e) => setOptionText(e.target.value)}
             onKeyPress={(e) => handleOptionPressEnter(e)}
             onBlur={() => setOptionText('')}
             value={ editingChoice === -1 ? optionText : ''}
+            disabled={ disableAddOptions }
           />
         </div>
         {choicesRender}
+        <div className="answer-row">
+          <small 
+            className="add-answer-text" 
+            onClick={() => setHasAnswer(prev => !prev)}
+          >
+            { hasAnswer ? "Hide Answer" : "Add Answer" }
+          </small>
+          {
+            hasAnswer ?
+            <AppInput 
+              placeholder="Add an answer"
+              onChange={(e) => setAnswerText(e.target.value)}
+            />
+            : ""
+          }
+        </div>
       </section>
       <footer>
         <div className="icon-container">
@@ -115,6 +171,16 @@ export default function QuestionCard(props) {
         </div>
         <div className="icon-container">
           <i className="fal fa-trash-alt"></i>
+        </div>
+        <div>
+          <AppInput 
+            title="Points"
+            onChange={(e) => setPointsWorth(e.target.value)}
+            value={pointsWorth < 1 ? 1 : pointsWorth}
+            className="points-worth"
+            type="number"
+            min={1}
+          />
         </div>
         <div>
           <AppSwitch 
