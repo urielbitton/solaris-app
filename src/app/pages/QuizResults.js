@@ -7,7 +7,6 @@ import { getUserQuizByID } from "../services/userServices"
 import scoreImg from '../assets/imgs/score-img.png'
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import { cleanAnswer, msToTime } from "../utils/utilities"
-import { updateSubDB }  from '../services/CrudDB'
 
 export default function QuizResults() {
 

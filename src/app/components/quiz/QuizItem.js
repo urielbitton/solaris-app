@@ -4,15 +4,16 @@ import { AppInput } from '../ui/AppInputs'
 
 export default function QuizItem(props) {
 
-  const { answer, choices, hint, multipleChoice, points, questionID,
-    title, order, multipleAnswers } = props.question
+  const { answer, choices, hint, questionType, points, questionID,
+    title, order } = props.question
   const { userAnswers, setUserAnswers } = props
+  const textTypeQuestion = questionType === 'radio' || questionType === 'checkbox'
 
   const choicesRender = choices?.map((choice, i) => {
     return <li key={i}>
       <AppInput 
         title={choice}
-        type={!multipleAnswers ? "radio" : "checkbox"} 
+        type={questionType} 
         onChange={(e) => addAnswer(e)}
         value={choice}
         name={questionID}
@@ -32,7 +33,7 @@ export default function QuizItem(props) {
       </header>
       <section className="answer-section">
         {
-          multipleChoice || multipleAnswers? 
+          textTypeQuestion ? 
           <ul className="multiple-choice">
             {choicesRender}
           </ul> :

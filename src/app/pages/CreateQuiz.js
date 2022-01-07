@@ -30,6 +30,7 @@ export default function CreateQuiz() {
   const location = useLocation()
   const editMode = location.search.includes('edit=true')
   const newQuizID = db.collection('courses').doc(courseID).collection('quizes').doc().id
+  console.log(questionsArr)
 
   const quizypesRender = quizTypes?.map((type,i) => {
     return <div 
@@ -74,8 +75,7 @@ export default function CreateQuiz() {
         answer: '',
         choices: [],
         hint: '',
-        multipleAnswers: false,
-        multipleChoice: true,
+        questionType: 'radio',
         order: questionsArr.length + 1,
         points: 1,
         questionID: newQuestionID,
@@ -108,8 +108,7 @@ export default function CreateQuiz() {
             answer: question.answer,
             choices: question.choices,
             hint: question.hint,
-            multipleAnswers: question.multipleAnswers,
-            multipleChoice: question.multipleChoice,
+            questionType: question.questionType,
             order: question.order,
             points: question.points,
             questionID: question.questionID,
@@ -228,6 +227,11 @@ export default function CreateQuiz() {
           </div>
         </div>
       </section>
+      {
+        editMode ? 
+        <small>*Don't forget to save your question edits</small> :
+        ""
+      }
       <section className="footer">
         <button 
           className="shadow-hover"

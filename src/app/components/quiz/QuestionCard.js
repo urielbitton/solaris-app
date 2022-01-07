@@ -21,6 +21,10 @@ export default function QuestionCard(props) {
   const disableAddOptions = optionPlaceholder !== 'Add option'
   const textTypeQuestion = questionType === 'radio' || questionType === 'checkbox'
 
+  const showSaveBtn = questionsArr[index] !== {
+    //make current question = to all states
+  }
+
   const quizTypeOptions = [
     {name: 'Multiple Choice', value: 'radio'},
     {name: 'Checkboxes', value: 'checkbox'},
@@ -95,9 +99,8 @@ export default function QuestionCard(props) {
       answer: answerText,
       choices: textTypeQuestion ? choices : [],
       isRequired,
-      multipleChoice: questionType === 'radio',
+      questionType,
       hint: '',
-      multipleAnswers: questionType === 'checkbox',
       order: index + 1,
       points: +1,
       questionID: `question-${index}`
@@ -133,10 +136,14 @@ export default function QuestionCard(props) {
 
   useEffect(() => {
     if(editMode) {
+      setAnswerText(questionsArr[index].answer)
       setChoices(questionsArr[index].choices)
       setIsRequired(questionsArr[index].isRequired)
+      setPointsWorth(questionsArr[index].points)
+      setQuestionType(questionsArr[index].questionType)
+      setQuestionTitle(questionsArr[index].title)
     }
-  },[])
+  },[editMode])
 
   return (
     <div className="question-card">
@@ -184,40 +191,54 @@ export default function QuestionCard(props) {
             <AppInput 
               placeholder="Add an answer"
               onChange={(e) => setAnswerText(e.target.value)}
+              value={answerText}
             />
             : ""
           }
         </div>
       </section>
       <footer>
-        <div 
-          className="icon-container" 
-          onClick={() => cloneQuestion()}
-        >
-          <i className="fal fa-clone" title="Clone Question"></i>
+        <div className="side">
+          { editMode && showSaveBtn?
+            <button 
+              className="save-card-btn"
+              onClick={() => fillInQuestion()}
+            >
+              Save
+            </button>
+            : ""
+          }
         </div>
-        <div 
-          className="icon-container" 
-          onClick={() => deleteQuestion()}
-        >
-          <i className="fal fa-trash-alt" title="Delete Question"></i>
-        </div>
-        <div>
-          <AppInput 
-            title="Points"
-            onChange={(e) => setPointsWorth(e.target.value)}
-            value={pointsWorth < 1 ? 1 : pointsWorth}
-            className="points-worth"
-            type="number"
-            min={1}
-          />
-        </div>
-        <div>
-          <AppSwitch 
-            title="Required"
-            onChange={(e) => setIsRequired(e.target.checked)}
-            checked={isRequired}
-          />
+        <div className="side">
+          <div 
+            className="icon-container" 
+            onClick={() => cloneQuestion()}
+          >
+            <i className="fal fa-clone" title="Clone Question"></i>
+          </div>
+          <div 
+            className="icon-container" 
+            onClick={() => deleteQuestion()}
+          >
+            <i className="fal fa-trash-alt" title="Delete Question"></i>
+          </div>
+          <div>
+            <AppInput 
+              title="Points"
+              onChange={(e) => setPointsWorth(e.target.value)}
+              value={pointsWorth < 1 ? 1 : pointsWorth}
+              className="points-worth"
+              type="number"
+              min={1}
+            />
+          </div>
+          <div>
+            <AppSwitch 
+              title="Required"
+              onChange={(e) => setIsRequired(e.target.checked)}
+              checked={isRequired}
+            />
+          </div>
         </div>
       </footer>
     </div>

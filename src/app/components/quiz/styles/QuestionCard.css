@@ -135,7 +135,12 @@
   border-top: 1px solid #ddd;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+.question-card footer .side {
+  display: flex;
+  align-items: center;
   gap: 7px;
 }
 .question-card .icon-container {
@@ -185,4 +190,11 @@
   height: 25px;
   border: none;
   border-bottom: 1px solid #eee;
+}
+.question-card footer .save-card-btn {
+  background: none;
+  color: var(--color);
+}
+.question-card footer .save-card-btn:hover {
+  background: var(--lightestblue);
 }
