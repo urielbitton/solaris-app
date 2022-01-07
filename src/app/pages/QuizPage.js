@@ -138,7 +138,7 @@ export default function QuizPage() {
           <h5>Total time allowed: <span>{quiz.maxDuration} minutes</span></h5>
           <h5>Question{ questions.length !== 1 ? "s" : "" } in total: <span>{questions.length}</span></h5>
           <h5>Total points worth: <span>{quiz.points}</span></h5>
-          <h5>Each question worth: <span>{quiz.points / questions.length}</span></h5>
+          <h5>Points per question: <span>{(quiz.points / questions.length).toFixed(1)}</span></h5>
         </div>
         <div className="icon-container">
           <i className="far fa-align-center"></i>

@@ -32,7 +32,7 @@ export default function QuizItem(props) {
       </header>
       <section className="answer-section">
         {
-          multipleChoice ? 
+          multipleChoice || multipleAnswers? 
           <ul className="multiple-choice">
             {choicesRender}
           </ul> :

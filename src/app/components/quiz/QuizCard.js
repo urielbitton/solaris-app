@@ -6,7 +6,7 @@ import './styles/QuizCard.css'
 export default function QuizCard(props) {
 
   const { name, quizID, note } = props.quiz
-  const { courseID } = props
+  const { courseID, inCourseInstructor } = props
   const [questions, setQuestions] = useState([])
   const history = useHistory()
 
@@ -27,6 +27,17 @@ export default function QuizCard(props) {
         </div>
       </div>
       <div className="right">
+        {
+          inCourseInstructor ? 
+          <div 
+            className="icon-container"
+            onClick={() => history.push(`/courses/course/${courseID}/create/quiz?edit=true`)}
+            title="Edit Quiz"
+          >
+            <i className="fal fa-edit"></i>
+          </div>
+          : ""
+        }
         <small>{questions.length} question{ questions.length !== 1 ? "s" : "" }</small>
         <button 
           className="shadow-hover"

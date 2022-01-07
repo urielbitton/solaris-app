@@ -85,7 +85,10 @@ export default function HomeCont() {
             <NotificationsPage />
           </Route>
           <Route exact path="/courses/course/:courseID/create/quiz">
-            <CreateQuiz />
+            { myUser?.isInstructor && <CreateQuiz /> }
+          </Route>
+          <Route exact path="/courses/course/:courseID/create/quiz?edit=true">
+            { myUser?.isInstructor && <CreateQuiz /> }
           </Route>
           <Route exact path="/courses/:courseID/quiz/:quizID">
             <QuizPage />
@@ -94,13 +97,13 @@ export default function HomeCont() {
             <QuizResults />
           </Route>
           <Route exact path="/create">
-            {myUser?.isInstructor && <CreatePage />}
+            { myUser?.isInstructor && <CreatePage /> }
           </Route>
           <Route path="/create/create-course/:courseType">
-            {myUser?.isInstructor && <CreateCoursePage editMode={false} />}
+            { myUser?.isInstructor && <CreateCoursePage editMode={false} /> }
           </Route>
           <Route path="/courses/my-courses">
-            {myUser?.isInstructor && <MyCourses />}
+            { myUser?.isInstructor && <MyCourses /> }
           </Route>
           <Route path="/edit-course/:courseID">
             <CreateCoursePage editMode />

@@ -29,6 +29,7 @@ export default function CoursePage() {
   const history = useHistory()
   const location = useLocation()
   const lessonsScrollRef = useRef()
+  const quizesScrollRef = useRef()
   const { screenWidth } = useWindowDimensions()
   const instructorRatingSum = instructorReviews.reduce((a,b) => a + b.rating, 0)
   const isntructorRatingAvg = instructorRatingSum / instructorReviews.length
@@ -63,6 +64,7 @@ export default function CoursePage() {
     return <QuizCard 
       quiz={quiz} 
       courseID={courseID}
+      inCourseInstructor={inCourseInstructor}
       key={i} 
     />
   })
@@ -94,6 +96,9 @@ export default function CoursePage() {
   useEffect(() => {
     if(location.search.includes('scrollToLessons')) {
       lessonsScrollRef.current.scrollIntoView()
+    }
+    else if(location.search.includes('scrollToQuizes')) {
+      quizesScrollRef.current.scrollIntoView()
     }
   },[])
 
@@ -154,7 +159,7 @@ export default function CoursePage() {
           }
           <section className="quiz-section">
             <h3>Quizzes</h3>
-            <div className="quiz-container">
+            <div className="quiz-container" ref={quizesScrollRef}>
               {quizesRender}
             </div>
             {

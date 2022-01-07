@@ -19,6 +19,7 @@ export default function QuestionCard(props) {
   const [hasAnswer, setHasAnswer] = useState(false)
   const [pointsWorth, setPointsWorth] = useState(1)
   const disableAddOptions = optionPlaceholder !== 'Add option'
+  const textTypeQuestion = questionType === 'radio' || questionType === 'checkbox'
 
   const quizTypeOptions = [
     {name: 'Multiple Choice', value: 'radio'},
@@ -32,7 +33,7 @@ export default function QuestionCard(props) {
       <input 
         type={questionType} 
         className="q-type"
-        style={{display: (questionType === 'radio' || questionType === 'checkbox') ? "block" : "none"}}
+        style={{display: textTypeQuestion ? "block" : "none"}}
         disabled 
       />
       <AppInput 
@@ -55,8 +56,11 @@ export default function QuestionCard(props) {
       <small className={`enter-reminder ${ (enterReminder === i && editingChoice === i) ? "show" : "" }`}>
         Press enter to save
       </small>
-      <div className="icon-container" onClick={() => deleteChoice(i)}>
-        <i className="fal fa-times"></i>
+      <div 
+        className="icon-container" 
+        onClick={() => deleteChoice(i)}
+      >
+        <i className="fal fa-times" title="Remove"></i>
       </div>
     </div>
   })
@@ -89,30 +93,43 @@ export default function QuestionCard(props) {
     questionsArr[index] = {
       title: questionTitle,
       answer: answerText,
-      choices,
+      choices: textTypeQuestion ? choices : [],
       isRequired,
       multipleChoice: questionType === 'radio',
       hint: '',
       multipleAnswers: questionType === 'checkbox',
       order: index + 1,
-      points: 1,
+      points: +1,
       questionID: `question-${index}`
     }
+    setQuestionsArr(prev => [...prev])
+  }
+
+  const deleteQuestion = () => {
+    const confirm = window.confirm('Are you sure you want to delete this question?')
+    if(confirm) {
+      questionsArr.splice(index, 1)
+      setQuestionsArr(prev => [...prev])
+    }
+  }
+
+  const cloneQuestion = () => {
+    questionsArr.push(questionsArr[index])
     setQuestionsArr(prev => [...prev])
   }
   
   useEffect(() => {
     if(questionType === 'shortText')
       setOptionPlaceholder('Short answer text')
-    if(questionType === 'shortText')
+    else if(questionType === 'longText')
       setOptionPlaceholder('Long answer text')
     else 
-    setOptionPlaceholder('Add option')
+      setOptionPlaceholder('Add option')
   },[questionType])
 
   useEffect(() => {
     fillInQuestion()
-  },[questionTitle, questionType, choices, isRequired, answerText])
+  },[questionTitle, questionType, choices, isRequired, answerText, pointsWorth])
 
   return (
     <div className="question-card">
@@ -135,7 +152,7 @@ export default function QuestionCard(props) {
           <input 
             type={questionType} 
             className="q-type"
-            style={{display: (questionType === 'radio' || questionType === 'checkbox')? "block" : "none"}}
+            style={{display: textTypeQuestion ? "block" : "none"}}
             disabled 
           />
           <AppInput 
@@ -147,7 +164,7 @@ export default function QuestionCard(props) {
             disabled={ disableAddOptions }
           />
         </div>
-        {choicesRender}
+        { textTypeQuestion && choicesRender }
         <div className="answer-row">
           <small 
             className="add-answer-text" 
@@ -166,11 +183,17 @@ export default function QuestionCard(props) {
         </div>
       </section>
       <footer>
-        <div className="icon-container">
-          <i className="fal fa-clone"></i>
+        <div 
+          className="icon-container" 
+          onClick={() => cloneQuestion()}
+        >
+          <i className="fal fa-clone" title="Clone Question"></i>
         </div>
-        <div className="icon-container">
-          <i className="fal fa-trash-alt"></i>
+        <div 
+          className="icon-container" 
+          onClick={() => deleteQuestion()}
+        >
+          <i className="fal fa-trash-alt" title="Delete Question"></i>
         </div>
         <div>
           <AppInput 

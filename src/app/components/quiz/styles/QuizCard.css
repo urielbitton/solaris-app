@@ -48,3 +48,24 @@
   opacity: 1;
   bottom: 30px;
 }
+
+.quiz-card .right .icon-container {
+  opacity: 0;
+  transition: all 0.2s;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.quiz-card .right .icon-container i {
+  color: var(--color);
+}
+.quiz-card:hover .right .icon-container {
+  opacity: 1;
+}
+.quiz-card .right .icon-container:hover {
+  background: var(--lightestblue);
+}
