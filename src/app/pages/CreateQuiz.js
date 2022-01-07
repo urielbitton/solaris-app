@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/CreateQuiz.css'
 import { StoreContext } from '../store/store'
-import { useHistory, useRouteMatch } from "react-router-dom/cjs/react-router-dom.min"
+import { useHistory, useLocation, useRouteMatch } from "react-router-dom"
 import { quizTypes } from "../api/apis"
 import { AppInput, AppSwitch, AppTextarea } from '../components/ui/AppInputs'
 import { db } from "../firebase/fire"
 import { setSubDB } from '../services/CrudDB'
 import QuestionCard from "../components/quiz/QuestionCard"
 import PageLoader from '../components/ui/PageLoader'
+import { getQuestionsByQuizID, getQuizByID } from "../services/courseServices"
 
 export default function CreateQuiz() {
 
   const { setNavTitle, setNavDescript } = useContext(StoreContext)
   const courseID = useRouteMatch('/courses/course/:courseID/create/quiz').params.courseID
+  const quizID = useRouteMatch('/courses/course/:courseID/create/quiz/:quizID')?.params.quizID
   const [quizType, setQuizType] = useState('')
   const [quizName, setQuizName] = useState('')
   const [totalPoints, setTotalPoints] = useState(0)
@@ -22,8 +24,12 @@ export default function CreateQuiz() {
   const [questionTitle, setQuestionTitle] = useState('')
   const [questionsArr, setQuestionsArr] = useState([])
   const [loading, setLoading] = useState(false)
-  const newQuizID = db.collection('courses').doc(courseID).collection('quizes').doc().id
+  const [quiz, setQuiz] = useState({})
+  const [questions, setQuestions] = useState([])
   const history = useHistory()
+  const location = useLocation()
+  const editMode = location.search.includes('edit=true')
+  const newQuizID = db.collection('courses').doc(courseID).collection('quizes').doc().id
 
   const quizypesRender = quizTypes?.map((type,i) => {
     return <div 
@@ -44,6 +50,7 @@ export default function CreateQuiz() {
       questionsArr={questionsArr}
       setQuestionsArr={setQuestionsArr}
       index={i}
+      editMode={editMode}
       key={i} 
     />
   })
@@ -80,22 +87,22 @@ export default function CreateQuiz() {
   const createQuiz = () => {
     if(quizName.length && questionsArr.length) {
       setLoading(true)
-      setSubDB('courses', courseID, 'quizes', newQuizID, {
-        dateCreated: new Date(),
+      setSubDB('courses', courseID, 'quizes', !editMode ? newQuizID : quizID, {
+        ...(!editMode && {dateAdded: new Date()}),
         maxDuration: +maxDuration,
         name: quizName,
         note: quizNotes,
         points: +totalPoints,
-        quizID: newQuizID,
+        quizID: !editMode ? newQuizID : quizID,
         quizType,
         isAvailable,
-        takenBy: []
-      })
+        ...(!editMode && {takenBy: []})
+      }, true)
       .then(() => {
         const batch = db.batch()
         questionsArr.forEach(question => {
           const docRef = db.collection('courses').doc(courseID)
-            .collection('quizes').doc(newQuizID)
+            .collection('quizes').doc(!editMode ? newQuizID : quizID)
             .collection('questions').doc(question.questionID)
           batch.set(docRef, {
             answer: question.answer,
@@ -108,7 +115,7 @@ export default function CreateQuiz() {
             questionID: question.questionID,
             title: question.title,
             isRequired: question.isRequired
-          })
+          }, {merge: true})
         })
         batch.commit()
         .then(() => {
@@ -129,6 +136,26 @@ export default function CreateQuiz() {
     setNavDescript('')
   },[])
 
+  useEffect(() => {
+    getQuizByID(courseID, quizID, setQuiz)
+  },[courseID])
+
+  useEffect(() => {
+    getQuestionsByQuizID(courseID, quizID, setQuestions)
+  },[quizID])
+
+  useEffect(() => {
+    if(editMode) {
+      setQuizType(quiz.quizType)
+      setQuizName(quiz.name)
+      setTotalPoints(quiz.points)
+      setMaxDuration(quiz.maxDuration)
+      setQuizNotes(quiz.note)
+      setIsAvailable(quiz.isAvailable)
+      setQuestionsArr(questions)
+    }
+  },[quiz, questions])
+
   return (
     <div className="create-quiz-page">
       <h3>Create a Quiz</h3>
@@ -148,20 +175,24 @@ export default function CreateQuiz() {
           <AppInput 
             title="Quiz Name"
             onChange={(e) => setQuizName(e.target.value)}
+            value={quizName}
           />
           <AppInput 
             title="Total Points Worth" 
             type="number"
             onChange={(e) => setTotalPoints(e.target.value)}
+            value={totalPoints}
           />
           <AppInput 
             title="Time Duration (in minutes)" 
             type="number"
             onChange={(e) => setMaxDuration(e.target.value)}
+            value={maxDuration}
           />
           <AppTextarea 
             title="Quiz Notes"
             onChange={(e) => setQuizNotes(e.target.value)}
+            value={quizNotes}
           />
           <AppSwitch 
             title="Active"
@@ -202,7 +233,7 @@ export default function CreateQuiz() {
           className="shadow-hover"
           onClick={() => createQuiz()}
         >
-            Create Quiz
+            {editMode ? "Save" : "Create"} Quiz
         </button>
       </section>
       <PageLoader loading={loading} />

@@ -31,7 +31,7 @@ export default function QuizCard(props) {
           inCourseInstructor ? 
           <div 
             className="icon-container"
-            onClick={() => history.push(`/courses/course/${courseID}/create/quiz?edit=true`)}
+            onClick={() => history.push(`/courses/course/${courseID}/create/quiz/${quizID}?edit=true`)}
             title="Edit Quiz"
           >
             <i className="fal fa-edit"></i>

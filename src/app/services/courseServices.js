@@ -145,7 +145,9 @@ export const getAllVideosByCourseID = (courseID, setVideos) => {
 
 export const getAllQuizzesByCourseID = (courseID, setQuizes) => {
   db.collection('courses').doc(courseID)
-  .collection('quizes').onSnapshot(snap => {
+  .collection('quizes')
+  .orderBy('dateCreated', 'asc')
+  .onSnapshot(snap => {
     const quizesArr = []
     snap.forEach(doc => quizesArr.push(doc.data()))
     setQuizes(quizesArr)

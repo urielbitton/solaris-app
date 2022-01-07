@@ -6,7 +6,7 @@ import TextareaAutosize from 'react-textarea-autosize'
 export default function QuestionCard(props) {
 
   const { title } = props.question
-  const { questionsArr, setQuestionsArr, index } = props
+  const { questionsArr, setQuestionsArr, index, editMode } = props
   const [questionTitle, setQuestionTitle] = useState(title)
   const [questionType, setQuestionType] = useState('radio')
   const [isRequired, setIsRequired] = useState(true)
@@ -128,8 +128,15 @@ export default function QuestionCard(props) {
   },[questionType])
 
   useEffect(() => {
-    fillInQuestion()
+    !editMode && fillInQuestion()
   },[questionTitle, questionType, choices, isRequired, answerText, pointsWorth])
+
+  useEffect(() => {
+    if(editMode) {
+      setChoices(questionsArr[index].choices)
+      setIsRequired(questionsArr[index].isRequired)
+    }
+  },[])
 
   return (
     <div className="question-card">

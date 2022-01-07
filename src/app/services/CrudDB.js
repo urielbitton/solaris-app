@@ -12,8 +12,8 @@ export function deleteDB(col, doc) {
   return db.collection(col).doc(doc).delete()
 }
 
-export function setSubDB(col, doc, subCol, subDoc, value) {
-  return db.collection(col).doc(doc).collection(subCol).doc(subDoc).set(value)
+export function setSubDB(col, doc, subCol, subDoc, value, merge=false) {
+  return db.collection(col).doc(doc).collection(subCol).doc(subDoc).set(value, {merge})
 }
 
 export function updateSubDB(col, doc, subCol, subDoc, value) {

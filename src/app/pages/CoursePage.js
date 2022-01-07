@@ -154,12 +154,13 @@ export default function CoursePage() {
               className='start-course-btn shadow-hover' 
               onClick={() => history.push(`/courses/course/${courseID}/lesson/${course.firstLessonID}/${course.firstVideoID}`)}
             >
-              Start
+              Start Lessons
             </button>
           }
           <section className="quiz-section">
+            <div ref={quizesScrollRef} className="quiz-scroll-ref"/>
             <h3>Quizzes</h3>
-            <div className="quiz-container" ref={quizesScrollRef}>
+            <div className="quiz-container">
               {quizesRender}
             </div>
             {
@@ -240,7 +241,10 @@ export default function CoursePage() {
                 </div>
               </div>
             </div>
-            <button className={courseUserAccess ? "enrollbtn enrolled" : "enrollbtn not-enrolled"} onClick={() => courseUserAccess ? console.log('Already enrolled') : enrollCourse()}>
+            <button 
+              className={courseUserAccess ? "enrollbtn enrolled" : "enrollbtn not-enrolled"} 
+              onClick={() => courseUserAccess ? console.log('Already enrolled') : enrollCourse()}
+            >
               {courseUserAccess ? "Enrolled" : "Enroll"}
               <i className={courseUserAccess ? "fal fa-check" : "fal fa-arrow-right"}></i>
             </button>

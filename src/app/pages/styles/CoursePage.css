@@ -111,6 +111,7 @@
   min-width: 600px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 70px;
 }
 .course-page .course-content .text-container .list-elements {
@@ -281,7 +282,6 @@
 }
 .course-page .start-course-btn {
   padding: 15px;
-  width: 120px;
   margin-top: -30px;
 }
 .course-page .instructor-container .instructor-data big {
@@ -305,6 +305,11 @@
   flex-direction: column;
   gap: 20px;
 }
+.course-page .quiz-section .quiz-scroll-ref {
+  position: absolute;
+  top: -70px;
+  visibility: hidden;
+}
 .course-page .quiz-container {
   width: 100%;
   display: flex;
@@ -313,7 +318,6 @@
   gap: 20px;
 }
 .course-page .create-quiz-btn {
-  margin-top: 20px;
   padding: 15px 25px;
   font-size: 15px;
 }

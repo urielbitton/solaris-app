@@ -72,7 +72,7 @@ export default function QuizResults() {
           <h3>Quiz Results</h3>
           <big>Your Score</big>
           <h4>
-            {!isNaN(displayedScore) ? displayedScore : score}% 
+            {!isNaN(displayedScore) ? displayedScore : score.toFixed(1)}% 
             {/* <span>- ({displayedScore}/{numOfQuestions})</span> */}
           </h4>
           <small>Time Taken: {msToTime(userQuiz?.minutesTaken * 60_000)}</small>
