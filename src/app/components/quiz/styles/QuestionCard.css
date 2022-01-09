@@ -96,12 +96,16 @@
   gap: 8px;
   width: 100%;
 }
-.question-card .answer-row .appinput {
+.question-card .answer-row .commoninput {
   width: 100%;
 }
-.question-card .answer-row input {
+.question-card .answer-row textarea {
   border: none;
   border-bottom: 1px solid #eee;
+  background: none;
+  max-width: 100%;
+  min-height: 20px;
+  max-height: 60px;
 }
 .question-card .add-answer-text {
   color: var(--color);
@@ -194,7 +198,14 @@
 .question-card footer .save-card-btn {
   background: none;
   color: var(--color);
+  animation: attention 1s linear infinite;
 }
 .question-card footer .save-card-btn:hover {
   background: var(--lightestblue);
+  animation-play-state: paused; 
+}
+@keyframes attention {
+  0% {background: none; border-color: transparent}
+  50% {background: var(--lightestblue);border-color: var(--color)}
+  100% {background: none; border-color: transparent}
 }

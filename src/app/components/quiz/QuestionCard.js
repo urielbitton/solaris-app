@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { AppInput, AppSelect, AppSwitch } from "../ui/AppInputs"
+import { AppInput, AppSelect, AppSwitch, AppTextarea } from "../ui/AppInputs"
 import './styles/QuestionCard.css'
 import TextareaAutosize from 'react-textarea-autosize'
 
 export default function QuestionCard(props) {
 
   const { title } = props.question
-  const { questionsArr, setQuestionsArr, index, editMode } = props
+  const { questionsArr, setQuestionsArr, index, editMode, showSaveBtn, setShowSaveBtn,
+    editingIndex, setEditingIndex } = props
   const [questionTitle, setQuestionTitle] = useState(title)
   const [questionType, setQuestionType] = useState('radio')
   const [isRequired, setIsRequired] = useState(true)
@@ -20,10 +21,8 @@ export default function QuestionCard(props) {
   const [pointsWorth, setPointsWorth] = useState(1)
   const disableAddOptions = optionPlaceholder !== 'Add option'
   const textTypeQuestion = questionType === 'radio' || questionType === 'checkbox'
-
-  const showSaveBtn = questionsArr[index] !== {
-    //make current question = to all states
-  }
+  const currentQuestion = questionsArr[index]
+    
 
   const quizTypeOptions = [
     {name: 'Multiple Choice', value: 'radio'},
@@ -102,15 +101,37 @@ export default function QuestionCard(props) {
       questionType,
       hint: '',
       order: index + 1,
-      points: +1,
+      points: +pointsWorth,
       questionID: `question-${index}`
     }
     setQuestionsArr(prev => [...prev])
   }
 
+  const saveQuestion = () => {
+    questionsArr[index] = {
+      title: questionTitle,
+      answer: answerText,
+      choices: textTypeQuestion ? choices : [],
+      isRequired,
+      questionType,
+      hint: '',
+      order: index + 1,
+      points: +pointsWorth,
+      questionID: `question-${index}`
+    }
+    setQuestionsArr(prev => [...prev])
+    setShowSaveBtn(false)
+  }
+ 
   const deleteQuestion = () => {
     const confirm = window.confirm('Are you sure you want to delete this question?')
     if(confirm) {
+      setAnswerText('')
+      setChoices([])
+      setIsRequired(true)
+      setPointsWorth(1)
+      setQuestionType('radio')
+      setQuestionTitle('')
       questionsArr.splice(index, 1)
       setQuestionsArr(prev => [...prev])
     }
@@ -145,6 +166,21 @@ export default function QuestionCard(props) {
     }
   },[editMode])
 
+  useEffect(() => {
+    if(editMode) {
+      setShowSaveBtn(
+        currentQuestion.title !== questionTitle ||
+        currentQuestion.choices !== choices || 
+        currentQuestion.questionType !== questionType ||
+        currentQuestion.isRequired !== isRequired ||
+        currentQuestion.answer !== answerText ||
+        currentQuestion.points !== pointsWorth
+      )
+      setEditingIndex(index)
+    }
+  },[questionsArr, questionTitle, questionType, choices, isRequired, answerText, pointsWorth])
+
+
   return (
     <div className="question-card">
       <header>
@@ -158,6 +194,7 @@ export default function QuestionCard(props) {
         <AppSelect 
           options={quizTypeOptions} 
           onChange={(e) => setQuestionType(e.target.value)}
+          value={questionType}
           namebased
         />
       </header>
@@ -188,7 +225,7 @@ export default function QuestionCard(props) {
           </small>
           {
             hasAnswer ?
-            <AppInput 
+            <AppTextarea 
               placeholder="Add an answer"
               onChange={(e) => setAnswerText(e.target.value)}
               value={answerText}
@@ -199,10 +236,10 @@ export default function QuestionCard(props) {
       </section>
       <footer>
         <div className="side">
-          { editMode && showSaveBtn?
+          { editMode && showSaveBtn && editingIndex === index?
             <button 
               className="save-card-btn"
-              onClick={() => fillInQuestion()}
+              onClick={() => saveQuestion()}
             >
               Save
             </button>

@@ -26,11 +26,12 @@ export default function CreateQuiz() {
   const [loading, setLoading] = useState(false)
   const [quiz, setQuiz] = useState({})
   const [questions, setQuestions] = useState([])
+  const [showSaveBtn, setShowSaveBtn] = useState(false)
+  const [editingIndex, setEditingIndex] = useState(-1)
   const history = useHistory()
   const location = useLocation()
   const editMode = location.search.includes('edit=true')
   const newQuizID = db.collection('courses').doc(courseID).collection('quizes').doc().id
-  console.log(questionsArr)
 
   const quizypesRender = quizTypes?.map((type,i) => {
     return <div 
@@ -52,6 +53,10 @@ export default function CreateQuiz() {
       setQuestionsArr={setQuestionsArr}
       index={i}
       editMode={editMode}
+      showSaveBtn={showSaveBtn}
+      setShowSaveBtn={setShowSaveBtn}
+      editingIndex={editingIndex}
+      setEditingIndex={setEditingIndex}
       key={i} 
     />
   })
@@ -129,7 +134,7 @@ export default function CreateQuiz() {
       window.alert('Please fill in all quiz details')
     }
   }
-
+  
   useEffect(() => {
     setNavTitle('Create Quiz')
     setNavDescript('')
@@ -154,6 +159,7 @@ export default function CreateQuiz() {
       setQuestionsArr(questions)
     }
   },[quiz, questions])
+  console.log(questionsArr)
 
   return (
     <div className="create-quiz-page">
@@ -235,7 +241,7 @@ export default function CreateQuiz() {
       <section className="footer">
         <button 
           className="shadow-hover"
-          onClick={() => createQuiz()}
+          onClick={() => createQuiz()} 
         >
             {editMode ? "Save" : "Create"} Quiz
         </button>
