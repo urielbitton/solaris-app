@@ -28,6 +28,7 @@ export default function CreateQuiz() {
   const [questions, setQuestions] = useState([])
   const [showSaveBtn, setShowSaveBtn] = useState(false)
   const [editingIndex, setEditingIndex] = useState(-1)
+  const deletedQuestions = []
   const history = useHistory()
   const location = useLocation()
   const editMode = location.search.includes('edit=true')
@@ -133,7 +134,7 @@ export default function CreateQuiz() {
   }
   
   useEffect(() => {
-    setNavTitle('Create Quiz')
+    setNavTitle(`${!editMode ? 'Create' : 'Edit'} Quiz`)
     setNavDescript('')
   },[])
 
@@ -160,7 +161,7 @@ export default function CreateQuiz() {
 
   return (
     <div className="create-quiz-page">
-      <h3>Create a Quiz</h3>
+      <h3>{!editMode ? "Create a Quiz" : `Editing Quiz: ${quizName}`}</h3>
       <section>
         <div className="header">
           <h3>Quiz Type</h3>

@@ -6,8 +6,13 @@ import TextareaAutosize from 'react-textarea-autosize'
 export default function QuestionCard(props) {
 
   const { title } = props.question
+<<<<<<< HEAD
   const { questionsArr, setQuestionsArr, editMode, showSaveBtn, setShowSaveBtn,
     deletedQuestions, setDeletedQuestions } = props
+=======
+  const { questionsArr, setQuestionsArr, index, editMode, showSaveBtn, setShowSaveBtn,
+    editingIndex, setEditingIndex, deletedQuestions } = props
+>>>>>>> b1a504f69d2d3834f97efd6dac65936bef413b6f
   const [questionTitle, setQuestionTitle] = useState(title)
   const [questionType, setQuestionType] = useState('radio')
   const [isRequired, setIsRequired] = useState(true)
@@ -100,7 +105,6 @@ export default function QuestionCard(props) {
   }
 
   const deleteQuestion = () => {
-
   }
   
   useEffect(() => {
@@ -111,7 +115,6 @@ export default function QuestionCard(props) {
     else 
       setOptionPlaceholder('Add option')
   },[questionType])
-
 
 
   return (
