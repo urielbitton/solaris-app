@@ -4,10 +4,10 @@ import './styles/QuestionCard.css'
 import TextareaAutosize from 'react-textarea-autosize'
 
 export default function QuestionCard(props) {
- 
+
   const { title } = props.question
-  const { questionsArr, setQuestionsArr, editMode, showSaveBtn, setShowSaveBtn,
-    deletedQuestions, setDeletedQuestions } = props
+  const { questionsArr, setQuestionsArr, index, editMode, showSaveBtn, setShowSaveBtn,
+    editingIndex, setEditingIndex, deletedQuestions, setDeletedQuestions } = props
   const [questionTitle, setQuestionTitle] = useState(title)
   const [questionType, setQuestionType] = useState('radio')
   const [isRequired, setIsRequired] = useState(true)
@@ -21,6 +21,7 @@ export default function QuestionCard(props) {
   const [pointsWorth, setPointsWorth] = useState(1)
   const disableAddOptions = optionPlaceholder !== 'Add option'
   const textTypeQuestion = questionType === 'radio' || questionType === 'checkbox'
+  const currentQuestion = questionsArr[index]
     
 
   const quizTypeOptions = [
@@ -85,21 +86,64 @@ export default function QuestionCard(props) {
       }
     }
   }
- 
+  
   const deleteChoice = (index) => {
     choices.splice(index, 1)
     setChoices(prev => [...prev])
   }
- 
+
+  const fillInQuestion = () => {
+    questionsArr[index] = {
+      title: questionTitle,
+      answer: answerText,
+      choices: textTypeQuestion ? choices : [],
+      isRequired,
+      questionType,
+      hint: '',
+      order: index + 1,
+      points: +pointsWorth,
+      questionID: questionsArr[index].questionID
+    }
+    setQuestionsArr(prev => [...prev])
+  }
+
   const saveQuestion = () => {
-
+    questionsArr[index] = {
+      title: questionTitle,
+      answer: answerText,
+      choices: textTypeQuestion ? choices : [],
+      isRequired,
+      questionType,
+      hint: '',
+      order: index + 1,
+      points: +pointsWorth,
+      questionID: questionsArr[index].questionID
+    }
+    setQuestionsArr(prev => [...prev])
+    setShowSaveBtn(false)
   }
-
-  const cloneQuestion = () => {
-
-  }
-
+ 
   const deleteQuestion = () => {
+    const confirm = window.confirm('Are you sure you want to delete this question?')
+    if(confirm) {
+      setAnswerText('')
+      setChoices([])
+      setIsRequired(true)
+      setPointsWorth(1)
+      setQuestionType('radio')
+      setQuestionTitle('')
+      setDeletedQuestions(prev => [...prev, questionsArr[index]?.questionID])
+      questionsArr.splice(index, 1)
+      setQuestionsArr(prev => [...prev])
+    }
+  }
+  
+  const cloneQuestion = () => {
+    questionsArr.push({
+      ...questionsArr[index],
+      questionID: `question-c${Math.floor(Math.random() * 1000) + 1}`
+    })
+    setQuestionsArr(prev => [...prev])
   }
   
   useEffect(() => {
@@ -110,6 +154,36 @@ export default function QuestionCard(props) {
     else 
       setOptionPlaceholder('Add option')
   },[questionType])
+
+  useEffect(() => {
+    !editMode && fillInQuestion()
+  },[questionTitle, questionType, choices, isRequired, answerText, pointsWorth])
+
+  useEffect(() => {
+    if(editMode) {
+      setAnswerText(currentQuestion.answer)
+      setChoices(currentQuestion.choices)
+      setIsRequired(currentQuestion.isRequired)
+      setPointsWorth(currentQuestion.points)
+      setQuestionType(currentQuestion.questionType)
+      setQuestionTitle(currentQuestion.title)
+    }
+  },[editMode])
+
+  useEffect(() => {
+    if(editMode) {
+      setHasAnswer(true)
+      setShowSaveBtn(
+        currentQuestion.title !== questionTitle ||
+        currentQuestion.choices !== choices || 
+        currentQuestion.questionType !== questionType ||
+        currentQuestion.isRequired !== isRequired ||
+        currentQuestion.answer !== answerText ||
+        currentQuestion.points !== pointsWorth
+      )
+      setEditingIndex(index)
+    }
+  },[questionsArr, questionTitle, questionType, choices, isRequired, answerText, pointsWorth])
 
 
   return (
@@ -167,7 +241,7 @@ export default function QuestionCard(props) {
       </section>
       <footer>
         <div className="side">
-          { editMode && showSaveBtn?
+          { editMode && showSaveBtn && editingIndex === index?
             <button 
               className="save-card-btn"
               onClick={() => saveQuestion()}

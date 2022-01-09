@@ -28,7 +28,7 @@ export default function CreateQuiz() {
   const [questions, setQuestions] = useState([])
   const [showSaveBtn, setShowSaveBtn] = useState(false)
   const [editingIndex, setEditingIndex] = useState(-1)
-  const deletedQuestions = []
+  const [deletedQuestions, setDeletedQuestions] = useState([])
   const history = useHistory()
   const location = useLocation()
   const editMode = location.search.includes('edit=true')
@@ -52,9 +52,14 @@ export default function CreateQuiz() {
       question={question}
       questionsArr={questionsArr}
       setQuestionsArr={setQuestionsArr}
+      index={i}
       editMode={editMode}
       showSaveBtn={showSaveBtn}
       setShowSaveBtn={setShowSaveBtn}
+      editingIndex={editingIndex}
+      setEditingIndex={setEditingIndex}
+      deletedQuestions={deletedQuestions} 
+      setDeletedQuestions={setDeletedQuestions}
       key={i} 
     />
   })
@@ -157,7 +162,7 @@ export default function CreateQuiz() {
       setQuestionsArr(questions)
     }
   },[quiz, questions])
-  console.log(questionsArr)
+  console.log(deletedQuestions)
 
   return (
     <div className="create-quiz-page">
