@@ -51,12 +51,9 @@ export default function CreateQuiz() {
       question={question}
       questionsArr={questionsArr}
       setQuestionsArr={setQuestionsArr}
-      index={i}
       editMode={editMode}
       showSaveBtn={showSaveBtn}
       setShowSaveBtn={setShowSaveBtn}
-      editingIndex={editingIndex}
-      setEditingIndex={setEditingIndex}
       key={i} 
     />
   })
