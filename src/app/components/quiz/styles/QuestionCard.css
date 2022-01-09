@@ -6,6 +6,14 @@
   box-shadow: 0 0 4px 1px rgba(0,0,0,0.1);
   background: #fff;
 }
+.question-card.inactive {
+  opacity: 0.4;
+  pointer-events: none;
+  border: 1px solid #ddd;
+}
+.question-card.inactive.hidden {
+  display: none;
+}
 .question-card header {
   display: flex;
   align-items: flex-start;

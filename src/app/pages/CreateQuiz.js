@@ -29,6 +29,7 @@ export default function CreateQuiz() {
   const [showSaveBtn, setShowSaveBtn] = useState(false)
   const [editingIndex, setEditingIndex] = useState(-1)
   const [deletedQuestions, setDeletedQuestions] = useState([])
+  const [hideInactive, setHideInactive] = useState(false)
   const history = useHistory()
   const location = useLocation()
   const editMode = location.search.includes('edit=true')
@@ -47,7 +48,9 @@ export default function CreateQuiz() {
     </div>
   })
 
-  const questionsRender = questionsArr?.map((question, i) => {
+  const questionsRender = questionsArr
+  ?.sort((a,b) => a.order - b.order ? 1 : -1)
+  .map((question, i) => {
     return <QuestionCard 
       question={question}
       questionsArr={questionsArr}
@@ -60,6 +63,7 @@ export default function CreateQuiz() {
       setEditingIndex={setEditingIndex}
       deletedQuestions={deletedQuestions} 
       setDeletedQuestions={setDeletedQuestions}
+      hideInactive={hideInactive}
       key={i} 
     />
   })
@@ -87,13 +91,14 @@ export default function CreateQuiz() {
         order: questionsArr.length + 1,
         points: 1,
         questionID: newQuestionID,
-        isRequired: true
+        isRequired: true,
+        isActive: true
       }])
     }
   }
 
   const createQuiz = () => {
-    if(quizName.length && questionsArr.length) {
+    if(quizName.length && (questionsArr.length > deletedQuestions.length)) {
       setLoading(true)
       setSubDB('courses', courseID, 'quizes', !editMode ? newQuizID : quizID, {
         ...(!editMode && {dateAdded: new Date()}),
@@ -108,21 +113,30 @@ export default function CreateQuiz() {
       }, true)
       .then(() => {
         const batch = db.batch()
-        questionsArr.forEach(question => {
+        deletedQuestions.forEach(deleted => {
           const docRef = db.collection('courses').doc(courseID)
             .collection('quizes').doc(!editMode ? newQuizID : quizID)
-            .collection('questions').doc(question.questionID)
-          batch.set(docRef, {
-            answer: question.answer,
-            choices: question.choices,
-            hint: question.hint,
-            questionType: question.questionType,
-            order: question.order,
-            points: question.points,
-            questionID: question.questionID,
-            title: question.title,
-            isRequired: question.isRequired
-          }, {merge: true})
+            .collection('questions').doc(deleted.questionID)
+          batch.delete(docRef)
+        })
+        questionsArr.forEach(question => {
+          if(question.isActive) {
+            const docRef = db.collection('courses').doc(courseID)
+              .collection('quizes').doc(!editMode ? newQuizID : quizID)
+              .collection('questions').doc(question.questionID)
+            batch.set(docRef, {
+              answer: question.answer,
+              choices: question.choices,
+              hint: question.hint,
+              questionType: question.questionType,
+              order: question.order,
+              points: question.points,
+              questionID: question.questionID,
+              title: question.title,
+              isRequired: question.isRequired,
+              isActive: question.isActive
+            }, {merge: true})
+          }
         })
         batch.commit()
         .then(() => {
@@ -134,7 +148,7 @@ export default function CreateQuiz() {
       .catch(err => console.log(err))
     }
     else {
-      window.alert('Please fill in all quiz details')
+      window.alert('Please fill in all quiz details. There must also be a minimum of 1 question on the quiz.')
     }
   }
   
@@ -162,6 +176,7 @@ export default function CreateQuiz() {
       setQuestionsArr(questions)
     }
   },[quiz, questions])
+  console.log(questionsArr)
   console.log(deletedQuestions)
 
   return (
@@ -241,6 +256,12 @@ export default function CreateQuiz() {
         <small>*Don't forget to save your question edits</small> :
         ""
       }
+      <AppSwitch 
+        title="Hide Removed Questions"
+        className="hide-inactive"
+        onChange={(e) => setHideInactive(e.target.checked)}
+        checked={hideInactive}
+      />
       <section className="footer">
         <button 
           className="shadow-hover"

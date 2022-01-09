@@ -7,7 +7,7 @@ export default function QuestionCard(props) {
 
   const { title } = props.question
   const { questionsArr, setQuestionsArr, index, editMode, showSaveBtn, setShowSaveBtn,
-    editingIndex, setEditingIndex, deletedQuestions, setDeletedQuestions } = props
+    editingIndex, setEditingIndex, deletedQuestions, setDeletedQuestions, hideInactive } = props
   const [questionTitle, setQuestionTitle] = useState(title)
   const [questionType, setQuestionType] = useState('radio')
   const [isRequired, setIsRequired] = useState(true)
@@ -19,6 +19,7 @@ export default function QuestionCard(props) {
   const [answerText, setAnswerText] = useState('')
   const [hasAnswer, setHasAnswer] = useState(false)
   const [pointsWorth, setPointsWorth] = useState(1)
+  const [isQuestionActive, setIsQuestionActive] = useState(true)
   const disableAddOptions = optionPlaceholder !== 'Add option'
   const textTypeQuestion = questionType === 'radio' || questionType === 'checkbox'
   const currentQuestion = questionsArr[index]
@@ -98,6 +99,7 @@ export default function QuestionCard(props) {
       answer: answerText,
       choices: textTypeQuestion ? choices : [],
       isRequired,
+      isActive: true,
       questionType,
       hint: '',
       order: index + 1,
@@ -113,6 +115,7 @@ export default function QuestionCard(props) {
       answer: answerText,
       choices: textTypeQuestion ? choices : [],
       isRequired,
+      isActive: isQuestionActive,
       questionType,
       hint: '',
       order: index + 1,
@@ -126,14 +129,9 @@ export default function QuestionCard(props) {
   const deleteQuestion = () => {
     const confirm = window.confirm('Are you sure you want to delete this question?')
     if(confirm) {
-      setAnswerText('')
-      setChoices([])
-      setIsRequired(true)
-      setPointsWorth(1)
-      setQuestionType('radio')
-      setQuestionTitle('')
-      setDeletedQuestions(prev => [...prev, questionsArr[index]?.questionID])
-      questionsArr.splice(index, 1)
+      setDeletedQuestions(prev => [...prev, questionsArr[index]])
+      questionsArr[index].isActive = false
+      setIsQuestionActive(currentQuestion.isActive)
       setQuestionsArr(prev => [...prev])
     }
   }
@@ -167,6 +165,7 @@ export default function QuestionCard(props) {
       setPointsWorth(currentQuestion.points)
       setQuestionType(currentQuestion.questionType)
       setQuestionTitle(currentQuestion.title)
+      setIsQuestionActive(currentQuestion.isActive)
     }
   },[editMode])
 
@@ -187,7 +186,7 @@ export default function QuestionCard(props) {
 
 
   return (
-    <div className="question-card">
+    <div className={`question-card ${!isQuestionActive ? hideInactive ? "inactive hidden" : "inactive" : ""}`}>
       <header>
         <TextareaAutosize 
           placeholder="Question Title"
