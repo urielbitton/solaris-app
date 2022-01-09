@@ -7,7 +7,7 @@ export default function QuestionCard(props) {
 
   const { title } = props.question
   const { questionsArr, setQuestionsArr, index, editMode, showSaveBtn, setShowSaveBtn,
-    editingIndex, setEditingIndex } = props
+    editingIndex, setEditingIndex, deletedQuestions } = props
   const [questionTitle, setQuestionTitle] = useState(title)
   const [questionType, setQuestionType] = useState('radio')
   const [isRequired, setIsRequired] = useState(true)
@@ -102,7 +102,7 @@ export default function QuestionCard(props) {
       hint: '',
       order: index + 1,
       points: +pointsWorth,
-      questionID: `question-${index}`
+      questionID: questionsArr[index].questionID
     }
     setQuestionsArr(prev => [...prev])
   }
@@ -117,7 +117,7 @@ export default function QuestionCard(props) {
       hint: '',
       order: index + 1,
       points: +pointsWorth,
-      questionID: `question-${index}`
+      questionID: questionsArr[index].questionID
     }
     setQuestionsArr(prev => [...prev])
     setShowSaveBtn(false)
@@ -132,11 +132,12 @@ export default function QuestionCard(props) {
       setPointsWorth(1)
       setQuestionType('radio')
       setQuestionTitle('')
+      deletedQuestions.push(questionsArr[index].questionID)
       questionsArr.splice(index, 1)
       setQuestionsArr(prev => [...prev])
     }
   }
-
+  
   const cloneQuestion = () => {
     questionsArr.push(questionsArr[index])
     setQuestionsArr(prev => [...prev])
@@ -157,17 +158,18 @@ export default function QuestionCard(props) {
 
   useEffect(() => {
     if(editMode) {
-      setAnswerText(questionsArr[index].answer)
-      setChoices(questionsArr[index].choices)
-      setIsRequired(questionsArr[index].isRequired)
-      setPointsWorth(questionsArr[index].points)
-      setQuestionType(questionsArr[index].questionType)
-      setQuestionTitle(questionsArr[index].title)
+      setAnswerText(currentQuestion.answer)
+      setChoices(currentQuestion.choices)
+      setIsRequired(currentQuestion.isRequired)
+      setPointsWorth(currentQuestion.points)
+      setQuestionType(currentQuestion.questionType)
+      setQuestionTitle(currentQuestion.title)
     }
   },[editMode])
 
   useEffect(() => {
     if(editMode) {
+      setHasAnswer(true)
       setShowSaveBtn(
         currentQuestion.title !== questionTitle ||
         currentQuestion.choices !== choices || 
