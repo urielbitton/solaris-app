@@ -312,10 +312,13 @@
 }
 .course-page .quiz-container {
   width: 100%;
+  margin: auto;
   display: flex;
   align-items: center;
   flex-direction: column;
   gap: 20px;
+  overflow-x: hidden;
+  padding-bottom: 20px;
 }
 .course-page .create-quiz-btn {
   padding: 15px 25px;

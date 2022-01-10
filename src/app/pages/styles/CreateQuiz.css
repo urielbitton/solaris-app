@@ -98,9 +98,14 @@
 .quiz-info-inputs .commoninput textarea {
   flex-basis: 60%;
 }
+.quiz-info-inputs .apptextarea i {
+  display: none;
+}
 .quiz-info-inputs .commoninput textarea {
   min-height: 10px;
   max-height: 100px;
+  max-width: 100%;
+  min-width: 100%;
 }
 
 .create-quiz-page .question-generator {
@@ -148,4 +153,17 @@
   font-size: 13px;
   color: #444;
   font-weight: 600;
+}
+
+@media (max-width: 850px) {
+  .create-quiz-page {
+    width: 95%;
+    margin: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .quiz-info-inputs .commoninput:not(.appswitch) {
+    flex-direction: column;
+  }
 }

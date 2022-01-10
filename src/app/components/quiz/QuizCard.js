@@ -17,8 +17,7 @@ export default function QuizCard(props) {
   return (
     <div className="quiz-card">
       <div>
-        <i className="far fa-align-center"></i>
-        <h4>{name}</h4>
+        <h4><i className="far fa-align-center"></i>{name}</h4>
         <div className="quiz-info">
           <i className="far fa-info-circle"></i>
           <div className="tooltip">
@@ -39,6 +38,16 @@ export default function QuizCard(props) {
           : ""
         }
         <small>{questions.length} question{ questions.length !== 1 ? "s" : "" }</small>
+        {
+          inCourseInstructor ? 
+          <button 
+            onClick={() => history.push(`/courses/course/${courseID}/create/quiz/${quizID}?edit=true`)}
+            className="mobile-edit-btn shadow-hover"
+          >
+            Edit Quiz
+          </button> 
+          : ""
+        }
         <button 
           className="shadow-hover"
           onClick={() => history.push(`/courses/${courseID}/quiz/${quizID}`)}

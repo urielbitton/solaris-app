@@ -1,5 +1,5 @@
 .quiz-card {
-  width: 100%;
+  width: 95%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -17,8 +17,9 @@
 .quiz-card > div.right {
   gap: 25px;
 }
+
 .quiz-card .fa-align-center {
-  color: var(--color)
+  color: var(--color);
 }
 .quiz-card .fa-info-circle {
   color: var(--graytxt);
@@ -49,7 +50,7 @@
   bottom: 30px;
 }
 
-.quiz-card .right .icon-container {
+.quiz-card .icon-container {
   opacity: 0;
   transition: all 0.2s;
   cursor: pointer;
@@ -60,12 +61,47 @@
   align-items: center;
   justify-content: center;
 }
-.quiz-card .right .icon-container i {
+.quiz-card .icon-container i {
   color: var(--color);
 }
-.quiz-card:hover .right .icon-container {
+.quiz-card:hover .icon-container {
   opacity: 1;
 }
-.quiz-card .right .icon-container:hover {
+.quiz-card .icon-container:hover {
   background: var(--lightestblue);
+}
+.quiz-card .mobile-edit-btn {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .quiz-card {
+    height: auto;
+    flex-direction: column;
+    gap: 0;
+  }
+  .quiz-card > div {
+    flex-direction: column;
+  }
+  .quiz-card > div.right {
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .quiz-card h4 {
+    font-size: 20px;
+  }
+  .quiz-card .fa-align-center {
+    display: none;
+  }
+  .quiz-card .icon-container {
+    display: none;
+  }
+  .quiz-card .mobile-edit-btn {
+    display: block;
+  }
+  .quiz-card .tooltip,
+  .quiz-card .fa-info-circle {
+    display: none;
+  }
+
 }

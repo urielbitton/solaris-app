@@ -23,6 +23,7 @@ import NotificationsPage from "../pages/NotificationsPage"
 import CreateQuiz from "../pages/CreateQuiz"
 import QuizPage from "../pages/QuizPage"
 import QuizResults from "../pages/QuizResults"
+import GetProPage from '../pages/GetProPage'
 
 export default function HomeCont() {
 
@@ -95,6 +96,9 @@ export default function HomeCont() {
           </Route>
           <Route path="/courses/:courseID/quiz/:quizID/results">
             <QuizResults />
+          </Route>
+          <Route path="/get-pro">
+            <GetProPage />
           </Route>
           <Route exact path="/create">
             { myUser?.isInstructor && <CreatePage /> }

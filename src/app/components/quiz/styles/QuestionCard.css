@@ -217,3 +217,23 @@
   50% {background: var(--lightestblue);border-color: var(--color)}
   100% {background: none; border-color: transparent}
 }
+
+
+@media (max-width: 700px) {
+  .question-card header {
+    flex-direction: column;
+  }
+  .question-card header .apptextarea,
+  .question-card header textarea {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .question-card footer {
+    flex-direction: column;
+  }
+  .question-card footer .side {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
