@@ -1,3 +1,7 @@
+import allCoursesImg from '../assets/imgs/all-courses-free.png'
+import freeResources from '../assets/imgs/free-resources.png'
+import dedicatedCloud from '../assets/imgs/dedicated-cloud.png'
+
 export const menuLinks = [
   {name: 'Home', icon: 'fal fa-home', url: '/', exact: true},
   {
@@ -89,5 +93,23 @@ export const quizTypes = [
     value: 'writtenAnswers',
     subName: '& long texts',
     icon: 'far fa-text-size'
+  }
+]
+
+export const proFeatures = [
+  {
+    name: 'Site-wide Courses',
+    img: allCoursesImg,
+    description: 'Unlock all courses site wide instead of paying per course.'
+  },
+  {
+    name: 'Free Resources',
+    img: freeResources,
+    description: 'Get access to unlimited free resources ranging from instructor to student needs.'
+  },
+  {
+    name: 'Dedicated Cloud Videos',
+    img: dedicatedCloud,
+    description: 'You get your own dedicated cloud hosting for video uploads as well as lecture notes & files'
   }
 ]
