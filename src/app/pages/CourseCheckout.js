@@ -103,7 +103,7 @@ export default function CourseCheckout() {
             <PayPalButton
               amount={0.01}
               onSuccess={(details, data) => processOrder()}
-              onError={() => window.alert("The transaction was not successful, please try again later.")}
+              onError={() => window.alert("The transaction failed, please try again later.")}
               options={{ clientId }}
             /> 
           </div>:

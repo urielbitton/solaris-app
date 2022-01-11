@@ -281,7 +281,7 @@
   flex-direction: column;
 }
 .course-page .start-course-btn {
-  padding: 15px;
+  padding: 15px 30px;
   margin-top: -30px;
 }
 .course-page .instructor-container .instructor-data big {

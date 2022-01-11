@@ -8,8 +8,22 @@ export default function GetProPage() {
 
   const { setNavTitle, setNavDescript } = useContext(StoreContext)
 
+  const featuresList = [
+    'Get access to all courses and exclusive courses only available to pro memberships',
+    '30 day money back guarantee',
+    'Cancel anytime',
+    'Custom video platform for instructors'
+  ]
+
+  const featuresListRender = featuresList?.map((feat, i) => {
+    return <li>
+      <i className="fal fa-check"></i>
+      {feat}
+    </li>
+  })
+
   const featuresRender = proFeatures?.map((feature, i) => {
-    return <div className="feature-column">
+    return <div className="feature-column" key={i}>
       <img src={feature.img} alt={feature.name}/>
       <h4>{feature.name}</h4>
       <small>{feature.description}</small>
@@ -39,15 +53,20 @@ export default function GetProPage() {
       <div className="features-flex">
         {featuresRender}
       </div>
-      <div className="faq-section">
-
+      <div className="features-section">
+        <h3 className="title">Features of a Pro membership</h3>
+        <ul>
+          {featuresListRender}
+        </ul>
       </div>
       <div className="reminder-section">
-
+        <button className="shadow-hover">
+          Upgrade Now
+          <i className="fal fa-rocket"></i>
+        </button>
       </div>
-      {/* hide by default and show when click on "upgrade now" */}
       <div className="upgrade-section">
-
+        
       </div>
     </div>
   )

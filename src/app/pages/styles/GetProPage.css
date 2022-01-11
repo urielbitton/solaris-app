@@ -69,8 +69,8 @@
   align-items: center;
 }
 .get-pro-page .feature-column img {
-  width: 240px;
-  height: 190px;
+  
+  height: 170px;
 }
 .get-pro-page .feature-column h4 {
   margin-top: 30px;
@@ -85,9 +85,49 @@
   margin-top: 10px;
 }
 
+.get-pro-page h3.title {
+  font-size: 30px;
+  color: var(--graytxt);
+  margin-bottom: 20px;
+}
+
+.get-pro-page .features-section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 40px;
+}
+.get-pro-page .features-section ul {
+  padding-left: 0;
+  list-style: none;
+}
+.get-pro-page .features-section ul li {
+  font-size: 17px;
+  color: #555;
+  margin: 12px 0;
+}
+.get-pro-page .features-section ul li i {
+  margin-right: 10px;
+  color: var(--color)
+}
+.get-pro-page .reminder-section {
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.get-pro-page .reminder-section button i {
+  margin-left: 10px;
+}
+
 
 @media (max-width: 550px) {
   .get-pro-page .banner .img-container {
     width: 100%;
+  }
+  .get-pro-page .feature-column small {
+    width: 95%;
   }
 }

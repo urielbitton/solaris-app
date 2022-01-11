@@ -21,8 +21,8 @@ const StoreContextProvider = ({children}) => {
       db.collection('users').doc(user.uid).onSnapshot(snap => {
         setMyUser(snap.data()) 
       })
-      firebase.auth().onAuthStateChanged(user => user?setAUser(user):setAUser({}))
     }
+    firebase.auth().onAuthStateChanged(user => user?setAUser(user):setAUser({}))
   },[user])
 
   return <StoreContext.Provider value={{ 

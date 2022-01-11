@@ -16,7 +16,6 @@ import { CreateCourse, deleteCourse, saveCourse } from '../services/CRUDCourse'
 import PageLoader from '../components/ui/PageLoader'
 import { getCourseByID, getLessonsByCourseID } from "../services/courseServices"
 import { uploadImgToFireStorage } from "../services/ImageUploadServices"
-import { deleteDB } from "../services/CrudDB"
 
 export default function CreateCoursePage({editMode}) {
  
@@ -28,7 +27,7 @@ export default function CreateCoursePage({editMode}) {
   const [courseLang, setCourseLang] = useState('english')
   const [courseDifficulty, setCourseDifficulty] = useState('easy')
   const [courseCategory, setCourseCategory] = useState('')
-  const [coursePrice, setCoursePrice] = useState('')
+  const [coursePrice, setCoursePrice] = useState(0)
   const [courseShortDescript, setCourseShortDescript] = useState('')
   const [courseFullDescript, setCourseFullDescript] = useState('')
   const [courseSummary, setCourseSummary] = useState('')
@@ -67,13 +66,16 @@ export default function CreateCoursePage({editMode}) {
   const [course, setCourse] = useState({})
   const [courseLessons, setCourseLessons] = useState([])
   const [editLessons, setEditLessons] = useState([])
+  const [deletedLessons, setDeletedLessons] = useState([])
   const totalNotesNum = lessons?.reduce((a,b) => a + b.notes?.length, 0)
   const totalFilesNum = lessons?.reduce((a,b) => a + b.files?.reduce((x,y) => x + y.length, 0), 0)
   const courseLessonsNotesNum = courseLessons?.reduce((a,b) => a + b.notes?.length, 0)
   const courseLessonsFilesNum = courseLessons?.reduce((a,b) => a + b.files?.reduce((x,y) => x + y.length, 0), 0)
-  const createCourseAccess = (!editMode ? lessons.length : courseLessons.length) && !!courseTitle && !!coursePrice && !!courseShortDescript
+  const createCourseAccess = (!editMode ? lessons.length > 0 : courseLessons.length > 0) && courseTitle.length 
+    && courseShortDescript.length
   const isCourseInstructor = editMode && course?.instructorID === myUser?.instructorID
   const canAccessPage = editMode ? (isCourseInstructor || myUser?.isSuperAdmin) : myUser?.isInstructor
+
 
   const languages = [
     {name: 'English', value: 'english'},
@@ -233,8 +235,12 @@ export default function CreateCoursePage({editMode}) {
           <h5 onClick={() => clickAddNotes(lesson)}><i className="fas fa-sticky-note"></i>Click to add notes/files to this lesson</h5>
         </div>
       }
-      deleteBtn={ <i className="far fa-trash-alt" style={{fontSize:16}} onClick={(e) => deleteLesson(e, lesson)}></i> }
-      editBtn={ <i className="far fa-pen" style={{fontSize:16}} onClick={(e) => editLessonTitle(e, lesson)}></i> }
+      deleteBtn={ 
+        <i className="far fa-trash-alt" style={{fontSize:16}} onClick={(e) => deleteLesson(e, lesson)}></i> 
+      }
+      editBtn={ 
+        <i className="far fa-pen" style={{fontSize:16}} onClick={(e) => editLessonTitle(e, lesson)}></i> 
+      }
       key={i} 
     />
   }) 
@@ -253,15 +259,17 @@ export default function CreateCoursePage({editMode}) {
       addLesson()
     }
   }
-  
+
   const addLesson = () => {
     if(lessonTitle.length) {
+      const combinedLessons = [...lessons, ...courseLessons]
       setLessons(prev => 
         [...prev, {
           title: lessonTitle,
           lessonID: db.collection('courses').doc(newCourseID).collection('lessons').doc().id,
           lessonType: courseType,
           videoType,
+          order: combinedLessons.length + 1,
           notes: [],
           videos: [],
           files: []
@@ -276,11 +284,20 @@ export default function CreateCoursePage({editMode}) {
     setSlidePos(1)
     const confirm = window.confirm('You are about to delete this lesson.')
     if(confirm) {
-      const index = lessons.findIndex(x => x.lessonID === lesson.lessonID)
-      lessons.splice(index, 1)
+      if(lessons.findIndex(x => x.lessonID === lesson.lessonID) > -1) {
+        const index = lessons.findIndex(x => x.lessonID === lesson.lessonID)
+        lessons.splice(index, 1)
+      }
+      else {
+        setDeletedLessons(prev => [...prev, lesson])
+        const index = courseLessons.findIndex(x => x.lessonID === lesson.lessonID)
+        courseLessons.splice(index, 1)
+        setCourseLessons(prev => [...prev])
+      }
       setLessons(prev => [...prev])
     }
   }
+
   const saveLessonTitle = () => {
     const index = lessons.findIndex(x => x.lessonID === lesson.lessonID)
     lessons[index].title = lessonTitleTemp
@@ -296,12 +313,14 @@ export default function CreateCoursePage({editMode}) {
           duration: videoDuration,
           url: videoUrl,
           videoID: db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('videos').doc().id,
-          dateAdded: new Date()
+          dateAdded: new Date(),
+          order: lesson.videos.length + 1
         })
       }
       else {
         let videoIndex = lesson.videos?.findIndex(x => x.videoID === editVideoMode.video.videoID)
         lesson.videos[videoIndex] = {
+          ...lesson.videos[videoIndex],
           title: videoTitle,
           duration: videoDuration,
           url: videoUrl,
@@ -324,13 +343,15 @@ export default function CreateCoursePage({editMode}) {
           title: notesTitle,
           text: notesText,
           dateAdded: new Date(),
-          noteID: db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('notes').doc().id
+          noteID: db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('notes').doc().id,
+          order: lesson.notes.length + 1
         })
         notesFile && lesson.files.push([...notesFile])
       }
       else {
         let notesIndex = lesson.notes.findIndex(x => x.noteID === editNotesMode.notes.noteID)
         lesson.notes[notesIndex] = {
+          ...lesson.notes[notesIndex],
           title: notesTitle,
           text: notesText,
           noteID: lesson.notes[notesIndex]?.noteID,
@@ -471,7 +492,7 @@ export default function CreateCoursePage({editMode}) {
         })
       }
       else {
-        saveCourse(courseID, courseLessons, courseObject).then(() => {
+        saveCourse(courseID, courseLessons, courseObject, deletedLessons).then(() => {
           setLoading(false)
           history.push(`/courses/course/${courseID}`)
         })
@@ -567,6 +588,8 @@ export default function CreateCoursePage({editMode}) {
       setCourseCertificate(course.hasCertificate)
       setAllowReviews(course.allowReviews)
       setWhatYouLearn(course.whatYouLearn)
+      //transfer lessons array into courseLessons array
+      setCourseLessons(prev => [...prev, ...lessons])
     }
   },[course])
 

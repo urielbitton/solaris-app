@@ -154,7 +154,7 @@ export default function CoursePage() {
               className='start-course-btn shadow-hover' 
               onClick={() => history.push(`/courses/course/${courseID}/lesson/${course.firstLessonID}/${course.firstVideoID}`)}
             >
-              Start Lessons
+              Start Now
             </button>
           }
           <section className="quiz-section">

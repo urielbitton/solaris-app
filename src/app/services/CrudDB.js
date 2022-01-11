@@ -1,7 +1,7 @@
 import { db } from '../firebase/fire'
 
-export function setDB(col, doc, value) {
-  return db.collection(col).doc(doc).set(value)
+export function setDB(col, doc, value, merge=false) {
+  return db.collection(col).doc(doc).set(value, {merge})
 }
 
 export function updateDB(col, doc, value) {
