@@ -3,10 +3,12 @@ import './styles/GetProPage.css'
 import { StoreContext } from '../store/store'
 import getProImg from '../assets/imgs/get-pro-bg.png'
 import { proFeatures } from "../api/apis"
+import { useHistory } from "react-router-dom"
 
 export default function GetProPage() {
 
   const { setNavTitle, setNavDescript } = useContext(StoreContext)
+  const history = useHistory()
 
   const featuresList = [
     'Get access to all courses and exclusive courses only available to pro memberships',
@@ -41,7 +43,10 @@ export default function GetProPage() {
         <div className="text-container">
           <h1>All-access Membership</h1>
           <p>By upgrading your membership to pro, take advantage of site-wide free courses, resources and more.</p>
-          <button className="shadow-hover">
+          <button 
+            className="shadow-hover"
+            onClick={() => history.push('/checkout/get-pro')}
+          >
             Upgrade Now
             <i className="fal fa-rocket"></i>
           </button>
@@ -60,13 +65,13 @@ export default function GetProPage() {
         </ul>
       </div>
       <div className="reminder-section">
-        <button className="shadow-hover">
+        <button 
+          className="shadow-hover"
+          onClick={() => history.push('/checkout/get-pro')}
+        >
           Upgrade Now
           <i className="fal fa-rocket"></i>
         </button>
-      </div>
-      <div className="upgrade-section">
-        
       </div>
     </div>
   )

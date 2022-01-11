@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router'
 import { getCourseByID } from '../services/courseServices'
 import { StoreContext } from '../store/store'
-import './styles/Checkout.css'
+import './styles/CheckoutPage.css'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { AppInput } from '../components/ui/AppInputs'
 import { db } from '../firebase/fire'
@@ -11,12 +11,13 @@ import { setSubDB, updateDB } from '../services/CrudDB'
 import PageLoader from '../components/ui/PageLoader'
 import firebase from 'firebase'
 
-export default function CourseCheckout() {
+export default function CheckoutPage(props) {
 
+  const { type } = props
   const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
   const [course, setCourse] = useState({})
   const courseID = useRouteMatch('/checkout/course/:courseID')?.params.courseID
-  const clientId = "ASTQpkv9Y3mQ5-YBd20q0jMb9-SJr_TvUl_nhXu5h3C7xl0wumYgdqpSYIL6Vd__56oB7Slag0n2HA_r"
+  const clientId = process.env.paypalClientID
   const [email, setEmail] = useState('')
   const [company, setCompany] = useState('')
   const [address, setAddress] = useState('')
