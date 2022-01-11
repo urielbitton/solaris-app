@@ -104,8 +104,8 @@
 .quiz-info-inputs .commoninput textarea {
   min-height: 10px;
   max-height: 100px;
-  max-width: 100%;
-  min-width: 100%;
+  max-width: 60%;
+  min-width: 60%;
 }
 
 .create-quiz-page .question-generator {
@@ -165,5 +165,9 @@
 @media (max-width: 700px) {
   .quiz-info-inputs .commoninput:not(.appswitch) {
     flex-direction: column;
+  }
+  .quiz-info-inputs .commoninput textarea {
+    max-width: 100%;
+    min-width: 100%;
   }
 }

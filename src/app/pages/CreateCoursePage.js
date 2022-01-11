@@ -297,7 +297,7 @@ export default function CreateCoursePage({editMode}) {
       setLessons(prev => [...prev])
     }
   }
-
+  console.log(deletedLessons)
   const saveLessonTitle = () => {
     const index = lessons.findIndex(x => x.lessonID === lesson.lessonID)
     lessons[index].title = lessonTitleTemp
