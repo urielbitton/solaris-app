@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import './styles/HomeCont.css'
 import Navbar from '../components/layout/Navbar'
 import { Route, Switch } from 'react-router'
+import { useWindowDimensions } from "../utils/customHooks"
 import Home from '../pages/Home'
 import CoursePage from '../pages/CoursePage'
 import AllCourses from '../pages/AllCourses'
@@ -11,13 +12,13 @@ import MyLibrary from '../pages/MyLibrary'
 import Reports from '../pages/Reports'
 import Settings from '../pages/Settings'
 import LessonPage from '../pages/LessonPage'
-import CheckoutPage from '../pages/CheckoutPage'
+import CourseCheckout from '../pages/CourseCheckout'
+import ProCheckout from '../pages/ProCheckout'
 import CreatePage from '../pages/CreatePage'
 import CreateCoursePage from '../pages/CreateCoursePage'
 import { StoreContext } from '../store/store'
 import ErrorPage from "../pages/ErrorPage"
 import MyCourses from "../pages/MyCourses"
-import { useWindowDimensions } from "../utils/customHooks"
 import BecomeInstructor from "../pages/BecomeInstructor"
 import NotificationsPage from "../pages/NotificationsPage"
 import CreateQuiz from "../pages/CreateQuiz"
@@ -80,10 +81,10 @@ export default function HomeCont() {
             <Settings />
           </Route>
           <Route path="/checkout/course/:courseID">
-            <CheckoutPage />
+            <CourseCheckout />
           </Route>
           <Route exact path="/checkout/get-pro">
-            <CheckoutPage />
+            <ProCheckout />
           </Route>
           <Route path="/notifications">
             <NotificationsPage />

@@ -1,4 +1,4 @@
-import { deleteDB, deleteSubDB, setDB, updateDB } from "./CrudDB"
+import { deleteDB, setDB, updateDB } from "./CrudDB"
 import firebase from 'firebase'
 import { db } from "../firebase/fire"
 
@@ -33,13 +33,13 @@ export const CreateCourse = (courseID, lessons, myUser, courseObject) => {
   })
 }
 
-export const saveCourse = (courseID, lessons, courseObject, deletedLessons) => {
+export const SaveCourse = (courseID, lessons, courseObject, deletedLessons) => {
   const batch = db.batch()
   deletedLessons.forEach(lesson => {
     const docRef = db.collection('courses').doc(courseID).collection('lessons').doc(lesson?.lessonID)
     batch.delete(docRef)
   })
-  return setDB('courses', courseID, courseObject, true).then(() => {
+  return updateDB('courses', courseID, courseObject).then(() => {
     lessons.forEach(lesson => {
       const docRef = db.collection('courses').doc(courseID).collection('lessons').doc(lesson?.lessonID)
       batch.set(docRef, {lessonID: lesson?.lessonID, lessonType: 'video', title: lesson?.title, videoType: lesson?.videoType, order: lesson?.order}, {merge: true})
@@ -60,7 +60,7 @@ export const saveCourse = (courseID, lessons, courseObject, deletedLessons) => {
   })
 }
 
-export const deleteCourse = (courseID, myUser) => {
+export const DeleteCourse = (courseID, myUser) => {
   const batch = db.batch()
   return deleteDB('courses', courseID).then(() => {
     updateDB('instructors', myUser?.instructorID, {

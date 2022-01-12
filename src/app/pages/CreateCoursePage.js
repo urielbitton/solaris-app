@@ -12,7 +12,7 @@ import { getYoutubeVideoDetails } from '../services/youtubeServices'
 import { convertYoutubeDuration, fileTypeConverter, truncateText } from '../utils/utilities'
 import { getCourseCategories } from '../services/adminServices'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { CreateCourse, deleteCourse, saveCourse } from '../services/CRUDCourse'
+import { CreateCourse, SaveCourse, DeleteCourse } from '../services/CRUDCourse'
 import PageLoader from '../components/ui/PageLoader'
 import { getCourseByID, getLessonsByCourseID } from "../services/courseServices"
 import { uploadImgToFireStorage } from "../services/ImageUploadServices"
@@ -297,7 +297,7 @@ export default function CreateCoursePage({editMode}) {
       setLessons(prev => [...prev])
     }
   }
-  console.log(deletedLessons)
+
   const saveLessonTitle = () => {
     const index = lessons.findIndex(x => x.lessonID === lesson.lessonID)
     lessons[index].title = lessonTitleTemp
@@ -481,8 +481,10 @@ export default function CreateCoursePage({editMode}) {
         totalDuration: 0, 
         whatYouLearn
       }
+      
       if(!editMode) {
-        CreateCourse(newCourseID, lessons, myUser, courseObject).then(() => {
+        CreateCourse(newCourseID, lessons, myUser, courseObject)
+        .then(() => {
           setLoading(false)
           history.push(`/courses/course/${newCourseID}`)
         })
@@ -492,7 +494,8 @@ export default function CreateCoursePage({editMode}) {
         })
       }
       else {
-        saveCourse(courseID, courseLessons, courseObject, deletedLessons).then(() => {
+        SaveCourse(courseID, [...courseLessons, ...lessons], courseObject, deletedLessons)
+        .then(() => {
           setLoading(false)
           history.push(`/courses/course/${courseID}`)
         })
@@ -513,7 +516,7 @@ export default function CreateCoursePage({editMode}) {
       if(confirm) {
         setLoading(true)
         history.push('/courses')
-        deleteCourse(courseID, myUser).then(res => {
+        DeleteCourse(courseID, myUser).then(res => {
           window.alert('The course has been removed.')
           setLoading(false)
         })
@@ -588,8 +591,6 @@ export default function CreateCoursePage({editMode}) {
       setCourseCertificate(course.hasCertificate)
       setAllowReviews(course.allowReviews)
       setWhatYouLearn(course.whatYouLearn)
-      //transfer lessons array into courseLessons array
-      setCourseLessons(prev => [...prev, ...lessons])
     }
   },[course])
 

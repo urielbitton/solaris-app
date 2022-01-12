@@ -1,6 +1,6 @@
 import { db } from '../firebase/fire'
 
-export default function CreateOrder(orderId, orderNumber, customer, totalPrice) {
+export default function CreateOrder(orderId, orderNumber, product, customer, totalPrice) {
   const dateCreated = new Date()
 
   const orderObj = {
@@ -9,7 +9,8 @@ export default function CreateOrder(orderId, orderNumber, customer, totalPrice) 
     userID: customer.userID,
     customer,
     totalPrice,
-    dateCreated
+    dateCreated,
+    product
   }
   return db.collection('orders').doc(orderId).set(orderObj)
 }

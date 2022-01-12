@@ -1,23 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useHistory, useRouteMatch } from 'react-router'
-import { getCourseByID } from '../services/courseServices'
 import { StoreContext } from '../store/store'
 import './styles/CheckoutPage.css'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { AppInput } from '../components/ui/AppInputs'
 import { db } from '../firebase/fire'
 import CreateOrder from '../services/CreateOrder'
-import { setSubDB, updateDB } from '../services/CrudDB'
 import PageLoader from '../components/ui/PageLoader'
-import firebase from 'firebase'
+import proCheckoutImg from '../assets/imgs/pro-checkout.png'
 
-export default function CheckoutPage(props) {
+export default function CheckoutPage() {
 
-  const { type } = props
   const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
-  const [course, setCourse] = useState({})
-  const courseID = useRouteMatch('/checkout/course/:courseID')?.params.courseID
-  const clientId = process.env.paypalClientID
+  const clientId = 'ASTQpkv9Y3mQ5-YBd20q0jMb9-SJr_TvUl_nhXu5h3C7xl0wumYgdqpSYIL6Vd__56oB7Slag0n2HA_r'
   const [email, setEmail] = useState('')
   const [company, setCompany] = useState('')
   const [address, setAddress] = useState('')
@@ -27,11 +21,13 @@ export default function CheckoutPage(props) {
   const [postCode, setPostCode] = useState('')
   const [phone, setPhone] = useState('')
   const [loading, setLoading] = useState(false)
-  const coursePrice = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(course.price)
-  const totalPrice = (course.price * 0.15) + course.price
   const allowPurchase = validateEmail(email) && address.length && city.length && region.length && country.length && postCode.length
-  const freeCourse = course.price === 0
-  const history = useHistory()
+  const price = 100
+  
+  const product = {
+    name: 'Pro Membership',
+    productID: 'get-pro' 
+  }
 
   const processOrder = () => {
     setLoading(true)
@@ -49,23 +45,15 @@ export default function CheckoutPage(props) {
       postalCode: postCode,
       phone
     }
-    CreateOrder(orderId, orderNumber, customer, totalPrice)
-    .then(res => {
-      updateDB('courses', courseID, {studentsEnrolled: firebase.firestore.FieldValue.increment(1)})
-      setSubDB('courses', courseID, 'students', user?.uid, {userID: user?.uid, name: user?.displayName})
-      setSubDB('users', user?.uid, 'coursesEnrolled', courseID, {
-        courseID,
-        name: course?.title
-      }).then(() => {
-        setLoading(false)
-        window.alert(`Payment successful. You have been enrolled in the course "${course?.title}".`)
-        history.push(`/courses/course/${courseID}`)
-      })
-      
-    }).catch(err => {
+    CreateOrder(orderId, orderNumber, product, customer, price)
+    .then(() => {
       setLoading(false)
-      console.log(err)
     })
+    .catch(err => {
+      console.log(err)
+      setLoading(false)
+    })
+    
   }
 
   function validateEmail(email) {
@@ -73,23 +61,19 @@ export default function CheckoutPage(props) {
     .match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       )
-  };
+  }
 
   useEffect(() => {
-    getCourseByID(courseID, setCourse)
-  },[courseID])
-
-  useEffect(() => {
-    setNavTitle('Checkout')
-    setNavDescript('Course: ' + course.title + ` - $${course.price}`)
-  },[course])
+    setNavTitle('Get Pro')
+    setNavDescript('')
+  },[])
 
   return (
     <div className="checkout-page">
       <div className="side">
-        <h3>Course Checkout</h3>
-        <h5>{freeCourse ? "Free Course" : "Billing Details"}</h5>
-        <form onSubmit={(e) => e.preventDefault()} style={{display: freeCourse ? "none": "grid"}}>
+        <h3>Pro Membership Checkout</h3>
+        <h5>Billing Details</h5>
+        <form onSubmit={(e) => e.preventDefault()} style={{display: "grid"}}>
           <AppInput placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)} value={email} />
           <AppInput placeholder="Company Name" onChange={(e) => setCompany(e.target.value)} value={company} />
           <AppInput placeholder="Address" onChange={(e) => setAddress(e.target.value)} value={address} />
@@ -99,17 +83,14 @@ export default function CheckoutPage(props) {
           <AppInput placeholder="Postal Code/ZIP" onChange={(e) => setPostCode(e.target.value)} value={postCode} />
           <AppInput placeholder="Phone Number" onChange={(e) => setPhone(e.target.value)} value={phone} />
         </form>
-          { !freeCourse ?
-          <div className={!!!allowPurchase ? "paypal-container no-access" : "paypal-container"}>
-            <PayPalButton
-              amount={0.01}
-              onSuccess={(details, data) => processOrder()}
-              onError={() => window.alert("The transaction failed, please try again later.")}
-              options={{ clientId }}
-            /> 
-          </div>:
-          <button className="free-enroll-btn shadow-hover" onClick={() => processOrder()}>Enroll Course</button>
-          }
+        <div className={!!!allowPurchase ? "paypal-container no-access" : "paypal-container"}>
+          <PayPalButton
+            amount={0.01}
+            onSuccess={(details, data) => processOrder()}
+            onError={() => window.alert("The transaction failed, please try again later.")}
+            options={{ clientId }}
+          /> 
+        </div>
       </div>
       <div className="side">
         <h3 style={{visibility:'hidden'}}>.</h3>
@@ -118,15 +99,15 @@ export default function CheckoutPage(props) {
           <div className="items-row">
             <div className="left">
               <div className="img-container">
-                <img src={course.cover} alt="course"/>
+                <img src={proCheckoutImg} alt="course"/>
               </div>
               <div className="titles">
-                <h4>{course.title}</h4>
-                <h5>{course.lessonsCount} lesson{course.lessonsCount !== 1 ? "s" : ""}</h5>
+                <h4>Pro Membership</h4>
+                <h5>All access membership</h5>
               </div>
             </div>
             <div className="right">
-              <h6>{coursePrice} CAD</h6>
+              <h6>{price} CAD</h6>
             </div>
           </div>
         </div>
@@ -141,15 +122,15 @@ export default function CheckoutPage(props) {
           </div>
           <div>
             <h6>Subtotal</h6>
-            <span>{new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(course.price)}</span>
+            <span>{new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(price)}</span>
           </div>
           <div className="total">
             <h6>Total</h6>
-            <span>{new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(totalPrice)}</span>
+            <span>{new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(price)}</span>
           </div>
         </div>
       </div>
-          <PageLoader loading={loading} />
+      <PageLoader loading={loading} />
     </div>
   )
 }
