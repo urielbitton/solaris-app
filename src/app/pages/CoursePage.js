@@ -80,7 +80,7 @@ export default function CoursePage() {
   },[courseID])
 
   useEffect(() => {
-    getInstructorByID(course?.instructorID ?? "na", setInstructor)
+    getInstructorByID(course?.instructorID, setInstructor)
     setNavTitle('Course')
     setNavDescript(course?.title) 
   },[course, courseID])
@@ -101,6 +101,12 @@ export default function CoursePage() {
       quizesScrollRef.current.scrollIntoView()
     }
   },[])
+
+  useEffect(() => {
+    if(instructor === undefined) {
+      getInstructorByID(course?.instructorID, setInstructor)
+    }
+  },[instructor])
 
   return (
     <div className="course-page">
