@@ -1,0 +1,61 @@
+.welcome-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: linear-gradient(0deg, rgba(252,253,253,1) 0%, rgba(231,237,240,1) 100%);
+}
+.welcome-page .banner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px;
+}
+.welcome-page .banner .img-container {
+  width: 600px;
+}
+.welcome-page .banner .img-container .blob {
+  position: absolute;
+  top: -90px;
+  right: 0;
+  height: 740px;
+  filter: drop-shadow(0 15px 15px rgba(47, 81, 232, 0.4));
+}
+.welcome-page .banner .img-container .welcome-img {
+  z-index: 10;
+  width: 90%;
+  filter: drop-shadow(-5px 10px 15px rgba(0,0,0,0.3));
+}
+.welcome-page .banner h6 {
+  color: var(--graytxt);
+  font-weight: 500;
+  font-size: 20px;
+}
+.welcome-page .banner h1 {
+  font-size: 65px;
+  color: #333;
+  font-weight: 500;
+}
+.welcome-page .banner h1 span {
+  color: var(--color);
+  font-weight: 700;
+}
+.welcome-page .banner p {
+  width: 500px;
+  color: #555;
+}
+.welcome-page .banner .btn-group {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+.welcome-page .banner .btn-group button:nth-of-type(2) {
+  background: none;
+  color: var(--color);
+  border-color: var(--color);
+}
+.welcome-page .banner .btn-group button:nth-of-type(2):hover {
+  background: var(--color);
+  color: #fff;
+}

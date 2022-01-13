@@ -7,7 +7,6 @@
 .app-window {
   width: 100%;
   height: 100%;
-  /* padding: 100px 30px 5px 30px; */
   overflow: scroll;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
