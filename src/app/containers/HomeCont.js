@@ -25,6 +25,8 @@ import CreateQuiz from "../pages/CreateQuiz"
 import QuizPage from "../pages/QuizPage"
 import QuizResults from "../pages/QuizResults"
 import GetProPage from '../pages/GetProPage'
+import WelcomePage from "../pages/WelcomePage"
+import MyAccount from '../pages/MyAccount'
 
 export default function HomeCont() {
 
@@ -115,6 +117,12 @@ export default function HomeCont() {
           </Route>
           <Route path="/edit-course/:courseID">
             <CreateCoursePage editMode />
+          </Route>
+          <Route exact path="/welcome">
+            <WelcomePage />
+          </Route>
+          <Route exact path="/my-account">
+            <MyAccount />
           </Route>
           <Route exact path="*" component={ErrorPage} />
         </Switch>

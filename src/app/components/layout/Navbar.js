@@ -72,7 +72,7 @@ export default function Navbar() {
             </div> : ""
           }
         </div>
-        <div className={`notifications-dropdown ${slideNotifs ? "open" : ""}`} onClick={(e) => e.stopPropagation()}>
+        <div className={`notifications-dropdown ${slideNotifs ? "open" : ""}`}>
           <NotificationsDropdown 
             setSlideNotifs={setSlideNotifs}
             notifsLimit={notifsLimit}
