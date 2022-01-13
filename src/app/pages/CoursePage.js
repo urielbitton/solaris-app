@@ -33,6 +33,7 @@ export default function CoursePage() {
   const { screenWidth } = useWindowDimensions()
   const instructorRatingSum = instructorReviews.reduce((a,b) => a + b.rating, 0)
   const isntructorRatingAvg = instructorRatingSum / instructorReviews.length
+  const isProMember = myUser?.isProMember
 
   const courseInfos = [
     {name: 'Course Level', icon: 'fas fa-layer-group', value: course?.difficulty},
@@ -228,7 +229,9 @@ export default function CoursePage() {
           <div className="course-info">
             <div className="header">
               <h4>Price</h4>
-              <big>{course?.price === 0 ? "Free" : "$"+course?.price}</big>
+              <big title={isProMember && 'Free for pro members'}>
+                {isProMember ? 'Free' : course?.price === 0 ? "Free" : "$"+course?.price}
+              </big>
             </div>
             <div className="content">
               {courseInfosRender}

@@ -4,9 +4,11 @@ import './styles/CheckoutPage.css'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { AppInput } from '../components/ui/AppInputs'
 import { db } from '../firebase/fire'
+import { updateDB } from '../services/CrudDB'
 import CreateOrder from '../services/CreateOrder'
 import PageLoader from '../components/ui/PageLoader'
 import proCheckoutImg from '../assets/imgs/pro-checkout.png'
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 export default function CheckoutPage() {
 
@@ -23,6 +25,7 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false)
   const allowPurchase = validateEmail(email) && address.length && city.length && region.length && country.length && postCode.length
   const price = 100
+  const history = useHistory()
   
   const product = {
     name: 'Pro Membership',
@@ -47,7 +50,18 @@ export default function CheckoutPage() {
     }
     CreateOrder(orderId, orderNumber, product, customer, price)
     .then(() => {
-      setLoading(false)
+      updateDB('users', user?.uid, {
+        isProMember: true
+      })
+      .then(() => {
+        setLoading(false)
+        window.alert('Thank you for your purchase. You are now a pro member! Head over to your account to learn more.')
+        history.push('my-account')
+      })
+      .catch(err => {
+        setLoading(false)
+        console.log(err)
+      })
     })
     .catch(err => {
       console.log(err)

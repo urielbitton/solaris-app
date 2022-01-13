@@ -13,7 +13,7 @@ import firebase from 'firebase'
 
 export default function CheckoutPage() {
 
-  const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, user, myUser} = useContext(StoreContext)
   const [course, setCourse] = useState({})
   const courseID = useRouteMatch('/checkout/course/:courseID')?.params.courseID
   const clientId = 'ASTQpkv9Y3mQ5-YBd20q0jMb9-SJr_TvUl_nhXu5h3C7xl0wumYgdqpSYIL6Vd__56oB7Slag0n2HA_r'
@@ -26,10 +26,12 @@ export default function CheckoutPage() {
   const [postCode, setPostCode] = useState('')
   const [phone, setPhone] = useState('')
   const [loading, setLoading] = useState(false)
+  const [discount, setDiscount] = useState(0)
   const coursePrice = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(course.price)
-  const totalPrice = (course.price * 0.15) + course.price
   const allowPurchase = validateEmail(email) && address.length && city.length && region.length && country.length && postCode.length
   const freeCourse = course.price === 0
+  const isProMember = myUser?.isProMember
+  const totalPrice = !isProMember ? (course.price * 0.15) + course.price : 0
   const history = useHistory()
 
   const product = {
@@ -103,16 +105,17 @@ export default function CheckoutPage() {
           <AppInput placeholder="Postal Code/ZIP" onChange={(e) => setPostCode(e.target.value)} value={postCode} />
           <AppInput placeholder="Phone Number" onChange={(e) => setPhone(e.target.value)} value={phone} />
         </form>
-          { !freeCourse ?
-          <div className={!!!allowPurchase ? "paypal-container no-access" : "paypal-container"}>
-            <PayPalButton
-              amount={0.01}
-              onSuccess={(details, data) => processOrder()}
-              onError={() => window.alert("The transaction failed, please try again later.")}
-              options={{ clientId }}
-            /> 
-          </div>:
-          <button className="free-enroll-btn shadow-hover" onClick={() => processOrder()}>Enroll Course</button>
+          { 
+            freeCourse || isProMember ?
+            <button className="free-enroll-btn shadow-hover" onClick={() => processOrder()}>Enroll Course</button> :
+            <div className={!!!allowPurchase ? "paypal-container no-access" : "paypal-container"}>
+              <PayPalButton
+                amount={0.01}
+                onSuccess={(details, data) => processOrder()}
+                onError={() => window.alert("The transaction failed, please try again later.")}
+                options={{ clientId }}
+              /> 
+            </div>
           }
       </div>
       <div className="side">
@@ -141,11 +144,11 @@ export default function CheckoutPage() {
         <div className="totals-container">
           <div>
             <h6>Discount</h6>
-            <span>$0.00</span>
+            <span className={isProMember ? "pro-member" : ""}>{isProMember ? '100% - Pro Member': '$0.00'}</span>
           </div>
           <div>
             <h6>Subtotal</h6>
-            <span>{new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(course.price)}</span>
+            <span>{!isProMember ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(course.price): '$0.00'}</span>
           </div>
           <div className="total">
             <h6>Total</h6>

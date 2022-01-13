@@ -132,6 +132,9 @@
   font-size: 20px;
   font-weight: 700;
 }
+.checkout-page .totals-container span.pro-member {
+  color: var(--color)
+}
 .checkout-page .paypal-container.no-access {
   pointer-events: none;
 }
