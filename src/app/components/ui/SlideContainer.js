@@ -1,5 +1,5 @@
 import React from 'react'
-import '.././styles/SlideContainer.css'
+import './styles/SlideContainer.css'
 
 export default function SlideContainer({children}) {
   return (

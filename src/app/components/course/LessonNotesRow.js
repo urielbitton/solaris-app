@@ -1,6 +1,6 @@
 import React from 'react'
 import { truncateText } from '../../utils/utilities'
-import '.././styles/LessonItems.css'
+import './styles/LessonItems.css'
 
 export default function LessonNotesRow(props) {
 

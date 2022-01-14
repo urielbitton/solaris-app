@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import StarRate from '../ui/StarRate'
-import '.././styles/WriteComment.css'
+import './styles/WriteComment.css'
 import { AppInput, AppTextarea } from '../ui/AppInputs'
 import { StoreContext } from '../../store/store'
 import { setSubDB } from '../../services/CrudDB'

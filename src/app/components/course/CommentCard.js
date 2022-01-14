@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import '.././styles/ReviewCard.css'
+import './styles/ReviewCard.css'
 import Ratings from '../ui/Ratings'
 import { convertFireDateToString } from '../../utils/utilities'
 import {StoreContext} from '../../store/store'

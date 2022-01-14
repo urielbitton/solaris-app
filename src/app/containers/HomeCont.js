@@ -30,7 +30,7 @@ import MyAccount from '../pages/MyAccount'
 
 export default function HomeCont() {
 
-  const {windowPadding, setWindowPadding, myUser, openSidebar, setOpenSidebar} = useContext(StoreContext)
+  const {windowPadding, setWindowPadding, appBg, myUser, openSidebar, setOpenSidebar} = useContext(StoreContext)
   const { screenWidth } = useWindowDimensions()
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function HomeCont() {
   return (
     <div className="home-container">
       <Navbar />
-      <div className="app-window" style={{padding: windowPadding}}>
+      <div className="app-window" style={{padding: windowPadding, background: appBg}}>
         <Switch>
           <Route exact path="/">
             <Home />

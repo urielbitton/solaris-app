@@ -1,5 +1,5 @@
 import React from 'react'
-import '.././styles/PageSearch.css'
+import './styles/PageSearch.css'
 import { useWindowDimensions } from "../../utils/customHooks"
 import { SearchBox } from 'react-instantsearch-dom';
 

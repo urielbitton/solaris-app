@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import '.././styles/CourseCard.css'
+import './styles/CourseCard.css'
 import Ratings from '../ui/Ratings'
 import { useHistory } from 'react-router'
 import { getCoursesIDEnrolledByUserID } from '../../services/userServices'

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { StoreContext } from '../../store/store'
 import SearchBar from '../ui/SearchBar'
-import '.././styles/Navbar.css'
+import './styles/Navbar.css'
 import firebase from 'firebase'
 import { getUnreadNotificationsByUserID } from "../../services/userServices"
 import NotificationsDropdown from "./NotificationsDropdown"

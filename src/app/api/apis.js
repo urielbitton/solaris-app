@@ -1,6 +1,11 @@
 import allCoursesImg from '../assets/imgs/all-courses-free.png'
 import freeResources from '../assets/imgs/free-resources.png'
 import dedicatedCloud from '../assets/imgs/dedicated-cloud.png'
+import discoverPhotography from '../assets/imgs/discover-photography.png'
+import discoverArchitecture from '../assets/imgs/discover-architecture.png'
+import discoverProgramming from '../assets/imgs/discover-programming.png'
+import discoverBusiness from '../assets/imgs/discover-business.png'
+import discoverFitness from '../assets/imgs/discover-fitness.png'
 
 export const menuLinks = [
   {name: 'Home', icon: 'fal fa-home', url: '/', exact: true},
@@ -112,4 +117,42 @@ export const proFeatures = [
     img: dedicatedCloud,
     description: 'You get your own dedicated cloud hosting for video uploads as well as lecture notes & files'
   }
+]
+
+export const discoverCourses = [
+  {
+    title: 'Photography',
+    img: discoverPhotography,
+    description: 'Learn the skills and techniques behind the camera and much more.',
+    coursesCount: 3,
+    url: '#'
+  },
+  {
+    title: 'Architecture',
+    img: discoverArchitecture,
+    description: 'Get hands on knowledge with our architecture courses.',
+    coursesCount: 2,
+    url: '#'
+  },
+  {
+    title: 'Programming',
+    img: discoverProgramming,
+    description: 'Gain relevant skills in programming and land your first job within weeks,',
+    coursesCount: 11,
+    url: '#'
+  },
+  {
+    title: 'Business',
+    img: discoverBusiness,
+    description: 'Learn the ins and outs of trading, sales and business techniques from professionals.',
+    coursesCount: 7,
+    url: '#'
+  },
+  {
+    title: 'Fitness',
+    img: discoverFitness,
+    description: 'Fitness courses on your own time, discover how you can achieve a better lifestyle instantly.',
+    coursesCount: 4,
+    url: '#'
+  },
 ]

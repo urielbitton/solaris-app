@@ -14,7 +14,7 @@ label.appinput i {
 }
 
 .appselect select {
-  background: url(../../assets/imgs/angle-down.png) no-repeat right #fff;
+  background: url(../../../assets/imgs/angle-down.png) no-repeat right #fff;
   background-position-x: 95%;
   appearance: none;
 }

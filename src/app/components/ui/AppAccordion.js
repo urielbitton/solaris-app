@@ -1,5 +1,5 @@
 import React from 'react'
-import '.././styles/AppAccordion.css'
+import './styles/AppAccordion.css'
 
 export default function AppAccordion(props) {
 

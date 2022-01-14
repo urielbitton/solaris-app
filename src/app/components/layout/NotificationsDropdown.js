@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { getAllNotificationsByUserID } from "../../services/userServices"
 import { StoreContext } from "../../store/store"
-import '.././styles/NotificationsDropdown.css'
+import './styles/NotificationsDropdown.css'
 import { Link } from "react-router-dom"
 import NotificationElement from "./NotificationElement"
 

@@ -14,6 +14,7 @@ const StoreContextProvider = ({children}) => {
   const [navDescript, setNavDescript] = useState('')
   const [loggingAuth, setLoggingAuth] = useState(true)
   const [windowPadding, setWindowPadding] = useState("100px 30px 0px 30px")
+  const [appBg, setAppBg] = useState('')
   const [openSidebar, setOpenSidebar] = useState(false)
 
   useEffect(() => {
@@ -28,7 +29,8 @@ const StoreContextProvider = ({children}) => {
   return <StoreContext.Provider value={{ 
     accessApp, setAccessApp,
     user, myUser, setMyUser, aUser, setAUser, navTitle, setNavTitle, navDescript, setNavDescript,
-    loggingAuth, setLoggingAuth, windowPadding, setWindowPadding, openSidebar, setOpenSidebar
+    loggingAuth, setLoggingAuth, windowPadding, setWindowPadding, openSidebar, setOpenSidebar,
+    appBg, setAppBg
   }}>
     {children}
   </StoreContext.Provider>

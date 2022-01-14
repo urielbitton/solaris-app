@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import '.././styles/Sidebar.css'
+import './styles/Sidebar.css'
 import { menuLinks } from '../../api/apis'
 import becomeInstr from '../../assets/imgs/become-instructor.png'
 import logoOnly from '../../assets/imgs/logonly2.png'

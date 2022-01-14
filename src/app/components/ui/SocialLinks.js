@@ -1,5 +1,5 @@
 import React from 'react'
-import '.././styles/SocialLinks.css'
+import './styles/SocialLinks.css'
 
 export default function SocialLinks(props) {
 

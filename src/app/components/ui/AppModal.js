@@ -1,5 +1,5 @@
 import React from 'react'
-import '.././styles/AppModal.css'
+import './styles/AppModal.css'
 
 export default function AppModal(props) {
 
