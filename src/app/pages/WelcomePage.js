@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom"
 import { discoverCourses } from '../api/apis'
 import DiscoverCard from "../components/ui/DiscoverCard"
 import welcomeFoot from '../assets/imgs/welcome-foot.png'
+import welcomeEnsemble from '../assets/imgs/welcome-ensemble.png'
 
 export default function WelcomePage() {
 
@@ -51,14 +52,9 @@ export default function WelcomePage() {
         </div>
         <div className="img-container">
           <img 
-            src={welcomeImg}
-            className="welcome-img" 
-            alt="welcome" 
-          />
-          <img 
-            src={welcomeBlob} 
-            className="blob"
-            alt="blob" 
+            src={welcomeEnsemble} 
+            alt="" 
+            className="welcome-ensemble"
           />
         </div>
       </div>

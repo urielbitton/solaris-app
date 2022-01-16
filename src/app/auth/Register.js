@@ -61,7 +61,7 @@ export default function Register() {
           email,
           password,
           photoURL: 'https://i.imgur.com/D4fLSKa.png',
-          userId: user.uid,
+          userID: user.uid,
           dateCreated: new Date(),
           isInstructor: false
         }).then(res => { 

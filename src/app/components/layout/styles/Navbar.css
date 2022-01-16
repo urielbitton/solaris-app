@@ -10,7 +10,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  z-index: 990;
+  z-index: 1000;
 }
 .navbar .side {
   display: flex;
@@ -55,7 +55,8 @@
 .navbar .nav-icon-btn:hover i,
 .navbar .nav-icon-btn i.active
  {
-  color: var(--color)
+  color: var(--color);
+  font-weight: 600;
 }
 .navbar .nav-icon-btn .notifs-num {
   position: absolute;
@@ -192,5 +193,11 @@
   }
   .navbar .side > hr {
     display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar h1.nav-title {
+    font-size: 20px;
   }
 }

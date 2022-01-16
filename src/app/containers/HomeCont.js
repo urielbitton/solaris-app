@@ -10,7 +10,6 @@ import InstructorPage from '../pages/InstructorPage'
 import Instructors from '../pages/Instructors'
 import MyLibrary from '../pages/MyLibrary'
 import Reports from '../pages/Reports'
-import Settings from '../pages/Settings'
 import LessonPage from '../pages/LessonPage'
 import CourseCheckout from '../pages/CourseCheckout'
 import ProCheckout from '../pages/ProCheckout'
@@ -79,9 +78,6 @@ export default function HomeCont() {
           <Route path="/reports">
             <Reports />
           </Route>
-          <Route exact path="/settings">
-            <Settings />
-          </Route>
           <Route path="/checkout/course/:courseID">
             <CourseCheckout />
           </Route>
@@ -121,7 +117,7 @@ export default function HomeCont() {
           <Route exact path="/welcome">
             <WelcomePage />
           </Route>
-          <Route exact path="/my-account">
+          <Route path="/my-account">
             <MyAccount />
           </Route>
           <Route exact path="*" component={ErrorPage} />

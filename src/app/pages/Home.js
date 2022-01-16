@@ -19,7 +19,7 @@ export default function Home() {
   const [topInstructors, setTopInstructors] = useState([])
   const [coursesEnrolled, setCoursesEnrolled] = useState([])
   const withinAMonth = new Date(Date.now() - 2592000000)
-  const withinAWeek = new Date(Date.now() - 1209600000)
+  const withinAWeek = new Date(Date.now() - 1814400000)
 
   const topInstructorsRender = topInstructors?.map((instructor, i) => {
     return <InstructorCard instructor={instructor} key={i} />

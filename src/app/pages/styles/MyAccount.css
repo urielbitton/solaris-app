@@ -1,0 +1,21 @@
+.my-account-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.my-account-page .banner {
+  width: 100%;
+  height: 300px;
+  background-image: url(../../assets/imgs/account-banner.png);
+  background-position: center;
+  background-size: cover;
+}
+.account-container {
+  display: grid;
+  grid-template-columns: 300px auto;
+  grid-gap: 20px;
+  align-items: flex-start;
+  margin-top: -120px;
+  width: 95%;
+}

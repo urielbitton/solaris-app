@@ -65,7 +65,7 @@ export default function Navbar() {
       </div>
       <div className="side right">
         <div className="nav-icon-btn nav-notifs" onClick={(e) => openNotifs(e)}>
-          <i className={`far fa-bell ${location.pathname.includes('notifications') ? "active" : ""}`}></i>
+          <i className={`far fa-bell ${location.pathname.includes('notifications') || slideNotifs ? "active" : ""}`}></i>
           { unreadNotifs.length ?
             <div className="notifs-num">
               <small>{unreadNotifs.length}</small>

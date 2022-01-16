@@ -121,7 +121,7 @@ export default function CheckoutPage() {
               </div>
             </div>
             <div className="right">
-              <h6>{price} CAD</h6>
+              <h6>${price} CAD</h6>
             </div>
           </div>
         </div>

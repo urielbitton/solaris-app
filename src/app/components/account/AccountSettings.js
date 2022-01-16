@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
-import { StoreContext } from '../store/store'
+import { StoreContext } from '../../store/store'
 
-export default function Settings() {
+export default function AccountSettings() {
 
   const {setNavTitle, setNavDescript} = useContext(StoreContext)
 
@@ -12,7 +12,7 @@ export default function Settings() {
 
   return (
     <div className="settings-page">
-      
+      Settings Tab
     </div>
   )
 }

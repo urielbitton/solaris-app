@@ -1,13 +1,17 @@
 import { db } from "../firebase/fire"
 
-export const getCoursesIDEnrolledByUserID = (userID, setCourses) => {
-  db.collection('users').doc(userID).collection('coursesEnrolled').onSnapshot(snap => {
+//gets only the enrolled courses ids & title in user sub collection (not actual course)
+export const getCoursesIDEnrolledByUserID = (userID, setCourses) => { 
+  db.collection('users').doc(userID)
+  .collection('coursesEnrolled')
+  .onSnapshot(snap => {
     const coursesArr = []
     snap.forEach(doc => coursesArr.push(doc.data()))
     setCourses(coursesArr)
   })
 }
 
+//gets the actual course object that is matched in user enrolled courses collection
 export const getCoursesEnrolledByUserID = (enrolledList, setCourses) => {
   db.collection('courses').where('id', 'in', enrolledList.length ? enrolledList : ['']).onSnapshot(snap => {
     const coursesArr = []
@@ -60,5 +64,15 @@ export const getUserQuizByID = (userID, quizID, setQuiz) => {
   .collection('quizes').doc(quizID)
   .onSnapshot(snap => {
     setQuiz(snap.data())
+  })
+}
+
+export const getCertificationsByUserID = (userID, setCertification) => {
+  db.collection('users').doc(userID)
+  .collection('certifications')
+  .onSnapshot(snap => {
+    const certifArr = []
+    snap.forEach(doc => certifArr.push(doc.data()))
+    setCertification(certifArr)
   })
 }
