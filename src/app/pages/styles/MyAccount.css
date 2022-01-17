@@ -19,3 +19,9 @@
   margin-top: -120px;
   width: 95%;
 }
+
+@media (max-width: 1400px) {
+  .account-flex {
+    grid-template-columns: auto;
+  }
+}

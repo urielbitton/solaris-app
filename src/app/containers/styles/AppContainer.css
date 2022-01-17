@@ -10,7 +10,10 @@
 /*Dark mode styles */
 .dark-app .app-window,
 .dark-app .navbar .searchbar,
-.dark-app .navbar .searchbar input {
+.dark-app .navbar .searchbar input,
+.dark-app .mobile-menu-btn,
+.dark-app .mobile-menu-btn:hover 
+{
   background: var(--dark1);
 }
 .dark-app .navbar,
@@ -22,13 +25,13 @@
 }
 .dark-app .navbar,
 .dark-app .account-sidebar,
-.dark-app .account-content {
+.dark-app .account-content 
+{
   border: none;
 }
 .dark-app .navbar h1.nav-title {
   color: #aaa;
 }
-
 
 
 @media (max-width: 1080px) {
