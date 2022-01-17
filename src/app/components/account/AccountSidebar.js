@@ -4,16 +4,49 @@ import { StoreContext } from '../../store/store'
 import placeholderImg from '../../assets/imgs/placeholder.png'
 import { getCertificationsByUserID, getCoursesIDEnrolledByUserID } from '../../services/userServices'
 import { getCoursesByInstructorID } from '../../services/InstructorServices'
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import { useHistory } from "react-router-dom"
+import { uploadImgToFireStorage } from '../../services/ImageUploadServices'
+import PageLoader from '../ui/PageLoader'
+import { updateDB } from '../../services/CrudDB'
 
 export default function AccountSidebar() {
 
-  const { myUser } = useContext(StoreContext)
+  const { myUser, user } = useContext(StoreContext)
   const [imgUrl, setImgUrl] = useState('')
   const [enrolledCourses, setEnrolledCourses] = useState([])
   const [certifications, setCertifications] = useState([])
   const [coursesTaught, setCoursesTaught] = useState([])
+  const [loading, setLoading] = useState(false)
   const history = useHistory()
+
+  const uploadProfileImg = (e) => {
+    setLoading(true)
+    uploadImgToFireStorage(
+      e,
+      `users/${myUser?.userID}/photoURL`,
+      'profile-img',
+      setImgUrl
+    )
+    .then(() => {
+      updateDB('users', myUser?.userID, {
+        photoURL: imgUrl
+      })
+      user.updateProfile({
+        photoURL: imgUrl
+      })
+      .then(() => {
+        setLoading(false)
+      })
+      .catch((error) => {
+        setLoading(false)
+        console.log(error)
+      })
+    })
+    .catch((error) => {
+      setLoading(false)
+      console.log(error)
+    })
+  }
 
   useEffect(() => {
     setImgUrl(myUser?.photoURL)
@@ -27,10 +60,13 @@ export default function AccountSidebar() {
   return (
     <div className="account-sidebar">
       <div className="avatar-container">
-        <img src={myUser?.photoURL ? imgUrl : placeholderImg} alt="" />
-        <div className="icon-container">
-          <i className="fal fa-camera"></i>
-        </div>
+        <label onChange={(e) => uploadProfileImg(e)}>
+          <input type="file" style={{display:'none'}} />
+          <img src={myUser?.photoURL ? imgUrl : placeholderImg} alt="" />
+          <div className="icon-container">
+            <i className="fal fa-camera"></i>
+          </div>
+        </label>
       </div>
       <div className="titles">
         <h4>
@@ -73,12 +109,13 @@ export default function AccountSidebar() {
         </button>
         <button
           className="shadow-hover"
-          onClick={() => history.push('/settings')}
+          onClick={() => history.push('/my-account/settings')}
         >
           <i className="fal fa-cog"></i>
           Settings
         </button>
       </div>
+      <PageLoader loading={loading} />
     </div>
   )
 }

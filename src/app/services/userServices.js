@@ -76,3 +76,12 @@ export const getCertificationsByUserID = (userID, setCertification) => {
     setCertification(certifArr)
   })
 }
+
+export const getUserSettingsByUserAndDocID = (userID, docID, setSettings) => {
+  db.collection('users').doc(userID)
+  .collection('settings').doc(docID)
+  .get()
+  .then(snap => {
+    setSettings(snap.data())
+  })
+}

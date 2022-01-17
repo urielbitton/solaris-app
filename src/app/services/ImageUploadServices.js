@@ -1,6 +1,6 @@
 import firebase from 'firebase'
 
-export const uploadImgToFireStorage = (e, path, imgName, setURL) => {
+export const uploadImgToFireStorage = async (e, path, imgName, setURL, setLoading) => {
   const storageRef = firebase.storage().ref(path).child(imgName)
 
   const file = e.target.files[0]

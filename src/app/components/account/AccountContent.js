@@ -1,23 +1,28 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import './styles/Account.css'
 import { StoreContext } from '../../store/store'
-import { NavLink, Route, Switch } from "react-router-dom"
+import { NavLink, Redirect, Route, Switch } from "react-router-dom"
 import AccountSettings from "./AccountSettings"
-import MyAccountContent from './MyAccountContent'
+import MyAccountHome from './MyAccountHome'
+import AccountCourse from './AccountCourse'
+import AccountInstructor from './AccountInstructor'
+import AccountNotifications from './AccountNotifications'
+import AccountPreferences from './AccountPreferences'
+import PageLoader from '../ui/PageLoader'
 
 export default function AccountContent() {
 
   const { myUser } = useContext(StoreContext)
-  const isUserInstructor = myUser?.isInstructor
+  const [loading, setLoading] = useState(false)
+  const isAdmin = myUser?.isAdmin
 
   const headerLinks = [
-    { name: 'My Account', url: '/my-account', access: true, exact: true },
+    { name: 'My Account', url: '/my-account', exact: true, access: true },
     { name: 'My Settings', url: '/my-account/settings', access: true },
-    { name: 'Courses', url: '/my-account/courses-settings', access: true },
-    { name: 'Instructor', url: '/my-account/instructor-settings', access: isUserInstructor },
+    { name: 'Courses', url: '/my-account/course-settings', access: isAdmin },
+    { name: 'Instructor', url: '/my-account/instructor-settings', access: isAdmin },
     { name: 'Notifications', url: '/my-account/notifications-settings', access: true },
-    { name: 'Preferences', url: '/my-account/preferences', access: true },
-    { name: 'Advanced', url: '/my-account/advanced-settings', access: true },
+    { name: 'Preferences', url: '/my-account/preferences-settings', access: true }
   ]
 
   const headerLinksRender = headerLinks
@@ -39,16 +44,32 @@ export default function AccountContent() {
       <header>
         {headerLinksRender}
       </header>
-      <div className="data-container">
+      <div className="account-container">
         <Switch>
-          <Route path="/my-account">
-            <MyAccountContent />
+          <Route exact path="/my-account">
+            <MyAccountHome setLoading={setLoading} />
           </Route>
           <Route path="/my-account/settings">
-            <AccountSettings />
+            <AccountSettings setLoading={setLoading} />
+          </Route>
+          <Route path="/my-account/course-settings">
+            <AccountCourse setLoading={setLoading} />
+          </Route>
+          <Route path="/my-account/instructor-settings">
+            <AccountInstructor setLoading={setLoading} />
+          </Route>
+          <Route path="/my-account/notifications-settings">
+            <AccountNotifications setLoading={setLoading} />
+          </Route>
+          <Route path="/my-account/preferences-settings">
+            <AccountPreferences setLoading={setLoading} />
+          </Route>
+          <Route>
+            <Redirect to="/my-account/"/>
           </Route>
         </Switch>
       </div>
+      <PageLoader loading={loading} />
     </div>
   )
 }

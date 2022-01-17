@@ -108,6 +108,11 @@ input, select, textarea {
   transition: all 0.3s;
   font-family: inherit;
 } 
+input:-webkit-autofill, 
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset;
+  box-shadow: 0 0 0 30px white inset;
+}
 input::placeholder, textarea::placeholder {
   color: #bbb;
 }

@@ -6,16 +6,16 @@ import './styles/Navbar.css'
 import firebase from 'firebase'
 import { getUnreadNotificationsByUserID } from "../../services/userServices"
 import NotificationsDropdown from "./NotificationsDropdown"
-import { useLocation, useHistory } from "react-router-dom"
+import { useLocation } from "react-router-dom"
+import placeholderImg from '../../assets/imgs/placeholder.png'
 
 export default function Navbar() {
 
-  const {navTitle, navDescript, user, openSidebar, setOpenSidebar} = useContext(StoreContext)
+  const {navTitle, navDescript, user, myUser, openSidebar, setOpenSidebar} = useContext(StoreContext)
   const [slideProfile, setSlideProfile] = useState(false)
   const [slideNotifs, setSlideNotifs] = useState(false)
   const [unreadNotifs, setUnreadNotifs] = useState(0)
   const [notifsLimit, setNotifsLimit] = useState(7)
-  const history = useHistory()
   const location = useLocation()
 
   const signOut = (e) => {
@@ -23,7 +23,7 @@ export default function Navbar() {
     if(user) {
       firebase.auth().signOut()
       .then(() => {
-        history.push('/')
+        console.log('Logged out')
       })
     }
   }
@@ -81,11 +81,11 @@ export default function Navbar() {
         </div>
         <div className="nav-profile-container">
           <div className="text-info-container">
-            <h5>{user.displayName}</h5>
+            <h5>{myUser?.firstName} {myUser?.lastName}</h5>
             <Link to="/my-account" className="linkable">My Account</Link>
           </div>
           <div className="img-container" onClick={(e) => {e.stopPropagation();setSlideProfile(prev => !prev)}}>
-            <img src={user.photoURL} alt=""/>
+            <img src={myUser?.photoURL?.length ? myUser?.photoURL : placeholderImg} alt=""/>
             <i className="fal fa-angle-down"></i>
           </div>
           <div className={`profile-slide ${slideProfile ? "open" : ""}`}>

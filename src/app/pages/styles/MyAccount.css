@@ -11,7 +11,7 @@
   background-position: center;
   background-size: cover;
 }
-.account-container {
+.account-flex {
   display: grid;
   grid-template-columns: 300px auto;
   grid-gap: 20px;

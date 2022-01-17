@@ -8,7 +8,7 @@ export default function MyAccount() {
   return (
     <div className="my-account-page">
       <div className="banner" />
-      <div className="account-container">
+      <div className="account-flex">
         <AccountSidebar />
         <AccountContent />
       </div>
