@@ -16,6 +16,7 @@ const StoreContextProvider = ({children}) => {
   const [windowPadding, setWindowPadding] = useState("100px 30px 0px 30px")
   const [appBg, setAppBg] = useState('')
   const [openSidebar, setOpenSidebar] = useState(false)
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkmode') === "true" ? true : false)
 
   useEffect(() => {
     if(user) {
@@ -26,11 +27,18 @@ const StoreContextProvider = ({children}) => {
     firebase.auth().onAuthStateChanged(user => user?setAUser(user):setAUser({}))
   },[user])
 
+  useEffect(() => {
+    localStorage.setItem('darkmode', !darkMode ? "false" : "true")  
+  },[darkMode]) 
+
   return <StoreContext.Provider value={{ 
+    user, myUser, setMyUser, aUser, setAUser, 
+    loggingAuth, setLoggingAuth, 
     accessApp, setAccessApp,
-    user, myUser, setMyUser, aUser, setAUser, navTitle, setNavTitle, navDescript, setNavDescript,
-    loggingAuth, setLoggingAuth, windowPadding, setWindowPadding, openSidebar, setOpenSidebar,
-    appBg, setAppBg
+    navTitle, setNavTitle, navDescript, setNavDescript,
+    windowPadding, setWindowPadding, appBg, setAppBg, 
+    openSidebar, setOpenSidebar,
+    darkMode, setDarkMode
   }}>
     {children}
   </StoreContext.Provider>

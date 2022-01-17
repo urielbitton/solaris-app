@@ -7,6 +7,30 @@
   align-items: flex-start;
 }
 
+/*Dark mode styles */
+.dark-app .app-window,
+.dark-app .navbar .searchbar,
+.dark-app .navbar .searchbar input {
+  background: var(--dark1);
+}
+.dark-app .navbar,
+.dark-app .sidebar,
+.dark-app .account-sidebar,
+.dark-app .account-content
+{
+  background: var(--dark2);
+}
+.dark-app .navbar,
+.dark-app .account-sidebar,
+.dark-app .account-content {
+  border: none;
+}
+.dark-app .navbar h1.nav-title {
+  color: #aaa;
+}
+
+
+
 @media (max-width: 1080px) {
   .app-container {
     grid-template-columns: auto;

@@ -11,7 +11,8 @@ import placeholderImg from '../../assets/imgs/placeholder.png'
 
 export default function Navbar() {
 
-  const {navTitle, navDescript, user, myUser, openSidebar, setOpenSidebar} = useContext(StoreContext)
+  const {navTitle, navDescript, user, myUser, openSidebar, setOpenSidebar,
+    darkMode, setDarkMode} = useContext(StoreContext)
   const [slideProfile, setSlideProfile] = useState(false)
   const [slideNotifs, setSlideNotifs] = useState(false)
   const [unreadNotifs, setUnreadNotifs] = useState(0)
@@ -64,6 +65,12 @@ export default function Navbar() {
         <SearchBar width="300px" showIcon/>
       </div>
       <div className="side right">
+        <div 
+          className="nav-icon-btn"
+          onClick={() => setDarkMode(prev => !prev)}
+        >
+          <i className={`fa${darkMode ? "s" : "r"} fa-moon`}></i>
+        </div>
         <div className="nav-icon-btn nav-notifs" onClick={(e) => openNotifs(e)}>
           <i className={`far fa-bell ${location.pathname.includes('notifications') || slideNotifs ? "active" : ""}`}></i>
           { unreadNotifs.length ?

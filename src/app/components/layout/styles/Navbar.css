@@ -18,7 +18,7 @@
   gap: 20px;
 }
 .navbar .side.right {
-  gap: 30px;
+  gap: 25px;
 }
 .navbar h1.nav-title {
   color: #333;
@@ -84,6 +84,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 15px;
+  margin-left: 20px;
 }
 .nav-profile-container .img-container {
   display: flex;
@@ -183,6 +184,9 @@
   }
   .navbar .nav-descript {
     display: none;
+  }
+  .navbar .nav-profile-container {
+    margin-left: 0;
   }
 
 }
