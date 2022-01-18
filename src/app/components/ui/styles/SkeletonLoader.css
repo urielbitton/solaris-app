@@ -41,3 +41,21 @@
   50% {background: #ddd}
   100% {background: #eee}
 }
+
+.dark-app .skeleton-loader {
+  animation: darkFade 1.4s infinite;
+}
+@keyframes darkFade {
+  0% {background: var(--dark2)}
+  50% {background: var(--dark1)}
+  100% {background: var(--dark2)}
+}
+.dark-app .skeleton-loader .rect,
+.dark-app .skeleton-loader .rect-img {
+  animation: darkRectFade 2s infinite;
+}
+@keyframes darkRectFade {
+  0% {background: #111}
+  50% {background: #151515}
+  100% {background: #111}
+}

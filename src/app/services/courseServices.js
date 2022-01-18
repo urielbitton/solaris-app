@@ -173,3 +173,13 @@ export const getQuestionsByQuizID = (courseID, quizID, setQuestions) => {
     setQuestions(questionsArr)
   })
 }
+
+export const getLessonNotesByUserAndLessonID = (userID, lessonID, setNotes) => {
+  db.collection('users')
+  .doc(userID)
+  .collection('lessonNotes')
+  .doc(lessonID)
+  .onSnapshot(snap => {
+    setNotes(snap.data())
+  })
+}

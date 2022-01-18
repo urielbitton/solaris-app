@@ -186,7 +186,8 @@
 .dark-app .instructor-page .socials-section h5,
 .dark-app .my-courses-page > h3,
 .dark-app .instructors-page > h3,
-.dark-app .home-page section h3
+.dark-app .home-page section h3,
+.dark-app .lesson-page .lesson-my-notes-section p
 {
   color: #aaa;
 }
