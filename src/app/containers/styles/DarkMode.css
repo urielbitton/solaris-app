@@ -1,0 +1,205 @@
+/*Dark mode styles */
+
+.dark-app .app-window,
+.dark-app .navbar .searchbar,
+.dark-app .navbar .searchbar input,
+.dark-app .mobile-menu-btn,
+.dark-app .mobile-menu-btn:hover,
+.dark-app .lesson-page .app-accordion .lesson-item-row:hover,
+.dark-app .lesson-page .app-accordion .lesson-item-row.active,
+.dark-app .review-card .titles h4 span.instructor-badge,
+.dark-app .review-card .review-text-textarea,
+.dark-app .all-courses-page .filters-toolbar select,
+.dark-app .account-content input,
+.dark-app .account-content textarea,
+.dark-app .account-content select,
+.dark-app .account-container section .appswitch,
+.dark-app .app-modal-container .app-modal input,
+.dark-app .app-modal textarea,
+.dark-app .app-modal-container .app-modal header .icon-container,
+.dark-app .nav-profile-container .profile-slide a:hover,
+.dark-app .become-instructor-page .slide-element input,
+.dark-app .become-instructor-page .slide-element textarea
+{
+  background: var(--dark1);
+}
+.dark-app .navbar,
+.dark-app .sidebar,
+.dark-app .account-sidebar,
+.dark-app .account-content,
+.dark-app .course-page header.banner,
+.dark-app .app-accordion header,
+.dark-app .app-accordion .lesson-item-row:hover,
+.dark-app .quiz-card,
+.dark-app .course-page .instructor-container,
+.dark-app .course-page .course-info,
+.dark-app .review-card,
+.dark-app .add-comment-container form .appinput input, 
+.dark-app .add-comment-container form .apptextarea textarea,
+.dark-app .card-container .info-container,
+.dark-app .instructor-card .instructor-info,
+.dark-app .add-comment-container .rating-setter .appinput input,
+.dark-app .lesson-page .lesson-sidebar-container,
+.dark-app .lesson-page .lessons-search input,
+.dark-app .lesson-page .lesson-sidebar .side-bar-latch,
+.dark-app .lesson-page .lesson-video-container .title-row button:hover,
+.dark-app .all-courses-page .filters-toolbar,
+.dark-app .all-courses-page .sort-row .appselect select,
+.dark-app .create-page .create-poster,
+.dark-app textarea,
+.dark-app input, 
+.dark-app select,
+.dark-app hr,
+.dark-app .create-course-page label.upload-container,
+.dark-app .create-course-page .type-box:hover,
+.dark-app .app-modal,
+.dark-app .nav-profile-container .profile-slide,
+.dark-app .become-instructor-page .slide-container,
+.dark-app .social-links-section .social-circle,
+.dark-app .ais-Pagination ul li
+{
+  background: var(--dark2);
+}
+.dark-app .navbar,
+.dark-app .account-sidebar,
+.dark-app .account-content 
+{
+  border: none;
+}
+.dark-app .app-accordion,
+.dark-app .add-comment-container form .appinput input,
+.dark-app .add-comment-container .rating-setter .appinput input,
+.dark-app .lesson-page .lessons-search input,
+.dark-app .lesson-page .lesson-sidebar .side-bar-latch,
+.dark-app .review-card .review-text-textarea,
+.dark-app .all-courses-page .filters-toolbar select,
+.dark-app .page-search-bar .ais-SearchBox-form input,
+.dark-app .all-courses-page .sort-row .appselect select,
+.create-course-page .create-title,
+.dark-app textarea,
+.dark-app input, 
+.dark-app select,
+.dark-app .create-course-page label.upload-container,
+.dark-app .create-course-page .type-box,
+.dark-app .create-course-page .create-nav,
+.dark-app .create-course-page .side-bar,
+.dark-app .create-course-page .side-bar > div,
+.dark-app .lesson-input-generator
+{
+  border-color: var(--dark2);
+}
+.dark-app .account-content input,
+.dark-app .account-content textarea,
+.dark-app .account-content select,
+.dark-app .account-container section > h4,
+.dark-app .account-content header,
+.dark-app .quick-stats > div,
+.dark-app .account-container footer,
+.dark-app .account-container section .appswitch,
+.dark-app .app-modal-container .app-modal header,
+.dark-app .app-modal-container .app-modal footer
+{
+  border-color: var(--dark1);
+}
+.dark-app .checkout-page .side > h5,
+.dark-app .checkout-page .items-section .items-row,
+.dark-app .checkout-page .promo-container,
+.dark-app .checkout-page .totals-container 
+{
+  border-color: #333
+}
+.dark-app .page-loader {
+  background: rgba(25, 30, 34, 0.9)!important;
+}
+.dark-app .course-page .course-content section h3,
+.dark-app .navbar h1.nav-title,
+.dark-app .course-page header.banner h1,
+.dark-app .instructor-card .instructor-info h3,
+.dark-app .instructor-card .instructor-info h4,
+.dark-app .course-page .course-info .header h4,
+.dark-app .course-page .instructor-container .instructor-info h2 a,
+.dark-app .course-page .instructor-container .instructor-info h5,
+.dark-app .review-card .titles h4 a,
+.dark-app .lesson-page .lesson-video-container .title-row h3,
+.dark-app .lesson-page h3.page-title,
+.dark-app .page-search-bar h2,
+.dark-app .nav-profile-container .text-info-container h5,
+.dark-app .error-page h1,
+.dark-app .create-page .create-poster h2,
+.dark-app .create-course-page .create-content .create-content-titles h3,
+.dark-app .account-sidebar .titles h4,
+.dark-app .app-modal-container .app-modal header h4,
+.dark-app .checkout-page .side > h3,
+.dark-app .nav-profile-container .profile-slide a:hover,
+.dark-app .instructor-page .profile-row .instructor-info h1
+{
+  color: #ccc
+}
+.dark-app .course-page header.banner h5,
+.dark-app .course-page .info-container .instructor-row span,
+.dark-app .course-page .info-container .instructor-row a,
+.dark-app .course-page .course-content section p.course-description,
+.dark-app .course-page .course-content .text-container .list-elements,
+.dark-app .app-accordion .lesson-item-row h6,
+.dark-app .quiz-card h4,
+.dark-app .quiz-card small,
+.dark-app .card-container .info-container h4,
+.dark-app .instructor-card .instructor-info span,
+.dark-app .instructor-card .instructor-info small,
+.dark-app .course-page .course-info .row h5,
+.dark-app .course-page .course-info .share-container h5,
+.dark-app .course-page .instructor-container .instructor-info big,
+.dark-app .course-page .instructor-container .instructor-info span,
+.dark-app .review-card h5,
+.dark-app .review-card q,
+.dark-app .review-card p,
+.dark-app .lesson-page .lesson-material .lesson-note-section h4,
+.dark-app .lesson-page .lesson-material .lesson-note-section small,
+.dark-app .lesson-page .lesson-material .lesson-note-section p,
+.dark-app .add-comment-container h3,
+.dark-app .add-comment-container form .commoninput input,
+.dark-app .add-comment-container form .commoninput textarea,
+.dark-app .review-card .review-text-textarea,
+.dark-app .all-courses-page .filters-toolbar select,
+.dark-app .all-courses-page .sort-row .appselect select,
+.dark-app .create-course-page .create-title,
+.dark-app textarea,
+.dark-app input, 
+.dark-app select,
+.dark-app .account-container section > h4,
+.dark-app .account-content header h5 a,
+.dark-app .create-course-page .side-bar > div > h5,
+.dark-app .checkout-page .items-section .items-row h4,
+.dark-app .checkout-page .items-section .items-row h6,
+.dark-app .checkout-page .promo-container h5,
+.dark-app .checkout-page .totals-container > div h6,
+.dark-app .checkout-page .totals-container > div span:not(.pro-member),
+.dark-app .sidebar .logo-container h3,
+.dark-app .get-pro-page .feature-column h4,
+.dark-app .nav-profile-container .img-container i,
+.dark-app .nav-profile-container .profile-slide a,
+.dark-app .become-instructor-page .slide-element h4,
+.dark-app .instructor-page .profile-row .instructor-info h5,
+.instructor-page .profile-row .instructor-info h4,
+.instructor-page .profile-row .instructor-info p,
+.dark-app .social-links-section .social-circle i,
+.dark-app .instructor-page .socials-section h5,
+.dark-app .my-courses-page > h3,
+.dark-app .instructors-page > h3,
+.dark-app .home-page section h3
+{
+  color: #aaa;
+}
+.dark-app .course-page .course-info .row span,
+.dark-app .app-accordion .lesson-item-row small,
+.dark-app .course-page .instructor-container .instructor-bio p,
+.dark-app .create-course-page .course-review-container .review-row h6,
+.dark-app .create-course-page .course-review-container .review-row span,
+.dark-app .get-pro-page .features-section ul li
+{
+  color: #999;
+}
+.dark-app ::placeholder 
+{
+  color: #555;
+}

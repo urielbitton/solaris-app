@@ -92,7 +92,7 @@ export default function WriteComment(props) {
             min={1} 
             max={5} 
             value={rating < 5 ? rating : 5} 
-            step={0.5}
+            step={0.1}
           />
           <small>*Enter decimal values here.</small>
         </div>

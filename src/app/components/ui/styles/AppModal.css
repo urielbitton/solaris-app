@@ -4,7 +4,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 1001;
   background: rgba(35, 54, 66, 0.75);
   visibility: hidden;
   opacity: 0;
@@ -71,6 +71,11 @@
   max-height: 400px;
   padding: 20px 30px;
   overflow-y: scroll;
+}
+.app-modal-container .app-modal section .appinput h6 {
+  font-size: 13px;
+  color: var(--graytxt);
+  margin-bottom: 5px;
 }
 .app-modal-container .app-modal footer {
   padding: 15px 30px;

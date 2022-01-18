@@ -97,7 +97,7 @@ export default function Navbar() {
           </div>
           <div className={`profile-slide ${slideProfile ? "open" : ""}`}>
             <Link to="/my-account"><i className="far fa-user"></i>My Account</Link>
-            <Link to="/settings/preferences"><i className="far fa-sliders-h"></i>Preferences</Link>
+            <Link to="my-account/preferences-settings"><i className="far fa-sliders-h"></i>Preferences</Link>
             <Link to="/get-pro"><i className="far fa-user-astronaut"></i>Get Pro</Link>
             <Link to="/welcome"><i className="far fa-door-open"></i>Welcome</Link>
             <Link to="/support"><i className="far fa-question-circle"></i>Support</Link>

@@ -75,6 +75,15 @@
   font-size: 18px;
   color: #aaa;
 }
+.lesson-page .lessons-search {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.lesson-page .lessons-search .appinput {
+  width: 100%;
+}
 .lesson-page .leave-reply-section {
   width: 600px;
   margin-top: 30px;

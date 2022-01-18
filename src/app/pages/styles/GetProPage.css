@@ -9,7 +9,7 @@
   width: 100%;
   border-radius: 10px;
   min-height: 500px;
-  background: #C6D9E8;
+  background: var(--babyblue);
   display: flex;
   align-items: center;
   justify-content: space-between;

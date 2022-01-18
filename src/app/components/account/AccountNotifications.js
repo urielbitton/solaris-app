@@ -30,7 +30,7 @@ export default function AccountNotifications(props) {
   },[myUser])
 
   useEffect(() => {
-    setEnableNotifications(notificationSettings.enableNotifications)
+    setEnableNotifications(notificationSettings?.enableNotifications)
   },[notificationSettings])
 
   return (
