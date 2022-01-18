@@ -8,8 +8,6 @@ import { getTopRatedInstructors } from "../services/InstructorServices"
 import InstructorCard from '../components/instructor/InstructorCard'
 import { getCoursesIDEnrolledByUserID } from "../services/userServices"
 import onlineLearningImg from '../assets/imgs/online-learning.png'
-import { db } from "../firebase/fire"
-import SkeletonLoader from "../components/ui/SkeletonLoader"
 
 export default function Home() {
 

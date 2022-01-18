@@ -19,7 +19,10 @@
 .dark-app .app-modal-container .app-modal header .icon-container,
 .dark-app .nav-profile-container .profile-slide a:hover,
 .dark-app .become-instructor-page .slide-element input,
-.dark-app .become-instructor-page .slide-element textarea
+.dark-app .become-instructor-page .slide-element textarea,
+.dark-app .notif-element .text-info .read-reciept.read,
+.dark-app .discover-card .bottom-row,
+.dark-app .notif-element:hover
 {
   background: var(--dark1);
 }
@@ -56,7 +59,10 @@
 .dark-app .nav-profile-container .profile-slide,
 .dark-app .become-instructor-page .slide-container,
 .dark-app .social-links-section .social-circle,
-.dark-app .ais-Pagination ul li
+.dark-app .ais-Pagination ul li,
+.dark-app .notifications-dropdown,
+.dark-app .discover-card,
+.dark-app .notifications-page
 {
   background: var(--dark2);
 }
@@ -84,7 +90,9 @@
 .dark-app .create-course-page .create-nav,
 .dark-app .create-course-page .side-bar,
 .dark-app .create-course-page .side-bar > div,
-.dark-app .lesson-input-generator
+.dark-app .lesson-input-generator,
+.dark-app .notifications-page,
+.dark-app .notifications-page header
 {
   border-color: var(--dark2);
 }
@@ -97,7 +105,8 @@
 .dark-app .account-container footer,
 .dark-app .account-container section .appswitch,
 .dark-app .app-modal-container .app-modal header,
-.dark-app .app-modal-container .app-modal footer
+.dark-app .app-modal-container .app-modal footer,
+.dark-app .notifications-dropdown header
 {
   border-color: var(--dark1);
 }
@@ -131,7 +140,8 @@
 .dark-app .app-modal-container .app-modal header h4,
 .dark-app .checkout-page .side > h3,
 .dark-app .nav-profile-container .profile-slide a:hover,
-.dark-app .instructor-page .profile-row .instructor-info h1
+.dark-app .instructor-page .profile-row .instructor-info h1,
+.dark-app .welcome-page .banner h1
 {
   color: #ccc
 }
@@ -187,7 +197,13 @@
 .dark-app .my-courses-page > h3,
 .dark-app .instructors-page > h3,
 .dark-app .home-page section h3,
-.dark-app .lesson-page .lesson-my-notes-section p
+.dark-app .lesson-page .lesson-my-notes-section p,
+.dark-app .welcome-page footer h2,
+.dark-app .welcome-page footer p,
+.dark-app .welcome-page .banner p,
+.dark-app .notifications-dropdown header a,
+.dark-app .notif-element h5,
+.dark-app .notif-element p
 {
   color: #aaa;
 }
@@ -196,7 +212,8 @@
 .dark-app .course-page .instructor-container .instructor-bio p,
 .dark-app .create-course-page .course-review-container .review-row h6,
 .dark-app .create-course-page .course-review-container .review-row span,
-.dark-app .get-pro-page .features-section ul li
+.dark-app .get-pro-page .features-section ul li,
+.dark-app .notif-element .text-info small
 {
   color: #999;
 }

@@ -11,6 +11,7 @@ import quizImg from '../assets/imgs/quiz-img.png'
 import { db } from "../firebase/fire"
 import { updateSubDB } from '../services/CrudDB'
 import PageLoader from '../components/ui/PageLoader'
+import { createNewNotification } from '../services/notificationsServices'
 
 export default function QuizPage() {
 
@@ -66,6 +67,12 @@ export default function QuizPage() {
       minutesTaken: +(+timer / 60_000).toFixed(1),
       submission: userAnswers
     }).then(() => {
+      createNewNotification(
+        user?.uid,
+        'Quiz Results',
+        `You have completed the quiz '${quiz?.name}'. You can view your results here.`,
+        `/courses/${courseID}/quiz/${quizID}/results`
+      )
       setLoading(false)
       history.push({
         pathname: `/courses/${courseID}/quiz/${quizID}/results`,

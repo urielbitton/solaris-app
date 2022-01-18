@@ -10,6 +10,7 @@ import CreateOrder from '../services/CreateOrder'
 import { setSubDB, updateDB } from '../services/CrudDB'
 import PageLoader from '../components/ui/PageLoader'
 import firebase from 'firebase'
+import { createNewNotification } from '../services/notificationsServices'
 
 export default function CheckoutPage() {
 
@@ -57,13 +58,25 @@ export default function CheckoutPage() {
     }
     CreateOrder(orderId, orderNumber, product, customer, totalPrice)
     .then(res => {
-      updateDB('courses', courseID, {studentsEnrolled: firebase.firestore.FieldValue.increment(1)})
-      setSubDB('courses', courseID, 'students', user?.uid, {userID: user?.uid, name: user?.displayName})
+      updateDB('courses', courseID, {
+        studentsEnrolled: firebase.firestore.FieldValue.increment(1)
+      })
+      setSubDB('courses', courseID, 'students', user?.uid, {
+        userID: user?.uid, 
+        name: user?.displayName
+      })
       setSubDB('users', user?.uid, 'coursesEnrolled', courseID, {
         courseID,
         name: course?.title
       }).then(() => {
         setLoading(false)
+        createNewNotification(
+          user?.uid,
+          'Course Purchase', 
+          `Thank you for purchasing the course ${course?.title}. You can now access the course here.`,
+          `/courses/course/${courseID}`)
+          .then(() => console.log('Success'))
+          .catch(err => console.log(err))
         window.alert(`Payment successful. You have been enrolled in the course "${course?.title}".`)
         history.push(`/courses/course/${courseID}`)
       })

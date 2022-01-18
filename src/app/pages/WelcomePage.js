@@ -1,8 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 import { StoreContext } from '../store/store'
 import './styles/WelcomePage.css'
-import welcomeImg from '../assets/imgs/welcome-img.png'
-import welcomeBlob from '../assets/imgs/welcome-blob.svg'
 import { useHistory } from "react-router-dom"
 import { discoverCourses } from '../api/apis'
 import DiscoverCard from "../components/ui/DiscoverCard"
@@ -11,7 +9,7 @@ import welcomeEnsemble from '../assets/imgs/welcome-ensemble.png'
 
 export default function WelcomePage() {
 
-  const { setAppBg, setNavTitle, setNavDescript } = useContext(StoreContext)
+  const { setAppBg, setNavTitle, setNavDescript, darkMode } = useContext(StoreContext)
   const history = useHistory()
 
   const discoverRender = discoverCourses?.map((card, i) => {
@@ -22,10 +20,10 @@ export default function WelcomePage() {
   })
 
   useEffect(() => {
-    setAppBg('linear-gradient(0deg, rgba(252,253,253,1) 0%, rgba(231,237,240,1) 100%)')
+    setAppBg(!darkMode ? 'linear-gradient(0deg, rgba(252,253,253,1) 0%, rgba(231,237,240,1) 100%)' : '')
     setNavTitle('Welcome to Solaris')
     setNavDescript('')
-    return() => setAppBg('none')
+    return() => setAppBg(!darkMode ? 'none' : 'var(--dark1)')
   },[])
 
   return (
