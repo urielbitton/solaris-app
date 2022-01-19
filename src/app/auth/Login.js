@@ -4,9 +4,11 @@ import firebase from 'firebase'
 import './styles/Auth.css'
 import appLogo from '../assets/imgs/logonly2.png'
 import googleIcon from '../assets/imgs/google-icon.png'
+import githubIcon from '../assets/imgs/github-icon.png'
 import { AppInput } from '../components/ui/AppInputs'
 import { Link } from 'react-router-dom'
 import { googleAuth } from "./GoogleAuth"
+import { githubAuth } from "./GithubAuth"
 
 export default function Login() {
 
@@ -68,9 +70,15 @@ export default function Login() {
           <img src={appLogo} className="logo" alt="logo"/>
           <h4>Login</h4>
           <h6>Login to discover newly added courses every week.</h6>
-          <div className="google-btn" onClick={() => googleAuth(setMyUser)}>
-            <img src={googleIcon} className="google-icon" alt="google-icon" />
-            <span>Sign in with Google</span>
+          <div className="social-logins">
+            <div className="google-btn btn" onClick={() => googleAuth(setMyUser)}>
+              <img src={googleIcon} className="img-icon" alt="google-icon" />
+              <span>Sign in with Google</span>
+            </div>
+            <div className="github-btn btn" onClick={() => githubAuth(setMyUser)}>
+              <img src={githubIcon} className="img-icon" alt="github icon" />
+              <span>Sign in with Github</span>
+            </div>
           </div>
           <small className="sep-alt"><hr/><span>Or sign in with email</span><hr/></small>
           <form onSubmit={(e) => handleSubmit(e)}>

@@ -32,7 +32,6 @@ export const googleAuth = (setMyUser) => {
         }) 
       }
       else {
-        console.log('info:', res.additionalUserInfo)
         setMyUser(res.user)
       }
     })

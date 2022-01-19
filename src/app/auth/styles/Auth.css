@@ -37,8 +37,16 @@
   font-weight: 600;
   margin-top: 5px;
 }
-.login-page .login-info .google-btn {
+.login-page .social-logins {
+  display: flex;
+  align-items: center;
+  gap: 30px;
   width: 100%;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+.login-page .social-logins .btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,19 +56,18 @@
   border: 1px solid #eee;
   transition: all 0.2s;
   cursor: pointer;
-  margin-top: 40px;
 }
-.login-page .login-info .google-btn:hover {
+.login-page .social-logins .btn:hover {
   background: var(--color);
 }
-.login-page .login-info .google-btn span {
+.login-page .social-logins .btn span {
   color: #333;
   font-weight: 600;
 }
-.login-page .login-info .google-btn:hover span {
+.login-page .social-logins .btn:hover span {
   color: #fff;
 }
-.login-page .login-info .google-btn img.google-icon {
+.login-page .social-logins .btn img {
   width: 25px;
   filter: drop-shadow(0 0 1px rgba(255,255,255,0.7))
 }
