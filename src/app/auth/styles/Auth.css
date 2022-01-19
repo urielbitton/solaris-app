@@ -80,6 +80,11 @@
   height: 1px;
   background: #eee;
 }
+.login-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 .login-page .login-info .email-error {
   color: var(--red);
   font-size: 13px;
@@ -198,6 +203,12 @@
   border-radius: 40px;
   margin: 0 2px;
 }
+.login-page .double-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 30px;
+}
 
 
 @media (max-width: 1200px) {
@@ -217,5 +228,9 @@
   }
   .login-page .login-info {
     padding: 20px;
+  }
+  .login-page .double-row {
+    grid-template-columns: auto;
+    grid-gap: 0px;
   }
 }

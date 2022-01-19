@@ -32,14 +32,14 @@ export default function HomeCont() {
   const {windowPadding, setWindowPadding, appBg, myUser, openSidebar, setOpenSidebar} = useContext(StoreContext)
   const { screenWidth } = useWindowDimensions()
 
-  useEffect(() => {
-    if(screenWidth <= 1080) {
-      setWindowPadding('100px 20px 0px 20px')
-    }
-    else {
-      setWindowPadding('100px 30px 0px 30px')
-    }
-  },[screenWidth])
+  // useEffect(() => {
+  //   if(screenWidth <= 1080) {
+  //     setWindowPadding('100px 20px 0px 20px')
+  //   }
+  //   else {
+  //     setWindowPadding('100px 30px 0px 30px')
+  //   }
+  // },[screenWidth])
 
   useEffect(() => {
     if(openSidebar) 

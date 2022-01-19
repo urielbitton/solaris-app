@@ -18,6 +18,7 @@ export default function Navbar() {
   const [unreadNotifs, setUnreadNotifs] = useState(0)
   const [notifsLimit, setNotifsLimit] = useState(7)
   const location = useLocation()
+  console.log(myUser)
 
   const signOut = (e) => {
     e.preventDefault()

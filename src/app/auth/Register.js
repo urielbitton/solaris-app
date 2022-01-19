@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import { StoreContext } from '../store/store'
+import './styles/Auth.css'
 import firebase from 'firebase'
 import { db } from '../firebase/fire'
 import appLogo from '../assets/imgs/logonly2.png'
@@ -8,10 +9,11 @@ import { AppInput } from '../components/ui/AppInputs'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
 import { setDB } from '../services/CrudDB'
+import { googleAuth } from "./GoogleAuth"
 
 export default function Register() {
 
-  const {setLogAuth, loggingAuth, setLoggingAuth, setAUser} = useContext(StoreContext)
+  const {setLogAuth, loggingAuth, setLoggingAuth, setAUser, setMyUser} = useContext(StoreContext)
   const [fullName, setFullName] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -91,6 +93,11 @@ export default function Register() {
     clearErrors()
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    handleSignup()
+  }
+
   useEffect(() => { 
     clearErrors()
     authListener()
@@ -107,46 +114,55 @@ export default function Register() {
           <img src={appLogo} className="logo" alt="logo"/>
           <h4>Register</h4>
           <h6>Discover our wide variety of courses with a free account.</h6>
-          <div className="google-btn">
+          <div className="google-btn" onClick={() => googleAuth(setMyUser)}>
             <img src={googleIcon} className="google-icon" alt="google-icon" />
             <span>Register with Google</span>
           </div>
           <small className="sep-alt"><hr/><span>Or register with email</span><hr/></small>
-          <AppInput 
-            title="Full Name" 
-            placeholder="Jane Haste"
-            onChange={(e) => setFullName(e.target.value)}
-          />
-          <AppInput 
-            title="Email" 
-            placeholder="jane@solaris.com"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <h6 className="email-error">{emailError}</h6>
-          <AppInput 
-            title="Password" 
-            placeholder="5 characters or more"
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          { loggingAuth ?
-            <div className="login-options">
-              <label>
-                <input type="checkbox"/>
-                <span>Remember Me</span>
-              </label>
-              <Link to="/forgot-password" className="linkable">Forgot password?</Link>
-            </div> : 
-            <div style={{height:20}}/>
-          }
-          <button className="submit-btn shadow-hover" onClick={handleSignup}>
-            Create Account
-            <i className="fal fa-arrow-right"></i>
-          </button>
-          <small className="no-account-text">
-            Already have an account? 
-            <Link to="/login" onClick={() => setLoggingAuth(true)}>Login</Link>
-          </small>
+          <form onSubmit={(e) => handleSubmit(e)}>
+            <div className="double-row">
+              <AppInput 
+                title="First Name" 
+                placeholder="Jane"
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+              <AppInput 
+                title="Last Name" 
+                placeholder="Anderson"
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+            <AppInput 
+              title="Email" 
+              placeholder="jane@solaris.com"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <h6 className="email-error">{emailError}</h6>
+            <AppInput 
+              title="Password" 
+              placeholder="5 characters or more"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            { loggingAuth ?
+              <div className="login-options">
+                <label>
+                  <input type="checkbox"/>
+                  <span>Remember Me</span>
+                </label>
+                <Link to="/forgot-password" className="linkable">Forgot password?</Link>
+              </div> : 
+              <div style={{height:20}}/>
+            }
+            <button className="submit-btn shadow-hover" onClick={handleSignup}>
+              Create Account
+              <i className="fal fa-arrow-right"></i>
+            </button>
+            <small className="no-account-text">
+              Already have an account? 
+              <Link to="/login" onClick={() => setLoggingAuth(true)}>Login</Link>
+            </small>
+          </form>
         </div>
       </div>
       <div className="login-cover">
