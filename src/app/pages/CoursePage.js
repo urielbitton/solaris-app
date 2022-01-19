@@ -217,6 +217,8 @@ export default function CoursePage() {
           </section>
           <section>
             <WriteComment 
+              course={course}
+              instructor={instructor}
               courseID={courseID}
               writeType="review"
               mainTitle="Write A Review"

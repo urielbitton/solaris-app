@@ -10,10 +10,11 @@ import PageLoader from '../components/ui/PageLoader'
 import { setDB } from '../services/CrudDB'
 import { db } from "../firebase/fire"
 import { useHistory } from "react-router-dom"
+import { createNewNotification } from '../services/notificationsServices'
 
 export default function BecomeInstructor() {
 
-  const { setNavTitle, setNavDescript, user } = useContext(StoreContext)
+  const { setNavTitle, setNavDescript, user, myUser } = useContext(StoreContext)
   const [slidePosition, setSlidePosition] = useState(0)
   const [coverMessage, setCoverMessage] = useState('Become an instructor on Solaris!')
   const [slidesLength, setSlidesLength] = useState(3)
@@ -76,6 +77,13 @@ export default function BecomeInstructor() {
         'email shortly and our team will be in touch to review your application.')
         setIsSuccess(true)
         setSlidePosition(3)
+        createNewNotification(
+          user?.uid,
+          'New Instructor Application', 
+          `You have recieved a new instructor application from ${myUser?.firstName} ${myUser?.lastName}`,
+          `/admin/instructor-applications`,
+          'fal fa-chalkboard-teacher'
+        )
       })
       .catch(err => {
         console.log(err)

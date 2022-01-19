@@ -71,7 +71,8 @@ export default function QuizPage() {
         user?.uid,
         'Quiz Results',
         `You have completed the quiz '${quiz?.name}'. You can view your results here.`,
-        `/courses/${courseID}/quiz/${quizID}/results`
+        `/courses/${courseID}/quiz/${quizID}/results`,
+        'fal fa-align-center'
       )
       setLoading(false)
       history.push({

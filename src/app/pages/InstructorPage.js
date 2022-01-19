@@ -9,7 +9,7 @@ import CoursesGrid from "../components/course/CoursesGrid"
 
 export default function InstructorPage() {
 
-  const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, user, myUser} = useContext(StoreContext)
   const [instructor, setInstructor] = useState({})
   const [reviews, setReviews] = useState([])
   const [courses, setCourses] = useState([])
@@ -58,8 +58,9 @@ export default function InstructorPage() {
           </h5>
           <FollowInstructorBtn 
             isCurrentUserFollowing={isCurrentUserFollowing}
-            instructorID={instructorID}
+            instructor={instructor}
             currentUserID={user?.uid}
+            myUser={myUser}
           />
         </div>
       </div>
@@ -71,7 +72,7 @@ export default function InstructorPage() {
         <hr/>
         <div>
           <big>{instructor?.coursesTaught?.length}</big>
-          <h5>Review{instructor?.coursesTaught?.length !== 1 ? "s" : ""}</h5>
+          <h5>Review{instructor?.reviewsCount !== 1 ? "s" : ""}</h5>
         </div>
         <hr/>
         <div>

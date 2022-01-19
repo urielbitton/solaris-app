@@ -74,9 +74,9 @@ export default function CheckoutPage() {
           user?.uid,
           'Course Purchase', 
           `Thank you for purchasing the course ${course?.title}. You can now access the course here.`,
-          `/courses/course/${courseID}`)
-          .then(() => console.log('Success'))
-          .catch(err => console.log(err))
+          `/courses/course/${courseID}`,
+          'fal fa-graduation-cap'
+        )
         window.alert(`Payment successful. You have been enrolled in the course "${course?.title}".`)
         history.push(`/courses/course/${courseID}`)
       })

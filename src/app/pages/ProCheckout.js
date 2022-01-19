@@ -8,7 +8,8 @@ import { updateDB } from '../services/CrudDB'
 import CreateOrder from '../services/CreateOrder'
 import PageLoader from '../components/ui/PageLoader'
 import proCheckoutImg from '../assets/imgs/pro-checkout.png'
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import { useHistory } from "react-router-dom"
+import { createNewNotification } from '../services/notificationsServices'
 
 export default function CheckoutPage() {
 
@@ -55,6 +56,13 @@ export default function CheckoutPage() {
       })
       .then(() => {
         setLoading(false)
+        createNewNotification(
+          user?.uid,
+          'Pro Membership Purchase', 
+          `Thank you for purchasing a Pro Membership, you can now access all courses for free.`,
+          `/courses`,
+          'fal fa-users'
+        )
         window.alert('Thank you for your purchase. You are now a pro member! Head over to your account to learn more.')
         history.push('my-account')
       })

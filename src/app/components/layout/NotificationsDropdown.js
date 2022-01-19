@@ -36,7 +36,7 @@ export default function NotificationsDropdown(props) {
           ""
         }
       </header>
-      <section>
+      <section className="hidescroll">
         {allNotifsRender}
       </section>
     </>

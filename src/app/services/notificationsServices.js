@@ -1,7 +1,7 @@
 import { db } from "../firebase/fire"
 import { setSubDB } from "./CrudDB"
 
-export const createNewNotification = (userID, title, text, url) => {
+export const createNewNotification = (userID, title, text, url, icon='fal fa-bell') => {
   const newNotifID = db.collection('users')
   .doc(userID)
   .collection('notifications')
@@ -13,6 +13,7 @@ export const createNewNotification = (userID, title, text, url) => {
     text,
     title,
     type: '',
-    url
+    url,
+    icon
   })
 }

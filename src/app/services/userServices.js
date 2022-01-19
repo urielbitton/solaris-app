@@ -13,7 +13,9 @@ export const getCoursesIDEnrolledByUserID = (userID, setCourses) => {
 
 //gets the actual course object that is matched in user enrolled courses collection
 export const getCoursesEnrolledByUserID = (enrolledList, setCourses) => {
-  db.collection('courses').where('id', 'in', enrolledList.length ? enrolledList : ['']).onSnapshot(snap => {
+  db.collection('courses')
+  .where('id', 'in', enrolledList.length ? enrolledList : [''])
+  .onSnapshot(snap => {
     const coursesArr = []
     snap.forEach(doc => coursesArr.push(doc.data()))
     setCourses(coursesArr)
@@ -21,7 +23,9 @@ export const getCoursesEnrolledByUserID = (enrolledList, setCourses) => {
 }
 
 export const isUserInstructor = (userID, setIsInstructor) => {
-  db.collection("users").doc(userID).get().then(doc => {
+  db.collection("users").doc(userID)
+  .get()
+  .then(doc => {
     if(doc.exists) {
       setIsInstructor(doc.data().isInstructor)
     }
@@ -32,7 +36,8 @@ export const getAllNotificationsByUserID = (userID, setNotifications, limit) => 
   db.collection('users').doc(userID)
   .collection('notifications')
   .orderBy('dateAdded', 'desc')
-  .limit(limit).onSnapshot(snap => {
+  .limit(limit)
+  .onSnapshot(snap => {
     const notifsArr = []
     snap.forEach(doc => notifsArr.push(doc.data()))
     setNotifications(notifsArr)
@@ -42,7 +47,8 @@ export const getAllNotificationsByUserID = (userID, setNotifications, limit) => 
 export const getUnreadNotificationsByUserID = (userID, setNotifications) => {
   db.collection('users').doc(userID)
   .collection('notifications')
-  .where('read', '==', false).onSnapshot(snap => {
+  .where('read', '==', false)
+  .onSnapshot(snap => {
     const notifsArr = []
     snap.forEach(doc => notifsArr.push(doc.data()))
     setNotifications(notifsArr)

@@ -5,6 +5,7 @@ import WriteComment from '../components/course/WriteComment'
 import { getCourseByID, getLessonByID, getLessonsByCourseID, 
   getVideosByLessonID, getVideoByID, getCommentsByVideoID, 
   getNotesByLessonID, getAllVideosByCourseID, getLessonNotesByUserAndLessonID } from '../services/courseServices'
+import { getInstructorByID } from '../services/InstructorServices'
 import { StoreContext } from '../store/store'
 import './styles/LessonPage.css'
 import VideoEmbed from '../components/course/VideoEmbed'
@@ -27,6 +28,7 @@ export default function LessonPage() {
   const [lesson, setLesson] = useState({})
   const [video, setVideo] = useState({})
   const [notes, setNotes] = useState([])
+  const [instructor, setInstructor] = useState({})
   const [comments, setComments] = useState([])
   const [userCourses, setUserCourses] = useState([])
   const [foldSidebar, setFoldSidebar] = useState(false)
@@ -109,6 +111,7 @@ export default function LessonPage() {
   useEffect(() => {
     getLessonsByCourseID(courseID, setLessons)
     getCourseByID(courseID, setCourse)
+
     if(!allCourseVideos.length) {
       getAllVideosByCourseID(courseID, setAllCourseVideos) 
     }
@@ -132,6 +135,7 @@ export default function LessonPage() {
   useEffect(() => {
     setNavTitle('Lesson')
     setNavDescript(course?.title)
+    getInstructorByID(course?.instructorID, setInstructor)
   },[course])  
 
   useEffect(() => {
@@ -245,9 +249,12 @@ export default function LessonPage() {
             </div>
             <div className="leave-reply-section">
               <WriteComment 
+                course={course}
+                instructor={instructor}
                 courseID={courseID}
                 lessonID={lessonID}
                 videoID={videoID}
+                lesson={lesson}
                 writeType="comment"
                 mainTitle="Leave a Reply"
                 messageInput="Enter Reply"

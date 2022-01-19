@@ -5,14 +5,18 @@ import { AppInput, AppTextarea } from '../ui/AppInputs'
 import { StoreContext } from '../../store/store'
 import { setSubDB } from '../../services/CrudDB'
 import { db } from '../../firebase/fire' 
+import { createNewNotification } from '../../services/notificationsServices'
 
 export default function WriteComment(props) {
 
   const {user, myUser} = useContext(StoreContext)
-  const {courseID, lessonID, videoID, writeType, mainTitle, titleInput, messageInput} = props
+  const {course, instructor, courseID, lessonID, videoID, writeType, mainTitle, 
+    titleInput, messageInput, lesson} = props
   const [rating, setRating] = useState(1)
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
+  const reviewType = writeType === 'review'
+  const commentType = writeType === 'comment'
 
   const newCommentID = db.collection('courses').doc(courseID)
     .collection('lessons').doc(lessonID)
@@ -34,8 +38,8 @@ export default function WriteComment(props) {
   const writeReview = () => {
     const newReviewID = db.collection('courses').doc(courseID).collection('reviews').doc().id
     const reviewObj = {
-      authorImg: user?.photoURL ?? "https://i.imgur.com/D4fLSKa.png",
-      authorName: user?.displayName ?? "Guest User",
+      authorImg: myUser?.photoURL ?? "https://i.imgur.com/D4fLSKa.png",
+      authorName: `${myUser?.firstName} ${myUser?.lastName}`,
       dateAdded: new Date(),
       rating: +rating,
       title,
@@ -49,6 +53,13 @@ export default function WriteComment(props) {
         setText('')
         setRating(1)
         window.alert('Your review has been submitted.')
+        createNewNotification(
+          instructor?.instructorUserID,
+          'New Review', 
+          `${myUser?.firstName} ${myUser?.lastName} left a review on your course '${course?.title}.'`,
+          `/courses/course/${courseID}`,
+          'fal fa-comment-alt'
+        )
       })
       .catch(err => {
         console.log(err)
@@ -72,6 +83,13 @@ export default function WriteComment(props) {
         userID: user?.uid
       }).then(() => {
         setText('')
+        createNewNotification(
+          instructor?.instructorUserID,
+          'New Comment', 
+          `${myUser?.firstName} ${myUser?.lastName} left a comment on your course lesson ${lesson?.title}'`,
+          `/courses/course/${courseID}/lesson/${lessonID}/${videoID}`,
+          'fal fa-comment-alt'
+        )
       })
       .catch(err => console.log(err))
     }
@@ -83,7 +101,7 @@ export default function WriteComment(props) {
   return (
     <div className="add-comment-container">
       <h3>{mainTitle}</h3>
-      { writeType === 'review' &&
+      { reviewType &&
         <div className="rating-setter"> 
           {starsRender}
           <AppInput 
@@ -98,7 +116,7 @@ export default function WriteComment(props) {
         </div>
       }
       <form onSubmit={(e) => e.preventDefault()}>
-        { writeType === 'review' &&
+        { reviewType &&
           <AppInput 
             placeholder={titleInput}
             onChange={(e) => setTitle(e.target.value)}
@@ -110,10 +128,10 @@ export default function WriteComment(props) {
           onChange={(e) => setText(e.target.value)}
           value={text}
         /> 
-        { writeType === 'review' && 
+        { reviewType && 
           <button onClick={writeReview}>Submit Review</button>
         }
-        { writeType === 'comment' && 
+        { commentType && 
           <button onClick={writeComment}>Post Comment</button>
         }
       </form>

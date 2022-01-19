@@ -37,6 +37,10 @@
 .notifications-dropdown header small:hover a {
   color: var(--color);
 }
+.notifications-dropdown section {
+  height: 100%;
+  overflow-y: scroll;
+}
 
 .notif-element {
   width: 100%;

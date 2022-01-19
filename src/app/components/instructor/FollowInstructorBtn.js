@@ -1,25 +1,35 @@
 import React from 'react'
-import { db } from "../../firebase/fire"
 import firebase from 'firebase'
+import { deleteSubDB, setSubDB, updateDB } from '../../services/CrudDB'
+import { createNewNotification } from "../../services/notificationsServices"
 
 export default function FollowInstructorBtn(props) {
 
-  const { isCurrentUserFollowing, instructorID, currentUserID } = props
+  const { isCurrentUserFollowing, instructor, currentUserID, myUser } = props
 
   const toggleFollowInstructor = () => {
     if(!isCurrentUserFollowing) {
-      db.collection('instructors').doc(instructorID).collection('followers').doc(currentUserID).set({
-        "userID": currentUserID
-      }).then(() => {
-        db.collection('instructors').doc(instructorID).update({
+      setSubDB('instructors', instructor?.instructorID, 'followers', currentUserID, {
+        userID: currentUserID,
+        name: `${myUser?.firstName} ${myUser?.lastName}`
+      })
+      .then(() => {
+        updateDB('instructors', instructor?.instructorID, {
           followersCount: firebase.firestore.FieldValue.increment(1)
         })
+        createNewNotification(
+          instructor?.instructorUserID,
+          'New Follower',
+          `${myUser?.firstName} ${myUser?.lastName} is now following you.`,
+          `/instructors/instructor/${instructor?.instructorID}`,
+          'fal fa-user-plus'
+        )
       })
     }
     else {
-      db.collection('instructors').doc(instructorID).collection('followers').doc(currentUserID).delete()
+      deleteSubDB('instructors', instructor?.instructorID, 'followers', currentUserID)
       .then(() => {
-        db.collection('instructors').doc(instructorID).update({
+        updateDB('instructors', instructor?.instructorID, {
           followersCount: firebase.firestore.FieldValue.increment(-1)
         })
       })

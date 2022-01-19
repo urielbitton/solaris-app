@@ -22,7 +22,8 @@
 .dark-app .become-instructor-page .slide-element textarea,
 .dark-app .notif-element .text-info .read-reciept.read,
 .dark-app .discover-card .bottom-row,
-.dark-app .notif-element:hover
+.dark-app .notif-element:hover,
+.dark-app .answer-card .true-false
 {
   background: var(--dark1);
 }
@@ -62,7 +63,12 @@
 .dark-app .ais-Pagination ul li,
 .dark-app .notifications-dropdown,
 .dark-app .discover-card,
-.dark-app .notifications-page
+.dark-app .notifications-page,
+.dark-app .quiz-banner,
+.dark-app .quiz-results-page header,
+.dark-app .answer-card,
+.dark-app .quiz-page .timer-container,
+.dark-app .quiz-item
 {
   background: var(--dark2);
 }
@@ -106,19 +112,25 @@
 .dark-app .account-container section .appswitch,
 .dark-app .app-modal-container .app-modal header,
 .dark-app .app-modal-container .app-modal footer,
-.dark-app .notifications-dropdown header
+.dark-app .notifications-dropdown header,
+.dark-app .quiz-item header
 {
   border-color: var(--dark1);
 }
 .dark-app .checkout-page .side > h5,
 .dark-app .checkout-page .items-section .items-row,
 .dark-app .checkout-page .promo-container,
-.dark-app .checkout-page .totals-container 
+.dark-app .checkout-page .totals-container,
+.dark-app .quiz-item textarea,
+.dark-app .quiz-item input
 {
   border-color: #333
 }
 .dark-app .page-loader {
   background: rgba(25, 30, 34, 0.9)!important;
+}
+.dark-app .quiz-page .timer-container {
+  border-color: #444;
 }
 .dark-app .course-page .course-content section h3,
 .dark-app .navbar h1.nav-title,
@@ -141,7 +153,11 @@
 .dark-app .checkout-page .side > h3,
 .dark-app .nav-profile-container .profile-slide a:hover,
 .dark-app .instructor-page .profile-row .instructor-info h1,
-.dark-app .welcome-page .banner h1
+.dark-app .welcome-page .banner h1,
+.dark-app .quiz-banner h3,
+.dark-app .quiz-results-page header h3,
+.dark-app .answer-card h5,
+.dark-app .notifications-page header h4
 {
   color: #ccc
 }
@@ -203,7 +219,18 @@
 .dark-app .welcome-page .banner p,
 .dark-app .notifications-dropdown header a,
 .dark-app .notif-element h5,
-.dark-app .notif-element p
+.dark-app .notif-element p,
+.dark-app .quiz-banner h5,
+.dark-app .quiz-page .already-taken,
+.dark-app .quiz-results-page header small,
+.dark-app .answer-card p,
+.dark-app .answer-card small,
+.dark-app .answer-card .true-false span,
+.dark-app .start-container span,
+.dark-app .quiz-page .timer-container span,
+.dark-app .quiz-item header h4,
+.dark-app .quiz-item .multiple-choice .appinput h6,
+.quiz-item .multiple-choice 
 {
   color: #aaa;
 }

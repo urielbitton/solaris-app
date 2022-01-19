@@ -8,7 +8,7 @@ import { StoreContext } from "../../store/store"
 export default function NotificationElement(props) {
 
   const { user } = useContext(StoreContext)
-  const { notifID, title, text, dateAdded, url, read } = props.notif
+  const { notifID, title, text, dateAdded, url, read, icon } = props.notif
   const history = useHistory()
 
   const onNotifClick = () => {
@@ -22,7 +22,11 @@ export default function NotificationElement(props) {
   return (
     <div className="notif-element" onClick={() => onNotifClick()}>
       <div className="notif-avatar">
-        <i className="fal fa-bell"></i>
+        {
+          icon.length ?
+          <i className={icon}></i> :
+          <i className="fal fa-bell"></i>
+        }
       </div>
       <div className="text-info">
         <div className="titles">
