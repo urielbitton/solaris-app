@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import AppContainer from './app/containers/AppContainer'
 import { StoreContext } from './app/store/store'
 import SiteContainer from './site/containers/SiteContainer'
-import AuthGate from './app/auth/AuthGate'
+import AuthSwitch from "./app/auth/AuthSwitch"
 
 export default function AppSwitcher() {
 
@@ -12,7 +12,7 @@ export default function AppSwitcher() {
     accessApp ?
     user ?
     <AppContainer /> :
-    <AuthGate /> :
+    <AuthSwitch /> :
     <SiteContainer />
   )
 }

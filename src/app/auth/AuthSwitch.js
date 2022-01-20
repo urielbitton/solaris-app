@@ -5,8 +5,9 @@ import ForgotPassword from './ForgotPassword'
 import { StoreContext } from '../store/store';
 import { useLocation } from 'react-router';
 import { Switch, Route } from "react-router-dom";
+import ResetPassword from "./ResetPassword";
 
-export default function AuthGate() {
+export default function AuthSwitch() {
 
   const {user, setMyUser, loggingAuth, setLoggingAuth} = useContext(StoreContext)
   const location = useLocation()
@@ -33,6 +34,9 @@ export default function AuthGate() {
       </Route>
       <Route path="/forgot-password">
         <ForgotPassword />
+      </Route>
+      <Route path="/reset-password">
+        <ResetPassword />
       </Route>
       <Route exact path="*" component={Login} />
     </Switch>

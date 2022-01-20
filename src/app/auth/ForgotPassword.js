@@ -13,7 +13,7 @@ export default function ForgotPassword() {
   const [showFeedback, setShowFeedback] = useState(false)
   const [success, setSuccess] = useState(false)
 
-  const handleReset = () => {
+  const handleSendEmail = () => {
     if(email.length) {
       firebase
       .auth()
@@ -41,13 +41,13 @@ export default function ForgotPassword() {
       <section>
         <img src={forgotPassImg} alt="forgot password" />
         <h3>Forgot Password</h3>
-        <small>Enter your email and we'll send you a link to reset your password.</small>
+        <small className="description">Enter your email and we'll send you a link to reset your password.</small>
         <AppInput 
           placeholder="jane@solaris.com"
           onChange={(e) => setEmail(e.target.value)}
         />
         <button 
-          onClick={() => handleReset()}
+          onClick={() => handleSendEmail()}
           className="shadow-hover"
         >Submit</button>
         <Link 
