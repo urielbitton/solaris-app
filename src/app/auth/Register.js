@@ -5,11 +5,13 @@ import firebase from 'firebase'
 import { db } from '../firebase/fire'
 import appLogo from '../assets/imgs/logonly2.png'
 import googleIcon from '../assets/imgs/google-icon.png'
+import githubIcon from '../assets/imgs/github-icon.png'
 import { AppInput } from '../components/ui/AppInputs'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
 import { setDB } from '../services/CrudDB'
 import { googleAuth } from "./GoogleAuth"
+import { githubAuth } from "./GithubAuth"
 
 export default function Register() {
 
@@ -114,9 +116,15 @@ export default function Register() {
           <img src={appLogo} className="logo" alt="logo"/>
           <h4>Register</h4>
           <h6>Discover our wide variety of courses with a free account.</h6>
-          <div className="google-btn" onClick={() => googleAuth(setMyUser)}>
-            <img src={googleIcon} className="google-icon" alt="google-icon" />
-            <span>Register with Google</span>
+          <div className="social-logins">
+            <div className="google-btn btn" onClick={() => googleAuth(setMyUser)}>
+              <img src={googleIcon} className="img-icon" alt="google-icon" />
+              <span>Sign in with Google</span>
+            </div>
+            <div className="github-btn btn" onClick={() => githubAuth(setMyUser)}>
+              <img src={githubIcon} className="img-icon" alt="github icon" />
+              <span>Sign in with Github</span>
+            </div>
           </div>
           <small className="sep-alt"><hr/><span>Or register with email</span><hr/></small>
           <form onSubmit={(e) => handleSubmit(e)}>

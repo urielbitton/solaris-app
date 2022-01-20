@@ -6,11 +6,35 @@ export const githubAuth = (setMyUser) => {
   firebase
   .auth()
   .signInWithPopup(provider)
-  .then((result) => {
-    const credential = result.credential
-    const token = credential.accessToken;
-    const user = result.user;
-    console.log(user)
+  .then((res) => {
+    if(res.additionalUserInfo.isNewUser) {
+      firebase.auth().onAuthStateChanged(user => {
+        if(user) {
+          setDB('users', user.uid, {
+            userID: user.uid,
+            firstName: res.additionalUserInfo.profile.username,
+            lastName: '',
+            email: user.email,
+            phone: '',
+            postCode: '',
+            city: "",
+            region: "",
+            country: "",
+            photoURL: user.photoURL,
+            companyName: '',
+            isAdmin: false,
+            dateCreated: new Date(),
+            isInstructor: false,
+            isProMember: false
+          }).then(res => {
+            setMyUser(user)
+          })
+        }
+      })
+    }
+    else {
+      setMyUser(res.additionalUserInfo.user)
+    }
   })
   .catch((error) => {
     console.log(error.message)

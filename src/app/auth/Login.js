@@ -17,6 +17,7 @@ export default function Login() {
   const [password, setPassword] = useState('') 
   const [emailError, setEmailError] = useState('') 
   const [passError, setPassError] = useState('')
+  const [rememberMe, setRememberMe] = useState(true)
 
   const handleLogin = () => { 
     clearErrors()
@@ -96,7 +97,11 @@ export default function Login() {
             />
             <div className="login-options">
               <label>
-                <input type="checkbox"/>
+                <input 
+                  type="checkbox" 
+                  checked={rememberMe} 
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
                 <span>Remember Me</span>
               </label>
               <Link to="/forgot-password" className="linkable">Forgot password?</Link>
