@@ -23,7 +23,7 @@ export default function NotificationElement(props) {
     <div className="notif-element" onClick={() => onNotifClick()}>
       <div className="notif-avatar">
         {
-          icon.length ?
+          icon?.length ?
           <i className={icon}></i> :
           <i className="fal fa-bell"></i>
         }

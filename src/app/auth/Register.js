@@ -29,9 +29,11 @@ export default function Register() {
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
         setAUser(user)
+        setMyUser(user)
       }
       else {
         setAUser(null)
+        setMyUser(null)
       }
     })
   } 
@@ -41,7 +43,49 @@ export default function Register() {
   }
 
   const handleSignup = () => {
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(err => {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(() => {
+      firebase.auth().onAuthStateChanged(user => {
+        if(user && !loggingAuth) {
+          user.updateProfile({
+            displayName: `${fullName?.split(' ')[0]} ${fullName?.split(' ')[1]}`,
+            photoURL: 'https://i.imgur.com/D4fLSKa.png'
+          })
+          setDB('users', user.uid, {
+            firstName,
+            lastName,
+            email,
+            phone: '',
+            address: '',
+            city: '',
+            region: '',
+            country: '',
+            postCode: '',
+            companyName: '',
+            photoURL: 'https://i.imgur.com/D4fLSKa.png',
+            userID: user.uid,
+            dateCreated: new Date(),
+            isInstructor: false
+          }).then(res => { 
+            const notifID = db.collection('users').doc(user.uid).collection('notifications').doc().id
+            db.collection('users').doc(user.uid).collection('notifications').doc(notifID).set({
+              dateAdded: new Date(),
+              notifID,
+              text: 'Welcome to Solaris! Discover more about Solaris by clicking here.',
+              title: `Welcome ${user?.displayName.split(' ')[0]}`,
+              type: 'welcome',
+              url: '/welcome',
+              read: false
+            })
+            setAUser(user)
+          })
+        }
+        else {
+          setAUser(null)
+        } 
+      })
+    })
+    .catch(err => {
       switch(err.code) {
         case "auth/email-already-in-use":
           setEmailError('Please enter a valid email address.'); break;
@@ -53,45 +97,7 @@ export default function Register() {
         default: 
       }
     })
-    firebase.auth().onAuthStateChanged(user => {
-      if(user && !loggingAuth) {
-        user.updateProfile({
-          displayName: `${fullName?.split(' ')[0]} ${fullName?.split(' ')[1]}`,
-          photoURL: 'https://i.imgur.com/D4fLSKa.png'
-        })
-        setDB('users', user.uid, {
-          firstName: fullName?.split(' ')[0],
-          lastName: fullName?.split(' ')[1],
-          email,
-          phone: '',
-          address: '',
-          city: '',
-          region: '',
-          country: '',
-          postCode: '',
-          companyName: '',
-          photoURL: 'https://i.imgur.com/D4fLSKa.png',
-          userID: user.uid,
-          dateCreated: new Date(),
-          isInstructor: false
-        }).then(res => { 
-          const notifID = db.collection('users').doc(user.uid).collection('notifications').doc().id
-          db.collection('users').doc(user.uid).collection('notifications').doc(notifID).set({
-            dateAdded: new Date(),
-            notifID,
-            text: 'Welcome to Solaris! Discover more about Solaris by clicking here.',
-            title: `Welcome ${user?.displayName.split(' ')[0]}`,
-            type: 'welcome',
-            url: '/welcome',
-            read: false
-          })
-          setAUser(user)
-        })
-      }
-      else {
-        setAUser(null)
-      } 
-    })
+    
     clearErrors()
   }
 
@@ -108,6 +114,10 @@ export default function Register() {
       history.push('/')
     }
   },[]) 
+
+  useEffect(() => {
+    setLoggingAuth(false)
+  },[])
 
   return (
     <div className="login-page register-page">
