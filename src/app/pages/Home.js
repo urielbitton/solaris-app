@@ -35,23 +35,12 @@ export default function Home() {
 
   useEffect(() => {
     setNavTitle('Home')
-    setNavDescript('Welcome ' + user?.displayName?.split(' ')[0])
+    setNavDescript(`Welcome ${myUser?.firstName} ${myUser?.lastName}`)
   },[]) 
-
-  const sendEmail = () => {
-    console.log('')
-    db.collection('users').doc(user?.uid).collection('emails').add({
-      email: myUser?.email,
-      subject: 'Test email',
-      html: 'This is the email...'
-    })
-    .then((res) => console.log(res))
-    .catch(err => console.log(err))
-  }
 
   return (
     <div className="home-page">
-      <section className="intro" onClick={() => sendEmail()}>
+      <section className="intro">
         <div> 
           <h4>Hi {user?.displayName}</h4>
           <h6>{new Date().toDateString('en-CA', {weekday: 'long', month: 'long'})}</h6>
