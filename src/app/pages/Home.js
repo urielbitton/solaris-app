@@ -39,6 +39,7 @@ export default function Home() {
   },[]) 
 
   const sendEmail = () => {
+    console.log('entered')
     admin.firestore().collection('mail').doc('newEmail').set({
       to: 'urielas@hotmail.com',
       message: {
