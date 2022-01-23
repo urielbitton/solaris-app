@@ -8,10 +8,11 @@ import { getTopRatedInstructors } from "../services/InstructorServices"
 import InstructorCard from '../components/instructor/InstructorCard'
 import { getCoursesIDEnrolledByUserID } from "../services/userServices"
 import onlineLearningImg from '../assets/imgs/online-learning.png'
+import { db } from "../firebase/fire"
 
 export default function Home() {
 
-  const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, user, myUser} = useContext(StoreContext)
   const [featuredCourses, setFeaturedCourses]= useState([])
   const [newCourses, setNewCourses] =  useState([])
   const [allCourses, setAllCourses] = useState([])
@@ -37,10 +38,20 @@ export default function Home() {
     setNavDescript('Welcome ' + user?.displayName?.split(' ')[0])
   },[]) 
 
+  const sendEmail = () => {
+    console.log('')
+    db.collection('users').doc(user?.uid).collection('emails').add({
+      email: myUser?.email,
+      subject: 'Test email',
+      html: 'This is the email...'
+    })
+    .then((res) => console.log(res))
+    .catch(err => console.log(err))
+  }
 
   return (
     <div className="home-page">
-      <section className="intro">
+      <section className="intro" onClick={() => sendEmail()}>
         <div> 
           <h4>Hi {user?.displayName}</h4>
           <h6>{new Date().toDateString('en-CA', {weekday: 'long', month: 'long'})}</h6>
