@@ -4,7 +4,7 @@ import './styles/CheckoutPage.css'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { AppInput } from '../components/ui/AppInputs'
 import { db } from '../firebase/fire'
-import { updateDB } from '../services/CrudDB'
+import { updateDB,addSubDB } from '../services/CrudDB'
 import CreateOrder from '../services/CreateOrder'
 import PageLoader from '../components/ui/PageLoader'
 import proCheckoutImg from '../assets/imgs/pro-checkout.png'
@@ -13,7 +13,7 @@ import { createNewNotification } from '../services/notificationsServices'
 
 export default function CheckoutPage() {
 
-  const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, user, myUser} = useContext(StoreContext)
   const clientId = 'ASTQpkv9Y3mQ5-YBd20q0jMb9-SJr_TvUl_nhXu5h3C7xl0wumYgdqpSYIL6Vd__56oB7Slag0n2HA_r'
   const [email, setEmail] = useState('')
   const [company, setCompany] = useState('')
@@ -51,6 +51,13 @@ export default function CheckoutPage() {
     }
     CreateOrder(orderId, orderNumber, product, customer, price)
     .then(() => {
+      addSubDB('users', user?.uid, 'emails', {
+        email: myUser?.email,
+        subject: 'Solaris: Pro Membership Purchase',
+        html: `Hi ${myUser?.firstName}, <br/>Thank you for purchasing a Pro Membership on Solaris.
+        Your receipt will be sent to your email shortly.<br/><br/>Best,<br/>The Solaris Team`,
+        dateSent: new Date()
+      })
       updateDB('users', user?.uid, {
         isProMember: true
       })

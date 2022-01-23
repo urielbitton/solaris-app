@@ -18,6 +18,9 @@ const StoreContextProvider = ({children}) => {
   const [openSidebar, setOpenSidebar] = useState(false)
   const [darkMode, setDarkMode] = useState(localStorage.getItem('darkmode') === "true" ? true : false)
 
+  const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'})
+  const percentFormat = new Intl.NumberFormat('en-CA', {style: 'percent'})
+
   useEffect(() => {
     if(user) {
       db.collection('users').doc(user.uid).onSnapshot(snap => {
@@ -38,7 +41,8 @@ const StoreContextProvider = ({children}) => {
     navTitle, setNavTitle, navDescript, setNavDescript,
     windowPadding, setWindowPadding, appBg, setAppBg, 
     openSidebar, setOpenSidebar,
-    darkMode, setDarkMode
+    darkMode, setDarkMode,
+    currencyFormat, percentFormat
   }}>
     {children}
   </StoreContext.Provider>

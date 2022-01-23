@@ -25,14 +25,6 @@ export default function Home() {
     return <InstructorCard instructor={instructor} key={i} />
   })
 
-  const sendEmail = () => {
-    db.collection('users').doc(user?.uid).collection('emails').add({
-      email: 'urielas@hotmail.com',
-      subject: 'Test',
-      html: 'This is a test email'
-    })
-  } 
-
   useEffect(() => {
     getFeaturedCourses(setFeaturedCourses, 4)
     getNewCourses(withinAWeek, setNewCourses, 4)
@@ -48,7 +40,7 @@ export default function Home() {
 
   return (
     <div className="home-page">
-      <section className="intro" onClick={() => sendEmail()}>
+      <section className="intro">
         <div> 
           <h4>Hi {user?.displayName}</h4>
           <h6>{new Date().toDateString('en-CA', {weekday: 'long', month: 'long'})}</h6>

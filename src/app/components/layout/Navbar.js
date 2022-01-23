@@ -89,7 +89,7 @@ export default function Navbar() {
         <div className="nav-profile-container">
           <div className="text-info-container">
             <h5>{myUser?.firstName} {myUser?.lastName}</h5>
-            <Link to="/my-account" className="linkable">My Account</Link>
+            <Link to={`/my-profile/${myUser?.userID}`} className="linkable">My Profile</Link>
           </div>
           <div className="img-container" onClick={(e) => {e.stopPropagation();setSlideProfile(prev => !prev)}}>
             <img src={myUser?.photoURL?.length ? myUser?.photoURL : placeholderImg} alt=""/>

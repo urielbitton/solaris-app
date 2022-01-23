@@ -37,13 +37,19 @@ admin.initializeApp({
   })
 })
 
-exports.sendCourseEmail = functions.firestore.document('users/{userID}/emails/{emailID}').onCreate(snapshot => {
-  admin.firestore().collection('mail').add({
-    to: snapshot.email,
+exports.sendEmails = functions.firestore.document('users/{userID}/emails/{emailID}').onCreate(snapshot => {
+  const data = snapshot.data()
+  admin
+  .firestore()
+  .collection('mail')
+  .add({
+    to: data.email,
     message: {
-      subject: snapshot.subject,
-      html: snapshot.html,
-    }
-  }).then((res) => console.log(res))
+      subject: data.subject,
+      html: data.html,
+    },
+    dateSent: data.dateSent
+  })
+  .then((res) => console.log(res))
   .catch(err => console.log(err))
 })

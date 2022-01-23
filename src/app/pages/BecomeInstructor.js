@@ -7,7 +7,7 @@ import SlideElement from '../components/ui/SlideElement'
 import { AppInput, AppSelect, AppSwitch, AppTextarea } from '../components/ui/AppInputs'
 import { getCourseCategories } from '../services/adminServices'
 import PageLoader from '../components/ui/PageLoader'
-import { setDB } from '../services/CrudDB'
+import { addSubDB, setDB } from '../services/CrudDB'
 import { db } from "../firebase/fire"
 import { useHistory } from "react-router-dom"
 import { createNewNotification } from '../services/notificationsServices'
@@ -53,7 +53,7 @@ export default function BecomeInstructor() {
   const categoriesOptions = categoriesArr?.map((cat, i) => {
     return {name: cat.name, value: cat.value}
   })
-  console.log(user?.email)
+
   const submitApplication = () => {
     if(applicationAccess) {
       setIsLoading(true)
@@ -73,6 +73,21 @@ export default function BecomeInstructor() {
       })
       .then(res => {        
         setIsLoading(false)
+        addSubDB('users', user?.uid, 'emails', {
+          email: myUser?.email,
+          subject: 'Solaris: New Instructor Application',
+          html: `Hi ${myUser?.firstName}, <br/><br/>Thank you for submitting an application to become an instructor on Solaris Platform.
+          <br/><br/>Our team will reveiw your application and be in touch with you shortly. <br/>Updates on the status of your application will
+          follow.<br/><br/>Best,<br/>The Solaris Team`,
+          dateSent: new Date()
+        })
+        addSubDB('users', 'tnHjCJ22kpM06xQtiVm0dPIKjL62', 'emails', {
+          email: 'urielas@hotmail.com',
+          subject: 'Solaris: New Instructor Application',
+          html: `Hi Admin, <br/><br/>You have a new instructor application submitted on Solaris by ${myUser?.firstName} ${myUser?.lastName} today.
+          <br/>Log into your account to reveiw their application.<br/><br/>Best,<br/>The Solaris Team`,
+          dateSent: new Date()
+        })
         setEndMessage('Your application was successfully submitted. You will receive a confirmation ' +
         'email shortly and our team will be in touch to review your application.')
         setIsSuccess(true)

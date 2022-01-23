@@ -7,14 +7,14 @@ import { PayPalButton } from 'react-paypal-button-v2'
 import { AppInput } from '../components/ui/AppInputs'
 import { db } from '../firebase/fire'
 import CreateOrder from '../services/CreateOrder'
-import { setSubDB, updateDB } from '../services/CrudDB'
+import { setSubDB, updateDB, addSubDB } from '../services/CrudDB'
 import PageLoader from '../components/ui/PageLoader'
 import firebase from 'firebase'
 import { createNewNotification } from '../services/notificationsServices'
 
 export default function CheckoutPage() {
 
-  const {setNavTitle, setNavDescript, user, myUser} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, user, myUser, currencyFormat} = useContext(StoreContext)
   const [course, setCourse] = useState({})
   const courseID = useRouteMatch('/checkout/course/:courseID')?.params.courseID
   const clientId = 'ASTQpkv9Y3mQ5-YBd20q0jMb9-SJr_TvUl_nhXu5h3C7xl0wumYgdqpSYIL6Vd__56oB7Slag0n2HA_r'
@@ -65,6 +65,14 @@ export default function CheckoutPage() {
         userID: user?.uid, 
         name: user?.displayName,
         photoURL: myUser?.photoURL
+      })
+      addSubDB('users', user?.uid, 'emails', {
+        email: myUser?.email,
+        subject: 'Solaris: Course Purchase',
+        html: `Hi ${myUser?.firstName}, <br/>Thank you for purchasing the course ${course?.title} on Solaris.
+        The total price for this course is ${currencyFormat.format(course?.price)}.
+        Your receipt will be sent to your email shortly. <br/><br/>Enjoy the course. <br/><br/>Best,<br/>The Solaris Team`,
+        dateSent: new Date()
       })
       setSubDB('users', user?.uid, 'coursesEnrolled', courseID, {
         courseID,
@@ -162,11 +170,11 @@ export default function CheckoutPage() {
           </div>
           <div>
             <h6>Subtotal</h6>
-            <span>{!isProMember ? new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(course.price): '$0.00'}</span>
+            <span>{!isProMember ? currencyFormat.format(course.price): '$0.00'}</span>
           </div>
           <div className="total">
             <h6>Total</h6>
-            <span>{new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(totalPrice)}</span>
+            <span>{currencyFormat.format(totalPrice)}</span>
           </div>
         </div>
       </div>

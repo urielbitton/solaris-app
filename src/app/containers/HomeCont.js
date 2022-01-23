@@ -110,7 +110,7 @@ export default function HomeCont() {
           <Route path="/my-account">
             <MyAccount />
           </Route>
-          <Route path="/students/profile/:studentID">
+          <Route exact path="/my-profile/:studentID">
             <StudentProfile />
           </Route>
           <Route exact path="*" component={ErrorPage} />

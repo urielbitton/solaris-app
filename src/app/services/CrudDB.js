@@ -23,3 +23,11 @@ export function updateSubDB(col, doc, subCol, subDoc, value) {
 export function deleteSubDB(col, doc, subCol, subDoc) {
   return db.collection(col).doc(doc).collection(subCol).doc(subDoc).delete()
 }
+
+export const addDB = (col, value) => {
+  return db.collection(col).add(value)
+}
+
+export const addSubDB = (col, doc, subCol, value) => {
+  return db.collection(col).doc(doc).collection(subCol).add(value)
+}
