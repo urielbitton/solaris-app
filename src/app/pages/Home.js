@@ -31,7 +31,7 @@ export default function Home() {
       subject: 'Test',
       html: 'This is a test email'
     })
-  }
+  } 
 
   useEffect(() => {
     getFeaturedCourses(setFeaturedCourses, 4)
