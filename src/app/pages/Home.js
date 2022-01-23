@@ -8,7 +8,6 @@ import { getTopRatedInstructors } from "../services/InstructorServices"
 import InstructorCard from '../components/instructor/InstructorCard'
 import { getCoursesIDEnrolledByUserID } from "../services/userServices"
 import onlineLearningImg from '../assets/imgs/online-learning.png'
-import admin from "firebase-admin"
 
 export default function Home() {
 
@@ -38,21 +37,10 @@ export default function Home() {
     setNavDescript('Welcome ' + user?.displayName?.split(' ')[0])
   },[]) 
 
-  const sendEmail = () => {
-    console.log('entered')
-    admin.firestore().collection('mail').doc('newEmail').set({
-      to: 'urielas@hotmail.com',
-      message: {
-        subject: 'Hello from Firebase!',
-        html: 'This is an <code>HTML</code> email body.',
-      }
-    }).then((res) => console.log(res))
-    .catch(err => console.log(err))
-  }
 
   return (
     <div className="home-page">
-      <section className="intro" onClick={() => sendEmail()}>
+      <section className="intro">
         <div> 
           <h4>Hi {user?.displayName}</h4>
           <h6>{new Date().toDateString('en-CA', {weekday: 'long', month: 'long'})}</h6>

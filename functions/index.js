@@ -36,3 +36,14 @@ admin.initializeApp({
       clientEmail: "firebase-adminsdk-wviey@solaris-app-22479.iam.gserviceaccount.com",
   })
 })
+
+exports.sendCourseEmail = functions.firestore.document('users/{userID}/emails').onCreate(snapshot => {
+    admin.firestore().collection('mail').add({
+      to: snapshot.email,
+      message: {
+        subject: snapshot.subject,
+        html: snapshot.html,
+      }
+    }).then((res) => console.log(res))
+    .catch(err => console.log(err))
+})
