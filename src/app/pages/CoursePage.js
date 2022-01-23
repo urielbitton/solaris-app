@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router'
 import { Link } from 'react-router-dom'
-import { getAllQuizzesByCourseID, getCourseByID, getLessonsByCourseID } from '../services/courseServices'
+import { getAllQuizzesByCourseID, getCourseByID, getLessonsByCourseID, getStudentsByCourseID } from '../services/courseServices'
 import { getInstructorByID, getReviewsByInstructorID } from '../services/InstructorServices'
 import './styles/CoursePage.css'
 import placeholderImg from '../assets/imgs/placeholder.png'
@@ -13,6 +13,7 @@ import { getCoursesIDEnrolledByUserID } from '../services/userServices'
 import { useLocation } from 'react-router'
 import { useWindowDimensions } from "../utils/customHooks"
 import QuizCard from "../components/quiz/QuizCard"
+import StudentAvatar from "../components/student/StudentAvatar"
 
 export default function CoursePage() {
 
@@ -23,6 +24,7 @@ export default function CoursePage() {
   const [userCourses, setUserCourses] = useState([])
   const [instructorReviews, setInstructorReviews] = useState([])
   const [quizes, setQuizes] = useState([])
+  const [students, setStudents] = useState([])
   const courseID = useRouteMatch('/courses/course/:courseID')?.params.courseID
   const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
   const inCourseInstructor = instructor?.instructorID === myUser?.instructorID
@@ -70,6 +72,10 @@ export default function CoursePage() {
     />
   })
 
+  const studentsRender = students?.map((student,i) => {
+    return  <StudentAvatar student={student} key={i} />
+  })
+
   const enrollCourse = () => {
     history.push(`/checkout/course/${courseID}`)
   }
@@ -78,6 +84,7 @@ export default function CoursePage() {
     getCourseByID(courseID, setCourse)
     getLessonsByCourseID(courseID, setLessons)
     getAllQuizzesByCourseID(courseID, setQuizes)
+    getStudentsByCourseID(courseID, setStudents, 10)
   },[courseID])
 
   useEffect(() => {
@@ -208,6 +215,12 @@ export default function CoursePage() {
               <div className="instructor-bio">
                 <p>{instructor?.bio}</p>
               </div>
+            </div>
+          </section>
+          <section>
+            <h3>Students</h3>
+            <div className="students-container">
+              {studentsRender}
             </div>
           </section>
           <section>

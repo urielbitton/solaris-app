@@ -183,3 +183,15 @@ export const getLessonNotesByUserAndLessonID = (userID, lessonID, setNotes) => {
     setNotes(snap.data())
   })
 }
+
+export const getStudentsByCourseID = (courseID, setStudents, limit) => {
+  db.collection('courses')
+  .doc(courseID)
+  .collection('students')
+  .limit(limit)
+  .onSnapshot(snap => {
+    const studentsArr = []
+    snap.forEach(doc => studentsArr.push(doc.data()))
+    setStudents(studentsArr)
+  })
+}

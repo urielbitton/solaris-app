@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react'
 import './styles/HomeCont.css'
 import Navbar from '../components/layout/Navbar'
 import { Route, Switch } from 'react-router'
-import { useWindowDimensions } from "../utils/customHooks"
 import Home from '../pages/Home'
 import CoursePage from '../pages/CoursePage'
 import AllCourses from '../pages/AllCourses'
@@ -26,20 +25,11 @@ import QuizResults from "../pages/QuizResults"
 import GetProPage from '../pages/GetProPage'
 import WelcomePage from "../pages/WelcomePage"
 import MyAccount from '../pages/MyAccount'
+import StudentProfile from '../pages/StudentProfile'
 
 export default function HomeCont() {
 
-  const {windowPadding, setWindowPadding, appBg, myUser, openSidebar, setOpenSidebar} = useContext(StoreContext)
-  const { screenWidth } = useWindowDimensions()
-
-  // useEffect(() => {
-  //   if(screenWidth <= 1080) {
-  //     setWindowPadding('100px 20px 0px 20px')
-  //   }
-  //   else {
-  //     setWindowPadding('100px 30px 0px 30px')
-  //   }
-  // },[screenWidth])
+  const {windowPadding, appBg, myUser, openSidebar, setOpenSidebar} = useContext(StoreContext)
 
   useEffect(() => {
     if(openSidebar) 
@@ -119,6 +109,9 @@ export default function HomeCont() {
           </Route>
           <Route path="/my-account">
             <MyAccount />
+          </Route>
+          <Route path="/students/profile/:studentID">
+            <StudentProfile />
           </Route>
           <Route exact path="*" component={ErrorPage} />
         </Switch>

@@ -1,0 +1,28 @@
+.student-avatar {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  cursor: pointer;
+}
+.student-avatar .img-container {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.student-avatar .img-container img {
+  width: 100%;
+  height: 100%;
+}
+.student-avatar h5 {
+  color: #444;
+  font-weight: 600;
+}
+.student-avatar small {
+  color: var(--graytxt);
+  font-weight: 500;
+}

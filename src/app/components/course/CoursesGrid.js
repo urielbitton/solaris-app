@@ -3,11 +3,9 @@ import CourseCard from './CourseCard'
 import { courseSorting } from '../../utils/utilities'
 import SkeletonLoader from '../ui/SkeletonLoader'
 
-export default function CoursesGrid({courses, courseSort}) {
+export default function CoursesGrid({courses}) {
 
-  const coursesRender = courses
-  ?.sort((a,b) => courseSorting(a, b, courseSort))
-  .map((course,i) => {
+  const coursesRender = courses?.map((course,i) => {
     return <CourseCard course={course} key={i} />
   })
 

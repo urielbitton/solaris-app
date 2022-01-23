@@ -63,7 +63,8 @@ export default function CheckoutPage() {
       })
       setSubDB('courses', courseID, 'students', user?.uid, {
         userID: user?.uid, 
-        name: user?.displayName
+        name: user?.displayName,
+        photoURL: myUser?.photoURL
       })
       setSubDB('users', user?.uid, 'coursesEnrolled', courseID, {
         courseID,
