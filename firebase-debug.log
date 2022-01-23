@@ -1,0 +1,14 @@
+[debug] [2022-01-23T18:13:51.804Z] ----------------------------------------------------------------------
+[debug] [2022-01-23T18:13:51.807Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\hil\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2022-01-23T18:13:51.807Z] CLI Version:   10.0.1
+[debug] [2022-01-23T18:13:51.807Z] Platform:      win32
+[debug] [2022-01-23T18:13:51.807Z] Node Version:  v12.18.2
+[debug] [2022-01-23T18:13:51.811Z] Time:          Sun Jan 23 2022 13:13:51 GMT-0500 (Eastern Standard Time)
+[debug] [2022-01-23T18:13:51.811Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-01-23T18:13:51.890Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-01-23T18:13:51.890Z] > authorizing via signed-in user (info@atomicsdigital.com)
+[debug] [2022-01-23T18:13:51.890Z] [iam] checking project solaris-app-22479 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2022-01-23T18:13:51.893Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2022-01-23T18:13:51.894Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>

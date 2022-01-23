@@ -38,12 +38,12 @@ admin.initializeApp({
 })
 
 exports.sendCourseEmail = functions.firestore.document('users/{userID}/emails/{emailID}').onCreate(snapshot => {
-    return admin.firestore().collection('mail').add({
-      to: snapshot.email,
-      message: {
-        subject: snapshot.subject,
-        html: snapshot.html,
-      }
-    }).then((res) => console.log(res))
-    .catch(err => console.log(err))
+  admin.firestore().collection('mail').add({
+    to: snapshot.email,
+    message: {
+      subject: snapshot.subject,
+      html: snapshot.html,
+    }
+  }).then((res) => console.log(res))
+  .catch(err => console.log(err))
 })
