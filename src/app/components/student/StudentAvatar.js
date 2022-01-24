@@ -4,14 +4,13 @@ import './styles/StudentAvatar.css'
 
 export default function StudentAvatar(props) {
 
-  const { name, photoURL, userID } = props.student
-  const { subtitle } = props
+  const { name, photoURL, subtitle, userID, clickable } = props
   const history = useHistory()
 
   return (
     <div 
       className="student-avatar"
-      onClick={() => history.push(`/my-profile/${userID}`)}
+      onClick={() => clickable && history.push(`/my-profile/${userID}`)}
     >
       <div className="img-container">
         <img src={photoURL} alt={name} />

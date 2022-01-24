@@ -71,14 +71,14 @@ export default function BecomeInstructor() {
         reasonsToApply,
         bio
       })
-      .then(res => {        
+      .then(() => {        
         setIsLoading(false)
         addSubDB('users', user?.uid, 'emails', {
           email: myUser?.email,
           subject: 'Solaris: New Instructor Application',
           html: `Hi ${myUser?.firstName}, <br/><br/>Thank you for submitting an application to become an instructor on Solaris Platform.
           <br/><br/>Our team will reveiw your application and be in touch with you shortly. <br/>Updates on the status of your application will
-          follow.<br/><br/>Best,<br/>The Solaris Team`,
+          follow.<br/><br/>Best,<br/><br/>The Solaris Team`,
           dateSent: new Date()
         })
         addSubDB('users', 'tnHjCJ22kpM06xQtiVm0dPIKjL62', 'emails', {

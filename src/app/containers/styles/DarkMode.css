@@ -23,7 +23,8 @@
 .dark-app .notif-element .text-info .read-reciept.read,
 .dark-app .discover-card .bottom-row,
 .dark-app .notif-element:hover,
-.dark-app .answer-card .true-false
+.dark-app .answer-card .true-false,
+.dark-app .account-content .pre-template
 {
   background: var(--dark1);
 }
@@ -68,7 +69,8 @@
 .dark-app .quiz-results-page header,
 .dark-app .answer-card,
 .dark-app .quiz-page .timer-container,
-.dark-app .quiz-item
+.dark-app .quiz-item,
+.dark-app .profile-sidebar
 {
   background: var(--dark2);
 }
@@ -113,7 +115,8 @@
 .dark-app .app-modal-container .app-modal header,
 .dark-app .app-modal-container .app-modal footer,
 .dark-app .notifications-dropdown header,
-.dark-app .quiz-item header
+.dark-app .quiz-item header,
+.dark-app .account-content .pre-template
 {
   border-color: var(--dark1);
 }

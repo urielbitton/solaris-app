@@ -25,7 +25,7 @@ import QuizResults from "../pages/QuizResults"
 import GetProPage from '../pages/GetProPage'
 import WelcomePage from "../pages/WelcomePage"
 import MyAccount from '../pages/MyAccount'
-import StudentProfile from '../pages/StudentProfile'
+import ProfilePage from "../pages/ProfilePage"
 
 export default function HomeCont() {
 
@@ -110,8 +110,8 @@ export default function HomeCont() {
           <Route path="/my-account">
             <MyAccount />
           </Route>
-          <Route exact path="/my-profile/:studentID">
-            <StudentProfile />
+          <Route exact path="/my-profile/:userID">
+            <ProfilePage />
           </Route>
           <Route exact path="*" component={ErrorPage} />
         </Switch>

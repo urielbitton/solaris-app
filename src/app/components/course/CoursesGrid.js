@@ -3,7 +3,7 @@ import CourseCard from './CourseCard'
 import { courseSorting } from '../../utils/utilities'
 import SkeletonLoader from '../ui/SkeletonLoader'
 
-export default function CoursesGrid({courses}) {
+export default function CoursesGrid({courses, noskeleton}) {
 
   const coursesRender = courses?.map((course,i) => {
     return <CourseCard course={course} key={i} />
@@ -17,7 +17,9 @@ export default function CoursesGrid({courses}) {
       { 
         courses.length ? 
         coursesRender :
-        <SkeletonLoader width="300px" height="270px" amount={3} />
+        noskeleton ?
+        <SkeletonLoader width="300px" height="270px" amount={3} /> :
+        <></>
       }
     </div>
   )

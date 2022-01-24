@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StoreContext } from "../../store/store"
-import { AppInput, AppSwitch } from '../ui/AppInputs'
+import { AppInput, AppSwitch, AppTextarea } from '../ui/AppInputs'
 import { updateDB } from '../../services/CrudDB'
 
 export default function MyAccountHome(props) {
@@ -17,6 +17,8 @@ export default function MyAccountHome(props) {
   const [country, setCountry] = useState('')
   const [postCode, setPostCode] = useState('')
   const [companyName, setCompanyName] = useState('')
+  const [website, setWebsite] = useState('')
+  const [aboutMe, setAboutMe] = useState('')
   const isInstructor = myUser?.isInstructor
 
   const saveInfo = () => {
@@ -32,7 +34,9 @@ export default function MyAccountHome(props) {
         region,
         country,
         postCode,
-        companyName
+        companyName,
+        website,
+        aboutMe
       }
       updateDB('users', myUser?.userID, infoObject)
       .then(() => {
@@ -59,6 +63,8 @@ export default function MyAccountHome(props) {
     setCountry(myUser?.country)
     setPostCode(myUser?.postCode)
     setCompanyName(myUser?.companyName)
+    setWebsite(myUser?.website)
+    setAboutMe(myUser?.aboutMe)
   },[myUser])
 
   useEffect(() => {
@@ -119,6 +125,23 @@ export default function MyAccountHome(props) {
           title="Company Name"
           onChange={(e) => setCompanyName(e.target.value)}
           value={companyName}
+        />
+        <label className="appinput commoninput pre-template-input">
+          <h6>Website</h6>
+          <div>
+            <div className="pre-template">
+              <small>https://</small>
+            </div>
+            <input 
+              onChange={(e) => setWebsite(e.target.value)}
+              value={website}
+            />
+          </div>
+        </label>
+        <AppTextarea 
+          title="About Me"
+          onChange={(e) => setAboutMe(e.target.value)}
+          value={aboutMe}
         />
       </section>
       <section>

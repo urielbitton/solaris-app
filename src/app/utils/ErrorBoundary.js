@@ -1,8 +1,5 @@
 import React from 'react'
 import errorBoundaryImg from '../assets/imgs/error-boundary-bg.png'
-import { db } from "../firebase/fire";
-import { setDB } from '../services/CrudDB'
-import firebase from 'firebase'
 
 class ErrorBoundary extends React.Component {
 

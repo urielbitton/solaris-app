@@ -67,7 +67,7 @@ export default function Home() {
           </small>
         </div>
         <div className="courses-row">
-          <CoursesGrid courses={newCourses} />
+          <CoursesGrid courses={newCourses} noskeleton />
         </div>
       </section>
       <section className="full">

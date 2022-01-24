@@ -1,5 +1,13 @@
 import { db } from "../firebase/fire"
 
+export const getUserByID = (userID, setUser) => {
+  db.collection('users')
+  .doc(userID)
+  .onSnapshot(snap => {
+    setUser(snap.data())
+  })
+}
+
 //gets only the enrolled courses ids & title in user sub collection (not actual course)
 export const getCoursesIDEnrolledByUserID = (userID, setCourses) => { 
   db.collection('users').doc(userID)

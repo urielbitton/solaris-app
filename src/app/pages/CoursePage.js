@@ -73,7 +73,13 @@ export default function CoursePage() {
   })
 
   const studentsRender = students?.map((student,i) => {
-    return  <StudentAvatar student={student} key={i} />
+    return  <StudentAvatar 
+      name={student.name}
+      photoURL={student.photoURL}
+      userID={student.userID}
+      clickable
+      key={i} 
+    />
   })
 
   const enrollCourse = () => {

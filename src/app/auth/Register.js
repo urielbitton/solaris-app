@@ -9,7 +9,7 @@ import githubIcon from '../assets/imgs/github-icon.png'
 import { AppInput } from '../components/ui/AppInputs'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
-import { setDB } from '../services/CrudDB'
+import { addSubDB, setDB } from '../services/CrudDB'
 import { googleAuth } from "./GoogleAuth"
 import { githubAuth } from "./GithubAuth"
 
@@ -62,13 +62,15 @@ export default function Register() {
             country: '',
             postCode: '',
             companyName: '',
+            aboutMe: '',
+            website: '',
             photoURL: 'https://i.imgur.com/D4fLSKa.png',
             userID: user.uid,
             dateCreated: new Date(),
             isInstructor: false
-          }).then(res => { 
+          }).then(() => { 
             const notifID = db.collection('users').doc(user.uid).collection('notifications').doc().id
-            db.collection('users').doc(user.uid).collection('notifications').doc(notifID).set({
+            addSubDB('users', user.uid, 'notifications', {
               dateAdded: new Date(),
               notifID,
               text: 'Welcome to Solaris! Discover more about Solaris by clicking here.',
@@ -76,6 +78,19 @@ export default function Register() {
               type: 'welcome',
               url: '/welcome',
               read: false
+            })
+            .then(() => {
+              addSubDB('users', user.uid, 'emails', {
+                email: user.email,
+                subject: 'Welcome To Solaris',
+                html: `Hi ${user.displayName}! <br/><br/>We would like to welcome you to Solaris, and thank you for choosing to enhance your education on
+                our platform. We are confident you will learn tons of new material, pick up useful skills and improve your career experience very quickly.
+                <br/>To get started, visit our home page <a href="https://solaris-app.vercel.app">here</a> where you will find the latest courses to browse
+                Optionally, you can visit our welcome page <a href="https://solaris-app.vercel.app/welcome">here</a>.<br.>Lastly, you can view your account
+                settings <a href="https://solaris-app.vercel.app/my-account">here</a>.<br/><br/>We look forward to hearing your success story!<br/><br/>Best,
+                <br/><br/>The Solaris Team`,
+                dateSent: new Date()
+              })
             })
             setAUser(user)
           })
