@@ -3,7 +3,7 @@ import { StoreContext } from '../store/store'
 import './styles/AllCourses.css'
 import { AppSelect } from '../components/ui/AppInputs'
 import { getCourseCategories, getCoursesCount } from '../services/adminServices' 
-import { getAllCoursesFiltered } from '../services/courseServices'
+import { getAllCourses } from '../services/courseServices'
 import PageSearch from '../components/ui/PageSearch'
 import { Hits, Pagination } from "react-instantsearch-dom"
 import SearchCourseCard from "../components/course/SearchCourseCard"
@@ -19,15 +19,6 @@ export default function AllCourses() {
   const [categoriesArr, setCategoriesArr] = useState([])
   const [limit, setLimit] = useState(10)
   const [coursesCount, setCoursesCount] = useState(0)
-  const [courseSort, setCourseSort] = useState('dateCreatedDesc')
-  const filterProp1 = category==='all' ? 'filterable' : 'category'
-  const filterValue1 = category==='all' ? true : category
-  const filterProp2 = courseType==='all' ? 'filterable' : 'courseType'
-  const filterValue2 = courseType==='all' ? true : courseType
-  const filterProp3 = coursePrice==='all' ? 'filterable' : 'price'
-  const filterValue3 = coursePrice==='all' ? true : +coursePrice
-  const filterProp4 = courseSkill==='all' ? 'filterable' : 'difficulty'
-  const filterValue4 = courseSkill==='all' ? true : courseSkill
 
   const courseTypes = [
     {name: 'All Courses', value: 'all'},
@@ -95,14 +86,8 @@ export default function AllCourses() {
   },[])
   
   useEffect(() => {
-    getAllCoursesFiltered(
-      setAllCourses, limit,
-      filterProp1, filterValue1, '==',
-      filterProp2, filterValue2, '==',
-      filterProp3, filterValue3, coursePrice==='0' ? '==' : '>=',
-      filterProp4, filterValue4, '=='
-    )
-  },[category, courseType, coursePrice, courseSkill])
+    getAllCourses(setAllCourses, 10)
+  },[])
 
   return (
     <div className="all-courses-page">
@@ -151,16 +136,11 @@ export default function AllCourses() {
           <h5>Sort By:</h5>
           <AppSelect 
             options={courseSortRender}
-            onChange={(e) => setCourseSort(e.target.value)}
             namebased
           />
         </div>
       </div>
       <div className="courses-content">
-        {/* <CourseGrid 
-          courses={allCourses} 
-          courseSort={courseSort}
-        /> */}
         <Hits hitComponent={SearchCourseCard} />
       </div>
       <Pagination />

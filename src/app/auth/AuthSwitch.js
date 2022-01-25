@@ -9,7 +9,7 @@ import ResetPassword from "./ResetPassword";
 
 export default function AuthSwitch() {
 
-  const {user, setMyUser, loggingAuth, setLoggingAuth} = useContext(StoreContext)
+  const {user, setMyUser, setLoggingAuth} = useContext(StoreContext)
   const location = useLocation()
 
   useEffect(() => {

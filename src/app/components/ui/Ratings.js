@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Ratings(props) {
 
-  const {rating, color="var(--orange)"} = props
+  const {rating, color="var(--orange)", ratingNumber} = props
   const highestRate = 5
  
   return ( 
@@ -15,6 +15,11 @@ export default function Ratings(props) {
         { Array.apply(null, { length: (highestRate-1)-Math.floor(rating) }).map((el,i) => ( <i className="far fa-star" style={{color}} key={i}></i> )) }
         </>:
         Array.apply(null, { length: highestRate-Math.floor(rating) }).map((el,i) => ( <i className="far fa-star" style={{color}} key={i}></i> ))
+      }
+      { 
+        ratingNumber ?
+        <small>({rating})</small> :
+        <></>
       }
     </div>
   )

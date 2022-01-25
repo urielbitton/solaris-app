@@ -464,7 +464,6 @@ export default function CreateCoursePage({editMode}) {
         summary: courseSummary,
         difficulty: courseDifficulty,
         featuredCourse: !editMode ? false : course.featuredCourse,
-        filterable: true,
         firstVideoID: !editMode ? lessons[0]?.videos[0].videoID ?? '' : courseLessons[0]?.videos[0].videoID,
         firstLessonID: !editMode ? lessons[0]?.lessonID ?? "" : courseLessons[0]?.lessonID ?? "",
         hasCertificate: courseCertificate,

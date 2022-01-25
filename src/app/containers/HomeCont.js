@@ -26,6 +26,7 @@ import GetProPage from '../pages/GetProPage'
 import WelcomePage from "../pages/WelcomePage"
 import MyAccount from '../pages/MyAccount'
 import ProfilePage from "../pages/ProfilePage"
+import AdminPage from "../pages/AdminPage"
 
 export default function HomeCont() {
 
@@ -112,6 +113,9 @@ export default function HomeCont() {
           </Route>
           <Route exact path="/my-profile/:userID">
             <ProfilePage />
+          </Route>
+          <Route path="/admin">
+            { myUser?.isAdmin && <AdminPage /> }
           </Route>
           <Route exact path="*" component={ErrorPage} />
         </Switch>

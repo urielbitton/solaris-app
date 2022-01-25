@@ -1,0 +1,76 @@
+.admin-page .admin-section .table {
+  margin-top: 20px;
+}
+.admin-page .admin-section .table header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+.admin-page .admin-section .table header h5 {
+  color: var(--graytxt);
+  flex-basis: 10%;
+}
+.admin-page .admin-courses .table header h5:last-child {
+  flex-basis: 30px;
+}
+.admin-page .admin-section .table .body {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+  margin-top: 20px;
+}
+.admin-page .admin-section .table .admin-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+}
+.admin-page .admin-section .table .admin-row h6 {
+  font-size: 14px;
+  color: #444;
+  font-weight: 600;
+  flex-basis: 10%;
+}
+.admin-page .admin-section .table .admin-row h6:hover i {
+  opacity: 1;
+}
+.admin-page .admin-section .table .admin-row h6 i {
+  margin-left: 10px;
+  opacity: 0;
+  transition: all 0.2s;
+  cursor: pointer;
+  color: var(--color);
+  padding: 4px;
+}
+.admin-page .admin-section .table .admin-row a:hover {
+  color: var(--color)
+}
+.admin-page .admin-section .table .admin-row input {
+  width: 15px;
+  height: 15px;
+  flex-basis: 50px;
+}
+.admin-page .admin-section .table .ratingscont small {
+  color: #777;
+  margin-left: 5px;
+}
+.admin-page .admin-section .table .ratingscont i {
+  font-size: 13px;
+}
+
+.admin-page .admin-section .table .admin-row h6:first-child,
+.admin-page .admin-section .table header h5:first-child {
+  flex-basis: 300px;
+}
+.admin-page .admin-section .table .ratingscont {
+  flex-basis: 10%;
+}
+
+.admin-instructor-applications {
+  
+}

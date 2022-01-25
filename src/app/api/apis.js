@@ -25,6 +25,7 @@ export const menuLinks = [
   {name: 'Instructors', icon: 'fal fa-chalkboard-teacher', url: '/instructors'},
   {name: 'Create', icon: 'fal fa-plus-circle', url: '/create', requireInstructor: true},
   {name: 'Reports', icon: 'fal fa-analytics', url: '/reports'},
+  {name: 'Admin', icon: 'fal fa-user-shield', url: '/admin', requireAdmin: true},
   {name: 'Settings', icon: 'fal fa-cog', url: '/my-account/settings'}
 ]
 

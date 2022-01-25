@@ -1,0 +1,44 @@
+.admin-page .admin-container {
+  background: #fff;
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+  min-height: 300px;
+}
+.admin-page .admin-container > header {
+  padding: 24px 20px;
+  padding-bottom: 0;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+.admin-page .admin-container > header h5 {
+  font-weight: 600;
+  color: var(--graytxt);
+  white-space: nowrap;
+}
+.admin-page .admin-container > header h5 a {
+  padding-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+}
+.admin-page .admin-container > header .active-link {
+  color: var(--color);
+  border-bottom: 2px solid var(--color);
+  top: 1px;
+}
+.admin-page .admin-container > header .active-link hr {
+  opacity: 1;
+}
+.admin-page .admin-content {
+  padding: 20px;
+}
+.admin-page .admin-content section {
+  margin-bottom: 30px;
+}
+.admin-page .admin-content section > h4 {
+  font-size: 16px;
+  color: #444;
+  font-weight: 600;
+}

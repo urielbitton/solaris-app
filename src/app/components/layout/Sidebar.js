@@ -16,7 +16,7 @@ export default function Sidebar() {
   const history = useHistory()
 
   const menuRender = menuLinks
-  ?.filter(x => myUser?.isInstructor ? x : !x.requireInstructor)
+  ?.filter(x => (myUser?.isInstructor ? x : !x.requireInstructor)  && (myUser?.isAdmin ? x : !x.requireAdmin))
   .map((link,i) => {
     return <MenuLink 
       link={link} 
