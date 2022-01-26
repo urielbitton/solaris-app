@@ -47,6 +47,16 @@ export const getAllEmails = (setEmails, limit) => {
   })
 }
 
+export const getAllIncidents = (setIncidents, limit) => {
+  db.collection('incidents')
+  .limit(limit)
+  .onSnapshot(snap => {
+    const incidentArr = []
+    snap.forEach(doc => incidentArr.push(doc.data()))
+    setIncidents(incidentArr)
+  })
+}
+
 export const getAdminAccountInfo = (setInfo) => {
   db.collection('admin')
   .doc('account')

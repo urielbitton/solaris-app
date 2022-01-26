@@ -28,6 +28,22 @@ export default function AdminSettings() {
     })
   }
 
+  const resetSettings = () => {
+    setLoading(true)
+    updateDB('admin', 'generalSettings', {
+      allowDarkMode: true,
+      enableNotifications: true,
+      colorTheme: '#2f86ff'
+    }) 
+    .then(() => {
+      setLoading(false)
+    })
+    .catch(err => {
+      console.log(err)
+      setLoading(false)
+    })
+  }
+
   useEffect(() => {
     getAdminGeneralSettings(setSettings)
   },[])
@@ -65,6 +81,10 @@ export default function AdminSettings() {
           className="shadow-hover"
           onClick={() => saveInfo()}
         >Save</button>
+        <button
+          className="shadow-hover"
+          onClick={() => resetSettings()}
+        >Reset Settings</button>
       </div>
       <PageLoader loading={loading} />
     </div>

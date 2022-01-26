@@ -64,6 +64,7 @@ export default function CommentCard(props) {
 
   const sendReport = () => {
     if(reportMessage.length && reportReason.length) {
+      const genIncidentNumber = Math.floor(Math.random() * 1000) + 9999
       const newIncidentID = db.collection('incidents').doc().id
       setDB('incidents', newIncidentID, {
         commentID,
@@ -72,7 +73,10 @@ export default function CommentCard(props) {
         incidentType: 'comment',
         reason: reportReason,
         reporterID: user?.uid,
-        text: reportMessage
+        reporterName: user?.displayName,
+        text: reportMessage,
+        isResolved: false,
+        incidentNumber: `inc-${genIncidentNumber}`
       }).then(() => {
         setOpenReport(false)
         setReportMessage('')

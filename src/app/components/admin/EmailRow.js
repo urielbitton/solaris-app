@@ -24,7 +24,9 @@ export default function EmailRow(props) {
           className="email-body"
         />
       </h6>
-      <h6 className="status">{delivery.state}</h6>
+      <h6 className="status">
+        <span>{delivery.state?.toLowerCase()}</span>
+      </h6>
       <h6>{convertFireDateToString(delivery.endTime)}</h6>
     </div>
   )

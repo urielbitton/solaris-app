@@ -34,11 +34,11 @@ const StoreContextProvider = ({children}) => {
 
   useEffect(() => {
     localStorage.setItem('darkmode', !darkMode ? "false" : "true")  
-  },[darkMode]) 
+  },[darkMode])  
 
   useEffect(() => {
     getAdminGeneralSettings(setAdminSettings)
-  },[])
+  },[]) 
 
   useEffect(() => {
     document.documentElement.style.setProperty('--color', adminSettings.colorTheme)

@@ -39,8 +39,13 @@
 .admin-page .admin-section .table .admin-row h6.capitalize {
   text-transform: capitalize
 }
-.admin-page .admin-section .table .admin-row h6.status {
+.admin-page .admin-section .table .admin-row h6.status span {
   color: var(--color);
+  text-transform: capitalize;
+  padding: 4px 8px;
+  border-radius: 5px;
+  background: var(--lightestblue);
+  cursor: pointer;
 }
 .admin-page .admin-section .table .admin-row h6:hover i {
   opacity: 1;
@@ -138,4 +143,9 @@
 .admin-settings section .color-input input {
   padding: 0 4px;
   width: 200px;
+}
+.admin-settings .btn-group {
+  display: flex;
+  align-items: center;
+  gap: 25px;
 }
