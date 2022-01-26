@@ -10,7 +10,8 @@ export default function CreatePage() {
   const history = useHistory()
 
   const createRender = createCourseArray?.map((poster,i) => {
-    return <div className="create-poster" key={i} onClick={() => history.push(poster.url)}>
+    return <div className="create-poster" key={i} onClick={() => !poster.comingSoon && history.push(poster.url)}>
+      { poster.comingSoon && <div className="badge">Coming Soon</div> }
       <div className="side">
         <h2 className="hover-to-white">{poster.title}</h2>
         <div className="features">
@@ -26,7 +27,11 @@ export default function CreatePage() {
       </div>
       <div className="side">
         <h6 className="hover-to-white">{poster.idea}</h6>
-        <button>Create<i className="far fa-arrow-right"></i></button>
+        {
+          poster.comingSoon ? 
+          <button className="coming-soon-btn">Coming Soon</button> :
+          <button>Create<i className="far fa-arrow-right"></i></button>
+        }
       </div>
     </div>
   })

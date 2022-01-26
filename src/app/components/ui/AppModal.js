@@ -17,7 +17,7 @@ export default function AppModal(props) {
         <section>
           {children}
         </section>
-        <footer>
+        <footer style={{display: actions ? 'flex' : "none"}}>
           {actions}
         </footer>
       </div>

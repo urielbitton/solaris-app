@@ -24,7 +24,7 @@ export default function AdminHome() {
         <h4>General</h4>
         <div className="table">
           <header>
-            <h5>Course Title</h5>
+            <h5 className="long">Course Title</h5>
             <h5>Price</h5>
             <h5>Instructor</h5>
             <h5>Students</h5>

@@ -27,6 +27,7 @@ import WelcomePage from "../pages/WelcomePage"
 import MyAccount from '../pages/MyAccount'
 import ProfilePage from "../pages/ProfilePage"
 import AdminPage from "../pages/AdminPage"
+import InstructorApplication from '../pages/InstructorApplication'
 
 export default function HomeCont() {
 
@@ -113,6 +114,9 @@ export default function HomeCont() {
           </Route>
           <Route exact path="/my-profile/:userID">
             <ProfilePage />
+          </Route>
+          <Route exact path="/instructor-application/:applicationID">
+            <InstructorApplication />
           </Route>
           <Route path="/admin">
             { myUser?.isAdmin && <AdminPage /> }

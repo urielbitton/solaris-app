@@ -5,7 +5,7 @@ import SlideContainer from '../components/ui/SlideContainer'
 import becomeInstructorImg from '../assets/imgs/become-instructor.png'
 import SlideElement from '../components/ui/SlideElement'
 import { AppInput, AppSelect, AppSwitch, AppTextarea } from '../components/ui/AppInputs'
-import { getCourseCategories } from '../services/adminServices'
+import { getAdminAccountInfo, getCourseCategories } from '../services/adminServices'
 import PageLoader from '../components/ui/PageLoader'
 import { addSubDB, setDB } from '../services/CrudDB'
 import { db } from "../firebase/fire"
@@ -30,6 +30,7 @@ export default function BecomeInstructor() {
   const [isLoading, setIsLoading] = useState(false)
   const [endMessage, setEndMessage] = useState('')
   const [isSuccess, setIsSuccess] = useState(false)
+  const [adminInfo, setAdminInfo] = useState({})
   const applicationAccess = firstName.length && lastName.length && category.length && resume.length
     && yearsExperience.length && reasonsToApply.length && bio.length
   const history = useHistory()
@@ -56,10 +57,12 @@ export default function BecomeInstructor() {
 
   const submitApplication = () => {
     if(applicationAccess) {
+      const genApplNumber = Math.floor(Math.random() * 1000) + 9999
       setIsLoading(true)
       const docID = db.collection('instructorApplications').doc().id
       setDB('instructorApplications', docID, {
         applicationID: docID,
+        number: `appl-${genApplNumber}`,
         dateCreated: new Date(),
         userID: user?.uid,
         name: `${firstName} ${lastName}`,
@@ -76,16 +79,16 @@ export default function BecomeInstructor() {
         addSubDB('users', user?.uid, 'emails', {
           email: myUser?.email,
           subject: 'Solaris: New Instructor Application',
-          html: `Hi ${myUser?.firstName}, <br/><br/>Thank you for submitting an application to become an instructor on Solaris Platform.
+          html: `Hi ${myUser?.firstName},<br/><br/>Thank you for submitting an application to become an instructor on Solaris Platform.
           <br/><br/>Our team will reveiw your application and be in touch with you shortly. <br/>Updates on the status of your application will
           follow.<br/><br/>Best,<br/><br/>The Solaris Team`,
           dateSent: new Date()
         })
         addSubDB('users', 'tnHjCJ22kpM06xQtiVm0dPIKjL62', 'emails', {
-          email: 'urielas@hotmail.com',
+          email: adminInfo?.email,
           subject: 'Solaris: New Instructor Application',
           html: `Hi Admin, <br/><br/>You have a new instructor application submitted on Solaris by ${myUser?.firstName} ${myUser?.lastName} today.
-          <br/>Log into your account to reveiw their application.<br/><br/>Best,<br/>The Solaris Team`,
+          <br/>Log into your account to reveiw their application.<br/><br/>Best,<br/><br/>The Solaris Team`,
           dateSent: new Date()
         })
         setEndMessage('Your application was successfully submitted. You will receive a confirmation ' +
@@ -114,6 +117,7 @@ export default function BecomeInstructor() {
 
   useEffect(() => {
     getCourseCategories(setCategoriesArr)
+    getAdminAccountInfo(setAdminInfo)
   },[])
 
   useEffect(() => {

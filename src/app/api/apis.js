@@ -41,7 +41,8 @@ export const createCourseArray = [
       {text: 'Create subscriptions or pay-per-use courses'},
     ],
     idea: "A multi-media lecture experience grabs the most attention",
-    url: '/create/create-course/video'
+    url: '/create/create-course/video',
+    comingSoon: false
   },
   {
     title: 'Text Course',
@@ -54,7 +55,8 @@ export const createCourseArray = [
       {text: 'Create subscriptions or pay-per-use courses'},
     ],
     idea: "Concentrate on text based lectures for your students",
-    url: '/create/create-course/text'
+    url: '/create/create-course/text',
+    comingSoon: true
   },
   {
     title: 'Tutorial',
@@ -65,7 +67,8 @@ export const createCourseArray = [
       {text: 'Available only as a free video'},
     ],
     idea: "Share a quick and free video tip to students",
-    url: '/create/create-course/tutorial'
+    url: '/create/create-course/tutorial',
+    comingSoon: true
   }
 ]
 

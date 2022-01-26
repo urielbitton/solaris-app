@@ -36,7 +36,7 @@ export default function CourseRow(props) {
 
   return (
     <div className="admin-row course-row">
-      <h6>
+      <h6 className="long">
         <Link to={`/courses/course/${id}`}>{title}</Link>
         <i className="fal fa-pen" onClick={() => history.push(`/edit-course/${id}`)}></i>
       </h6>

@@ -6,6 +6,8 @@ import AdminInstructors from '../components/admin/AdminInstructors'
 import { StoreContext } from '../store/store'
 import AdminInstructorApplications from "../components/admin/AdminInstructorApplications"
 import AdminEmails from "../components/admin/AdminEmails"
+import AdminSettings from "../components/admin/AdminSettings"
+import AdminIncidents from "../components/admin/AdminIncidents"
 
 export default function AdminPage() {
 
@@ -16,7 +18,7 @@ export default function AdminPage() {
     {name: 'Instructors', url: '/admin/instructors'},
     {name: 'Applications', url: '/admin/instructor-applications'},
     {name: 'Emails', url: '/admin/emails'},
-    {name: 'Theme', url: '/admin/theme'},
+    {name: 'Incidents', url: '/admin/incidents'},
     {name: 'Settings', url: '/admin/settings'},
   ]
 
@@ -57,6 +59,12 @@ export default function AdminPage() {
             </Route>
             <Route path="/admin/emails">
               <AdminEmails />
+            </Route>
+            <Route path="/admin/incidents">
+              <AdminIncidents />
+            </Route>
+            <Route path="/admin/settings">
+              <AdminSettings />
             </Route>
           </Switch>
         </div>

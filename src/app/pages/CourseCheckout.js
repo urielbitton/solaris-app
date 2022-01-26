@@ -69,9 +69,9 @@ export default function CheckoutPage() {
       addSubDB('users', user?.uid, 'emails', {
         email: myUser?.email,
         subject: 'Solaris: Course Purchase',
-        html: `Hi ${myUser?.firstName}, <br/>Thank you for purchasing the course ${course?.title} on Solaris.
+        html: `Hi ${myUser?.firstName}, <br/><br/>Thank you for purchasing the course ${course?.title} on Solaris.
         The total price for this course is ${currencyFormat.format(course?.price)}.
-        Your receipt will be sent to your email shortly. <br/><br/>Enjoy the course. <br/><br/>Best,<br/>The Solaris Team`,
+        Your receipt will be sent to your email shortly. <br/><br/>Enjoy the course. <br/><br/>Best,<br/><br/>The Solaris Team`,
         dateSent: new Date()
       })
       setSubDB('users', user?.uid, 'coursesEnrolled', courseID, {

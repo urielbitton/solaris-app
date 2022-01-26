@@ -71,6 +71,10 @@
 .create-page .create-poster button {
   padding: 15px 25px;
 }
+.create-page .create-poster button.coming-soon-btn {
+  background: var(--lighterblue);
+  color: #fff;
+}
 .create-page .create-poster:hover button {
   background: none;
   color: #fff;
@@ -86,4 +90,14 @@
 }
 .create-page .create-poster button:hover i {
   left: 10px;
+}
+.create-page .create-poster .badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px;
+  background: var(--lightestblue);
+  font-size: 12px;
+  color: var(--color);
+  border-radius: 5px;
 }

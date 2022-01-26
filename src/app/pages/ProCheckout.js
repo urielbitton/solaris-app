@@ -54,8 +54,8 @@ export default function CheckoutPage() {
       addSubDB('users', user?.uid, 'emails', {
         email: myUser?.email,
         subject: 'Solaris: Pro Membership Purchase',
-        html: `Hi ${myUser?.firstName}, <br/>Thank you for purchasing a Pro Membership on Solaris.
-        Your receipt will be sent to your email shortly.<br/><br/>Best,<br/>The Solaris Team`,
+        html: `Hi ${myUser?.firstName}, <br/><br/>Thank you for purchasing a Pro Membership on Solaris.
+        Your receipt will be sent to your email shortly.<br/><br/>Best,<br/><br/>The Solaris Team`,
         dateSent: new Date()
       })
       updateDB('users', user?.uid, {

@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react'
 import firebase from 'firebase'
 import { db } from '../firebase/fire'
+import { getAdminGeneralSettings } from "../services/adminServices"
 
 export const StoreContext = createContext()
 
@@ -17,6 +18,7 @@ const StoreContextProvider = ({children}) => {
   const [appBg, setAppBg] = useState('')
   const [openSidebar, setOpenSidebar] = useState(false)
   const [darkMode, setDarkMode] = useState(localStorage.getItem('darkmode') === "true" ? true : false)
+  const [adminSettings, setAdminSettings] = useState({})
 
   const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'})
   const percentFormat = new Intl.NumberFormat('en-CA', {style: 'percent'})
@@ -33,6 +35,14 @@ const StoreContextProvider = ({children}) => {
   useEffect(() => {
     localStorage.setItem('darkmode', !darkMode ? "false" : "true")  
   },[darkMode]) 
+
+  useEffect(() => {
+    getAdminGeneralSettings(setAdminSettings)
+  },[])
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--color', adminSettings.colorTheme)
+  },[adminSettings])
 
   return <StoreContext.Provider value={{ 
     user, myUser, setMyUser, aUser, setAUser, 

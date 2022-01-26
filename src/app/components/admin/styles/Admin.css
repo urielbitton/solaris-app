@@ -36,6 +36,12 @@
   font-weight: 600;
   flex-basis: 10%;
 }
+.admin-page .admin-section .table .admin-row h6.capitalize {
+  text-transform: capitalize
+}
+.admin-page .admin-section .table .admin-row h6.status {
+  color: var(--color);
+}
 .admin-page .admin-section .table .admin-row h6:hover i {
   opacity: 1;
 }
@@ -62,15 +68,74 @@
 .admin-page .admin-section .table .ratingscont i {
   font-size: 13px;
 }
-
-.admin-page .admin-section .table .admin-row h6:first-child,
-.admin-page .admin-section .table header h5:first-child {
+.admin-page .admin-section .table .admin-row h6.long,
+.admin-page .admin-section .table header h5.long {
   flex-basis: 300px;
+}
+.admin-page .admin-section .table .admin-row h6.medium,
+.admin-page .admin-section .table header h5.medium {
+  flex-basis: 220px;
 }
 .admin-page .admin-section .table .ratingscont {
   flex-basis: 10%;
 }
+.admin-page .email-row {
+  border-radius: 10px;
+  padding: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.admin-page .email-row:hover {
+  background: #f5f5f5;
+}
+.admin-page .admin-section.admin-emails .table .body {
+  gap: 5px;
+}
+.admin-emails .app-modal .email-content {
+  padding: 20px;
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+.admin-emails .app-modal .email-content .email-body {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.admin-emails .app-modal h5 {
+  margin-bottom: 20px;
+  padding-left: 5px;
+  font-size: 14px;
+}
+.admin-emails .app-modal h5 span {
+  font-weight: 600;
+  color: #333;
+}
 
-.admin-instructor-applications {
-  
+.admin-settings {
+  width: 100%;
+}
+.admin-settings section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-gap: 30px;
+}
+.admin-settings section > h4 {
+  grid-column: 1/-1;
+}
+.admin-settings section .appswitch,
+.admin-settings section .color-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+.admin-settings section .appswitch h6,
+.admin-settings section .color-input h6 {
+  font-size: 13px;
+  color: var(--graytxt);
+}
+.admin-settings section .color-input input {
+  padding: 0 4px;
+  width: 200px;
 }

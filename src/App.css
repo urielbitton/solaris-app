@@ -55,7 +55,7 @@ html, body {
   color: white;
 }
 ::-webkit-scrollbar {
-  width: 9px;
+  width: 5px;
   height: 10px;
 } 
 ::-webkit-scrollbar-thumb {

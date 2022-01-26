@@ -31,12 +31,12 @@ export const googleAuth = (setMyUser) => {
               addSubDB('users', user.uid, 'emails', {
                 email: user.email,
                 subject: 'Welcome To Solaris',
-                html: `Hi ${user.displayName}! <br/><br/>We would like to welcome you to Solaris, and thank you for choosing our platform to enhance your 
+                html: `Hi ${user.displayName}!<br/><br/>We would like to welcome you to Solaris, and thank you for choosing our platform to enhance your 
                 education on our platform. We are confident you will learn tons of new material, pick up useful skills and improve your career experience
                 very quickly. <br/>To get started, visit our home page <a href="https://solaris-app.vercel.app">here</a> where you will find the latest 
                 courses to browse Optionally, you can visit our welcome page <a href="https://solaris-app.vercel.app/welcome">here</a>. <br/>Lastly, you can
                 view your account settings <a href="https://solaris-app.vercel.app/my-account">here</a>. <br/><br/>We look forward to hearing your success 
-                story! <br/><br/>Best, <br/><br/>The Solaris Team`,
+                story! <br/><br/>Best,<br/><br/>The Solaris Team`,
                 dateSent: new Date()
               })
               setMyUser(user)
