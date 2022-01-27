@@ -98,7 +98,7 @@ export default function CommentCard(props) {
       <div className="review-body">
         <div className="titles">
         <h4>
-            <Link to={isInstructor ? `/instructors/instructor/${userID}` : `/my-profile/${userID}`}>
+            <Link to={isInstructor ? `/instructors/instructor/${userID}` : `/profile/${userID}`}>
               {authorName} 
               {isInstructor && <span className="instructor-badge">Instructor</span>}
             </Link>

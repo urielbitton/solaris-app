@@ -1,0 +1,134 @@
+.instructor-application-page {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 300px auto;
+  grid-gap: 40px;
+  align-items: flex-start;
+}
+.instructor-application-page .side-bar {
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  background: #fff;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+.instructor-application-page .side-bar section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.instructor-application-page .side-bar section > h5 {
+  color: #444;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.instructor-application-page .side-bar section small {
+  color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.instructor-application-page .side-bar section small span,
+.instructor-application-page .side-bar section small span a {
+  color: var(--color);
+}
+.instructor-application-page .side-bar .student-avatar {
+  gap: 4px;
+}
+.instructor-application-page .side-bar .student-avatar .img-container {
+  margin-bottom: 10px;
+  width: 90px;
+  height: 90px;
+}
+.instructor-application-page .side-bar .student-avatar h5 {
+  font-size: 17px;
+  color: #444;
+  font-weight: 600;
+}
+.instructor-application-page .side-bar .student-avatar small {
+  font-size: 12px;
+  color: var(--graytxt);
+  font-weight: 500;
+}
+.instructor-application-page .side-bar button {
+  margin-top: 20px;
+}
+
+.instructor-application-page .main-content {
+  display: flex;
+  flex-direction: column;
+}
+.instructor-application-page .main-content > h3 {
+  margin-bottom: 25px;
+  color: #444;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+.instructor-application-page .main-content > h3 span {
+  text-transform: uppercase;
+}
+.instructor-application-page .main-content > h3 span.approved {
+  color: var(--color);
+}
+.instructor-application-page .main-content > h3 span.rejected {
+  color: var(--red)
+}
+.instructor-application-page .main-content > section {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.instructor-application-page .main-content > section h6 {
+  font-size: 15px;
+  color: var(--graytxt);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.instructor-application-page .main-content > section h6 span {
+  color: var(--color);
+  font-weight: 600;
+  font-size: 14px;
+}
+.instructor-application-page .main-content > section h6.column {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.instructor-application-page .main-content > section h6.column span {
+  color: #555;
+}
+.instructor-application-page .main-content .text-container {
+  padding: 15px;
+  border-radius: 10px;
+  background: #f5f5f5;
+  margin-top: 10px;
+  line-height: 1.6;
+}
+.instructor-application-page .main-content hr {
+  margin: 40px 0;
+  height: 1px;
+  background: #ddd;
+  width: 600px;
+}
+.instructor-application-page .main-content .btn-group {
+  width: 600px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.instructor-application-page .main-content .btn-group button {
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.instructor-application-page .main-content .btn-group button:hover {
+  box-shadow: var(--blueShadow);
+}
+.instructor-application-page .main-content .btn-group button.reject-btn {
+  background: var(--red)
+}

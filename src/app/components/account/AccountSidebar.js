@@ -102,7 +102,7 @@ export default function AccountSidebar() {
       <div className="btn-group">
         <button
           className="profile-btn"
-          onClick={() => history.push(`/my-profile/${myUser?.userID}`)}
+          onClick={() => history.push(`/profile/${myUser?.userID}`)}
         >
           <i className="fal fa-user"></i>
           My Profile

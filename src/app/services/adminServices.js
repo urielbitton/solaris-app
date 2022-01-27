@@ -38,6 +38,14 @@ export const getInstructorApplications = (setApplications, limit) => {
   })
 }
 
+export const getInstructorApplicationByID = (applicationID, setApplication) => {
+  db.collection('instructorApplications')
+  .doc(applicationID)
+  .onSnapshot(snap => {
+    setApplication(snap.data())
+  })
+}
+
 export const getAllEmails = (setEmails, limit) => {
   db.collection('mail')
   .limit(limit)

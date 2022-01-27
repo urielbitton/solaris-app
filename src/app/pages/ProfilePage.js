@@ -10,7 +10,7 @@ import { StoreContext } from "../store/store"
 export default function ProfilePage() {
 
   const { setNavTitle, setNavDescript } = useContext(StoreContext)
-  const userID = useRouteMatch('/my-profile/:userID').params.userID
+  const userID = useRouteMatch('/profile/:userID').params.userID
   const [profileUser, setProfileUser] = useState({})
   const [courses, setCourses] = useState([])
   const [enrolledCourses, setEnrolledCourses] = useState([])

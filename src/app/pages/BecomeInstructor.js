@@ -63,13 +63,14 @@ export default function BecomeInstructor() {
       setDB('instructorApplications', docID, {
         applicationID: docID,
         number: `appl-${genApplNumber}`,
+        isApproved: null,
         dateCreated: new Date(),
         userID: user?.uid,
         name: `${firstName} ${lastName}`,
         email: user?.email,
         preferredCategory: category,
         resume: '',
-        yearsOfExperience: yearsExperience,
+        yearsOfExperience: +yearsExperience,
         hasCertification: isCertified,
         reasonsToApply,
         bio

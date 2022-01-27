@@ -9,8 +9,8 @@ export default function StudentAvatar(props) {
 
   return (
     <div 
-      className="student-avatar"
-      onClick={() => clickable && history.push(`/my-profile/${userID}`)}
+      className={`student-avatar ${!clickable ? 'not-clickable' : ''}`}
+      onClick={() => clickable && history.push(`/profile/${userID}`)}
     >
       <div className="img-container">
         <img src={photoURL} alt={name} />

@@ -10,7 +10,7 @@ export default function StudentRow(props) {
   return (
     <div 
       className="admin-row student-row"
-      onClick={() => history.push(`/my-profile/${userID}`)}
+      onClick={() => history.push(`/profile/${userID}`)}
     >
       <h6 className="with-img">
         <img src={photoURL} alt="" />

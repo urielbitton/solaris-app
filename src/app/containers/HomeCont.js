@@ -112,11 +112,11 @@ export default function HomeCont() {
           <Route path="/my-account">
             <MyAccount />
           </Route>
-          <Route exact path="/my-profile/:userID">
+          <Route exact path="/profile/:userID">
             <ProfilePage />
           </Route>
           <Route exact path="/instructor-application/:applicationID">
-            <InstructorApplication />
+            { myUser?.isAdmin && <InstructorApplication /> }
           </Route>
           <Route path="/admin">
             { myUser?.isAdmin && <AdminPage /> }
