@@ -84,13 +84,106 @@
 .admin-page .admin-section .table .ratingscont {
   flex-basis: 10%;
 }
-.admin-page .email-row {
+
+.admin-courses {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.admin-courses .course-categories {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 400px;
+}
+.admin-courses .category-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  transition: all 0.2s;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+}
+.admin-courses .category-row:hover {
+  background: #f5f5f5;
+}
+.admin-courses .category-row h6 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--graytxt);
+  text-transform: capitalize;
+}
+.admin-courses .category-row h6 i {
+  color: var(--color);
+  margin-right: 10px;
+}
+.admin-courses .category-row > i {
+  color: var(--color);
+  opacity: 0.5;
+  transition: all 0.2s;
+}
+.admin-courses .category-row:hover > i {
+  opacity: 1;
+}
+.admin-courses .category-input-generator {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.admin-courses .category-input-generator input {
+  height: 100%;
+  flex-basis: calc(100% - 50px);
+  font-size: 15px;
+}
+.admin-courses .category-input-generator .icon-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 50px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.admin-courses .category-input-generator .icon-container:hover {
+  background: var(--lightestblue);
+}
+.admin-courses .category-input-generator .icon-container:hover i {
+  color: var(--color);
+}
+.admin-courses .category-input-generator .icon-container i {
+  color: #777;
+}
+.admin-courses .app-modal input {
+  text-transform: capitalize;
+}
+.admin-courses .app-modal .btn-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.admin-courses .app-modal .btn-group button:last-child {
+  background: var(--red);
+}
+
+.admin-page .email-row,
+.admin-page .incident-row {
   border-radius: 10px;
   padding: 10px;
   transition: all 0.2s;
   cursor: pointer;
 }
-.admin-page .email-row:hover {
+.admin-page .incident-row {
+  padding: 15px 10px;
+}
+.admin-page .email-row:hover,
+.admin-page .incident-row:hover {
   background: #f5f5f5;
 }
 .admin-page .admin-section.admin-emails .table .body {
@@ -113,6 +206,27 @@
 .admin-emails .app-modal h5 span {
   font-weight: 600;
   color: #333;
+}
+
+.admin-page .admin-incidents.admin-section .table .body {
+  gap: 5px;
+}
+.admin-incidents .app-modal p {
+  margin-bottom: 20px;
+}
+.admin-incidents .app-modal .appswitch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 320px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  padding: 15px;
+}
+.admin-incidents .app-modal .appswitch h6 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--graytxt);
 }
 
 .admin-settings {

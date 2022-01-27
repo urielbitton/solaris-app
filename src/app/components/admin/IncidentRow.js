@@ -5,9 +5,16 @@ export default function IncidentRow(props) {
 
   const { incidentNumber, text, incidentType, commentID, reason,
     reporterName, reporterID, isResolved, dateAdded, resolveComment } = props.incident
+  const { incident, setCurrentIncident, setShowModal } = props
 
   return (
-    <div className="admin-row incident-row">
+    <div 
+      className="admin-row incident-row"
+      onClick={() => {
+        setCurrentIncident(incident)
+        setShowModal(true)
+      }}
+    >
       <h6>{incidentNumber}</h6>
       <h6 className="long">{truncateText(text, 60)}</h6>
       <h6 title={`commentID: ${commentID}`}>{incidentType}</h6>

@@ -4,6 +4,7 @@ export const getCourseCategories = (setCategories) => {
   db.collection('admin')
   .doc('courseSettings')
   .collection('categories')
+  .orderBy('name', 'asc')
   .onSnapshot(snap => {
     const categoriesArr = []
     snap.forEach(doc => categoriesArr.push(doc.data()))
