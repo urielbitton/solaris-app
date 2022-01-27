@@ -36,6 +36,9 @@ export default function AdminSettings() {
       colorTheme: '#2f86ff'
     }) 
     .then(() => {
+      document.documentElement.style.setProperty('--lighterblue', '#6cbdf8')
+      document.documentElement.style.setProperty('--lightestblue', 'rgb(211, 237, 255,0.4)')
+      document.documentElement.style.setProperty('--blueShadow', '0 13px 15px 5px rgba(47, 81, 232, 0.12)')
       setLoading(false)
     })
     .catch(err => {

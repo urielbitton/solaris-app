@@ -42,7 +42,10 @@ const StoreContextProvider = ({children}) => {
 
   useEffect(() => {
     document.documentElement.style.setProperty('--color', adminSettings.colorTheme)
-  },[adminSettings])
+    document.documentElement.style.setProperty('--lighterblue', adminSettings.colorTheme+'77')
+    document.documentElement.style.setProperty('--lightestblue', adminSettings.colorTheme+'22')
+    document.documentElement.style.setProperty('--blueShadow', `0 13px 15px 5px ${adminSettings.colorTheme}15`)
+  },[adminSettings.colorTheme])
 
   return <StoreContext.Provider value={{ 
     user, myUser, setMyUser, aUser, setAUser, 

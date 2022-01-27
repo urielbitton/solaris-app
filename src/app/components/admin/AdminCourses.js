@@ -127,6 +127,9 @@ export default function AdminHome() {
           </div> 
         </div>
       </section>
+      <section>
+        <h4>Promo Codes</h4>
+      </section>
 
       <AppModal
         title="Edit Category"

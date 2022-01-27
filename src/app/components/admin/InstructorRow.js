@@ -6,7 +6,8 @@ import { getCoursesByInstructorID } from "../../services/InstructorServices"
 
 export default function InstructorRow(props) {
 
-  const { instructorID, name, title, followersCount, coursesTaught, rating, dateJoined, reviewsCount } = props.instructor
+  const { instructorID, name, title, followersCount, coursesTaught, rating, 
+    dateJoined, reviewsCount, profilePic } = props.instructor
   const [courses, setCourses] = useState([])
 
   const coursesTaughtRender = courses?.map((course, i) => {
@@ -19,7 +20,8 @@ export default function InstructorRow(props) {
 
   return (
     <div className="admin-row instructor-row">
-      <h6>
+      <h6 className="with-img">
+        <img src={profilePic} alt=""/>
         <Link to={`/instructors/instructor/${instructorID}`}>{name}</Link>
       </h6>
       <h6>{title}</h6>

@@ -20,10 +20,10 @@ export default function AdminInstructors() {
   return (
     <div className="admin-section admin-instructor">
       <section>
-        <h4>General</h4>
+        <h4>All Instructors</h4>
         <div className="table">
           <header>
-            <h5>Instructor Name</h5>
+            <h5>Instructor</h5>
             <h5>Title</h5>
             <h5>Followers</h5>
             <h5>Courses Taught</h5>

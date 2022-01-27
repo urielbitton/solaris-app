@@ -86,7 +86,7 @@ export default function ProfilePage() {
               target="_blank" 
               rel="noreferrer"
             >
-              <button>
+              <button className="shadow-hover">
                 <i className="fal fa-link"></i>
                 Website
               </button>

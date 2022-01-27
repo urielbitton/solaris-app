@@ -36,6 +36,16 @@
   font-weight: 600;
   flex-basis: 10%;
 }
+.admin-page .admin-section .table .admin-row h6.with-img {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.admin-page .admin-section .table .admin-row h6.with-img img {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+}
 .admin-page .admin-section .table .admin-row h6.capitalize {
   text-transform: capitalize
 }
@@ -173,20 +183,24 @@
 }
 
 .admin-page .email-row,
-.admin-page .incident-row {
+.admin-page .incident-row,
+.admin-page .student-row {
   border-radius: 10px;
   padding: 10px;
   transition: all 0.2s;
   cursor: pointer;
 }
-.admin-page .incident-row {
+.admin-page .incident-row,
+.admin-page .student-row {
   padding: 15px 10px;
 }
 .admin-page .email-row:hover,
-.admin-page .incident-row:hover {
+.admin-page .incident-row:hover,
+.admin-page .student-row:hover {
   background: #f5f5f5;
 }
-.admin-page .admin-section.admin-emails .table .body {
+.admin-page .admin-section.admin-emails .table .body,
+.admin-page .admin-section.admin-student .table .body {
   gap: 5px;
 }
 .admin-emails .app-modal .email-content {

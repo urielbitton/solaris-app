@@ -8,6 +8,7 @@ import { getUnreadNotificationsByUserID } from "../../services/userServices"
 import NotificationsDropdown from "./NotificationsDropdown"
 import { useLocation } from "react-router-dom"
 import placeholderImg from '../../assets/imgs/placeholder.png'
+import { getAdminGeneralSettings } from '../../services/adminServices'
 
 export default function Navbar() {
 
@@ -17,6 +18,7 @@ export default function Navbar() {
   const [slideNotifs, setSlideNotifs] = useState(false)
   const [unreadNotifs, setUnreadNotifs] = useState(0)
   const [notifsLimit, setNotifsLimit] = useState(7)
+  const [adminSettings, setAdminSettings] = useState({})
   const location = useLocation()
 
   const signOut = (e) => {
@@ -47,6 +49,10 @@ export default function Navbar() {
     }
   },[slideProfile])
 
+  useEffect(() => {
+    getAdminGeneralSettings(setAdminSettings)
+  },[])
+
   return (
     <div className="navbar">
       <div className="side">
@@ -65,20 +71,24 @@ export default function Navbar() {
         <SearchBar width="300px" showIcon/>
       </div>
       <div className="side right">
-        <div 
-          className="nav-icon-btn"
-          onClick={() => setDarkMode(prev => !prev)}
-        >
-          <i className={`fa${darkMode ? "s" : "r"} fa-moon`}></i>
-        </div>
-        <div className="nav-icon-btn nav-notifs" onClick={(e) => openNotifs(e)}>
-          <i className={`far fa-bell ${location.pathname.includes('notifications') || slideNotifs ? "active" : ""}`}></i>
-          { unreadNotifs.length ?
-            <div className="notifs-num">
-              <small>{unreadNotifs.length}</small>
-            </div> : ""
-          }
-        </div>
+        { adminSettings?.allowDarkMode &&
+          <div 
+            className="nav-icon-btn"
+            onClick={() => setDarkMode(prev => !prev)}
+          >
+            <i className={`fa${darkMode ? "s" : "r"} fa-moon`}></i>
+          </div>
+        }
+        { adminSettings?.enableNotifications &&
+          <div className="nav-icon-btn nav-notifs" onClick={(e) => openNotifs(e)}>
+            <i className={`far fa-bell ${location.pathname.includes('notifications') || slideNotifs ? "active" : ""}`}></i>
+            { unreadNotifs.length ?
+              <div className="notifs-num">
+                <small>{unreadNotifs.length}</small>
+              </div> : ""
+            }
+          </div>
+        }
         <div className={`notifications-dropdown ${slideNotifs ? "open" : ""}`}>
           <NotificationsDropdown 
             setSlideNotifs={setSlideNotifs}

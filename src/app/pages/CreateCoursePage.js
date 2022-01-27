@@ -432,7 +432,7 @@ export default function CreateCoursePage({editMode}) {
       //repopulate videos docs
       db.collection('courses').doc(courseID)
       .collection('lessons').doc(lesson.lessonID)
-      .collection('videos').get().then(videoDocs => {
+      .collection('videos').onSnapshot(videoDocs => {
         videoDocs.forEach(doc => {
           lesson['videos'].push(doc.data())
         })
@@ -440,7 +440,7 @@ export default function CreateCoursePage({editMode}) {
       //repopulate notes docs
       db.collection('courses').doc(courseID)
       .collection('lessons').doc(lesson.lessonID)
-      .collection('notes').get().then(notesDocs => {
+      .collection('notes').onSnapshot(notesDocs => {
         notesDocs.forEach(doc => {
           lesson['notes'].push(doc.data())
         })

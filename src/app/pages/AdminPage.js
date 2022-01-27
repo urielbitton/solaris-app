@@ -8,6 +8,7 @@ import AdminInstructorApplications from "../components/admin/AdminInstructorAppl
 import AdminEmails from "../components/admin/AdminEmails"
 import AdminSettings from "../components/admin/AdminSettings"
 import AdminIncidents from "../components/admin/AdminIncidents"
+import AdminStudents from "../components/admin/AdminStudents"
 
 export default function AdminPage() {
 
@@ -16,6 +17,7 @@ export default function AdminPage() {
   const headerLinks = [
     {name: 'Courses', url: '/admin/', exact: true},
     {name: 'Instructors', url: '/admin/instructors'},
+    {name: 'Students', url: '/admin/students'},
     {name: 'Applications', url: '/admin/instructor-applications'},
     {name: 'Emails', url: '/admin/emails'},
     {name: 'Incidents', url: '/admin/incidents'},
@@ -53,6 +55,9 @@ export default function AdminPage() {
             </Route>
             <Route path="/admin/instructors">
               <AdminInstructors />
+            </Route>
+            <Route path="/admin/students">
+              <AdminStudents />
             </Route>
             <Route path="/admin/instructor-applications">
               <AdminInstructorApplications />

@@ -67,6 +67,10 @@
 .profile-sidebar button i {
   margin-right: 10px;
 }
+.profile-sidebar button.shadow-hover {
+  background: var(--color);
+  color: #fff;
+}
 .profile-sidebar .report-link {
   margin-top: 15px;
   font-size: 12px;

@@ -61,8 +61,7 @@ export const getAllIncidents = (setIncidents, limit) => {
 export const getAdminAccountInfo = (setInfo) => {
   db.collection('admin')
   .doc('account')
-  .get()
-  .then(snap => {
+  .onSnapshot(snap => {
     setInfo(snap.data())
   })
 }
@@ -70,8 +69,17 @@ export const getAdminAccountInfo = (setInfo) => {
 export const getAdminGeneralSettings = (setSettings) => {
   db.collection('admin')
   .doc('generalSettings')
-  .get()
-  .then(snap => {
+  .onSnapshot(snap => {
     setSettings(snap.data())
+  })
+}
+
+export const getAllStudents = (setStudents, limit) => {
+  db.collection('users')
+  .where('isInstructor', '!=', true)
+  .onSnapshot(snap => {
+    const studentsArr = []
+    snap.forEach(doc => studentsArr.push(doc.data()))
+    setStudents(studentsArr)
   })
 }

@@ -26,7 +26,7 @@
   color: #555;
 }
 .sidebar .logo-container h3 span {
-  color: var(--lightblue);
+  color: var(--color);
 }
 .sidebar .menu {
   margin: 50px 0;

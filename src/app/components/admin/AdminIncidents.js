@@ -33,7 +33,7 @@ export default function AdminIncidents() {
   return (
     <div className="admin-section admin-incidents">
       <section>
-        <h4>General</h4>
+        <h4>All Incidents</h4>
         <div className="table">
           <header>
             <h5>Incident #</h5>

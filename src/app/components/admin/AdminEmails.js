@@ -28,7 +28,7 @@ export default function AdminEmails() {
   return (
     <div className="admin-section admin-emails">
       <section>
-        <h4>Instructor Applications</h4>
+        <h4>App Emails</h4>
         <div className="table">
           <header>
             <h5 className="medium">To</h5>
