@@ -7,8 +7,10 @@ import { getUserByID } from '../services/userServices'
 import StudentAvatar from '../components/student/StudentAvatar'
 import { convertFireDateToString, formatPhoneNumber } from '../utils/utilities'
 import { useHistory } from "react-router-dom"
-import { updateDB } from '../services/CrudDB'
+import { addSubDB, setDB, updateDB } from '../services/CrudDB'
 import PageLoader from '../components/ui/PageLoader'
+import { db } from "../firebase/fire"
+import { createNewNotification } from "../services/notificationsServices"
 
 export default function InstructorApplication() {
 
@@ -44,7 +46,64 @@ export default function InstructorApplication() {
   }
 
   const approveAndCreated = () => {
-
+    setLoading(true)
+    updateDB('instructorApplications', application?.applicationID, {
+      isApproved: true
+    })
+    .then(() => {
+      const genNewID = db.collection('instructors').doc().id
+      setDB('instructors', genNewID, {
+        bio: application?.bio,
+        coursesTaught: [],
+        dateJoined: new Date(),
+        facebbookUrl: '',
+        followersCount: 0,
+        instructorID: genNewID,
+        linkedinUrl: '',
+        name: application?.name,
+        profilePic: applicationUser?.photoURL,
+        rating: 0,
+        reviewsCount: 0,
+        title: application?.title,
+        userID: applicationUser?.userID,
+        yearsOfExperience: application?.yearsOfExperience
+      })
+      .then(() => {
+        addSubDB('users', application?.userID, 'emails', {
+          email: application?.email,
+          subject: 'Solaris: New Instructor Application',
+          html: `Hi ${application?.name},<br/><br/>We have reviewed your instructor application and are pleased to let you know
+          that you have been approved as an instructor on Solaris!<br/>We wish you a heartfelt congratulations and we look
+          foward to seeing what you have to teach on the platform. <br/><br/>Your instructor profile has been created for you and ready to 
+          create courses, quizes and more. <br/><br/>To create your first course, please login to Solaris and
+          click on the 'Create' tab on the left hand sidebar.<br/><br/>Congratulations again and see you on the platform!
+          <br/><br/>Best regards,<br/><br/>The Solaris Team`,
+          dateSent: new Date()
+        })
+        updateDB('users', application?.userID, {
+          isInstructor: true,
+          instructorID: genNewID
+        })
+        createNewNotification(
+          application?.userID,
+          'Instructor Application Accepted', 
+          `Congratulations! Your instructor application has been approved and your instructor profile has been created for you.
+           You can view your instructor profile here.`,
+          `/instructors/instructor/${genNewID}`,
+          'fal fa-chalkboard-teacher'
+        )
+        setLoading(false)
+        history.push(`/instructors/instructor/${genNewID}`)
+      })
+      .catch(err => {
+        console.log(err)
+        setLoading(false)
+      })
+    })
+    .catch(err => {
+      setLoading(false)
+      console.log(err)
+    })
   }
 
   useEffect(() => {
@@ -142,12 +201,16 @@ export default function InstructorApplication() {
             Years Of Teaching Experience
             <span>{application?.yearsOfExperience}</span>
           </h6>
+          <h6>
+            Title
+            <span>{application?.title}</span>
+          </h6>
         </section>
         <hr/>
         <div className="btn-group">
           <button onClick={() => approveApplication()}>Approve</button>
-          <button onClick={() => rejectApplication()} className="reject-btn">Reject</button>
           <button onClick={() => approveAndCreated()}>Approve & Create Instructor</button>
+          <button onClick={() => rejectApplication()} className="reject-btn">Reject</button>
         </div>
       </div>
       <PageLoader loading={loading} />

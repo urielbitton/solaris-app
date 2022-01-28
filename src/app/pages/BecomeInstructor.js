@@ -24,6 +24,7 @@ export default function BecomeInstructor() {
   const [categoriesArr, setCategoriesArr] = useState([])
   const [resume, setResume] = useState({})
   const [yearsExperience, setYearsExperience] = useState(0)
+  const [title, setTitle] = useState('')
   const [isCertified, setIsCertified] = useState(false)
   const [reasonsToApply, setReasonsToApply] = useState('')
   const [bio, setBio] = useState('')
@@ -73,6 +74,7 @@ export default function BecomeInstructor() {
         yearsOfExperience: +yearsExperience,
         hasCertification: isCertified,
         reasonsToApply,
+        title,
         bio
       })
       .then(() => {        
@@ -183,11 +185,15 @@ export default function BecomeInstructor() {
               max={100}
               className="full"
             />
+            <AppInput 
+              placeholder="Professor Title"
+              onChange={(e) => setTitle(e.target.value)}
+              type="text"
+            />
             <AppSwitch 
               title="Do you possess a teaching certification/diploma"
               onChange={(e) => setIsCertified(e.target.checked)}
               checked={isCertified}
-              className="full"
             />
             <AppInput 
               title="Upload Your Resume"
