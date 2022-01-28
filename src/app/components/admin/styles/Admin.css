@@ -50,12 +50,20 @@
   text-transform: capitalize
 }
 .admin-page .admin-section .table .admin-row h6.status span {
-  color: var(--color);
+  color: #444;
   text-transform: capitalize;
   padding: 4px 8px;
   border-radius: 5px;
-  background: var(--lightestblue);
+  background: #eee;
   cursor: pointer;
+}
+.admin-page .admin-section .table .admin-row h6.status span.good {
+  background: var(--lightestblue);
+  color: var(--color);
+}
+.admin-page .admin-section .table .admin-row h6.status span.bad {
+  background: var(--lightRed);
+  color: var(--red);
 }
 .admin-page .admin-section .table .admin-row h6:hover i {
   opacity: 1;

@@ -28,6 +28,7 @@ import MyAccount from '../pages/MyAccount'
 import ProfilePage from "../pages/ProfilePage"
 import AdminPage from "../pages/AdminPage"
 import InstructorApplication from '../pages/InstructorApplication'
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min"
 
 export default function HomeCont() {
 
@@ -62,7 +63,7 @@ export default function HomeCont() {
             <InstructorPage />
           </Route>
           <Route path="/become-an-instructor">
-            <BecomeInstructor />
+            { !myUser?.isInstructor || myUser?.isAdmin ? <BecomeInstructor /> : <Redirect to={Home}/>}
           </Route>
           <Route path="/my-library">
             <MyLibrary />

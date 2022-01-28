@@ -31,6 +31,7 @@ export default function AdminPage() {
         exact={link.exact}
         to={link.url} 
         activeClassName="active-link"
+        key={i}
       >
         {link.name}
       </NavLink>

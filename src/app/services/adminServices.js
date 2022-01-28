@@ -31,6 +31,7 @@ export const getInstructorsCount = (setCount) => {
 export const getInstructorApplications = (setApplications, limit) => {
   db.collection('instructorApplications')
   .limit(limit)
+  .orderBy('dateCreated', 'desc')
   .onSnapshot(snap => {
     const applicationsArr = []
     snap.forEach(doc => applicationsArr.push(doc.data()))
@@ -48,6 +49,7 @@ export const getInstructorApplicationByID = (applicationID, setApplication) => {
 
 export const getAllEmails = (setEmails, limit) => {
   db.collection('mail')
+  .orderBy('delivery.endTime', 'desc')
   .limit(limit)
   .onSnapshot(snap => {
     const emailsArr = []

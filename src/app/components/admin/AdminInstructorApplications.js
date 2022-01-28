@@ -29,6 +29,7 @@ export default function AdminInstructorApplications() {
             <h5>Email</h5>
             <h5>Category</h5>
             <h5>Years Of Experience</h5>
+            <h5>Status</h5>
             <h5>Application Date</h5>
           </header>
           <div className="body">

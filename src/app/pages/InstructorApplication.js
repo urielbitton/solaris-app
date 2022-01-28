@@ -20,6 +20,7 @@ export default function InstructorApplication() {
   const [applicationUser, setApplicationUser] = useState({})
   const [loading, setLoading] = useState(false)
   const history = useHistory()
+  const disableButton = applicationUser?.isInstructor
 
   const approveApplication = () => {
     setLoading(true)
@@ -38,7 +39,17 @@ export default function InstructorApplication() {
     updateDB('instructorApplications', application?.applicationID, {
       isApproved: false
     })
-    .then(() => setLoading(false))
+    .then(() => {
+      setLoading(false)
+      createNewNotification(
+        application?.userID,
+        'Instructor Application Rejected', 
+        `Your instructor application was rejected. You can reach out to us by email or 
+         submit a new application if you would like to update your details. Click here to submit a new application.`,
+        `/become-an-instructor`,
+        'fal fa-chalkboard-teacher'
+      )
+    })
     .catch(err => {
       setLoading(false)
       console.log(err)
@@ -189,13 +200,22 @@ export default function InstructorApplication() {
           </h6>
           <h6 className="column">
             Biography
-            <div className="text-container">
+            <div className="text-container bio">
               <span>{application?.bio}</span>
             </div>
           </h6>
           <h6>
             Resume
-            <span>{application?.resume}</span>
+            <span>
+              <a 
+                href={application?.resume}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="far fa-file-pdf"></i>
+                Resume
+              </a>
+            </span>
           </h6>
           <h6>
             Years Of Teaching Experience
@@ -208,9 +228,19 @@ export default function InstructorApplication() {
         </section>
         <hr/>
         <div className="btn-group">
-          <button onClick={() => approveApplication()}>Approve</button>
-          <button onClick={() => approveAndCreated()}>Approve & Create Instructor</button>
-          <button onClick={() => rejectApplication()} className="reject-btn">Reject</button>
+          <button 
+            onClick={() => approveApplication()}
+            disabled={disableButton}
+          >Approve</button>
+          <button 
+            onClick={() => approveAndCreated()}
+            disabled={disableButton}
+          >Approve & Create Instructor</button>
+          <button 
+            onClick={() => rejectApplication()} 
+            disabled={disableButton}
+            className="reject-btn"
+          >Reject</button>
         </div>
       </div>
       <PageLoader loading={loading} />

@@ -7,14 +7,15 @@ import SlideElement from '../components/ui/SlideElement'
 import { AppInput, AppSelect, AppSwitch, AppTextarea } from '../components/ui/AppInputs'
 import { getAdminAccountInfo, getCourseCategories } from '../services/adminServices'
 import PageLoader from '../components/ui/PageLoader'
-import { addSubDB, setDB } from '../services/CrudDB'
+import { addSubDB, setDB, updateDB } from '../services/CrudDB'
 import { db } from "../firebase/fire"
 import { useHistory } from "react-router-dom"
 import { createNewNotification } from '../services/notificationsServices'
+import { uploadImgToFireStorage } from "../services/ImageUploadServices"
 
 export default function BecomeInstructor() {
 
-  const { setNavTitle, setNavDescript, user, myUser } = useContext(StoreContext)
+  const { setNavTitle, setNavDescript, user, myUser, adminUserID } = useContext(StoreContext)
   const [slidePosition, setSlidePosition] = useState(0)
   const [coverMessage, setCoverMessage] = useState('Become an instructor on Solaris!')
   const [slidesLength, setSlidesLength] = useState(3)
@@ -32,8 +33,8 @@ export default function BecomeInstructor() {
   const [endMessage, setEndMessage] = useState('')
   const [isSuccess, setIsSuccess] = useState(false)
   const [adminInfo, setAdminInfo] = useState({})
-  const applicationAccess = firstName.length && lastName.length && category.length && resume.length
-    && yearsExperience.length && reasonsToApply.length && bio.length
+  const applicationAccess = firstName.length && lastName.length && category.length && 
+    yearsExperience.length && reasonsToApply.length && bio.length
   const history = useHistory()
 
   const featuresList = [
@@ -60,56 +61,70 @@ export default function BecomeInstructor() {
     if(applicationAccess) {
       const genApplNumber = Math.floor(Math.random() * 1000) + 9999
       setIsLoading(true)
-      const docID = db.collection('instructorApplications').doc().id
-      setDB('instructorApplications', docID, {
-        applicationID: docID,
-        number: `appl-${genApplNumber}`,
-        isApproved: null,
-        dateCreated: new Date(),
-        userID: user?.uid,
-        name: `${firstName} ${lastName}`,
-        email: user?.email,
-        preferredCategory: category,
-        resume: '',
-        yearsOfExperience: +yearsExperience,
-        hasCertification: isCertified,
-        reasonsToApply,
-        title,
-        bio
-      })
-      .then(() => {        
-        setIsLoading(false)
-        addSubDB('users', user?.uid, 'emails', {
-          email: myUser?.email,
-          subject: 'Solaris: New Instructor Application',
-          html: `Hi ${myUser?.firstName},<br/><br/>Thank you for submitting an application to become an instructor on Solaris Platform.
-          <br/><br/>Our team will reveiw your application and be in touch with you shortly. <br/>Updates on the status of your application will
-          follow.<br/><br/>Best,<br/><br/>The Solaris Team`,
-          dateSent: new Date()
+      uploadImgToFireStorage(resume, `users/${myUser?.userID}/files`, 'resume')
+      .then((resumeURL) => {
+        const docID = db.collection('instructorApplications').doc().id
+        setDB('instructorApplications', docID, {
+          applicationID: docID,
+          number: `appl-${genApplNumber}`,
+          isApproved: null,
+          dateCreated: new Date(),
+          userID: user?.uid,
+          name: `${firstName} ${lastName}`,
+          email: user?.email,
+          preferredCategory: category,
+          resume: resumeURL,
+          yearsOfExperience: +yearsExperience,
+          hasCertification: isCertified,
+          reasonsToApply,
+          title,
+          bio
         })
-        addSubDB('users', 'tnHjCJ22kpM06xQtiVm0dPIKjL62', 'emails', {
-          email: adminInfo?.email,
-          subject: 'Solaris: New Instructor Application',
-          html: `Hi Admin, <br/><br/>You have a new instructor application submitted on Solaris by ${myUser?.firstName} ${myUser?.lastName} today.
-          <br/>Log into your account to reveiw their application.<br/><br/>Best,<br/><br/>The Solaris Team`,
-          dateSent: new Date()
+        .then(() => {   
+          setIsLoading(false)     
+          addSubDB('users', user?.uid, 'emails', {
+            email: myUser?.email,
+            subject: 'Solaris: New Instructor Application',
+            html: `Hi ${myUser?.firstName},<br/><br/>Thank you for submitting an application to become an instructor on Solaris Platform.
+            <br/><br/>Our team will reveiw your application and be in touch with you shortly. <br/>Updates on the status of your application will
+            follow.<br/><br/>Best,<br/><br/>The Solaris Team`,
+            dateSent: new Date()
+          })
+          addSubDB('users', adminUserID, 'emails', {
+            email: adminInfo?.email,
+            subject: 'Solaris: New Instructor Application',
+            html: `Hi Admin, <br/><br/>You have a new instructor application submitted on Solaris by ${myUser?.firstName} ${myUser?.lastName} today.
+            <br/>Log into your account <a href="https://solaris-app.vercel.app/">here</a> to review their application.<br/><br/>Best,<br/><br/>The Solaris Team`,
+            dateSent: new Date()
+          })
+          setEndMessage('Your application was successfully submitted. You will receive a confirmation ' +
+          'email shortly and our team will be in touch to review your application.')
+          setIsSuccess(true)
+          setSlidePosition(3)
+          createNewNotification(
+            adminUserID,
+            'New Instructor Application', 
+            `You have recieved a new instructor application from ${myUser?.firstName} ${myUser?.lastName}`,
+            `/admin/instructor-applications`,
+            'fal fa-chalkboard-teacher'
+          )
+          createNewNotification(
+            myUser?.userID,
+            'Instructor Application', 
+            `We have received your application. You have recently applied to become an instructor.`,
+            `/become-an-instructor`,
+            'fal fa-chalkboard-teacher'
+          )
         })
-        setEndMessage('Your application was successfully submitted. You will receive a confirmation ' +
-        'email shortly and our team will be in touch to review your application.')
-        setIsSuccess(true)
-        setSlidePosition(3)
-        createNewNotification(
-          user?.uid,
-          'New Instructor Application', 
-          `You have recieved a new instructor application from ${myUser?.firstName} ${myUser?.lastName}`,
-          `/admin/instructor-applications`,
-          'fal fa-chalkboard-teacher'
-        )
+        .catch(err => {
+          console.log(err)
+          setEndMessage('Seems like there was an error submitting your application. Please try again later.')
+          setIsSuccess(false)
+          setIsLoading(false)
+        })
       })
       .catch(err => {
         console.log(err)
-        setEndMessage('Seems like there was an error submitting your application. Please try again later.')
-        setIsSuccess(false)
         setIsLoading(false)
       })
     }
@@ -198,9 +213,9 @@ export default function BecomeInstructor() {
             <AppInput 
               title="Upload Your Resume"
               type="file"
-              accept=".pdf, .docx, .doc" 
+              accept=".pdf, .docx, .doc, .txt, ppt, pptx" 
               className="full"
-              onChange={(e) => setResume(e.target.value)}
+              onChange={(e) => setResume(e)}
             />
             <div className="button-group">
               <button 

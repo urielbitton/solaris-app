@@ -23,6 +23,8 @@ const StoreContextProvider = ({children}) => {
   const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'})
   const percentFormat = new Intl.NumberFormat('en-CA', {style: 'percent'})
 
+  const adminUserID = 'tnHjCJ22kpM06xQtiVm0dPIKjL62'
+
   useEffect(() => {
     if(user) {
       db.collection('users').doc(user.uid).onSnapshot(snap => {
@@ -55,7 +57,8 @@ const StoreContextProvider = ({children}) => {
     windowPadding, setWindowPadding, appBg, setAppBg, 
     openSidebar, setOpenSidebar,
     darkMode, setDarkMode,
-    currencyFormat, percentFormat
+    currencyFormat, percentFormat,
+    adminUserID
   }}>
     {children}
   </StoreContext.Provider>

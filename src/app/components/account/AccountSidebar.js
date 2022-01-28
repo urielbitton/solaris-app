@@ -27,12 +27,12 @@ export default function AccountSidebar() {
       'profile-img',
       setImgUrl
     )
-    .then(() => {
+    .then((url) => {
       updateDB('users', myUser?.userID, {
-        photoURL: imgUrl
+        photoURL: url
       })
       user.updateProfile({
-        photoURL: imgUrl
+        photoURL: url
       })
       .then(() => {
         setLoading(false)

@@ -16,6 +16,7 @@ import { CreateCourse, SaveCourse, DeleteCourse } from '../services/CRUDCourse'
 import PageLoader from '../components/ui/PageLoader'
 import { getCourseByID, getLessonsByCourseID } from "../services/courseServices"
 import { uploadImgToFireStorage } from "../services/ImageUploadServices"
+import { updateDB } from "../services/CrudDB"
 
 export default function CreateCoursePage({editMode}) {
  
@@ -24,6 +25,7 @@ export default function CreateCoursePage({editMode}) {
   const courseID = useRouteMatch('/edit-course/:courseID')?.params.courseID
   const [courseTitle, setCourseTitle] = useState('')
   const [courseCover, setCourseCover] = useState('')
+  const [coverDisplay, setCoverDisplay] = useState('')
   const [courseLang, setCourseLang] = useState('english')
   const [courseDifficulty, setCourseDifficulty] = useState('easy')
   const [courseCategory, setCourseCategory] = useState('')
@@ -245,6 +247,14 @@ export default function CreateCoursePage({editMode}) {
     />
   }) 
 
+  const handleCoverUpload = (e) => {
+    setCourseCover(e)
+    const file = e.target.files[0]
+    if(file) {
+      setCoverDisplay(URL.createObjectURL(file))
+    }
+  }
+
   const whatYouLearnEnterPress = (e) => {
     let keyCode = e.code || e.key
     if (keyCode === 'Enter' && (whatYouLearnText.length < 400 && whatYouLearnText.length)) {
@@ -396,10 +406,6 @@ export default function CreateCoursePage({editMode}) {
     }
   }
 
-  const uploadCoverToFireStorage = (e, ) => {
-    uploadImgToFireStorage(e, `/courses/${!editMode ? newCourseID : courseID}/cover`, 'cover-img', setCourseCover)
-  }
-
   const convertYoutubeLink = (e) => {
     let videoUrlID = e.target.value
     if(videoUrlID.includes('watch?v=')) {
@@ -484,7 +490,19 @@ export default function CreateCoursePage({editMode}) {
       if(!editMode) {
         CreateCourse(newCourseID, lessons, myUser, courseObject)
         .then(() => {
-          setLoading(false)
+          uploadImgToFireStorage(
+            courseCover, 
+            `/courses/${newCourseID}/cover`, 
+            'cover-img'
+          )
+          .then(url => {
+            updateDB('courses', newCourseID, {
+              cover: url
+            })
+            .then(() => setLoading(false))
+            .catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
           history.push(`/courses/course/${newCourseID}`)
         })
         .catch(err => {
@@ -620,11 +638,11 @@ export default function CreateCoursePage({editMode}) {
             <div className="course-info">
             <h5 className="create-title">Course Information</h5>
               <h6>Cover Image</h6>
-              <label className="upload-container" style={{backgroundImage: `url(${courseCover})`, height: courseCover?.length ? "300px" : "100px"}}>
+              <label className="upload-container" style={{backgroundImage: `url(${coverDisplay})`, height: coverDisplay.length ? "300px" : "100px"}}>
                 <input 
                   style={{display:'none'}} 
                   type="file" accept='.jpg,.jpeg,.jfif,.png' 
-                  onChange={(e) => uploadCoverToFireStorage(e)} 
+                  onChange={(e) => handleCoverUpload(e)} 
                   ref={inputRef}
                 />
                 {!courseCover?.length && <i className="fal fa-images"></i>}

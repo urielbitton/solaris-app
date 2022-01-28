@@ -19,7 +19,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
 }
 .instructor-application-page .side-bar section > h5 {
   color: #444;
@@ -103,12 +103,23 @@
 .instructor-application-page .main-content > section h6.column span {
   color: #555;
 }
+.instructor-application-page .main-content > section h6 span a {
+  color: var(--color);
+  text-decoration: underline;
+}
+.instructor-application-page .main-content > section h6 span a i {
+  margin-right: 7px;
+  font-size: 16px;
+}
 .instructor-application-page .main-content .text-container {
   padding: 15px;
   border-radius: 10px;
   background: #f5f5f5;
   margin-top: 10px;
   line-height: 1.6;
+}
+.instructor-application-page .main-content .text-container.bio {
+  white-space:pre;
 }
 .instructor-application-page .main-content hr {
   margin: 40px 0;
@@ -131,4 +142,8 @@
 }
 .instructor-application-page .main-content .btn-group button.reject-btn {
   background: var(--red)
+}
+.instructor-application-page .main-content .btn-group button[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
 }

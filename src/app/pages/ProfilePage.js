@@ -6,6 +6,7 @@ import StudentAvatar from '../components/student/StudentAvatar'
 import { convertFireDateToMonthAndYear } from '../utils/utilities'
 import CoursesGrid from '../components/course/CoursesGrid'
 import { StoreContext } from "../store/store"
+import { useHistory } from "react-router-dom"
 
 export default function ProfilePage() {
 
@@ -16,6 +17,7 @@ export default function ProfilePage() {
   const [enrolledCourses, setEnrolledCourses] = useState([])
   const [certifications, setCertifications] = useState([])
   const enrolledCoursesList = enrolledCourses?.map((course) => course.courseID)
+  const history = useHistory()
 
   useEffect(() => {
     getUserByID(userID, setProfileUser)
@@ -43,7 +45,7 @@ export default function ProfilePage() {
         />
         <small>
           <i className="far fa-map-marker-alt"></i>
-          <span>{profileUser?.city}, {profileUser?.region}</span>
+          <span>{profileUser?.city}, {profileUser?.country}</span>
         </small>
         <small>Joined {convertFireDateToMonthAndYear(profileUser?.dateCreated)}</small>
         </div>
@@ -96,7 +98,17 @@ export default function ProfilePage() {
       </div>
       <div className="profile-content">
         <h3>Courses Enrolled</h3>
-        <CoursesGrid courses={courses} />
+        {
+          courses?.length ? 
+          <CoursesGrid courses={courses} /> :
+          <div className="no-courses">
+            <h5>No enrolled courses yet.</h5>
+            <button
+              className="shadow-hover"
+              onClick={() => history.push('/courses')}
+            >View Courses</button>
+          </div>
+        }
       </div>
     </div>
   )

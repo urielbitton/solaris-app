@@ -25,7 +25,7 @@ export default function EmailRow(props) {
         />
       </h6>
       <h6 className="status">
-        <span>{delivery.state?.toLowerCase()}</span>
+        <span className={delivery.state === 'SUCCESS' ? 'good' : 'bad'}>{delivery.state?.toLowerCase()}</span>
       </h6>
       <h6>{convertFireDateToString(delivery.endTime)}</h6>
     </div>
