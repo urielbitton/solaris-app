@@ -7,11 +7,11 @@ import SlideElement from '../components/ui/SlideElement'
 import { AppInput, AppSelect, AppSwitch, AppTextarea } from '../components/ui/AppInputs'
 import { getAdminAccountInfo, getCourseCategories } from '../services/adminServices'
 import PageLoader from '../components/ui/PageLoader'
-import { addSubDB, setDB, updateDB } from '../services/CrudDB'
+import { addSubDB, setDB } from '../services/CrudDB'
 import { db } from "../firebase/fire"
 import { useHistory } from "react-router-dom"
 import { createNewNotification } from '../services/notificationsServices'
-import { uploadImgToFireStorage } from "../services/ImageUploadServices"
+import { uploadImgToFireStorage } from "../services/storageServices"
 
 export default function BecomeInstructor() {
 

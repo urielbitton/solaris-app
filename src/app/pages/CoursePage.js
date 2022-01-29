@@ -27,7 +27,7 @@ export default function CoursePage() {
   const [students, setStudents] = useState([])
   const courseID = useRouteMatch('/courses/course/:courseID')?.params.courseID
   const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
-  const inCourseInstructor = instructor?.instructorID === myUser?.instructorID
+  const isCourseInstructor = instructor?.instructorID === myUser?.instructorID
   const history = useHistory()
   const location = useLocation()
   const lessonsScrollRef = useRef()
@@ -67,7 +67,7 @@ export default function CoursePage() {
     return <QuizCard 
       quiz={quiz} 
       courseID={courseID}
-      inCourseInstructor={inCourseInstructor}
+      isCourseInstructor={isCourseInstructor}
       key={i} 
     />
   })
@@ -125,7 +125,7 @@ export default function CoursePage() {
   return (
     <div className="course-page">
       <header className="banner">
-        { (inCourseInstructor || myUser?.isSuperAdmin) && <i className="far fa-pen edit-icon" onClick={() => history.push(`/edit-course/${courseID}`)}></i> }
+        { (isCourseInstructor || myUser?.isAdmin) && <i className="far fa-pen edit-icon" onClick={() => history.push(`/edit-course/${courseID}`)}></i> }
         <div className="side">
           <small>{course?.category}</small>
           <h1>{course?.title}</h1>
@@ -184,7 +184,7 @@ export default function CoursePage() {
               {quizesRender}
             </div>
             {
-              inCourseInstructor ?
+              isCourseInstructor ?
               <button 
                 className="create-quiz-btn shadow-hover"
                 onClick={() => history.push(`/courses/course/${courseID}/create/quiz`)}
@@ -212,7 +212,7 @@ export default function CoursePage() {
                       <span>Review{instructorReviews?.length !== 1 ? "s" : ""}</span>
                     </div>
                     <div className="border">
-                      <big>{isNaN(isntructorRatingAvg.toFixed(1)) ? "N/A" : isntructorRatingAvg.toFixed(1)}</big>
+                      <big>{instructor?.rating}</big>
                       <span>Rating</span>
                     </div>
                   </div>
@@ -243,8 +243,20 @@ export default function CoursePage() {
               mainTitle="Write A Review"
               titleInput="Review Title"
               messageInput="Review Summary"
+              canReview={courseUserAccess}
             />
           </section>
+          { 
+            (isCourseInstructor || myUser?.isAdmin) && 
+            <section>
+              <div className="btn-group">
+                <button 
+                  className="shadow-hover"
+                  onClick={() => history.push(`/edit-course/${courseID}`)}
+                >Edit Course</button>
+              </div>
+            </section>
+          }
         </div>
         <div className="course-info-container">
           <div className="course-info">

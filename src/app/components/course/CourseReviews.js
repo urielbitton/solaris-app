@@ -9,7 +9,11 @@ export default function CourseReviews(props) {
   const [reviews, setReviews] = useState([])
 
   const reviewRender = reviews?.map((review,i) => {
-    return <CommentCard comment={review} type="review" key={i} />
+    return <CommentCard 
+      comment={review} 
+      type="review" 
+      key={i} 
+    />
   })
 
   useEffect(() => {

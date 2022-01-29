@@ -15,7 +15,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { CreateCourse, SaveCourse, DeleteCourse } from '../services/CRUDCourse'
 import PageLoader from '../components/ui/PageLoader'
 import { getCourseByID, getLessonsByCourseID } from "../services/courseServices"
-import { uploadImgToFireStorage } from "../services/ImageUploadServices"
+import { uploadImgToFireStorage, uploadMultipleFilesToFireStorage } from "../services/storageServices"
 import { updateDB } from "../services/CrudDB"
 
 export default function CreateCoursePage({editMode}) {
@@ -48,6 +48,7 @@ export default function CreateCoursePage({editMode}) {
   const [notesText, setNotesText] = useState('')
   const [notesFileText, setNotesFileText] = useState('')
   const [notesFile, setNotesFile] = useState('')
+  const [lessonFile, setLessonFiles] = useState(null)
   const [youtubeLink, setYoutubeLink] = useState('')
   const [showVideoModal, setShowVideoModal] = useState(false)
   const [showNotesModal, setShowNotesModal] = useState(false)
@@ -76,7 +77,7 @@ export default function CreateCoursePage({editMode}) {
   const createCourseAccess = (!editMode ? lessons.length > 0 : courseLessons.length > 0) && courseTitle.length 
     && courseShortDescript.length
   const isCourseInstructor = editMode && course?.instructorID === myUser?.instructorID
-  const canAccessPage = editMode ? (isCourseInstructor || myUser?.isSuperAdmin) : myUser?.isInstructor
+  const canAccessPage = editMode ? (isCourseInstructor || myUser?.isAdmin) : myUser?.isInstructor
 
 
   const languages = [
@@ -387,6 +388,7 @@ export default function CreateCoursePage({editMode}) {
   const handleFileUpload = (e) => {
     setNotesFileText(e.target.value)
     setNotesFile(e.target.files)
+    setLessonFiles(e)
   }
 
   const showNotesFileNum = (filesNum) => {
@@ -486,7 +488,6 @@ export default function CreateCoursePage({editMode}) {
         totalDuration: 0, 
         whatYouLearn
       }
-      
       if(!editMode) {
         CreateCourse(newCourseID, lessons, myUser, courseObject)
         .then(() => {
@@ -499,11 +500,13 @@ export default function CreateCoursePage({editMode}) {
             updateDB('courses', newCourseID, {
               cover: url
             })
-            .then(() => setLoading(false))
+            .then(() => {
+              setLoading(false)
+              history.push(`/courses/course/${newCourseID}`)
+            })
             .catch(err => console.log(err))
           })
           .catch(err => console.log(err))
-          history.push(`/courses/course/${newCourseID}`)
         })
         .catch(err => {
           console.log(err)
@@ -513,8 +516,63 @@ export default function CreateCoursePage({editMode}) {
       else {
         SaveCourse(courseID, [...courseLessons, ...lessons], courseObject, deletedLessons)
         .then(() => {
-          setLoading(false)
-          history.push(`/courses/course/${courseID}`)
+          if(courseCover.target) { //if course cover was uploaded via onChange
+            uploadImgToFireStorage(
+              courseCover, 
+              `/courses/${courseID}/cover`, 
+              'cover-img'
+            )
+            .then(url => {
+              updateDB('courses', courseID, {
+                cover: url
+              })
+              .then(() => {
+                setLoading(false)
+                history.push(`/courses/course/${courseID}`)
+              })
+              .catch(err => {
+                console.log(err)
+                setLoading(false)
+              })
+            })
+            .catch(err => {
+              console.log(err)
+              setLoading(false)
+            })
+          }
+          else {
+            setLoading(false)
+            history.push(`/courses/course/${courseID}`)
+          }
+          // const combinedLessons = [...courseLessons, ...lessons]
+            // new Promise((resolve, reject) => {
+            //   combinedLessons.forEach((lesson,i) => {
+            //     uploadMultipleFilesToFireStorage(
+            //       lesson.lessonFiles, 
+            //       `/courses/${courseID}/lessons/${lesson.lessonID}/files`,
+            //       `/courses/${courseID}/lessons/${lesson.lessonID}/files`
+            //     )
+            //     .then(() => {
+            //       if(i === combinedLessons.length-1) {
+            //         resolve()
+            //         setLoading(false)
+            //       }
+            //       setLoading(false)
+            //     })
+            //     .catch(err => {
+            //       console.log(err)
+            //       setLoading(false)
+            //       reject()
+            //     })
+            //   })
+            // })
+            // .then(() => {
+            //   setLoading(false)
+            // })
+            // .catch(err => {
+            //   console.log(err)
+            //   setLoading(false)
+            // })
         })
         .catch(err => {
           console.log(err)
@@ -597,6 +655,7 @@ export default function CreateCoursePage({editMode}) {
     if(editMode) {
       setCourseTitle(course.title)
       setVideoType('youtube')
+      setCoverDisplay(course.cover)
       setCourseCover(course.cover)
       setCourseLang(course.language)
       setCourseDifficulty(course.difficulty)
@@ -638,14 +697,23 @@ export default function CreateCoursePage({editMode}) {
             <div className="course-info">
             <h5 className="create-title">Course Information</h5>
               <h6>Cover Image</h6>
-              <label className="upload-container" style={{backgroundImage: `url(${coverDisplay})`, height: coverDisplay.length ? "300px" : "100px"}}>
+              <label  
+                className={`upload-container ${coverDisplay?.length ? 'has-img' : ''}`} 
+                style={{backgroundImage: `url(${coverDisplay})`, height: coverDisplay?.length ? "300px" : "120px"}}
+                onChange={(e) => handleCoverUpload(e)} 
+              >
+                {
+                  coverDisplay?.length &&
+                  <div className="upload-cover">
+                    <h4>Click here to change cover image</h4>
+                  </div>
+                }
                 <input 
                   style={{display:'none'}} 
                   type="file" accept='.jpg,.jpeg,.jfif,.png' 
-                  onChange={(e) => handleCoverUpload(e)} 
                   ref={inputRef}
                 />
-                {!courseCover?.length && <i className="fal fa-images"></i>}
+                {!coverDisplay?.length && <i className="fal fa-images"></i>}
               </label>
               <AppInput title="Course Title" onChange={(e) => setCourseTitle(e.target.value)} value={courseTitle} />
               <AppSelect title="Language" options={languages} onChange={(e) => setCourseLang(e.target.value)} value={courseLang} />
@@ -718,7 +786,7 @@ export default function CreateCoursePage({editMode}) {
               </div>
             </AppModal>
             <AppModal 
-              title="Add Notes"
+              title="Add Notes/Files"
               showModal={showNotesModal}
               setShowModal={setShowNotesModal}
               actions={<>

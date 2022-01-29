@@ -1,3 +1,7 @@
+.add-comment-container {
+  display: flex;
+  flex-direction: column;
+}
 .add-comment-container .rating-setter {
   display: flex;
   align-items: center;

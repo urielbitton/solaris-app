@@ -60,6 +60,7 @@ export const getAllEmails = (setEmails, limit) => {
 
 export const getAllIncidents = (setIncidents, limit) => {
   db.collection('incidents')
+  .orderBy('dateAdded', 'desc')
   .limit(limit)
   .onSnapshot(snap => {
     const incidentArr = []
@@ -86,7 +87,8 @@ export const getAdminGeneralSettings = (setSettings) => {
 
 export const getAllStudents = (setStudents, limit) => {
   db.collection('users')
-  .where('isInstructor', '!=', true)
+  .where('isStudent', '==', true)
+  .orderBy('lastName', 'desc')
   .onSnapshot(snap => {
     const studentsArr = []
     snap.forEach(doc => studentsArr.push(doc.data()))

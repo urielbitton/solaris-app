@@ -23,10 +23,10 @@ export const googleAuth = (setMyUser) => {
               website: '',
               photoURL: res.additionalUserInfo.profile.picture,
               companyName: '',
-              isAdmin: false,
               dateCreated: new Date(),
               isInstructor: false,
-              isProMember: false
+              isProMember: false,
+              isStudent: true
             }).then(() => {
               addSubDB('users', user.uid, 'emails', {
                 email: user.email,

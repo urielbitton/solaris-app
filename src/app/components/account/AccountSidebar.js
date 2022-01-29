@@ -5,7 +5,7 @@ import placeholderImg from '../../assets/imgs/placeholder.png'
 import { getCertificationsByUserID, getCoursesIDEnrolledByUserID } from '../../services/userServices'
 import { getCoursesByInstructorID } from '../../services/InstructorServices'
 import { useHistory } from "react-router-dom"
-import { uploadImgToFireStorage } from '../../services/ImageUploadServices'
+import { uploadImgToFireStorage } from '../../services/storageServices'
 import PageLoader from '../ui/PageLoader'
 import { updateDB } from '../../services/CrudDB'
 

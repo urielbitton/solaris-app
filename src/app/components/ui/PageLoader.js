@@ -11,7 +11,7 @@ export default function PageLoader({loading}) {
         backdropFilter:'blur(2px)',
         width:'100%',
         height:'100vh',
-        zIndex:'1000',
+        zIndex:'9000',
         display:'flex',
         justifyContent:'center',
         alignItems:'center',

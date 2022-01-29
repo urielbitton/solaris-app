@@ -67,7 +67,9 @@ export default function Register() {
             photoURL: 'https://i.imgur.com/D4fLSKa.png',
             userID: user.uid,
             dateCreated: new Date(),
-            isInstructor: false
+            isInstructor: false,
+            isStudent: true,
+            isProMember: false
           }).then(() => { 
             const notifID = db.collection('users').doc(user.uid).collection('notifications').doc().id
             addSubDB('users', user.uid, 'notifications', {

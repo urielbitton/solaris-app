@@ -10,12 +10,13 @@ import { AppSelect, AppTextarea } from "../ui/AppInputs"
 import { setDB } from "../../services/CrudDB"
 import { isUserInstructor } from "../../services/userServices"
 import { Link } from "react-router-dom"
+import { createNewNotification } from "../../services/notificationsServices"
 
 export default function CommentCard(props) {
 
-  const {user} = useContext(StoreContext)
-  const {authorName, authorImg, dateAdded, rating, text,
-    title, userID, commentID, likes} = props.comment
+  const { user, myUser, adminUserID } = useContext(StoreContext)
+  const {authorName, authorImg, dateAdded, rating, text, title, userID, 
+    commentID, likes} = props.comment
   const {type, courseID, lessonID, videoID} = props
   const [openReport, setOpenReport] = useState(false)
   const [reportMessage, setReportMessage] = useState('')
@@ -68,8 +69,10 @@ export default function CommentCard(props) {
       const newIncidentID = db.collection('incidents').doc().id
       setDB('incidents', newIncidentID, {
         commentID,
+        commentText: text,
+        commentAuthor: authorName,
         dateAdded: new Date(),
-        incidentID: newIncidentID,
+        incidentID: newIncidentID, 
         incidentType: 'comment',
         reason: reportReason,
         reporterID: user?.uid,
@@ -78,12 +81,31 @@ export default function CommentCard(props) {
         isResolved: false,
         incidentNumber: `inc-${genIncidentNumber}`
       }).then(() => {
+        createNewNotification(
+          adminUserID,
+          'New Incident Reported', 
+          `A comment has been reported by ${user?.displayName}. View & manage your incidents here.`,
+          '/admin/incidents',
+          'fal fa-exclamation-triangle'
+        )
+        createNewNotification(
+          myUser?.userID,
+          'Incident Reported', 
+          'You have recently reported a comment. Our team will review it shortly and be in touch if necessary.',
+          '/',
+          'fal fa-exclamation-triangle'
+        )
         setOpenReport(false)
         setReportMessage('')
         setReportReason('')
         window.alert('Your report has been sent. Our team will analyze the incident and get back to you shortly.')
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        setOpenReport(false)
+        setReportMessage('')
+        setReportReason('')
+      })
     }
   }
 
@@ -98,7 +120,7 @@ export default function CommentCard(props) {
       <div className="review-body">
         <div className="titles">
         <h4>
-            <Link to={isInstructor ? `/instructors/instructor/${userID}` : `/profile/${userID}`}>
+            <Link to={`/profile/${userID}`}>
               {authorName} 
               {isInstructor && <span className="instructor-badge">Instructor</span>}
             </Link>

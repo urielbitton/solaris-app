@@ -22,10 +22,10 @@ export const githubAuth = (setMyUser) => {
             country: "",
             photoURL: user.photoURL,
             companyName: '',
-            isAdmin: false,
             dateCreated: new Date(),
             isInstructor: false,
-            isProMember: false
+            isProMember: false,
+            isStudent: true
           }).then(res => {
             setMyUser(user)
           })

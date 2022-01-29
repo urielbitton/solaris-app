@@ -11,7 +11,7 @@ export default function WriteComment(props) {
 
   const {user, myUser} = useContext(StoreContext)
   const {course, instructor, courseID, lessonID, videoID, writeType, mainTitle, 
-    titleInput, messageInput, lesson} = props
+    titleInput, messageInput, lesson, canReview} = props
   const [rating, setRating] = useState(1)
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
@@ -36,17 +36,20 @@ export default function WriteComment(props) {
   })
 
   const writeReview = () => {
-    const newReviewID = db.collection('courses').doc(courseID).collection('reviews').doc().id
-    const reviewObj = {
-      authorImg: myUser?.photoURL ?? "https://i.imgur.com/D4fLSKa.png",
-      authorName: `${myUser?.firstName} ${myUser?.lastName}`,
-      dateAdded: new Date(),
-      rating: +rating,
-      title,
-      text,
-      userID: user?.uid ?? "na"
-    }
-    if(title.length && text.length) {
+    if(title.length && text.length && canReview) {
+      const newReviewID = db.collection('courses')
+      .doc(courseID)
+      .collection('reviews')
+      .doc().id
+      const reviewObj = {
+        authorImg: myUser?.photoURL ?? "https://i.imgur.com/D4fLSKa.png",
+        authorName: `${myUser?.firstName} ${myUser?.lastName}`,
+        dateAdded: new Date(),
+        rating: +rating,
+        title,
+        text,
+        userID: user?.uid ?? "na"
+      }
       setSubDB('courses', courseID, 'reviews', newReviewID, reviewObj)
       .then(res => {
         setTitle('')
@@ -69,7 +72,7 @@ export default function WriteComment(props) {
   }
 
   const writeComment = () => {
-    if(text.length) {
+    if(text.length && canReview) {
       db.collection('courses').doc(courseID)
       .collection('lessons').doc(lessonID)
       .collection('videos').doc(videoID)
@@ -99,7 +102,10 @@ export default function WriteComment(props) {
   }
 
   return (
-    <div className="add-comment-container">
+    <div 
+      className="add-comment-container"
+      style={{display: canReview ? 'flex' : 'none'}}
+    >
       <h3>{mainTitle}</h3>
       { reviewType &&
         <div className="rating-setter"> 

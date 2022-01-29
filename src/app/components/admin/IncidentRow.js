@@ -21,7 +21,11 @@ export default function IncidentRow(props) {
       <h6>{reason}</h6>
       <h6 title={`Reporter ID: ${reporterID}`}>{reporterName}</h6>
       <h6 className="status" title={resolveComment ? `Resolve Comment: ${resolveComment}` : ''}>
-        <span>{isResolved ? 'Resolved' : 'Unresolved'}</span>
+        <span 
+          className={isResolved ? 'good' : 'bad'}
+        >
+          {isResolved ? 'Resolved' : 'Unresolved'}
+        </span>
       </h6>
       <h6>{convertFireDateToString(dateAdded)}</h6>
     </div>

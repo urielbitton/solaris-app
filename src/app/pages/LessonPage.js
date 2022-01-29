@@ -258,6 +258,7 @@ export default function LessonPage() {
                 writeType="comment"
                 mainTitle="Leave a Reply"
                 messageInput="Enter Reply"
+                canReview={courseUserAccess}
               />
             </div>
           </> :

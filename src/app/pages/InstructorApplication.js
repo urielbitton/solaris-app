@@ -93,7 +93,8 @@ export default function InstructorApplication() {
         })
         updateDB('users', application?.userID, {
           isInstructor: true,
-          instructorID: genNewID
+          instructorID: genNewID,
+          isStudent: false
         })
         createNewNotification(
           application?.userID,

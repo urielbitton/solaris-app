@@ -325,6 +325,19 @@
   font-size: 15px;
 }
 
+.course-page section .btn-group {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-top: 1px solid #ddd;
+  margin-top: -20px;
+  padding-top: 20px;
+}
+.course-page section .btn-group button {
+
+}
+
 .course-page .students-container {
   width: 100%;
   display: flex;

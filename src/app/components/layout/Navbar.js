@@ -17,7 +17,7 @@ export default function Navbar() {
   const [slideProfile, setSlideProfile] = useState(false)
   const [slideNotifs, setSlideNotifs] = useState(false)
   const [unreadNotifs, setUnreadNotifs] = useState(0)
-  const [notifsLimit, setNotifsLimit] = useState(7)
+  const [notifsLimit, setNotifsLimit] = useState(10)
   const [adminSettings, setAdminSettings] = useState({})
   const location = useLocation()
 
