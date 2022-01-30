@@ -1,0 +1,40 @@
+.file-item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-radius: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.file-item:hover {
+  background: #f1f1f1;
+}
+.file-item .icon-container {
+  width: 30px;
+  height: 33px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 30px;
+}
+.file-item .icon-container i {
+  font-size: 17px;
+}
+.file-item .file-name {
+  display: flex;
+  flex-direction: column;
+}
+.file-item h6 {
+  font-size: 13px;
+  color: #444;
+  flex-basis: calc(100% - 42px);
+}
+.file-item h6 ~ small {
+  font-size: 11px;
+  color: var(--graytxt);
+  opacity: 0.8;
+  font-weight: 600;
+}

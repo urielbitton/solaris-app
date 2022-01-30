@@ -17,6 +17,7 @@ import PageLoader from '../components/ui/PageLoader'
 import { getCourseByID, getLessonsByCourseID } from "../services/courseServices"
 import { uploadImgToFireStorage, uploadMultipleFilesToFireStorage } from "../services/storageServices"
 import { updateDB } from "../services/CrudDB"
+import FileItem from "../components/course/FileItem"
 
 export default function CreateCoursePage({editMode}) {
  
@@ -63,6 +64,8 @@ export default function CreateCoursePage({editMode}) {
   const [whatYouLearnText, setWhatYouLearnText] = useState('')
   const [whatYouLearnIndex, setWhatYouLearnIndex] = useState(-1)
   const [loading, setLoading] = useState(false)
+  const [deleteInput, setDeleteInput] = useState('')
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
   const newCourseID = db.collection('courses').doc().id
   const inputRef = useRef()
   const scrollTopRef = useRef()
@@ -94,7 +97,7 @@ export default function CreateCoursePage({editMode}) {
   const courseSummaryArr = [
     {title: 'Course Name', value: courseTitle},
     {title: 'Course Type', value: courseType},
-    {title: 'Course Price', value: "$"+coursePrice},
+    {title: 'Course Price', value:  coursePrice > 0 ? `$${coursePrice}` : 'Free'},
     {title: 'Course Description', value: courseShortDescript}
   ]
 
@@ -155,32 +158,20 @@ export default function CreateCoursePage({editMode}) {
       { !editMode ?
         lesson?.filesPreview?.map((file,j) => { 
           return file.map((file, k) => {
-            return <div className='file-item' key={k}>
-              <div className='icon-container' style={{background: `${fileTypeConverter(file.type).color}33`}}>
-                <i className={fileTypeConverter(file.type).icon} style={{color: fileTypeConverter(file.type).color}}></i>
-              </div>
-              <div className='file-name'>
-                <h6 title={file.name}>{truncateText(file.name, 30)}</h6>
-                <small>{fileTypeConverter(file.type).name} file</small>
-              </div>
-            </div>
+            return <FileItem file={file} key={k} />
           })
         }) :
+        lesson?.files && Array.isArray(lesson?.files) ? 
         lesson?.files?.map((file,k) => { 
-          return <div className='file-item' key={k}>
-            <div className='icon-container' style={{background: `${fileTypeConverter(file.fileType).color}33`}}>
-              <i className={fileTypeConverter(file.fileType).icon} style={{color: file.fileColor}}></i>
-            </div>
-            <div className='file-name'>
-              <h6 title={file.fileName}>{truncateText(file.fileName, 30)}</h6>
-              <small>{fileTypeConverter(file.fileType).name} file</small>
-            </div>
-          </div>
+          return <FileItem file={file} customType key={k} />
+        }) :
+        lesson?.files && Array.from(lesson?.files)?.map((file,k) => { 
+          return <FileItem file={file} key={k} />
         })
       }
     </div>
-  })
-
+  }) 
+ 
   const courseNotesRender = [...lessons, ...courseLessons]?.map((lesson,i) => {
     return lesson?.notes?.map((note,j) => { 
       <h5>{lesson.title}</h5>
@@ -666,11 +657,12 @@ export default function CreateCoursePage({editMode}) {
       const confirm = window.confirm('Are you sure you would like to remove this course?')
       if(confirm) {
         setLoading(true)
-        history.push('/courses')
-        DeleteCourse(courseID, myUser).then(res => {
+        DeleteCourse(courseID, myUser)
+        .then(res => {
           window.alert('The course has been removed.')
           setLoading(false)
         })
+        history.push('/courses')
       }
     }
   }
@@ -761,7 +753,7 @@ export default function CreateCoursePage({editMode}) {
                   Save Course
               </button> 
             }
-            { editMode && <button className="delete" onClick={() => deleteCurrentCourse()}>Delete Course</button> }
+            { editMode && <button className="delete" onClick={() => setShowDeleteModal(true)}>Delete Course</button> }
           </div>
         </div>
         <div className="slide-container" ref={scrollTopRef}>
@@ -805,7 +797,7 @@ export default function CreateCoursePage({editMode}) {
                 {whatYouLearnRender}
                 <div style={{marginBottom: 40}}>
                   <AppInput 
-                    placeholder="Add a learning element...(press enter to save*)"
+                    placeholder="Add a learning element...(press enter to save)"
                     onChange={(e) => setWhatYouLearnText(e.target.value)} 
                     value={whatYouLearnText} 
                     onKeyPress={(e) => whatYouLearnEnterPress(e)}
@@ -908,7 +900,7 @@ export default function CreateCoursePage({editMode}) {
               <h5 className="create-title">Review Course Details</h5>
               <div className="review-row">
                 <h6>Cover Image</h6>
-                <span><img src={courseCover} alt="" /></span>
+                <span><img src={coverDisplay} alt="" /></span>
               </div>
               {courseSummaryRender}
               <br/>
@@ -974,6 +966,24 @@ export default function CreateCoursePage({editMode}) {
             />
           </form>
         </AppModal> 
+        <AppModal 
+          title="Confirm Course Deletion"
+          showModal={showDeleteModal}
+          setShowModal={setShowDeleteModal}
+          actions={<>
+            <button 
+              onClick={() => deleteCurrentCourse()}
+              disabled={deleteInput !== course?.title}
+            >Delete</button>
+          </>}
+        >
+          <div className="form single-columns">
+            <AppInput 
+              title={`Enter course name to confirm: ${course?.title}`} 
+              onChange={(e) => setDeleteInput(e.target.value)}
+            />
+          </div>
+        </AppModal>
       </div> :
       <div className="no-access-container">
         <img src={noAccessImg} alt=""/>

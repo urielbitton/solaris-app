@@ -4,7 +4,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1001;
+  z-index: 2001;
   background: rgba(35, 54, 66, 0.75);
   visibility: hidden;
   opacity: 0;
@@ -84,4 +84,8 @@
   align-items: center;
   gap: 20px;
   border-top: 1px solid #eee;
+}
+.app-modal-container .app-modal button[disabled] {
+  pointer-events: none;
+  opacity: 0.5;
 }
