@@ -80,6 +80,20 @@ export const getNotesByLessonID = (courseID, lessonID, setNotes) => {
   })
 }
 
+export const getLessonFilesByLessonID = (courseID, lessonID, setFiles) => {
+  db.collection('courses')
+  .doc(courseID)
+  .collection('lessons')
+  .doc(lessonID)
+  .collection('files')
+  .orderBy('dateAdded', 'desc')
+  .onSnapshot(snap => {
+    const filesArr = []
+    snap.forEach(doc => filesArr.push(doc.data()))
+    setFiles(filesArr)
+  })
+}
+
 export const getVideoByID = (courseID, lessonID, videoID, setVideo) => {
   db.collection('courses').doc(courseID)
   .collection('lessons').doc(lessonID)
@@ -179,3 +193,4 @@ export const getStudentsByCourseID = (courseID, setStudents, limit) => {
     setStudents(studentsArr)
   })
 }
+

@@ -75,7 +75,7 @@ export default function CreateCoursePage({editMode}) {
   const [courseLessons, setCourseLessons] = useState([])
   const [editLessons, setEditLessons] = useState([])
   const [deletedLessons, setDeletedLessons] = useState([])
-  const [repopulateFlag, setRepopulateFlag] = useState(true)
+  const [repopulateFlag, setRepopulateFlag] = useState(false)
   const totalNotesNum = lessons?.reduce((a,b) => a + b.notes?.length, 0)
   const totalFilesNum = lessons?.reduce((a,b) => a + b.files?.length, 0)
   const courseLessonsNotesNum = courseLessons?.reduce((a,b) => a + b.notes?.length, 0)
@@ -156,7 +156,7 @@ export default function CreateCoursePage({editMode}) {
     return <div className='lesson-block'>
       <h5>{lesson.title}</h5>
       { !editMode ?
-        lesson?.filesPreview?.map((file,j) => { 
+        lesson?.filesPreview.map((file,j) => { 
           return file.map((file, k) => {
             return <FileItem file={file} key={k} />
           })
@@ -314,6 +314,7 @@ export default function CreateCoursePage({editMode}) {
         setDeletedLessons(prev => [...prev, lesson])
         const index = courseLessons.findIndex(x => x.lessonID === lesson.lessonID)
         courseLessons.splice(index, 1)
+        setRepopulateFlag(false)
         setCourseLessons(prev => [...prev])
       }
       setLessons(prev => [...prev])
@@ -405,7 +406,8 @@ export default function CreateCoursePage({editMode}) {
   const deleteFiles = () => {
     lesson.files = []
     lesson.filesPreview = []
-    setShowFilesModal(false)
+    setRepopulateFlag(false)
+    setCourseLessons(prev => [...prev])
   }
   
   const handleFileUpload = (e) => {
@@ -458,42 +460,46 @@ export default function CreateCoursePage({editMode}) {
   }
 
   const repopulateCourseLessonsFromDB = () => {
-    courseLessons.forEach(lesson => {
-      lesson['videos'] = []
-      lesson['notes'] = []
-      lesson['files'] = []
-      lesson['filesPreview'] = [] 
-      //repopulate videos docs
-      db.collection('courses').doc(courseID)
-      .collection('lessons').doc(lesson.lessonID)
-      .collection('videos').onSnapshot(videoDocs => {
-        videoDocs.forEach(doc => {
-          lesson['videos'].push(doc.data())
+    if(repopulateFlag) {
+      courseLessons.forEach(lesson => {
+        lesson['videos'] = []
+        lesson['notes'] = []
+        lesson['files'] = []
+        lesson['filesPreview'] = [] 
+        //repopulate videos docs
+        db.collection('courses').doc(courseID)
+        .collection('lessons').doc(lesson.lessonID)
+        .collection('videos').onSnapshot(videoDocs => {
+          videoDocs.forEach(doc => {
+            lesson['videos'].push(doc.data())
+          })
+        })
+        //repopulate notes docs
+        db.collection('courses').doc(courseID)
+        .collection('lessons').doc(lesson.lessonID)
+        .collection('notes').onSnapshot(notesDocs => {
+          notesDocs.forEach(doc => {
+            lesson['notes'].push(doc.data())
+          })
+        })
+        db.collection('courses').doc(courseID)
+        .collection('lessons').doc(lesson.lessonID)
+        .collection('files').onSnapshot(fileDocs => {
+          fileDocs.forEach(doc => {
+            if(Array.isArray(lesson?.files)) {
+              lesson?.files?.push(doc.data())
+              lesson?.filesPreview?.push(doc.data())
+            }
+          })
         })
       })
-      //repopulate notes docs
-      db.collection('courses').doc(courseID)
-      .collection('lessons').doc(lesson.lessonID)
-      .collection('notes').onSnapshot(notesDocs => {
-        notesDocs.forEach(doc => {
-          lesson['notes'].push(doc.data())
-        })
-      })
-      db.collection('courses').doc(courseID)
-      .collection('lessons').doc(lesson.lessonID)
-      .collection('files').onSnapshot(fileDocs => {
-        fileDocs.forEach(doc => {
-          lesson['files'].push(doc.data())
-          lesson['filesPreview'].push(doc.data())
-        })
-      })
-    })
-    setEditLessons(courseLessons)
-    setRepopulateFlag(false)
+      setEditLessons(courseLessons)
+    }
   }
 
   const createCourse = () => {
     if(createCourseAccess) {
+      setRepopulateFlag(false)
       setLoading(true)
       const courseObject = {
         allowReviews,
@@ -704,12 +710,14 @@ export default function CreateCoursePage({editMode}) {
     getCourseByID(courseID, setCourse)
     if(editMode) {
       getLessonsByCourseID(courseID, setCourseLessons)
+      setRepopulateFlag(true)
     }
   },[courseID])
 
   useEffect(() => {
-    if(editMode) {
+    if(editMode && repopulateFlag) {
       repopulateCourseLessonsFromDB() 
+      setRepopulateFlag(false)
     }
   },[courseLessons])  
 
@@ -878,15 +886,20 @@ export default function CreateCoursePage({editMode}) {
               </>}
             >
               <div className="form single-columns">
-                <label className={`commoninput fileinput ${lesson?.filesPreview?.length ? "disabled" : ""}`}>
+                <label className={`commoninput fileinput`}>
                     <h6>Add Files {lesson?.filesPreview?.length ? "(Only one set of files per lesson)" : ""}</h6>
-                    { !lesson?.filesPreview?.length &&
-                      <input 
+                    {/* { !lesson?.filesPreview?.length &&
+                      <input
                         type="file" multiple 
                         onChange={(e) => handleFileUpload(e)} 
                         accept=".pdf, .docx, .doc, .pptx, .ppt, .xlsx, .xls, .png, .jpg, jpeg, jfif, .mp3, .wav, .zip, .rar" 
-                      />
-                    }
+                      /> - remove when add push to files array
+                    } */}
+                    <input
+                      type="file" multiple 
+                      onChange={(e) => handleFileUpload(e)} 
+                      accept=".pdf, .docx, .doc, .pptx, .ppt, .xlsx, .xls, .png, .jpg, jpeg, jfif, .mp3, .wav, .zip, .rar" 
+                    />
                     <div className="icon-container">
                       <i className="fal fa-file-pdf"></i>
                       <small>{showNotesFileNum(notesFile?.length)}</small>

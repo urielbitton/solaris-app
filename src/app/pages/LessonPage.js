@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router'
+import './styles/LessonPage.css'
 import LessonsList from '../components/course/LessonsList'
 import WriteComment from '../components/course/WriteComment'
 import { getCourseByID, getLessonByID, getLessonsByCourseID, 
   getVideosByLessonID, getVideoByID, getCommentsByVideoID, 
-  getNotesByLessonID, getAllVideosByCourseID, getLessonNotesByUserAndLessonID } from '../services/courseServices'
+  getNotesByLessonID, getAllVideosByCourseID, getLessonNotesByUserAndLessonID, getLessonFilesByLessonID } from '../services/courseServices'
 import { getInstructorByID } from '../services/InstructorServices'
 import { StoreContext } from '../store/store'
-import './styles/LessonPage.css'
 import VideoEmbed from '../components/course/VideoEmbed'
 import CommentCard from '../components/course/CommentCard'
 import { getCoursesIDEnrolledByUserID } from '../services/userServices'
@@ -15,6 +15,7 @@ import lockedImg from '../assets/imgs/locked-content.png'
 import { convertFireDateToString } from '../utils/utilities'
 import { useWindowDimensions } from "../utils/customHooks"
 import { deleteSubDB, setSubDB } from "../services/CrudDB"
+import FileItem from '../components/course/FileItem'
 
 export default function LessonPage() {
 
@@ -37,6 +38,7 @@ export default function LessonPage() {
   const [myLessonNotes, setMyLessonNotes] = useState({})
   const [showAddNotes, setShowAddNotes] = useState(false)
   const [myNotesText, setMyNotesText] = useState('')
+  const [lessonFiles, setLessonFiles] = useState([])
   const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
   const history = useHistory()
   const { screenWidth } = useWindowDimensions()
@@ -60,6 +62,14 @@ export default function LessonPage() {
       </div>
       <p>{note.text}</p>
     </div>
+  })
+
+  const lessonFilesRender = lessonFiles?.map((file, i) => {
+    return <FileItem 
+      file={file} 
+      customType
+      key={i} 
+    />
   })
 
   const addCustomNotes = () => {
@@ -121,6 +131,7 @@ export default function LessonPage() {
     getLessonByID(courseID, lessonID, setLesson)
     getVideosByLessonID(courseID, lessonID, setVideos)
     getNotesByLessonID(courseID, lessonID, setNotes)
+    getLessonFilesByLessonID(courseID, lessonID, setLessonFiles)
   },[lessonID])
 
   useEffect(() => {
@@ -198,12 +209,18 @@ export default function LessonPage() {
                 Next
               </button>
             </div>
-            <div className="lesson-text-contents">
+            <section className="lesson-text-contents">
               <h3 className="page-title">Lesson Material</h3>
               <div className='lesson-material'>
                 {lessonNotesRender}
               </div>
-            </div>
+            </section>
+            <section className="lesson-files">
+              <h3 className="page-title">Lesson Files</h3>
+              <div className="lesson-files-flex">
+                {lessonFilesRender}
+              </div>
+            </section>
             <div className="lesson-my-notes-section">
               <h3 className="page-title">My Notes</h3>
               <div className="my-notes-container">

@@ -3,7 +3,7 @@ import './styles/AppAccordion.css'
 
 export default function AppAccordion(props) {
 
-  const {maxAccordionHeight=300, children, title, open, setOpen, className, noPadding, active, deleteBtn,
+  const {maxAccordionHeight=600, children, title, open, setOpen, className, noPadding, active, deleteBtn,
     editBtn, headerMetaTitle} = props
 
   return (

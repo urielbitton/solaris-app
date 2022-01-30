@@ -59,4 +59,11 @@
   flex-direction: column;
   transition: all 0.2s;
   overflow: hidden;
+  overflow-y: overlay;
+}
+.app-accordion .content::-webkit-scrollbar {
+  display: none;
+}
+.app-accordion .content:hover::-webkit-scrollbar {
+  display: block;
 }

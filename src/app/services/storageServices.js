@@ -61,7 +61,8 @@ export const uploadMultipleFilesToFireStorage = (files, storagePath, collectionP
                 fileName: file?.name,
                 fileSize: file?.size,
                 fileType: file?.type,
-                fileColor: fileTypeConverter(file.type).color
+                fileColor: fileTypeConverter(file.type).color,
+                dateAdded: new Date()
               }).then(() => {
                 if(i === filesLength-1) {
                   resolve()
