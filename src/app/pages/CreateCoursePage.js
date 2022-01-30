@@ -15,7 +15,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { CreateCourse, SaveCourse, DeleteCourse } from '../services/CRUDCourse'
 import PageLoader from '../components/ui/PageLoader'
 import { getCourseByID, getLessonsByCourseID } from "../services/courseServices"
-import { uploadImgToFireStorage, uploadMultipleFilesToFireStorage } from "../services/storageServices"
+import { deleteStorageFile, uploadImgToFireStorage, uploadMultipleFilesToFireStorage } from "../services/storageServices"
 import { updateDB } from "../services/CrudDB"
 import FileItem from "../components/course/FileItem"
 
@@ -158,15 +158,28 @@ export default function CreateCoursePage({editMode}) {
       { !editMode ?
         lesson?.filesPreview.map((file,j) => { 
           return file.map((file, k) => {
-            return <FileItem file={file} key={k} />
+            return <FileItem 
+              file={file} 
+              deleteClick={() => deleteFile(lesson, file)}
+              key={k} 
+            />
           })
         }) :
         lesson?.files && Array.isArray(lesson?.files) ? 
         lesson?.files?.map((file,k) => { 
-          return <FileItem file={file} customType key={k} />
+          return <FileItem 
+            file={file} 
+            customType 
+            deleteClick={() => deleteFile(lesson, file)}
+            key={k} 
+          />
         }) :
         lesson?.files && Array.from(lesson?.files)?.map((file,k) => { 
-          return <FileItem file={file} key={k} />
+          return <FileItem 
+            file={file} 
+            deleteClick={() => deleteFile(lesson, file)}
+            key={k} 
+          />
         })
       }
     </div>
@@ -183,6 +196,27 @@ export default function CreateCoursePage({editMode}) {
       </div>
     })
   })
+
+  const deleteFile = (lesson, file) => {
+    if(editMode) {
+      const confirm = window.confirm('Are you sure you want to remove this file')
+      if(confirm) {
+        db.collection('courses').doc(courseID)
+        .collection('lessons').doc(lesson.lessonID)
+        .collection('files').doc(file.fileID)
+        .delete()
+        .then(() => {
+          deleteStorageFile(`/courses/${courseID}/lessons/${lesson.lessonID}/files`, file.fileName)
+          .then(() => {
+            console.log('File deleted.')
+            window.alert('File deleted successfully.')
+          })
+          .catch((err) => console.log(err))
+        })
+        .catch((err) => console.log(err))
+      }
+    }
+  }
 
   const clickAddVideo = (lesson) => {
     setShowVideoModal(true)
@@ -888,13 +922,6 @@ export default function CreateCoursePage({editMode}) {
               <div className="form single-columns">
                 <label className={`commoninput fileinput`}>
                     <h6>Add Files {lesson?.filesPreview?.length ? "(Only one set of files per lesson)" : ""}</h6>
-                    {/* { !lesson?.filesPreview?.length &&
-                      <input
-                        type="file" multiple 
-                        onChange={(e) => handleFileUpload(e)} 
-                        accept=".pdf, .docx, .doc, .pptx, .ppt, .xlsx, .xls, .png, .jpg, jpeg, jfif, .mp3, .wav, .zip, .rar" 
-                      /> - remove when add push to files array
-                    } */}
                     <input
                       type="file" multiple 
                       onChange={(e) => handleFileUpload(e)} 

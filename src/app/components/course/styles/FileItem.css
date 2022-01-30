@@ -38,3 +38,32 @@
   opacity: 0.8;
   font-weight: 600;
 }
+.file-item .options-container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: #f1f1f1;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  opacity: 0;
+}
+.file-item:hover .options-container {
+  opacity: 1;
+}
+.file-item .options-container i {
+  color: var(--color);
+  font-size: 15px;
+}
+.file-item .delete-container {
+  right: 35px;
+}
+.file-item .download-container {
+  right: 5px;
+}

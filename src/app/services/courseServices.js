@@ -41,8 +41,10 @@ export const getCourseByID = (courseID, setCourse) => {
 }
 
 export const getLessonsByCourseID = (courseID, setLessons) => {
-  db.collection('courses').doc(courseID)
-  .collection('lessons').orderBy('order', 'asc')
+  db.collection('courses')
+  .doc(courseID)
+  .collection('lessons')
+  .orderBy('order', 'asc')
   .onSnapshot(snap => {
     const lessonsArr = []
     snap.forEach(doc => lessonsArr.push(doc.data()))

@@ -272,7 +272,7 @@
 }
 
 .lesson-page .lesson-files {
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 .lesson-page .lesson-files-flex {
   max-width: 400px;
@@ -284,6 +284,37 @@
 }
 .lesson-page .lesson-files-flex .file-item {
   width: 100%;
+}
+.lesson-page .lesson-files button {
+  margin-top: 20px;
+}
+.lesson-page .app-modal .form .commoninput h6 {
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 5px;
+}
+.lesson-page .app-modal .form .fileinput input[type="file"] {
+  display: none;
+}
+.lesson-page .app-modal .form .fileinput.disabled .icon-container {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.lesson-page .app-modal .form .fileinput .icon-container {
+  width: 100%;
+  padding: 10px;
+  background: var(--lightestblue);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.lesson-page .app-modal .form .fileinput .icon-container small {
+  color: #333;
+}
+.lesson-page .app-modal .form .fileinput i {
+  font-size: 20px;
+  color: var(--color);
 }
 
 

@@ -79,3 +79,8 @@ export const uploadMultipleFilesToFireStorage = (files, storagePath, collectionP
     }
   })
 }
+
+export const deleteStorageFile = (storagePath, fileName) => {
+  let storageRef = firebase.storage().ref(`${storagePath}/${fileName}`)
+  return storageRef.delete()
+}

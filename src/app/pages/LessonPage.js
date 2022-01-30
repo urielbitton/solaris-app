@@ -16,10 +16,13 @@ import { convertFireDateToString } from '../utils/utilities'
 import { useWindowDimensions } from "../utils/customHooks"
 import { deleteSubDB, setSubDB } from "../services/CrudDB"
 import FileItem from '../components/course/FileItem'
+import AppModal from "../components/ui/AppModal"
+import { deleteStorageFile, uploadMultipleFilesToFireStorage } from "../services/storageServices"
+import { db } from "../firebase/fire"
 
 export default function LessonPage() {
 
-  const {setNavTitle, setNavDescript, user} = useContext(StoreContext)
+  const {setNavTitle, setNavDescript, user, myUser} = useContext(StoreContext)
   const courseID = useRouteMatch('/courses/course/:courseID')?.params.courseID
   const lessonID = useRouteMatch('/courses/course/:courseID/lesson/:lessonID')?.params.lessonID
   const videoID = useRouteMatch('/courses/course/:courseID/lesson/:lessonID/:videoID')?.params.videoID
@@ -38,10 +41,14 @@ export default function LessonPage() {
   const [myLessonNotes, setMyLessonNotes] = useState({})
   const [showAddNotes, setShowAddNotes] = useState(false)
   const [myNotesText, setMyNotesText] = useState('')
+  const [allLessonFiles, setAllLessonFiles] = useState([])
+  const [showFilesModal, setShowFilesModal] = useState(false)
   const [lessonFiles, setLessonFiles] = useState([])
+  const [notesFile, setNotesFile] = useState('')
   const courseUserAccess = userCourses.findIndex(x => x.courseID === courseID) > -1
   const history = useHistory()
   const { screenWidth } = useWindowDimensions()
+  const isCourseInstructor = course?.instructorID === myUser?.instructorID || myUser?.isAdmin
  
   const commentsRender = comments?.map((comment,i) => {
     return <CommentCard 
@@ -64,10 +71,13 @@ export default function LessonPage() {
     </div>
   })
 
-  const lessonFilesRender = lessonFiles?.map((file, i) => {
+  const lessonFilesRender = allLessonFiles?.map((file, i) => {
     return <FileItem 
       file={file} 
       customType
+      deleteClick={() => deleteFile(lessonID, file)}
+      showDelete={isCourseInstructor}
+      truncateTextAmount={50}
       key={i} 
     />
   })
@@ -118,6 +128,65 @@ export default function LessonPage() {
     }
   }
 
+  const deleteFile = (lessonID, file) => {
+    if(isCourseInstructor) {
+      const confirm = window.confirm('Are you sure you want to remove this file')
+      if(confirm) {
+        db.collection('courses').doc(courseID)
+        .collection('lessons').doc(lessonID)
+        .collection('files').doc(file.fileID)
+        .delete()
+        .then(() => {
+          deleteStorageFile(`/courses/${courseID}/lessons/${lessonID}/files`, file.fileName)
+          .then(() => {
+            console.log('File deleted.')
+            window.alert('File deleted successfully.')
+          })
+          .catch((err) => console.log(err))
+        })
+        .catch((err) => console.log(err))
+      }
+    }
+  }
+
+  const showNotesFileNum = (filesNum) => {
+    if(filesNum) {
+      if(filesNum > 1 && filesNum < 3) {
+        return `${notesFile[0].name}, ${notesFile[1].name}`
+      }
+      else if(filesNum > 2) {
+        return `${notesFile[0].name}, ${notesFile[1].name} and ${filesNum - 2} more files`
+      } 
+      else if(filesNum <= 1) {
+        return notesFile[0].name
+      }
+    }
+    else {
+      return "No Documents Attached"
+    }
+  }
+
+  const handleFileUpload = (e) => {
+    if(isCourseInstructor) {
+      setNotesFile(e.target.files)
+      setLessonFiles(e.target.files)
+    }
+  }
+
+  const uploadFiles = () => {
+    if(isCourseInstructor) {
+      uploadMultipleFilesToFireStorage(
+        lessonFiles, 
+        `/courses/${courseID}/lessons/${lessonID}/files`,
+        `/courses/${courseID}/lessons/${lessonID}/files`
+      )
+      .then(() => {
+        setShowFilesModal(false)
+      })
+      .catch(err => console.log(err))
+    }
+  }
+
   useEffect(() => {
     getLessonsByCourseID(courseID, setLessons)
     getCourseByID(courseID, setCourse)
@@ -131,7 +200,7 @@ export default function LessonPage() {
     getLessonByID(courseID, lessonID, setLesson)
     getVideosByLessonID(courseID, lessonID, setVideos)
     getNotesByLessonID(courseID, lessonID, setNotes)
-    getLessonFilesByLessonID(courseID, lessonID, setLessonFiles)
+    getLessonFilesByLessonID(courseID, lessonID, setAllLessonFiles)
   },[lessonID])
 
   useEffect(() => {
@@ -152,18 +221,6 @@ export default function LessonPage() {
   useEffect(() => {
     getLessonNotesByUserAndLessonID(user?.uid, lessonID, setMyLessonNotes)
   },[user, lessonID])
-
-  // useEffect(() => { //buggy code - review 
-  //   if(allCourseVideos.length) {
-  //     setPlayPosition(allCourseVideos.findIndex(x => x === `${lessonID}/${videoID}`))
-  //   }
-  // },[allCourseVideos])
-
-  // useEffect(() => {
-  //   if(courseID.length && lessonID.length && allCourseVideos.length) {
-  //     history.push(`/courses/course/${courseID}/lesson/${allCourseVideos[playPosition]}`)
-  //   }
-  // },[courseID, playPosition])
 
   return (
     <div className="lesson-page">
@@ -220,6 +277,16 @@ export default function LessonPage() {
               <div className="lesson-files-flex">
                 {lessonFilesRender}
               </div>
+              { 
+                isCourseInstructor ?
+                <button 
+                  className="shadow-hover"
+                  onClick={() => setShowFilesModal(true)}
+                >
+                  Upload Files
+                </button> :
+                <></>
+              }
             </section>
             <div className="lesson-my-notes-section">
               <h3 className="page-title">My Notes</h3>
@@ -288,6 +355,30 @@ export default function LessonPage() {
         }
       </div>
       </div>
+      <AppModal 
+        title="Add Files"
+        showModal={showFilesModal}
+        setShowModal={setShowFilesModal}
+        actions={<>
+          <button onClick={() => uploadFiles()}>Add Files</button>
+          <button onClick={() => setShowFilesModal(false)}>Cancel</button>
+        </>}
+      >
+        <div className="form single-columns">
+          <label className={`commoninput fileinput`}>
+              <h6>Add Files</h6>
+              <input
+                type="file" multiple 
+                onChange={(e) => handleFileUpload(e)} 
+                accept=".pdf, .docx, .doc, .pptx, .ppt, .xlsx, .xls, .png, .jpg, jpeg, jfif, .mp3, .wav, .zip, .rar" 
+              />
+              <div className="icon-container">
+                <i className="fal fa-file-pdf"></i>
+                <small>{showNotesFileNum(notesFile?.length)}</small>
+              </div>
+          </label>
+        </div>
+      </AppModal>
     </div>
   )
 }
