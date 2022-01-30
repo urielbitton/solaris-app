@@ -8,7 +8,7 @@ import VideoRow from './VideoRow'
 export default function LessonCard(props) {
 
   const {courseID, keyword, activeLesson, courseUserAccess, createMode, addedVideos=[], 
-    initComponent, deleteBtn, editBtn, notOpenVideoPage, notes, files, onVideoClick, onNotesClick,
+    initComponent, deleteBtn, editBtn, notOpenVideoPage, notes, onVideoClick, onNotesClick,
     videoTitleLength, maxAccordionHeight, editMode} = props
   const {title, lessonID, lessonType} = props.lesson
   const [videos, setVideos] = useState([])
@@ -49,7 +49,6 @@ export default function LessonCard(props) {
   const notesRender = notes?.map((note,i) => {
     return <LessonNotesRow 
       note={note}
-      files={files}
       onNotesClick={() => onNotesClick(note)}
       key={i}
     />

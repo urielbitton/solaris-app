@@ -48,14 +48,16 @@ export default function CreateCoursePage({editMode}) {
   const [notesText, setNotesText] = useState('')
   const [notesFileText, setNotesFileText] = useState('')
   const [notesFile, setNotesFile] = useState('')
-  const [lessonFile, setLessonFiles] = useState(null)
+  const [lessonFiles, setLessonFiles] = useState([])
   const [youtubeLink, setYoutubeLink] = useState('')
   const [showVideoModal, setShowVideoModal] = useState(false)
   const [showNotesModal, setShowNotesModal] = useState(false)
+  const [showFilesModal, setShowFilesModal] = useState(false)
   const [showLessonTitleModal, setShowLessonTitleModal] = useState(false)
   const [showLearnElModal, setShowLearnElModal] = useState(false)
   const [editVideoMode, setEditVideoMode] = useState({mode: false, video: {}})
   const [editNotesMode, setEditNotesMode] = useState({mode: false, notes: {}})
+  const [editFilesMode, setEditFilesMode] = useState({mode: false, files: {}})
   const [categoriesArr, setCategoriesArr] = useState([])
   const [whatYouLearn, setWhatYouLearn] = useState([])
   const [whatYouLearnText, setWhatYouLearnText] = useState('')
@@ -70,15 +72,15 @@ export default function CreateCoursePage({editMode}) {
   const [courseLessons, setCourseLessons] = useState([])
   const [editLessons, setEditLessons] = useState([])
   const [deletedLessons, setDeletedLessons] = useState([])
+  const [repopulateFlag, setRepopulateFlag] = useState(true)
   const totalNotesNum = lessons?.reduce((a,b) => a + b.notes?.length, 0)
-  const totalFilesNum = lessons?.reduce((a,b) => a + b.files?.reduce((x,y) => x + y.length, 0), 0)
+  const totalFilesNum = lessons?.reduce((a,b) => a + b.files?.length, 0)
   const courseLessonsNotesNum = courseLessons?.reduce((a,b) => a + b.notes?.length, 0)
-  const courseLessonsFilesNum = courseLessons?.reduce((a,b) => a + b.files?.reduce((x,y) => x + y.length, 0), 0)
+  const courseLessonsFilesNum = courseLessons?.reduce((a,b) => a + b.files?.length, 0)
   const createCourseAccess = (!editMode ? lessons.length > 0 : courseLessons.length > 0) && courseTitle.length 
     && courseShortDescript.length
   const isCourseInstructor = editMode && course?.instructorID === myUser?.instructorID
   const canAccessPage = editMode ? (isCourseInstructor || myUser?.isAdmin) : myUser?.isInstructor
-
 
   const languages = [
     {name: 'English', value: 'english'},
@@ -150,24 +152,35 @@ export default function CreateCoursePage({editMode}) {
   const courseFilesRender = [...lessons, ...courseLessons]?.map((lesson,i) => {
     return <div className='lesson-block'>
       <h5>{lesson.title}</h5>
-      {
-        lesson?.files?.map((file,j) => { 
-          return file?.map((fl,k) => { 
+      { !editMode ?
+        lesson?.filesPreview?.map((file,j) => { 
+          return file.map((file, k) => {
+            return <div className='file-item' key={k}>
+              <div className='icon-container' style={{background: `${fileTypeConverter(file.type).color}33`}}>
+                <i className={fileTypeConverter(file.type).icon} style={{color: fileTypeConverter(file.type).color}}></i>
+              </div>
+              <div className='file-name'>
+                <h6 title={file.name}>{truncateText(file.name, 30)}</h6>
+                <small>{fileTypeConverter(file.type).name} file</small>
+              </div>
+            </div>
+          })
+        }) :
+        lesson?.files?.map((file,k) => { 
           return <div className='file-item' key={k}>
-            <div className='icon-container' style={{background: `${fileTypeConverter(fl.type).color}33`}}>
-              <i className={fileTypeConverter(fl.type).icon} style={{color: fileTypeConverter(fl.type).color}}></i>
+            <div className='icon-container' style={{background: `${fileTypeConverter(file.fileType).color}33`}}>
+              <i className={fileTypeConverter(file.fileType).icon} style={{color: file.fileColor}}></i>
             </div>
             <div className='file-name'>
-              <h6 title={fl.name}>{truncateText(fl.name, 30)}</h6>
-              <small>{fileTypeConverter(fl.type).name} file</small>
+              <h6 title={file.fileName}>{truncateText(file.fileName, 30)}</h6>
+              <small>{fileTypeConverter(file.fileType).name} file</small>
             </div>
           </div>
-          })
         })
       }
     </div>
   })
-  
+
   const courseNotesRender = [...lessons, ...courseLessons]?.map((lesson,i) => {
     return lesson?.notes?.map((note,j) => { 
       <h5>{lesson.title}</h5>
@@ -190,7 +203,13 @@ export default function CreateCoursePage({editMode}) {
     setShowNotesModal(true)
     setEditNotesMode({mode: false, notes: {}})
     setLesson(lesson)
-    clearNotestate()
+    clearNotesState()
+  }
+  const clickAddFiles = (lesson) => {
+    setShowFilesModal(true)
+    setEditFilesMode({mode: false, files: {}})
+    setLesson(lesson)
+    clearFilesState()
   }
   const onVideoClick = (lesson, video) => {
     setSlidePos(1)
@@ -226,7 +245,6 @@ export default function CreateCoursePage({editMode}) {
       editMode={editMode}
       addedVideos={lesson.videos} 
       notes={lesson.notes}
-      files={lesson.files}
       notOpenVideoPage
       onVideoClick={(video) => onVideoClick(lesson, video)}
       onNotesClick={(notes) => onNotesClick(lesson, notes)}
@@ -235,7 +253,8 @@ export default function CreateCoursePage({editMode}) {
       initComponent={
         <div className="init-component">
           <h5 onClick={() => clickAddVideo(lesson)}><i className="fas fa-video"></i>Click to add videos to this lesson</h5>
-          <h5 onClick={() => clickAddNotes(lesson)}><i className="fas fa-sticky-note"></i>Click to add notes/files to this lesson</h5>
+          <h5 onClick={() => clickAddNotes(lesson)}><i className="fas fa-sticky-note"></i>Click to add notes to this lesson</h5>
+          <h5 onClick={() => clickAddFiles(lesson)}><i className="fas fa-file"></i>Click to add files to this lesson</h5>
         </div>
       }
       deleteBtn={ 
@@ -283,7 +302,8 @@ export default function CreateCoursePage({editMode}) {
           order: combinedLessons.length + 1,
           notes: [],
           videos: [],
-          files: []
+          files: [],
+          filesPreview: []
         }]
       )
       setLessonTitle('')
@@ -348,7 +368,7 @@ export default function CreateCoursePage({editMode}) {
   }
 
   const addEditNotes = () => {
-    if(notesTitle.length || notesFile) { 
+    if(notesTitle.length) { 
       if(!editNotesMode.mode) {
         lesson.notes.push({
           title: notesTitle,
@@ -357,7 +377,6 @@ export default function CreateCoursePage({editMode}) {
           noteID: db.collection('courses').doc(newCourseID).collection('lessons').doc(lesson.lessonID).collection('notes').doc().id,
           order: lesson.notes.length + 1
         })
-        notesFile && lesson.files.push([...notesFile])
       }
       else {
         let notesIndex = lesson.notes.findIndex(x => x.noteID === editNotesMode.notes.noteID)
@@ -369,8 +388,16 @@ export default function CreateCoursePage({editMode}) {
           dateAdded: new Date()
         }
       }
-      clearNotestate()
+      clearNotesState()
       setShowNotesModal(false)
+    }
+  }
+
+  const addEditFiles = () => {
+    if(notesFile) {
+      lesson.files = lessonFiles
+      lesson.filesPreview.push([...notesFile])
+      setShowFilesModal(false)
     }
   }
 
@@ -384,11 +411,16 @@ export default function CreateCoursePage({editMode}) {
     lesson.notes.splice(index, 1)
     setShowNotesModal(false)
   }
+  const deleteFiles = () => {
+    lesson.files = []
+    lesson.filesPreview = []
+    setShowFilesModal(false)
+  }
   
   const handleFileUpload = (e) => {
     setNotesFileText(e.target.value)
     setNotesFile(e.target.files)
-    setLessonFiles(e)
+    setLessonFiles(e.target.files)
   }
 
   const showNotesFileNum = (filesNum) => {
@@ -425,11 +457,13 @@ export default function CreateCoursePage({editMode}) {
     setVideoUrl('')
     setYoutubeLink('')
   }
-  function clearNotestate() {
+  function clearNotesState() {
     setNotesTitle('')
     setNotesText('')
-    setNotesFile(null)
+  }
+  function clearFilesState() {
     setNotesFileText('')
+    setNotesFile(null)
   }
 
   const repopulateCourseLessonsFromDB = () => {
@@ -437,6 +471,7 @@ export default function CreateCoursePage({editMode}) {
       lesson['videos'] = []
       lesson['notes'] = []
       lesson['files'] = []
+      lesson['filesPreview'] = [] 
       //repopulate videos docs
       db.collection('courses').doc(courseID)
       .collection('lessons').doc(lesson.lessonID)
@@ -453,14 +488,24 @@ export default function CreateCoursePage({editMode}) {
           lesson['notes'].push(doc.data())
         })
       })
+      db.collection('courses').doc(courseID)
+      .collection('lessons').doc(lesson.lessonID)
+      .collection('files').onSnapshot(fileDocs => {
+        fileDocs.forEach(doc => {
+          lesson['files'].push(doc.data())
+          lesson['filesPreview'].push(doc.data())
+        })
+      })
     })
     setEditLessons(courseLessons)
+    setRepopulateFlag(false)
   }
 
   const createCourse = () => {
     if(createCourseAccess) {
       setLoading(true)
       const courseObject = {
+        allowReviews,
         category: courseCategory,
         costType: coursePrice > 0 ? 'pro' : 'free',
         courseType: courseType ?? 'video',
@@ -468,14 +513,11 @@ export default function CreateCoursePage({editMode}) {
         dateCreated: !editMode ? new Date() : course.dateCreated,
         dateUpdated: new Date(),
         description: courseFullDescript,
-        short: courseShortDescript,
-        summary: courseSummary,
         difficulty: courseDifficulty,
         featuredCourse: !editMode ? false : course.featuredCourse,
         firstVideoID: !editMode ? lessons[0]?.videos[0].videoID ?? '' : courseLessons[0]?.videos[0].videoID,
         firstLessonID: !editMode ? lessons[0]?.lessonID ?? "" : courseLessons[0]?.lessonID ?? "",
         hasCertificate: courseCertificate,
-        allowReviews,
         id: !editMode ? newCourseID : courseID,
         instructorID: !editMode ? myUser?.instructorID ?? user?.uid : course?.instructorID,
         instructorName: !editMode ? user?.displayName : course?.instructorName,
@@ -483,6 +525,8 @@ export default function CreateCoursePage({editMode}) {
         lessonsCount: !editMode ? lessons.length : courseLessons.length,
         notes: '',
         price: +coursePrice,
+        short: courseShortDescript,
+        summary: courseSummary,
         studentsEnrolled: !editMode ? 0 : course.studentsEnrolled,
         title: courseTitle,
         totalDuration: 0, 
@@ -507,6 +551,36 @@ export default function CreateCoursePage({editMode}) {
             .catch(err => console.log(err))
           })
           .catch(err => console.log(err))
+          new Promise((resolve, reject) => {
+            lessons.forEach((lesson,i) => {
+              if(lesson.files.length) {
+                uploadMultipleFilesToFireStorage(
+                  lesson.files, 
+                  `/courses/${newCourseID}/lessons/${lesson.lessonID}/files`,
+                  `/courses/${newCourseID}/lessons/${lesson.lessonID}/files`
+                )
+                .then(() => {
+                  if(i === lessons.length-1) {
+                    resolve()
+                    setLoading(false)
+                  }
+                  setLoading(false)
+                })
+                .catch(err => {
+                  console.log(err)
+                  setLoading(false)
+                  reject()
+                })
+              }
+            })
+          })
+          .then(() => {
+            setLoading(false)
+          })
+          .catch(err => {
+            console.log(err)
+            setLoading(false)
+          })
         })
         .catch(err => {
           console.log(err)
@@ -544,35 +618,37 @@ export default function CreateCoursePage({editMode}) {
             setLoading(false)
             history.push(`/courses/course/${courseID}`)
           }
-          // const combinedLessons = [...courseLessons, ...lessons]
-            // new Promise((resolve, reject) => {
-            //   combinedLessons.forEach((lesson,i) => {
-            //     uploadMultipleFilesToFireStorage(
-            //       lesson.lessonFiles, 
-            //       `/courses/${courseID}/lessons/${lesson.lessonID}/files`,
-            //       `/courses/${courseID}/lessons/${lesson.lessonID}/files`
-            //     )
-            //     .then(() => {
-            //       if(i === combinedLessons.length-1) {
-            //         resolve()
-            //         setLoading(false)
-            //       }
-            //       setLoading(false)
-            //     })
-            //     .catch(err => {
-            //       console.log(err)
-            //       setLoading(false)
-            //       reject()
-            //     })
-            //   })
-            // })
-            // .then(() => {
-            //   setLoading(false)
-            // })
-            // .catch(err => {
-            //   console.log(err)
-            //   setLoading(false)
-            // })
+          const combinedLessons = [...courseLessons, ...lessons]
+            new Promise((resolve, reject) => {
+              combinedLessons.forEach((lesson,i) => {
+                if(lesson.files.length) {
+                  uploadMultipleFilesToFireStorage(
+                    lesson.files, 
+                    `/courses/${courseID}/lessons/${lesson.lessonID}/files`,
+                    `/courses/${courseID}/lessons/${lesson.lessonID}/files`
+                  )
+                  .then(() => {
+                    if(i === combinedLessons.length-1) {
+                      resolve()
+                      setLoading(false)
+                    }
+                    setLoading(false)
+                  })
+                  .catch(err => {
+                    console.log(err)
+                    setLoading(false)
+                    reject()
+                  })
+                }
+              })
+            })
+            .then(() => {
+              setLoading(false)
+            })
+            .catch(err => {
+              console.log(err)
+              setLoading(false)
+            })
         })
         .catch(err => {
           console.log(err)
@@ -585,7 +661,7 @@ export default function CreateCoursePage({editMode}) {
     }
   }
 
-  const deleteACourse = () => {
+  const deleteCurrentCourse = () => {
     if(editMode) {
       const confirm = window.confirm('Are you sure you would like to remove this course?')
       if(confirm) {
@@ -641,9 +717,9 @@ export default function CreateCoursePage({editMode}) {
 
   useEffect(() => {
     if(editMode) {
-      repopulateCourseLessonsFromDB()
+      repopulateCourseLessonsFromDB() 
     }
-  },[courseLessons]) 
+  },[courseLessons])  
 
   useEffect(() => {
     if(!showLearnElModal) {
@@ -685,7 +761,7 @@ export default function CreateCoursePage({editMode}) {
                   Save Course
               </button> 
             }
-            { editMode && <button className="delete" onClick={() => deleteACourse()}>Delete Course</button> }
+            { editMode && <button className="delete" onClick={() => deleteCurrentCourse()}>Delete Course</button> }
           </div>
         </div>
         <div className="slide-container" ref={scrollTopRef}>
@@ -703,10 +779,11 @@ export default function CreateCoursePage({editMode}) {
                 onChange={(e) => handleCoverUpload(e)} 
               >
                 {
-                  coverDisplay?.length &&
+                  coverDisplay?.length ?
                   <div className="upload-cover">
                     <h4>Click here to change cover image</h4>
-                  </div>
+                  </div> :
+                  <></>
                 }
                 <input 
                   style={{display:'none'}} 
@@ -786,7 +863,7 @@ export default function CreateCoursePage({editMode}) {
               </div>
             </AppModal>
             <AppModal 
-              title="Add Notes/Files"
+              title="Add Notes"
               showModal={showNotesModal}
               setShowModal={setShowNotesModal}
               actions={<>
@@ -797,9 +874,21 @@ export default function CreateCoursePage({editMode}) {
               <div className="form single-columns">
                 <AppInput title="Notes Title" onChange={(e) => setNotesTitle(e.target.value)} value={notesTitle} />
                 <AppTextarea title="Notes Text" onChange={(e) => setNotesText(e.target.value)} value={notesText} />
-                <label className={`commoninput fileinput ${lesson?.files?.length ? "disabled" : ""}`}>
-                    <h6>Add Files {lesson?.files?.length ? "(Only one set of files per lesson)" : ""}</h6>
-                    { !lesson?.files?.length &&
+              </div>
+            </AppModal>
+            <AppModal 
+              title="Add Files"
+              showModal={showFilesModal}
+              setShowModal={setShowFilesModal}
+              actions={<>
+                <button onClick={() => addEditFiles()}>{editFilesMode.mode ? "Save" : "Add"}</button>
+                <button className="delete-btn" onClick={() => deleteFiles()}>Delete</button>
+              </>}
+            >
+              <div className="form single-columns">
+                <label className={`commoninput fileinput ${lesson?.filesPreview?.length ? "disabled" : ""}`}>
+                    <h6>Add Files {lesson?.filesPreview?.length ? "(Only one set of files per lesson)" : ""}</h6>
+                    { !lesson?.filesPreview?.length &&
                       <input 
                         type="file" multiple 
                         onChange={(e) => handleFileUpload(e)} 
@@ -852,12 +941,12 @@ export default function CreateCoursePage({editMode}) {
         </div>
         <div className="side-bar hidescroll">
           <div className='files-container'>
-            <h5>Files <span>({totalFilesNum})</span></h5>
-            {totalFilesNum > 0 || courseLessonsFilesNum > 0 ? courseFilesRender : ""}
+            <h5>Files <span>({courseLessonsFilesNum})</span></h5>
+            {courseFilesRender}
           </div>
           <div className='notes-container'>
-            <h5>Notes <span>({totalNotesNum})</span></h5>
-            {totalNotesNum > 0 || courseLessonsNotesNum > 0 ? courseNotesRender : ""}
+            <h5>Notes <span>({courseLessonsNotesNum})</span></h5>
+            {courseNotesRender}
           </div>
         </div>
         <PageLoader loading={loading} />

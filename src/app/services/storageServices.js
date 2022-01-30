@@ -1,5 +1,6 @@
 import firebase from 'firebase'
 import { db } from "../firebase/fire"
+import { fileTypeConverter } from "../utils/utilities"
 
 export const uploadImgToFireStorage = (e, storagePath, fileName) => {
   return new Promise((resolve, reject) => {
@@ -32,12 +33,13 @@ export const uploadImgToFireStorage = (e, storagePath, fileName) => {
   })
 }
 
-export const uploadMultipleFilesToFireStorage = (e, storagePath, collectionPath) => {
+export const uploadMultipleFilesToFireStorage = (files, storagePath, collectionPath) => {
   return new Promise((resolve, reject) => {
 
-    for (let i = 0; i < e.target.files.length; i++) {
-      const filesLength = e.target.files.length
-      const file = e.target.files[i]
+    const filesLength = files.length
+
+    for (let i = 0; i < filesLength; i++) {
+      const file = files[i]
       let storageRef = firebase.storage().ref(`${storagePath}/${file.name}`)
       
       if(file) {
@@ -58,7 +60,8 @@ export const uploadMultipleFilesToFireStorage = (e, storagePath, collectionPath)
                 file: url,
                 fileName: file?.name,
                 fileSize: file?.size,
-                fileType: file?.type
+                fileType: file?.type,
+                fileColor: fileTypeConverter(file.type).color
               }).then(() => {
                 if(i === filesLength-1) {
                   resolve()

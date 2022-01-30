@@ -63,6 +63,7 @@ export const SaveCourse = (courseID, lessons, courseObject, deletedLessons) => {
 export const DeleteCourse = (courseID, myUser) => {
   const batch = db.batch()
   return deleteDB('courses', courseID).then(() => {
+    firebase.storage().ref(`courses/${courseID}`).delete()
     updateDB('instructors', myUser?.instructorID, {
       'coursesTaught': firebase.firestore.FieldValue.arrayRemove(courseID)
     })
