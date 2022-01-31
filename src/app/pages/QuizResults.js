@@ -22,6 +22,7 @@ export default function QuizResults() {
   const history= useHistory()
   let numOfQuestions = questions.length
   let points = 0
+  const quizAccess = userQuiz.quizID === quizID
 
   const answersRender = questions?.map((question, i) => {
     return <AnswerCard 
@@ -65,6 +66,7 @@ export default function QuizResults() {
   
 
   return (
+    quizAccess ?
     <div className="quiz-results-page">
       <header>
         <div>
@@ -90,7 +92,8 @@ export default function QuizResults() {
           Back to Course
         </button>
       </div>
-    </div>
+    </div> :
+    <></>
   )
 }
 

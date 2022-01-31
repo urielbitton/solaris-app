@@ -15,7 +15,7 @@ export default function AdminStudents() {
   })
 
   useEffect(() => {
-    getAllStudents(setAllStudents, 20)
+    getAllStudents(setAllStudents, 100)
   },[])
 
   return (

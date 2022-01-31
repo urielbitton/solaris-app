@@ -6,7 +6,7 @@
 }
 .sidebar .sidebar-scroll {
   height: 100%;
-  padding: 30px 20px 50px 20px;
+  padding: 30px 20px 30px 20px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -30,7 +30,7 @@
 }
 .sidebar .menu {
   margin: 50px 0;
-  gap: 7px;
+  gap: 5px;
 }
 .sidebar .menu .menu-item {
   padding: 12px;

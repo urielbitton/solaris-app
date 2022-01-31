@@ -23,6 +23,7 @@ export const menuLinks = [
   },
   {name: 'My Library', icon: 'fal fa-books', url: '/my-library'},
   {name: 'Instructors', icon: 'fal fa-chalkboard-teacher', url: '/instructors'},
+  {name: 'My Students', icon: 'fal fa-user-graduate', url: '/my-students', requireInstructor: true},
   {name: 'Create', icon: 'fal fa-plus-circle', url: '/create', requireInstructor: true},
   {name: 'Reports', icon: 'fal fa-analytics', url: '/reports'},
   {name: 'Admin', icon: 'fal fa-user-shield', url: '/admin', requireAdmin: true},

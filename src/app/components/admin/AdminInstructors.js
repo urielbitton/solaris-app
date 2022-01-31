@@ -14,7 +14,7 @@ export default function AdminInstructors() {
   })
 
   useEffect(() => {
-    getAllInstructors(setAllInstructors, 20)
+    getAllInstructors(setAllInstructors, 100)
   },[])
 
   return (

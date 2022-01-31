@@ -12,7 +12,7 @@ export default function Reports() {
 
   return (
     <div className="reports-page">
-      
+      <h3>Coming Soon...</h3>
     </div>
   )
 }

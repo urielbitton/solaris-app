@@ -21,7 +21,7 @@ export const googleAuth = (setMyUser) => {
               country: "",
               aboutMe: '',
               website: '',
-              photoURL: res.additionalUserInfo.profile.picture,
+              photoURL: 'https://i.imgur.com/D4fLSKa.png',
               companyName: '',
               dateCreated: new Date(),
               isInstructor: false,

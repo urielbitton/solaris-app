@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 15px;
   cursor: pointer;
 }
 .student-avatar.not-clickable {
@@ -24,6 +23,7 @@
 .student-avatar h5 {
   color: #444;
   font-weight: 600;
+  margin-top: 15px;
 }
 .student-avatar small {
   color: var(--graytxt);

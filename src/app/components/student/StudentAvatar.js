@@ -4,7 +4,7 @@ import './styles/StudentAvatar.css'
 
 export default function StudentAvatar(props) {
 
-  const { name, photoURL, subtitle, userID, clickable } = props
+  const { name, photoURL, subtitle, subtitleClick, userID, clickable } = props
   const history = useHistory()
 
   return (
@@ -18,7 +18,11 @@ export default function StudentAvatar(props) {
       <h5>{name}</h5>
       {
         subtitle &&
-        <small>{subtitle}</small>
+        <small onClick={(e) => {
+          e.stopPropagation()
+          subtitleClick(e)
+        }}
+        >{subtitle}</small>
       }
     </div>
   )

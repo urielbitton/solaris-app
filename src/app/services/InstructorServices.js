@@ -1,13 +1,16 @@
 import { db } from "../firebase/fire";
 
 export const getInstructorByID = (instructorID, setInstructor) => {
-  db.collection('instructors').doc(instructorID).onSnapshot(snap => {
+  db.collection('instructors')
+  .doc(instructorID)
+  .onSnapshot(snap => {
     setInstructor(snap.data())
   })
 }
 
 export const getAllInstructors = (setInstructor, limit) => {
-  db.collection('instructors').onSnapshot(snap => {
+  db.collection('instructors')
+  .onSnapshot(snap => {
     const instructorsArr = []
     snap.forEach(doc => instructorsArr.push(doc.data()))
     setInstructor(instructorsArr)
@@ -15,7 +18,10 @@ export const getAllInstructors = (setInstructor, limit) => {
 }
 
 export const getReviewsByInstructorID = (instructorID, setReviews, limit) => {
-  db.collection('instructors').doc(instructorID).collection('reviews').onSnapshot(snap => {
+  db.collection('instructors')
+  .doc(instructorID)
+  .collection('reviews')
+  .onSnapshot(snap => {
     const reviewsArr = []
     snap.forEach(doc => reviewsArr.push(doc.data()))
     setReviews(reviewsArr)
@@ -23,7 +29,11 @@ export const getReviewsByInstructorID = (instructorID, setReviews, limit) => {
 }
 
 export const getCoursesByInstructorID = (instructorID, setCourses, limit) => {
-  db.collection('courses').where('instructorID', '==', instructorID).limit(limit).onSnapshot(snap => {
+  db.collection('courses')
+  .orderBy('dateCreated', 'desc')
+  .where('instructorID', '==', instructorID)
+  .limit(limit)
+  .onSnapshot(snap => {
     const coursesArr = []
     snap.forEach(doc => coursesArr.push(doc.data()))
     setCourses(coursesArr)
@@ -31,7 +41,10 @@ export const getCoursesByInstructorID = (instructorID, setCourses, limit) => {
 }
 
 export const getFollowersByInstructorID = (instructorID, setFollowers) => {
-  db.collection('instructors').doc(instructorID).collection('followers').onSnapshot(snap => {
+  db.collection('instructors')
+  .doc(instructorID)
+  .collection('followers')
+  .onSnapshot(snap => {
     const followersArr = []
     snap.forEach(doc => followersArr.push(doc.data()))
     setFollowers(followersArr)
@@ -39,7 +52,9 @@ export const getFollowersByInstructorID = (instructorID, setFollowers) => {
 }
 
 export const getTopRatedInstructors = (minRating, setInstructor, limit) => {
-  db.collection('instructors').where('rating', '>=', minRating).onSnapshot(snap => {
+  db.collection('instructors')
+  .where('rating', '>=', minRating)
+  .onSnapshot(snap => {
     const instructorsArr = []
     snap.forEach(doc => instructorsArr.push(doc.data()))
     setInstructor(instructorsArr)

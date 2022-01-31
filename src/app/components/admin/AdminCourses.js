@@ -87,7 +87,7 @@ export default function AdminHome() {
   }
 
   useEffect(() => {
-    getAllCourses(setAllCourses, 20)
+    getAllCourses(setAllCourses, 100)
     getCourseCategories(setCourseCategories)
   },[])
 

@@ -29,6 +29,7 @@ import ProfilePage from "../pages/ProfilePage"
 import AdminPage from "../pages/AdminPage"
 import InstructorApplication from '../pages/InstructorApplication'
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min"
+import MyStudents from "../pages/MyStudents"
 
 export default function HomeCont() {
 
@@ -115,6 +116,9 @@ export default function HomeCont() {
           </Route>
           <Route exact path="/profile/:userID">
             <ProfilePage />
+          </Route>
+          <Route exact path="/my-students">
+            <MyStudents />
           </Route>
           <Route exact path="/instructor-application/:applicationID">
             { myUser?.isAdmin && <InstructorApplication /> }
