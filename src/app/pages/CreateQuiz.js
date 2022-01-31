@@ -101,7 +101,7 @@ export default function CreateQuiz() {
     if(quizName.length && (questionsArr.length > deletedQuestions.length)) {
       setLoading(true)
       setSubDB('courses', courseID, 'quizes', !editMode ? newQuizID : quizID, {
-        ...(!editMode && {dateAdded: new Date()}),
+        ...(!editMode && {dateCreated: new Date()}),
         maxDuration: +maxDuration,
         name: quizName,
         note: quizNotes,
@@ -109,6 +109,7 @@ export default function CreateQuiz() {
         quizID: !editMode ? newQuizID : quizID,
         quizType,
         isAvailable,
+        numOfQuestions: questionsArr.length,
         ...(!editMode && {takenBy: []})
       }, true)
       .then(() => {
@@ -176,8 +177,6 @@ export default function CreateQuiz() {
       setQuestionsArr(questions)
     }
   },[quiz, questions])
-  console.log(questionsArr)
-  console.log(deletedQuestions)
 
   return (
     <div className="create-quiz-page">

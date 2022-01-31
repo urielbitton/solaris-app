@@ -65,7 +65,9 @@ export default function QuizPage() {
       status: 'taken',
       completedOn: new Date(),
       minutesTaken: +(+timer / 60_000).toFixed(1),
-      submission: userAnswers
+      submission: userAnswers,
+      quizName: quiz.name,
+      numOfQuestions: quiz.numOfQuestions
     }).then(() => {
       createNewNotification(
         user?.uid,

@@ -99,3 +99,27 @@ export const getUserSettingsByUserAndDocID = (userID, docID, setSettings) => {
     setSettings(snap.data())
   })
 }
+
+export const getUserQuizzesByCourseList = (userID, courseQuizes, setQuizes) => {
+  db.collection('users')
+  .doc(userID)
+  .collection('quizes')
+  .where('quizID', 'in', courseQuizes.length ? courseQuizes : [''])
+  .onSnapshot(snap => {
+    const quizesArr = []
+    snap.forEach(doc => quizesArr.push(doc.data()))
+    setQuizes(quizesArr)
+  })
+}
+
+export const getUserCertificationByCourseID = (userID, courseID, setCertification) => {
+  db.collection('users')
+  .doc(userID)
+  .collection('certifications')
+  .where('courseID', '==', courseID)
+  .onSnapshot(snap => {
+    const certificateArr = []
+    snap.forEach(doc => certificateArr.push(doc.data()))
+    setCertification(certificateArr)
+  })
+}

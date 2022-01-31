@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useRouteMatch } from "react-router-dom"
 import './styles/QuizResults.css'
 import { StoreContext } from '../store/store'
-import { getQuestionsByQuizID, getQuizByID } from "../services/courseServices"
+import { getCourseByID, getQuestionsByQuizID, getQuizByID } from "../services/courseServices"
 import { getUserQuizByID } from "../services/userServices"
 import scoreImg from '../assets/imgs/score-img.png'
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
@@ -10,9 +10,10 @@ import { cleanAnswer, msToTime } from "../utils/utilities"
 
 export default function QuizResults() {
 
-  const { setNavTitle, setNavDescript, user } = useContext(StoreContext)
+  const { setNavTitle, setNavDescript, user, myUser } = useContext(StoreContext)
   const courseID = useRouteMatch('/courses/:courseID/quiz/:quizID/results').params.courseID
   const quizID = useRouteMatch('/courses/:courseID/quiz/:quizID/results').params.quizID
+  const [course, setCourse] = useState({})
   const [quiz, setQuiz] = useState({})
   const [userQuiz, setUserQuiz] = useState({})
   const [questions, setQuestions] = useState([])
@@ -22,7 +23,7 @@ export default function QuizResults() {
   const history= useHistory()
   let numOfQuestions = questions.length
   let points = 0
-  const quizAccess = userQuiz.quizID === quizID
+  const quizAccess = userQuiz.quizID === quizID || myUser?.instructorID === course?.instructorID
 
   const answersRender = questions?.map((question, i) => {
     return <AnswerCard 
@@ -50,6 +51,7 @@ export default function QuizResults() {
     getQuizByID(courseID, quizID, setQuiz)
     getQuestionsByQuizID(courseID, quizID, setQuestions)
     getUserQuizByID(user?.uid, quizID, setUserQuiz)
+    getCourseByID(courseID, setCourse)
   },[courseID])
 
   useEffect(() => {

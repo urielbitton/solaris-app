@@ -5,8 +5,8 @@ import './styles/QuizCard.css'
 
 export default function QuizCard(props) {
 
+  const { courseID, isCourseInstructor } = props
   const { name, quizID, note } = props.quiz
-  const { courseID, inCourseInstructor } = props
   const [questions, setQuestions] = useState([])
   const history = useHistory()
 
@@ -27,7 +27,7 @@ export default function QuizCard(props) {
       </div>
       <div className="right">
         {
-          inCourseInstructor ? 
+          isCourseInstructor ? 
           <div 
             className="icon-container"
             onClick={() => history.push(`/courses/course/${courseID}/create/quiz/${quizID}?edit=true`)}
@@ -39,7 +39,7 @@ export default function QuizCard(props) {
         }
         <small>{questions.length} question{ questions.length !== 1 ? "s" : "" }</small>
         {
-          inCourseInstructor ? 
+          isCourseInstructor ? 
           <button 
             onClick={() => history.push(`/courses/course/${courseID}/create/quiz/${quizID}?edit=true`)}
             className="mobile-edit-btn shadow-hover"

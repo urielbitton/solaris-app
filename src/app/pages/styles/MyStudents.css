@@ -114,6 +114,13 @@
   align-items: center;
   flex-direction: column;
   transition: right 0.3s;
+  overflow-y: overlay;
+}
+.my-students-page .slide-bar::-webkit-scrollbar {
+  display: none;
+}
+.my-students-page .slide-bar:hover::-webkit-scrollbar {
+  display: block;
 }
 .my-students-page .slide-bar.open {
   right: 0;
@@ -141,8 +148,59 @@
   margin-bottom: 30px;
   width: 100%;
   display: flex;
+  flex-direction: column;
+}
+.my-students-page .slide-bar section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
 }
 .my-students-page .slide-bar section > h3 {
   color: #444;
   font-weight: 600;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ddd;
+  flex-basis: 100%;
+  width: 100%;
+}
+.my-students-page .slide-bar .info-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+.my-students-page .slide-bar .info-row.column {
+  flex-direction: column;
+}
+.my-students-page .slide-bar .info-row.column > div {
+  flex-direction: column;
+}
+.my-students-page .slide-bar .info-row > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.my-students-page .slide-bar .info-row h5 {
+  font-size: 16px;
+  color: #444;
+  font-weight: 600;
+}
+.my-students-page .slide-bar .info-row h5 i {
+  margin-right: 8px;
+}
+.my-students-page .slide-bar .info-row span {
+  color: #aaa;
+  font-weight: 500;
+  font-size: 14px;
+}
+.my-students-page .slide-bar .info-row a {
+  color: var(--color);
+  font-size: 14px;
 }
