@@ -47,7 +47,9 @@ export default function QuizPage() {
     .collection('quizes').doc(quizID).set({
       status: 'in-progress',
       takenOn: new Date(),
-      quizID: quizID
+      quizID: quizID,
+      quizName: quiz.name,
+      numOfQuestions: quiz.numOfQuestions
     }, {merge:true}).then(() => {
       setStartTimer(true)
       setLoading(false)
@@ -65,9 +67,7 @@ export default function QuizPage() {
       status: 'taken',
       completedOn: new Date(),
       minutesTaken: +(+timer / 60_000).toFixed(1),
-      submission: userAnswers,
-      quizName: quiz.name,
-      numOfQuestions: quiz.numOfQuestions
+      submission: userAnswers
     }).then(() => {
       createNewNotification(
         user?.uid,

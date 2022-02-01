@@ -1,0 +1,111 @@
+.answer-card {
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 5px;
+  background: #fff;
+  box-shadow: 0 1px 10px rgba(0,0,0,0.1);
+}
+.answer-card .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.answer-card .header > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.answer-card .header h5 {
+  font-size: 17px;
+  color: var(--graytxt);
+}
+.answer-card .header i {
+  color: var(--color);
+  margin-right: 10px;
+}
+.answer-card .header i.fa-times {
+  color: var(--red);
+}
+.answer-card .header p {
+  color: #333;
+  font-size: 17px;
+}
+.answer-card .true-false {
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  background: var(--red);
+  color: #fff;
+}
+.answer-card.correct .true-false {
+  background: var(--color);
+}
+.answer-card details {
+  width: 85%;
+  padding-left: 40px;
+}
+.answer-card details summary {
+  text-decoration: underline;
+  color: var(--color);
+  cursor: pointer;
+}
+.answer-card details ul {
+  list-style-type: lower-alpha;
+  padding-left: 15px;
+}
+.answer-card details ul li {
+  font-size: 14px;
+  color: var(--graytxt);
+  padding: 5px 0;
+}
+.answer-card .your-answer {
+  padding-left: 35px;
+  font-weight: 700;
+  color: #333;
+  font-size: 17px;
+  width: 90%;
+}
+.answer-card .your-answer span {
+  color: var(--red);
+  font-weight: 600;
+}
+.answer-card.correct .your-answer span {
+  color: var(--color);
+  font-weight: 600;
+}
+.answer-card .correct-answer {
+  padding-left: 35px;
+  font-weight: 700;
+  color: #333;
+  font-size: 17px;
+}
+.answer-card .correct-answer span {
+  color: var(--color);
+  font-weight: 600;
+}
+.answer-card .mark-corrent {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  font-size: 12px;
+  color: var(--graytxt);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.answer-card .mark-corrent:hover {
+  color: var(--color);
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .answer-card p {
+    line-height: 1.5;
+  }
+}

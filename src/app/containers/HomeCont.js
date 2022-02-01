@@ -30,6 +30,7 @@ import AdminPage from "../pages/AdminPage"
 import InstructorApplication from '../pages/InstructorApplication'
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min"
 import MyStudents from "../pages/MyStudents"
+import StudentQuizResults from "../pages/StudentQuizResults"
 
 export default function HomeCont() {
 
@@ -84,14 +85,14 @@ export default function HomeCont() {
           <Route path="/courses/course/:courseID/create/quiz">
             { myUser?.isInstructor && <CreateQuiz /> }
           </Route>
-          <Route path="/courses/course/:courseID/create/quiz/:quizID?edit=true">
-            { myUser?.isInstructor && <CreateQuiz /> }
-          </Route>
           <Route exact path="/courses/:courseID/quiz/:quizID">
             <QuizPage />
           </Route>
-          <Route path="/courses/:courseID/quiz/:quizID/results">
+          <Route exact path="/courses/:courseID/quiz/:quizID/results">
             <QuizResults />
+          </Route>
+          <Route exact path="/courses/:courseID/quiz/:quizID/:studentID/results">
+            <StudentQuizResults />
           </Route>
           <Route path="/get-pro">
             <GetProPage />

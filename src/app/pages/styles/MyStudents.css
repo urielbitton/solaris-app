@@ -165,6 +165,27 @@
   flex-basis: 100%;
   width: 100%;
 }
+.my-students-page .slide-bar section > div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.my-students-page .slide-bar section > div h6 {
+  font-size: 14px;
+  color: #444;
+  font-weight: 600;
+}
+.my-students-page .slide-bar section > div span {
+  font-size: 14px;
+}
+.my-students-page .slide-bar section .badge {
+  padding: 4px;
+  border-radius: 5px;
+  background: var(--lightestblue);
+  color: var(--color);
+  font-size: 12px;
+}
 .my-students-page .slide-bar .info-row {
   width: 100%;
   display: flex;

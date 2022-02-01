@@ -3,8 +3,8 @@ import './styles/MyStudents.css'
 import { StoreContext } from '../store/store'
 import { getCoursesByInstructorID } from "../services/InstructorServices"
 import { getAllQuizzesByCourseID, getStudentsByCourseID } from '../services/courseServices'
-import { getUserCertificationByCourseID, getUserByID, 
-  getUserCertificationsByCourseList, getUserQuizzesByCourseList } from '../services/userServices'
+import { getUserCertificationByCourseID, getUserByID, getUserQuizzesByCourseList } from '../services/userServices'
+import { convertFireDateToString } from '../utils/utilities'
 import StudentAvatar from '../components/student/StudentAvatar'
 import { Link, useHistory } from "react-router-dom"
 
@@ -19,6 +19,8 @@ export default function MyStudents() {
   const [courseQuizes, setCourseQuizes] = useState([])
   const [currentCourseQuizes, setCurrentCourseQuizes] = useState([])
   const [userCertifications, setUserCertifications] = useState([])
+  const [completedCourse, setCompletedCourse] = useState(false)
+  const [dateJoined, setDateJoined] = useState(null)
   const history = useHistory()
   
   const coursesListRender = courses?.map((course, i) => {
@@ -50,11 +52,11 @@ export default function MyStudents() {
           <i className="fal fa-align-center"></i>
           {quiz.quizName}
         </h5>
-        <span>{quiz.numOfQuestions} question{quiz.numOfQuestions !== 1 ? "s" : ""}</span>
+        <span>Score: {quiz.numOfQuestions}</span>
       </div>
       <Link 
         className="linkable" 
-        to={`/courses/${currentCourse?.id}/quiz/${quiz.quizID}`}
+        to={`/courses/${currentCourse?.id}/quiz/${quiz.quizID}/${currentStudent?.userID}/results?edit=true`}
       >
         Review / Grade
       </Link>
@@ -80,10 +82,14 @@ export default function MyStudents() {
   })
 
   const viewStudentInfo = (e, student) => {
+    console.log(student)
     e.stopPropagation()
     setOpenSlide(true)
     getUserByID(student.userID, setCurrentStudent)
     getUserCertificationByCourseID(student.userID, currentCourse?.id, setUserCertifications)
+    setCompletedCourse(student.hasCompleted)
+    setDateJoined(student.dateJoined)
+    getUserQuizzesByCourseList(student.userID, courseQuizes.map((x) => x.quizID), setCurrentCourseQuizes)
   }
 
   useEffect(() => {
@@ -98,12 +104,6 @@ export default function MyStudents() {
     getStudentsByCourseID(currentCourse?.id, setStudents, 40)
     getAllQuizzesByCourseID(currentCourse?.id, setCourseQuizes)
   },[currentCourse])
-
-  useEffect(() => {
-    if(myUser.userID && courseQuizes.length) {
-      getUserQuizzesByCourseList(myUser.userID, courseQuizes.map((x) => x.quizID), setCurrentCourseQuizes)
-    } 
-  },[courseQuizes, myUser])
 
   useEffect(() => {
     if(openSlide) 
@@ -150,6 +150,17 @@ export default function MyStudents() {
           <h4>{currentStudent?.email}</h4>
         </header>
         <section>
+          <h3>General</h3>
+          <div>
+            <h6>Date Joined</h6>
+            <span>{dateJoined && convertFireDateToString(dateJoined)}</span>
+          </div>
+          <div>
+            <h6>Completed Course</h6>
+            <span className="badge">{completedCourse ? "Completed" : "In Progress"}</span>
+          </div>
+        </section>
+        <section>
           <h3>Quizes</h3>
           {currentCourseUserQuizesRender}
         </section>
@@ -159,7 +170,12 @@ export default function MyStudents() {
         </section>
         <section>
           <h3>Profile</h3>
-          <button onClick={() => history.push(`/profile/${currentStudent?.userID}`)}>View Profile</button>
+          <button 
+            onClick={() => history.push(`/profile/${currentStudent?.userID}`)}
+            className="shadow-hover"
+          >
+            View Profile
+          </button>
         </section>
       </div>
     </div>

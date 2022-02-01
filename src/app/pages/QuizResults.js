@@ -5,8 +5,9 @@ import { StoreContext } from '../store/store'
 import { getCourseByID, getQuestionsByQuizID, getQuizByID } from "../services/courseServices"
 import { getUserQuizByID } from "../services/userServices"
 import scoreImg from '../assets/imgs/score-img.png'
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import { useHistory } from "react-router-dom"
 import { cleanAnswer, msToTime } from "../utils/utilities"
+import AnswerCard from "../components/quiz/AnswerCard"
 
 export default function QuizResults() {
 
@@ -17,10 +18,10 @@ export default function QuizResults() {
   const [quiz, setQuiz] = useState({})
   const [userQuiz, setUserQuiz] = useState({})
   const [questions, setQuestions] = useState([])
-  const [score, setScore] = useState(0)
+  const [score, setScore] = useState(0) 
   const [displayedScore, setDisplayedScore] = useState(0)
   const [correctNum, setCorrectNum] = useState(0)
-  const history= useHistory()
+  const history = useHistory()
   let numOfQuestions = questions.length
   let points = 0
   const quizAccess = userQuiz.quizID === quizID || myUser?.instructorID === course?.instructorID
@@ -76,7 +77,6 @@ export default function QuizResults() {
           <big>Your Score</big>
           <h4>
             {!isNaN(displayedScore) ? displayedScore : score.toFixed(1)}% 
-            {/* <span>- ({displayedScore}/{numOfQuestions})</span> */}
           </h4>
           <small>Time Taken: {msToTime(userQuiz?.minutesTaken * 60_000)}</small>
         </div>
@@ -96,41 +96,5 @@ export default function QuizResults() {
       </div>
     </div> :
     <></>
-  )
-}
-
-export function AnswerCard(props) {
-
-  const { answer, title, order } = props.question
-  const { userQuiz, index } = props
-  const isCorrect = cleanAnswer(answer) === cleanAnswer(userQuiz?.submission ? userQuiz?.submission[index] : '')
-
-  return (
-    <div className={`answer-card ${isCorrect ? "correct" : ""}`}>
-      <div className="header">
-        <div>
-          {
-            isCorrect ?
-            <i className="far fa-check"></i> :
-            <i className="far fa-times"></i>
-          }      
-          <h5>{order}.</h5>  
-          <p>{title}</p>
-        </div>
-        <span className="true-false">{isCorrect ? 'correct' : "wrong"}</span>
-      </div>
-      <div className="your-answer">
-        <small>
-          Your answer: &nbsp;
-          <span>{userQuiz?.submission ? userQuiz?.submission[index] : ''}</span>
-        </small>
-      </div>
-      <div className="correct-answer">
-        <small>
-          Correct answer: &nbsp;
-          <span>{answer}</span>
-        </small>
-      </div>
-    </div>
   )
 }

@@ -64,7 +64,9 @@ export default function CheckoutPage() {
       setSubDB('courses', courseID, 'students', user?.uid, {
         userID: user?.uid, 
         name: user?.displayName,
-        photoURL: myUser?.photoURL
+        photoURL: myUser?.photoURL,
+        hasCompleted: false,
+        dateJoined: new Date()
       })
       addSubDB('users', user?.uid, 'emails', {
         email: myUser?.email,
