@@ -18,7 +18,7 @@ export default function Ratings(props) {
       }
       { 
         ratingNumber ?
-        <small>({rating})</small> :
+        <small>({rating.toFixed(1)})</small> :
         <></>
       }
     </div>

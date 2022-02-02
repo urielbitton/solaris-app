@@ -10,13 +10,12 @@ export default function CourseCard(props) {
 
   const {user, myUser} = useContext(StoreContext)
   const {id, cover, lessonsCount, title, category, studentsEnrolled, costType, instructorID,
-    firstLessonID, firstVideoID} = props.course
+    firstLessonID, firstVideoID, rating} = props.course
   const [userCourses, setUserCourses] = useState([])
   const [reviews, setReviews] = useState([])
   const history = useHistory()
   const courseUserAccess = userCourses.findIndex(x => x.courseID === id) > -1
   const isMyCourse = myUser?.instructorID === instructorID
-  const averageRating = +reviews?.reduce((a,b) => a + b.rating, 0) / reviews?.length
 
   const handleClick = (e, path) => {
     e.stopPropagation()
@@ -73,8 +72,11 @@ export default function CourseCard(props) {
           </div>
           <div className="meta-info-container">
             <div>
-              <Ratings rating={4.6}/>
-              <small>{isNaN(averageRating) ? 0 : averageRating.toFixed(1)} ({reviews.length})</small>
+              <Ratings 
+                rating={rating} 
+                ratingNumber 
+              />
+              <small>({reviews.length})</small>
             </div>
             <div>
               {courseUserAccess && <small className='purchased-badge'><i className='fal fa-check'></i>Purchased</small>}

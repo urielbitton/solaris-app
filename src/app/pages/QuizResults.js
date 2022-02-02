@@ -18,35 +18,22 @@ export default function QuizResults() {
   const [quiz, setQuiz] = useState({})
   const [userQuiz, setUserQuiz] = useState({})
   const [questions, setQuestions] = useState([])
-  const [score, setScore] = useState(0) 
-  const [displayedScore, setDisplayedScore] = useState(0)
-  const [correctNum, setCorrectNum] = useState(0)
+  const [correctedQuestions, setCorrectedQuestions] = useState([])
+  const [reviewNotes, setReviewNotes] = useState('')
   const history = useHistory()
-  let numOfQuestions = questions.length
-  let points = 0
-  const quizAccess = userQuiz.quizID === quizID || myUser?.instructorID === course?.instructorID
+  const numOfQuestions = questions.length
+  const quizAccess = userQuiz?.quizID === quizID
 
   const answersRender = questions?.map((question, i) => {
     return <AnswerCard 
-      question={question} 
-      userQuiz={userQuiz}
-      index={i}
-      key={i} 
+    question={question} 
+    userQuiz={userQuiz}
+    correctedQuestions={correctedQuestions}
+    setCorrectedQuestions={setCorrectedQuestions}
+    index={i}
+    key={i} 
     />
   })
-
-  const calculateScore = (userAnswers) => {
-    points = calculatePoints(numOfQuestions, userAnswers)
-    setScore((points / numOfQuestions) * 100)
-    setCorrectNum(points)
-  }
-
-  const calculatePoints = (numOfQuestions, userAnswers) => {
-    for(let i = 0; i < numOfQuestions; i++) {
-      cleanAnswer(questions[i].answer) === cleanAnswer(userAnswers[i]) && points++
-    }
-    return points
-  }
 
   useEffect(() => {
     getQuizByID(courseID, quizID, setQuiz)
@@ -56,17 +43,20 @@ export default function QuizResults() {
   },[courseID])
 
   useEffect(() => {
-    if(userQuiz?.submission) {
-      calculateScore(userQuiz.submission)
+    if(questions.length) {
+      questions.forEach((question,i) => {
+        correctedQuestions[i] = {
+          isCorrect: cleanAnswer(question.answer) === cleanAnswer(userQuiz?.submission ? userQuiz?.submission[i] : '')
+        }
+      })
+      setCorrectedQuestions(prev => [...prev])
     }
-    setDisplayedScore((userQuiz?.customScore/numOfQuestions) * 100)
-  },[userQuiz])
+  },[questions, userQuiz])
 
   useEffect(() => {
     setNavTitle('Quiz Results')
     setNavDescript(quiz.name)
   },[quiz])
-  
 
   return (
     quizAccess ?
@@ -76,7 +66,8 @@ export default function QuizResults() {
           <h3>Quiz Results</h3>
           <big>Your Score</big>
           <h4>
-            {!isNaN(displayedScore) ? displayedScore : score.toFixed(1)}% 
+            {userQuiz?.score?.toFixed(1)}% 
+            <span>({userQuiz?.points}/{numOfQuestions})</span>
           </h4>
           <small>Time Taken: {msToTime(userQuiz?.minutesTaken * 60_000)}</small>
         </div>
@@ -85,6 +76,12 @@ export default function QuizResults() {
       <div className="answers-container">
         <h3>Review</h3>
         {answersRender}
+        <hr/>
+        <section>
+          <h4>Review Notes from Instructor</h4>
+          <p>{userQuiz?.reviewNotes}</p>
+        </section>
+        <hr/>
       </div>
       <div className="footer">
         <button 

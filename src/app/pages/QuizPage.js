@@ -5,7 +5,7 @@ import QuizItem from "../components/quiz/QuizItem"
 import { getQuestionsByQuizID, getQuizByID } from "../services/courseServices"
 import { getUserQuizByID } from "../services/userServices"
 import { StoreContext } from "../store/store"
-import { msToTime } from "../utils/utilities"
+import { cleanAnswer, msToTime } from "../utils/utilities"
 import './styles/QuizPage.css'
 import quizImg from '../assets/imgs/quiz-img.png'
 import { db } from "../firebase/fire"
@@ -31,6 +31,8 @@ export default function QuizPage() {
   const timeSinceStarted = Date.now() - (userQuiz?.takenOn?.seconds * 1000)
   const stillTimeLeft = timeSinceStarted < (quiz.maxDuration * 60000)
   const timeExpired = timeSinceStarted > (quiz.maxDuration * 60000)
+  const numOfQuestions = questions.length
+  let points = 0
 
   const questionsRender = questions?.map((question, i) => {
     return <QuizItem 
@@ -40,6 +42,22 @@ export default function QuizPage() {
       key={i} 
     />
   })
+
+  const calculatePoints = (numOfQuestions, userAnswers) => {
+    for(let i = 0; i < numOfQuestions; i++) {
+      cleanAnswer(questions[i].answer) === cleanAnswer(userAnswers[i]) && points++
+    }
+    return points
+  }
+
+  const calculateScore = (userAnswers) => {
+    points = calculatePoints(numOfQuestions, userAnswers)
+    let results = {
+      score: (points / numOfQuestions) * 100,
+      points
+    }
+    return results
+  }
 
   const startQuiz = () => {
     setLoading(true)
@@ -63,11 +81,14 @@ export default function QuizPage() {
         userAnswers[i] = ''
       }
     }
+    let results = calculateScore(userAnswers)
     updateSubDB('users', user?.uid, 'quizes', quizID, {
       status: 'taken',
       completedOn: new Date(),
       minutesTaken: +(+timer / 60_000).toFixed(1),
-      submission: userAnswers
+      submission: userAnswers,
+      score: results.score,
+      points: results.points
     }).then(() => {
       createNewNotification(
         user?.uid,
@@ -168,7 +189,7 @@ export default function QuizPage() {
         <>
           { userQuiz?.status !== 'in-progress' ?
             <div className="start-container">
-              <span>Once you hit start, a {quiz.maxDuration} minute timer will start</span>
+              <span>Once you hit start, a {quiz.maxDuration} minute timer will start. (1 attempt only)</span>
               <button 
                 className="start-quiz-btn shadow-hover" 
                 onClick={() => startQuiz()}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useLocation, useRouteMatch, useHistory } from "react-router-dom";
 import './styles/QuizResults.css'
 import { getCourseByID, getQuestionsByQuizID, getQuizByID } from "../services/courseServices";
@@ -7,7 +7,8 @@ import { StoreContext } from "../store/store";
 import AnswerCard from "../components/quiz/AnswerCard";
 import { cleanAnswer, msToTime } from "../utils/utilities"
 import scoreImg from '../assets/imgs/score-img.png'
-import { setSubDB, updateSubDB } from '../services/CrudDB'
+import { updateSubDB } from '../services/CrudDB'
+import { AppTextarea } from '../components/ui/AppInputs'
 
 export default function StudentQuizResults() {
 
@@ -20,16 +21,14 @@ export default function StudentQuizResults() {
   const [userQuiz, setUserQuiz] = useState({})
   const [student, setStudent] = useState({})
   const [questions, setQuestions] = useState([])
-  const [score, setScore] = useState(0)
-  const [displayedScore, setDisplayedScore] = useState(0)
-  const [correctNum, setCorrectNum] = useState(0)
   const [correctedQuestions, setCorrectedQuestions] = useState([])
+  const [reviewNotes, setReviewNotes] = useState('')
   const quizAccess = myUser?.instructorID === course?.instructorID
   const history = useHistory()
   const location = useLocation()
+  const scrollTopRef = useRef()
   const editMode = location.search.includes('edit=true')
-  let numOfQuestions = questions.length
-  let points = 0
+  const numOfQuestions = questions.length
 
   const answersRender = questions?.map((question, i) => {
     return <AnswerCard 
@@ -43,24 +42,15 @@ export default function StudentQuizResults() {
     />
   })
 
-  const calculateScore = (userAnswers) => {
-    points = calculatePoints(numOfQuestions, userAnswers)
-    setScore((points / numOfQuestions) * 100)
-    setCorrectNum(points)
-  }
-
-  const calculatePoints = (numOfQuestions, userAnswers) => {
-    for(let i = 0; i < numOfQuestions; i++) {
-      cleanAnswer(questions[i].answer) === cleanAnswer(userAnswers[i]) && points++
-    }
-    return points
-  }
-
   const saveReview = () => {
     const customScore = correctedQuestions?.reduce((a,b) => a + (b.isCorrect ? 1 : 0), 0)
     updateSubDB('users', studentID, 'quizes', quizID, {
-      customScore
+      score: (customScore/numOfQuestions) * 100,
+      manualGrade: true,
+      reviewNotes
     })
+    .then(() => scrollTopRef?.current?.scroll({top:0, behavior:'smooth'}))
+    .catch(err => console.log(err))
   }
 
   useEffect(() => {
@@ -70,13 +60,6 @@ export default function StudentQuizResults() {
     getCourseByID(courseID, setCourse)
     getUserByID(studentID, setStudent)
   },[courseID])
-
-  useEffect(() => {
-    if(userQuiz?.submission) {
-      calculateScore(userQuiz.submission)
-    }
-    setDisplayedScore((userQuiz?.customScore/numOfQuestions) * 100)
-  },[userQuiz])
 
   useEffect(() => {
     if(questions.length) {
@@ -97,12 +80,16 @@ export default function StudentQuizResults() {
   return (
     quizAccess ?
     <div className="quiz-results-page">
-      <header>
+      <header ref={scrollTopRef}>
         <div>
           <h3>Quiz Results - {student?.firstName} {student?.lastName}</h3>
           <big>Student Score</big>
           <h4>
-            {!isNaN(displayedScore) ? displayedScore : score.toFixed(1)}% 
+            {userQuiz?.score?.toFixed(1)}% 
+            <span>
+              ({userQuiz?.points}/{numOfQuestions}) 
+              {userQuiz?.manualGrade && <span style={{color:'var(--color)'}}>- Manually corrected</span>}
+            </span>
           </h4>
           <small>Time Taken: {msToTime(userQuiz?.minutesTaken * 60_000)}</small>
         </div>
@@ -111,6 +98,13 @@ export default function StudentQuizResults() {
       <div className="answers-container">
         <h3>Review</h3>
         {answersRender}
+        <hr/>
+        <AppTextarea
+          title="Add Review Notes/Comments for student"
+          placeholder="Some notes or comments..."
+          onChange={(e) => setReviewNotes(e.target.value)}
+          value={reviewNotes}
+        />
       </div>
       <div className="btn-group">
         <button 

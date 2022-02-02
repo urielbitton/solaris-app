@@ -52,7 +52,6 @@ export default function MyStudents() {
           <i className="fal fa-align-center"></i>
           {quiz.quizName}
         </h5>
-        <span>Score: {quiz.numOfQuestions}</span>
       </div>
       <Link 
         className="linkable" 
@@ -82,7 +81,6 @@ export default function MyStudents() {
   })
 
   const viewStudentInfo = (e, student) => {
-    console.log(student)
     e.stopPropagation()
     setOpenSlide(true)
     getUserByID(student.userID, setCurrentStudent)

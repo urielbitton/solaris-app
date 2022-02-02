@@ -81,7 +81,7 @@
   gap: 5px;
 }
 .course-card .meta-info-container small {
-  top: 2px;
+  top: 1px;
   color: var(--graytxt)
 }
 .course-card .meta-info-container .ratingscont i {
