@@ -123,11 +123,11 @@ export default function HomeCont() {
           <Route exact path="/my-students">
             <MyStudents />
           </Route>
-          <Route exact path="/certification/:courseID/:studentID/:certificationID">
+          <Route path="/certification/:courseID/:studentID/:certificationID">
             <CertificationPage />
           </Route>
-          <Route exact path="/create-certification/:instructorID/:courseID/:studentID/:certificationID">
-            <CreateCertification />
+          <Route path="/create-certification/:instructorID/:courseID/:studentID/:certificationID">
+            { myUser?.isInstructor && <CreateCertification /> }
           </Route>
           <Route exact path="/instructor-application/:applicationID">
             { myUser?.isAdmin && <InstructorApplication /> }

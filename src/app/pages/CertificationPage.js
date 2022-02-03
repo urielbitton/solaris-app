@@ -7,6 +7,7 @@ import certificateImg from '../assets/imgs/certificate.png'
 import badgeImg from '../assets/imgs/badge-img.png'
 import solarisSignature from '../assets/imgs/solaris-signature.png'
 import html2canvas from 'html2canvas'
+import { Helmet } from 'react-helmet'
 
 export default function CertificationPage() {
 
@@ -46,6 +47,9 @@ export default function CertificationPage() {
   return (
     pageAccess ?
     <div className="certification-page" ref={pageRef}>
+      <Helmet>
+        <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet" />
+      </Helmet>
       <header>
         <h3>{certification?.name}</h3>
         <h4>Student: {certification?.studentName}</h4>
@@ -60,19 +64,22 @@ export default function CertificationPage() {
             <h4>We proudly present this to</h4>
             <h2>{certification?.studentName}</h2>
             <p>{certification?.note}</p>
+            <img 
+              src={badgeImg} 
+              alt="badge" 
+              className="badge-img"
+            />
             <footer>
-              <img 
-                src={badgeImg} 
-                alt="badge" 
-                className="badge-img"
-              />
-              <img 
-                src={solarisSignature} 
-                alt="signature" 
-                className="signature"
-              />
-              <hr />
-              <h6>Solaris Platform</h6>
+              <div>
+                <span>Solaris LMS</span>
+                <hr />
+                <h6>Solaris Platform</h6>
+              </div>
+              <div>
+                <span>{certification?.instructorName}</span>
+                <hr />
+                <h6>Instructor</h6>
+              </div>
             </footer>
           </div>
         </div>

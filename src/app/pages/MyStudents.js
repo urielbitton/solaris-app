@@ -73,14 +73,14 @@ export default function MyStudents() {
     return <div className="info-row column" key={i}>
       <div>
         <h5>
-          <i className="fas fa-certificate"></i>
+          <i className="fas fa-diploma"></i>
           {certification.name}
         </h5>
         <span>Course: {certification.courseName}</span>
       </div>
       <Link 
         className="linkable" 
-        to={`/certifications/${currentStudent.userID}`}
+        to={`/certification/${currentCourse?.id}/${currentStudent.userID}/${certification.certificationID}`}
       >
         View
       </Link>
