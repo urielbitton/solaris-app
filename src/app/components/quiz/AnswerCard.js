@@ -67,7 +67,7 @@ export default function AnswerCard(props) {
       }
       <div className="your-answer">
         <small>
-          { editMode ? "Student Answer" : "Your Answer" } answer: &nbsp;
+          { editMode ? "Student Answer" : "Your Answer" }: &nbsp;
           <span>{userQuiz?.submission ? userQuiz?.submission[index] : ''}</span>
         </small>
       </div>

@@ -5,7 +5,6 @@ import { StoreContext } from '../store/store'
 import { getCertificationByIDAndUserID } from '../services/userServices'
 import certificateImg from '../assets/imgs/certificate.png'
 import badgeImg from '../assets/imgs/badge-img.png'
-import solarisSignature from '../assets/imgs/solaris-signature.png'
 import html2canvas from 'html2canvas'
 import { Helmet } from 'react-helmet'
 
@@ -71,7 +70,7 @@ export default function CertificationPage() {
             />
             <footer>
               <div>
-                <span>Solaris LMS</span>
+                <span>Solaris lms</span>
                 <hr />
                 <h6>Solaris Platform</h6>
               </div>

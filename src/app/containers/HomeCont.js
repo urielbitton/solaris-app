@@ -126,7 +126,7 @@ export default function HomeCont() {
           <Route path="/certification/:courseID/:studentID/:certificationID">
             <CertificationPage />
           </Route>
-          <Route path="/create-certification/:instructorID/:courseID/:studentID/:certificationID">
+          <Route path="/create-certification/:instructorID/:courseID/:studentID">
             { myUser?.isInstructor && <CreateCertification /> }
           </Route>
           <Route exact path="/instructor-application/:applicationID">

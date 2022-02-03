@@ -31,12 +31,10 @@ export const getCoursesEnrolledByUserID = (enrolledList, setCourses) => {
 }
 
 export const isUserInstructor = (userID, setIsInstructor) => {
-  db.collection("users").doc(userID)
-  .get()
-  .then(doc => {
-    if(doc.exists) {
-      setIsInstructor(doc.data().isInstructor)
-    }
+  db.collection("users")
+  .doc(userID)
+  .onSnapshot(snap => {
+    setIsInstructor(snap.data().isInstructor)
   })
 }
 

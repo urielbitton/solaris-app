@@ -196,3 +196,12 @@ export const getStudentsByCourseID = (courseID, setStudents, limit) => {
   })
 }
 
+export const getStudentEnrolledInCourseByCourseID = (courseID, studentID, setStudent) => {
+  db.collection('courses')
+  .doc(courseID)
+  .collection('students')
+  .doc(studentID)
+  .onSnapshot(snap => {
+    setStudent(snap.data())
+  })
+}

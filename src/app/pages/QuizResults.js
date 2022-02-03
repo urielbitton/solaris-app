@@ -68,6 +68,7 @@ export default function QuizResults() {
           <h4>
             {userQuiz?.score?.toFixed(1)}% 
             <span>({userQuiz?.points}/{numOfQuestions})</span>
+            {userQuiz?.manualGrade && <span style={{color:'var(--color)'}}>- Manually corrected</span>}
           </h4>
           <small>Time Taken: {msToTime(userQuiz?.minutesTaken * 60_000)}</small>
         </div>

@@ -187,6 +187,13 @@ export default function MyStudents() {
         <section>
           <h3>Certifications</h3>
           {currentCourseUserCertificationsRender}
+          <button 
+            onClick={() => {
+              history.push(`/create-certification/${currentCourse?.instructorID}/${currentCourse?.id}/${currentStudent?.userID}`)
+            }}
+          >
+            Award Certification
+          </button>
         </section>
         <section>
           <h3>Profile</h3>
