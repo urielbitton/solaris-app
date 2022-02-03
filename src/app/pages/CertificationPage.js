@@ -49,6 +49,7 @@ export default function CertificationPage() {
       <header>
         <h3>{certification?.name}</h3>
         <h4>Student: {certification?.studentName}</h4>
+        <h4>Course: {certification?.courseName}</h4>
       </header>
       <section>
         <div className="certification-container" ref={captureRef}>
