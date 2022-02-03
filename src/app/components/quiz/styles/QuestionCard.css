@@ -18,7 +18,12 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 30px;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+.question-card header > h4 {
+  flex-basis: 100%;
+  color: #333;
 }
 .question-card header textarea {
   width: 60%;
@@ -35,7 +40,7 @@
   width: 5px;
 }
 .question-card header .appselect {
-  width: 40%;
+  width: 37%;
   min-width: 200px;
 }
 

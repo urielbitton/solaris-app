@@ -13,9 +13,10 @@ export default function AnswerCard(props) {
     return <li>{choice}</li>
   })
 
-  const markQuestion = () => {
+  const markQuestion = (mark) => {
     correctedQuestions[index] = {
-      isCorrect: !isCorrect
+      isCorrect: mark,
+      manuallyGraded: true
     }
     setCorrectedQuestions(prev => [...prev]) 
   } 
@@ -24,7 +25,12 @@ export default function AnswerCard(props) {
     <div className={`answer-card ${isCorrect ? "correct" : ""}`}>
       <div className="header">
         <div>
-          {
+          { 
+            correctedQuestions[order-1]?.manuallyGraded ?
+            <i 
+              className="fas fa-exclamation-triangle"
+              title="Manually graded - save review to modify student score"
+            ></i> :
             isCorrect ?
             <i className="far fa-check"></i> :
             <i className="far fa-times"></i>
@@ -32,15 +38,22 @@ export default function AnswerCard(props) {
           <h5>{order}.</h5>  
           <p>{title}</p>
         </div>
-        <span className="true-false">{isCorrect ? 'correct' : "wrong"}</span>
+        <span 
+          className={`true-false ${correctedQuestions[order-1]?.manuallyGraded ? 'manual-grade' : ''}`}
+          title={correctedQuestions[order-1]?.manuallyGraded && `Manually graded as ${correctedQuestions[order-1]?.isCorrect ? 'Correct' : 'Incorrect'}`}
+        >
+          { correctedQuestions[order-1]?.manuallyGraded ? 'Manual Grade' : isCorrect ? 'correct' : "wrong"}
+        </span>
         { 
           editMode && 
-          <small 
-            className="mark-corrent"
-            onClick={() => markQuestion()}
-          >
-            {isCorrect ? 'Mark Incorrect' : 'Mark Correct'}
-          </small> 
+          <div className="mark-correct">
+            <small onClick={() => markQuestion(true)}>
+              Mark Correct
+            </small> 
+            <small onClick={() => markQuestion(false)}>
+              Mark Incorrect
+            </small> 
+          </div>
         }
       </div>
       { choices?.length ?

@@ -81,16 +81,6 @@ export const getUserQuizByID = (userID, quizID, setQuiz) => {
   })
 }
 
-export const getCertificationsByUserID = (userID, setCertification) => {
-  db.collection('users').doc(userID)
-  .collection('certifications')
-  .onSnapshot(snap => {
-    const certifArr = []
-    snap.forEach(doc => certifArr.push(doc.data()))
-    setCertification(certifArr)
-  })
-}
-
 export const getUserSettingsByUserAndDocID = (userID, docID, setSettings) => {
   db.collection('users').doc(userID)
   .collection('settings').doc(docID)
@@ -112,7 +102,7 @@ export const getUserQuizzesByCourseList = (userID, courseQuizes, setQuizes) => {
   })
 }
 
-export const getUserCertificationByCourseID = (userID, courseID, setCertification) => {
+export const getUserCertificationsByCourseID = (userID, courseID, setCertification) => {
   db.collection('users')
   .doc(userID)
   .collection('certifications')
@@ -121,5 +111,25 @@ export const getUserCertificationByCourseID = (userID, courseID, setCertificatio
     const certificateArr = []
     snap.forEach(doc => certificateArr.push(doc.data()))
     setCertification(certificateArr)
+  })
+}
+
+export const getCertificationByIDAndUserID = (certificateID, userID, setCertification) => {
+  db.collection('users')
+  .doc(userID)
+  .collection('certifications')
+  .doc(certificateID)
+  .onSnapshot(snap => {
+    setCertification(snap.data())
+  })
+}
+
+export const getCertificationsByUserID = (userID, setCertification) => {
+  db.collection('users').doc(userID)
+  .collection('certifications')
+  .onSnapshot(snap => {
+    const certifArr = []
+    snap.forEach(doc => certifArr.push(doc.data()))
+    setCertification(certifArr)
   })
 }

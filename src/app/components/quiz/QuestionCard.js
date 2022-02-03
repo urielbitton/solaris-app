@@ -7,7 +7,7 @@ export default function QuestionCard(props) {
 
   const { title } = props.question
   const { questionsArr, setQuestionsArr, index, editMode, showSaveBtn, setShowSaveBtn,
-    editingIndex, setEditingIndex, deletedQuestions, setDeletedQuestions, hideInactive } = props
+    editingIndex, setEditingIndex, setDeletedQuestions, hideInactive } = props
   const [questionTitle, setQuestionTitle] = useState(title)
   const [questionType, setQuestionType] = useState('radio')
   const [isRequired, setIsRequired] = useState(true)
@@ -15,12 +15,12 @@ export default function QuestionCard(props) {
   const [choices, setChoices] = useState([])
   const [editingChoice, setEditingChoice] = useState(-1)
   const [enterReminder, setEnterReminder] = useState(-1)
-  const [optionPlaceholder, setOptionPlaceholder] = useState('Add option')
+  const [optionPlaceholder, setOptionPlaceholder] = useState('Add option (press enter to save)')
   const [answerText, setAnswerText] = useState('')
   const [hasAnswer, setHasAnswer] = useState(false)
   const [pointsWorth, setPointsWorth] = useState(1)
   const [isQuestionActive, setIsQuestionActive] = useState(true)
-  const disableAddOptions = optionPlaceholder !== 'Add option'
+  const disableAddOptions = optionPlaceholder !== 'Add option (press enter to save)'
   const textTypeQuestion = questionType === 'radio' || questionType === 'checkbox'
   const currentQuestion = questionsArr[index]
     
@@ -41,7 +41,7 @@ export default function QuestionCard(props) {
         disabled 
       />
       <AppInput 
-        placeholder="Add option"
+        placeholder="Add option (press enter to save)"
         onKeyPress={(e) => handleOptionPressEnter(e, true, i)}
         onChange={(e) => {
           setOptionText(e.target.value)
@@ -150,7 +150,7 @@ export default function QuestionCard(props) {
     else if(questionType === 'longText')
       setOptionPlaceholder('Long answer text')
     else 
-      setOptionPlaceholder('Add option')
+      setOptionPlaceholder('Add option (press enter to save)')
   },[questionType])
 
   useEffect(() => {
@@ -188,6 +188,7 @@ export default function QuestionCard(props) {
   return (
     <div className={`question-card ${!isQuestionActive ? hideInactive ? "inactive hidden" : "inactive" : ""}`}>
       <header>
+        <h4>{index+1}.</h4>
         <TextareaAutosize 
           placeholder="Question Title"
           onChange={(e) => setQuestionTitle(e.target.value)}

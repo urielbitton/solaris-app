@@ -133,8 +133,16 @@
 
 .profile-content {
   padding: 10px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-bottom: 50px;
 }
-.profile-content > h3 {
+.profile-content section {
+  display: flex;
+  flex-direction: column;
+}
+.profile-content section > h3 {
   color: #444;
   margin-bottom: 40px;
 }
@@ -148,4 +156,11 @@
   font-size: 16px;
   color: var(--graytxt);
   font-weight: 600;
+}
+
+.profile-content .certification-flex {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }

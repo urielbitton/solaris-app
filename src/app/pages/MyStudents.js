@@ -3,10 +3,12 @@ import './styles/MyStudents.css'
 import { StoreContext } from '../store/store'
 import { getCoursesByInstructorID } from "../services/InstructorServices"
 import { getAllQuizzesByCourseID, getStudentsByCourseID } from '../services/courseServices'
-import { getUserCertificationByCourseID, getUserByID, getUserQuizzesByCourseList } from '../services/userServices'
+import { getUserCertificationsByCourseID, getUserByID, getUserQuizzesByCourseList } from '../services/userServices'
 import { convertFireDateToString } from '../utils/utilities'
 import StudentAvatar from '../components/student/StudentAvatar'
 import { Link, useHistory } from "react-router-dom"
+import { AppSelect } from '../components/ui/AppInputs'
+import { updateSubDB } from '../services/CrudDB'
 
 export default function MyStudents() {
 
@@ -22,6 +24,11 @@ export default function MyStudents() {
   const [completedCourse, setCompletedCourse] = useState(false)
   const [dateJoined, setDateJoined] = useState(null)
   const history = useHistory()
+
+  const completionOptions = [
+    {name: 'Yes', value: true},
+    {name: 'No', value: false}
+  ]
   
   const coursesListRender = courses?.map((course, i) => {
     return <div 
@@ -84,12 +91,19 @@ export default function MyStudents() {
     e.stopPropagation()
     setOpenSlide(true)
     getUserByID(student.userID, setCurrentStudent)
-    getUserCertificationByCourseID(student.userID, currentCourse?.id, setUserCertifications)
+    getUserCertificationsByCourseID(student.userID, currentCourse?.id, setUserCertifications)
     setCompletedCourse(student.hasCompleted)
     setDateJoined(student.dateJoined)
     getUserQuizzesByCourseList(student.userID, courseQuizes.map((x) => x.quizID), setCurrentCourseQuizes)
   }
 
+  const handleCompletionUpdate = (e) => {
+    setCompletedCourse(e.target.value)
+    updateSubDB('courses', currentCourse?.id, 'students', currentStudent.userID, {
+      hasCompleted: e.target.value
+    })
+  }
+  
   useEffect(() => {
     setNavTitle('My Students')
     setNavDescript('')
@@ -156,6 +170,14 @@ export default function MyStudents() {
           <div>
             <h6>Completed Course</h6>
             <span className="badge">{completedCourse ? "Completed" : "In Progress"}</span>
+          </div>
+          <div>
+            <h6>Change Student Completion Status</h6>
+            <AppSelect 
+              options={completionOptions}
+              onChange={(e) => handleCompletionUpdate(e)}
+              value={completedCourse ? 'yes' : 'no'}
+            />
           </div>
         </section>
         <section>

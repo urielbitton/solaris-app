@@ -31,6 +31,8 @@ import InstructorApplication from '../pages/InstructorApplication'
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min"
 import MyStudents from "../pages/MyStudents"
 import StudentQuizResults from "../pages/StudentQuizResults"
+import CertificationPage from "../pages/CertificationPage"
+import CreateCertification from "../pages/CreateCertification"
 
 export default function HomeCont() {
 
@@ -120,6 +122,12 @@ export default function HomeCont() {
           </Route>
           <Route exact path="/my-students">
             <MyStudents />
+          </Route>
+          <Route exact path="/certification/:courseID/:studentID/:certificationID">
+            <CertificationPage />
+          </Route>
+          <Route exact path="/create-certification/:instructorID/:courseID/:studentID/:certificationID">
+            <CreateCertification />
           </Route>
           <Route exact path="/instructor-application/:applicationID">
             { myUser?.isAdmin && <InstructorApplication /> }

@@ -7,6 +7,7 @@ import { convertFireDateToMonthAndYear } from '../utils/utilities'
 import CoursesGrid from '../components/course/CoursesGrid'
 import { StoreContext } from "../store/store"
 import { useHistory } from "react-router-dom"
+import CertificationCard from "../components/course/CertificationCard"
 
 export default function ProfilePage() {
 
@@ -18,6 +19,13 @@ export default function ProfilePage() {
   const [certifications, setCertifications] = useState([])
   const enrolledCoursesList = enrolledCourses?.map((course) => course.courseID)
   const history = useHistory()
+
+  const certificationsRender = certifications?.map((certification, i) => {
+    return <CertificationCard 
+      certification={certification}
+      key={i}
+    />
+  })
 
   useEffect(() => {
     getUserByID(userID, setProfileUser)
@@ -66,7 +74,7 @@ export default function ProfilePage() {
             <h6>Enrolled Courses</h6>
           </div>
           <div>
-            <i className="fal fa-badge-check"></i>
+            <i className="fal fa-diploma"></i>
             <h5>{certifications.length}</h5>
             <h6>Certifications Earned</h6>
           </div>
@@ -97,18 +105,32 @@ export default function ProfilePage() {
         </div>
       </div>
       <div className="profile-content">
-        <h3>Courses Enrolled</h3>
-        {
-          courses?.length ? 
-          <CoursesGrid courses={courses} /> :
-          <div className="no-courses">
-            <h5>No enrolled courses yet.</h5>
-            <button
-              className="shadow-hover"
-              onClick={() => history.push('/courses')}
-            >View Courses</button>
-          </div>
-        }
+        <section>
+          <h3>Courses Enrolled</h3>
+          {
+            courses?.length ? 
+            <CoursesGrid courses={courses} /> :
+            <div className="no-courses">
+              <h5>No enrolled courses yet.</h5>
+              <button
+                className="shadow-hover"
+                onClick={() => history.push('/courses')}
+              >View Courses</button>
+            </div>
+          }
+        </section>
+        <section>
+          <h3>Course Certifications</h3>
+          {
+            certifications?.length ? 
+            <div className="certification-flex">
+              {certificationsRender}
+            </div> :
+            <div className="no-courses">
+              <h5>No course certifications yet.</h5>
+            </div>
+          }
+        </section>
       </div>
     </div>
   )

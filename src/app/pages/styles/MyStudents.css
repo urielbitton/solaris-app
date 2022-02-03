@@ -186,6 +186,11 @@
   color: var(--color);
   font-size: 12px;
 }
+.my-students-page .slide-bar section .appselect select {
+  height: 35px;
+  width: 150px;
+  padding: 5px 10px;
+}
 .my-students-page .slide-bar .info-row {
   width: 100%;
   display: flex;
