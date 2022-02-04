@@ -54,6 +54,12 @@
   font-size: 15px;
   color: #555;
   font-weight: 600;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.instructor-page .socials-section h5:hover {
+  text-decoration: underline;
+  color: var(--color);
 }
 .instructor-page .socials-section button {
   margin-top: 20px;
@@ -115,6 +121,19 @@
   font-size: 28px;
   color: var(--graytxt);
 }
+
+.instructor-page .app-modal .followers-flex {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 30px 20px;
+  flex-wrap: wrap;
+}
+.instructor-page .app-modal .followers-flex .student-avatar h5 {
+  font-size: 15px;
+  color: #444;
+}
+
 
 @media (max-width: 1400px) {
   .instructor-page .profile-row hr {

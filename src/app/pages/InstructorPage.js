@@ -6,6 +6,9 @@ import {StoreContext} from '../store/store'
 import SocialLinks from '../components/ui/SocialLinks'
 import FollowInstructorBtn from "../components/instructor/FollowInstructorBtn"
 import CoursesGrid from "../components/course/CoursesGrid"
+import AppModal from '../components/ui/AppModal'
+import StudentAvatar from '../components/student/StudentAvatar'
+import { getUserByID } from "../services/userServices"
 
 export default function InstructorPage() {
 
@@ -15,10 +18,18 @@ export default function InstructorPage() {
   const [courses, setCourses] = useState([])
   const [coursesLimit, setCoursesLimit] = useState(10)
   const [followers, setFollowers] = useState([])
+  const [showFollowersModal, setShowFollowersModal] = useState(false)
   const instructorID = useRouteMatch('/instructors/instructor/:instructorID')?.params.instructorID
   const reviewsNumTotal = reviews?.reduce((a,b) => a + b?.rating, 0)
   const ratingAvg = reviewsNumTotal / reviews.length
   const isCurrentUserFollowing = followers?.findIndex(x => x.userID === user?.uid) > -1
+
+  const followersList = followers?.map((follower, i) => {
+    return <FollowersAvatar 
+      follower={follower} 
+      key={i} 
+    />
+  })
 
   useEffect(() => {
     getInstructorByID(instructorID, setInstructor)
@@ -52,7 +63,7 @@ export default function InstructorPage() {
             twitterUrl={instructor?.twitterUrl}
             linkedinUrl={instructor?.linkedinUrl}
           />
-          <h5>
+          <h5 onClick={() => setShowFollowersModal(true)}>
             <i className="fal fa-user-friends"></i>
             <span>{instructor?.followersCount} follower{instructor?.followersCount !== 1 ? "s" : ""}</span>
           </h5>
@@ -81,9 +92,37 @@ export default function InstructorPage() {
         </div>
       </div>
       <div className="courses-grid-container">
-        <h3>Courses</h3>
+        <h3>Courses by {instructor?.name}</h3>
         <CoursesGrid courses={courses} />
       </div>
+      <AppModal
+        title={`${instructor?.name}'s Followers`}
+        showModal={showFollowersModal}
+        setShowModal={setShowFollowersModal}
+        actions={
+          <button onClick={() => setShowFollowersModal(false)}>Done</button>
+        }
+      >
+        <div className="followers-flex">
+          {followersList}
+        </div>
+      </AppModal>
     </div>
   )
+}
+
+export function FollowersAvatar({follower}) {
+
+  const [followerUser, setFollowerUser] = useState({})
+
+  useEffect(() => {
+    getUserByID(follower?.userID, setFollowerUser)
+  },[])
+
+  return <StudentAvatar 
+    name={follower.name}
+    userID={follower.userID}
+    photoURL={followerUser?.photoURL}
+    clickable
+  />
 }

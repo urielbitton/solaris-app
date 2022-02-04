@@ -1,6 +1,7 @@
 import React from 'react'
 import { useHistory } from "react-router-dom"
 import './styles/StudentAvatar.css'
+import placeholderImg from '../../assets/imgs/placeholder.png'
 
 export default function StudentAvatar(props) {
 
@@ -13,7 +14,7 @@ export default function StudentAvatar(props) {
       onClick={() => clickable && history.push(`/profile/${userID}`)}
     >
       <div className="img-container">
-        <img src={photoURL} alt={name} />
+        <img src={photoURL ?? placeholderImg} alt={name} />
       </div>
       <h5>{name}</h5>
       {

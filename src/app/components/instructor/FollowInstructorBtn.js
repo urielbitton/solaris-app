@@ -39,7 +39,8 @@ export default function FollowInstructorBtn(props) {
   return (
     <button 
       className="shadow-hover"
-      onClick={() =>  toggleFollowInstructor()}
+      onClick={() =>  instructor?.instructorID !== myUser?.instructorID && toggleFollowInstructor()}
+      disabled={instructor?.instructorID === myUser?.instructorID}
     >
       { isCurrentUserFollowing ? "Following" : "Follow" }
       <i className={isCurrentUserFollowing ? "fal fa-check" : "fal fa-plus"}></i>
