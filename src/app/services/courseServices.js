@@ -117,9 +117,12 @@ export const getCommentsByVideoID = (courseID, lessonID, videoID, setComments) =
   })
 }
 
-export const getReviewsByCourseID = (courseID, setReviews) => {
-  db.collection('courses').doc(courseID)
-  .collection('reviews').orderBy('dateAdded', 'desc')
+export const getReviewsByCourseID = (courseID, setReviews, limit) => {
+  db.collection('courses')
+  .doc(courseID)
+  .collection('reviews')
+  .orderBy('dateAdded', 'desc')
+  .limit(limit)
   .onSnapshot(snap => {
     const reviewsArr = []
     snap.forEach(doc => reviewsArr.push(doc.data()))

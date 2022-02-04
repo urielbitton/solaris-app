@@ -28,7 +28,7 @@ export default function SearchCourseCard(props) {
   },[user])
 
   useEffect(() => {
-    getReviewsByCourseID(id, setReviews)
+    getReviewsByCourseID(id, setReviews, 20)
   },[id])
 
   return (

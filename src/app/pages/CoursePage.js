@@ -33,8 +33,6 @@ export default function CoursePage() {
   const lessonsScrollRef = useRef()
   const quizesScrollRef = useRef()
   const { screenWidth } = useWindowDimensions()
-  const instructorRatingSum = instructorReviews.reduce((a,b) => a + b.rating, 0)
-  const isntructorRatingAvg = instructorRatingSum / instructorReviews.length
   const isProMember = myUser?.isProMember
 
   const courseInfos = [
@@ -232,6 +230,8 @@ export default function CoursePage() {
           <section>
             <CourseReviews
               courseID={courseID}
+              numberOfReviews={course?.numberOfReviews}
+              rating={course?.rating}
             />
           </section>
           <section>

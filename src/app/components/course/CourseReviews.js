@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { getReviewsByCourseID } from '../../services/courseServices'
-import CommentCard from '../course/CommentCard'
 import './styles/CourseReviews.css'
+import ReviewCard from "./ReviewCard"
 
 export default function CourseReviews(props) {
 
-  const {courseID} = props
+  const { courseID, numberOfReviews, rating } = props
   const [reviews, setReviews] = useState([])
 
   const reviewRender = reviews?.map((review,i) => {
-    return <CommentCard 
-      comment={review} 
-      type="review" 
+    return <ReviewCard 
+      review={review} 
+      courseID={courseID}
       key={i} 
     />
   })
 
   useEffect(() => {
-    getReviewsByCourseID(courseID, setReviews)
+    getReviewsByCourseID(courseID, setReviews, 20)
   },[courseID])
 
   return (
     <div className="course-reviews">
       <div className="titles">
-        <h3>Reviews</h3>
-        <h5>{reviews.length} Review{reviews.length !== 1 ? "s" : ""}</h5>
+        <h3>Reviews ({numberOfReviews})</h3>
+        <h5>Course Rating: {rating?.toFixed(1)}</h5>
       </div>
       <div className="reviews-content">
         {reviewRender}

@@ -3,9 +3,10 @@ import StarRate from '../ui/StarRate'
 import './styles/WriteComment.css'
 import { AppInput, AppTextarea } from '../ui/AppInputs'
 import { StoreContext } from '../../store/store'
-import { setSubDB } from '../../services/CrudDB'
+import { setSubDB, updateDB } from '../../services/CrudDB'
 import { db } from '../../firebase/fire' 
 import { createNewNotification } from '../../services/notificationsServices'
+import firebase from 'firebase'
 
 export default function WriteComment(props) {
 
@@ -52,6 +53,10 @@ export default function WriteComment(props) {
       }
       setSubDB('courses', courseID, 'reviews', newReviewID, reviewObj)
       .then(res => {
+        updateDB('courses', courseID, {
+          numberOfReviews: firebase.firestore.FieldValue.increment(1),
+          rating: ((course.rating * course.numberOfReviews) + rating) / (course.numberOfReviews + 1)
+        })
         setTitle('')
         setText('')
         setRating(1)

@@ -34,7 +34,7 @@ export const isUserInstructor = (userID, setIsInstructor) => {
   db.collection("users")
   .doc(userID)
   .onSnapshot(snap => {
-    setIsInstructor(snap.data().isInstructor)
+    setIsInstructor(snap.data()?.isInstructor)
   })
 }
 

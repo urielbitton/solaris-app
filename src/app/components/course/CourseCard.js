@@ -4,15 +4,13 @@ import Ratings from '../ui/Ratings'
 import { useHistory } from 'react-router'
 import { getCoursesIDEnrolledByUserID } from '../../services/userServices'
 import { StoreContext } from '../../store/store'
-import { getReviewsByCourseID } from '../../services/courseServices'
 
 export default function CourseCard(props) {
 
   const {user, myUser} = useContext(StoreContext)
-  const {id, cover, lessonsCount, title, category, studentsEnrolled, costType, instructorID,
-    firstLessonID, firstVideoID, rating} = props.course
+  const { id, cover, lessonsCount, title, category, studentsEnrolled, costType, instructorID,
+    firstLessonID, firstVideoID, rating, numberOfReviews } = props.course
   const [userCourses, setUserCourses] = useState([])
-  const [reviews, setReviews] = useState([])
   const history = useHistory()
   const courseUserAccess = userCourses.findIndex(x => x.courseID === id) > -1
   const isMyCourse = myUser?.instructorID === instructorID
@@ -25,10 +23,6 @@ export default function CourseCard(props) {
   useEffect(() => {
     getCoursesIDEnrolledByUserID(user?.uid, setUserCourses)
   },[user])
-
-  useEffect(() => {
-    getReviewsByCourseID(id, setReviews)
-  },[id])
 
   return (
     <div className="course-card" onClick={() => history.push(`/courses/course/${id}`)}>
@@ -76,7 +70,7 @@ export default function CourseCard(props) {
                 rating={rating} 
                 ratingNumber 
               />
-              <small>({reviews.length})</small>
+              <small>({numberOfReviews})</small>
             </div>
             <div>
               {courseUserAccess && <small className='purchased-badge'><i className='fal fa-check'></i>Purchased</small>}

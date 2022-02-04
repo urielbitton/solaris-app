@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/ReviewCard.css'
-import Ratings from '../ui/Ratings'
 import { convertFireDateToString } from '../../utils/utilities'
 import {StoreContext} from '../../store/store'
 import { db } from "../../firebase/fire"
@@ -15,9 +14,9 @@ import { createNewNotification } from "../../services/notificationsServices"
 export default function CommentCard(props) {
 
   const { user, myUser, adminUserID } = useContext(StoreContext)
-  const {authorName, authorImg, dateAdded, rating, text, title, userID, 
+  const {authorName, authorImg, dateAdded, text, userID, 
     commentID, likes} = props.comment
-  const {type, courseID, lessonID, videoID} = props
+  const { courseID, lessonID, videoID } = props
   const [openReport, setOpenReport] = useState(false)
   const [reportMessage, setReportMessage] = useState('')
   const [reportReason, setReportReason] = useState('')
@@ -128,13 +127,8 @@ export default function CommentCard(props) {
           {user?.uid === userID ? <small onClick={() => setEditMode(true)}>Edit</small> : <></>}
         </div> 
         <h5>{convertFireDateToString(dateAdded)}</h5>
-        { type === 'review' && 
-          <>
-            <Ratings rating={rating} />
-            <q>{title}</q>
-          </>
-        }
-        { !editMode ?
+        { 
+          !editMode ?
           <p className="review-text">{text}</p> :
           <>
             <AppTextarea onChange={(e) => setEditText(e.target.value)} value={editText} className="review-text-textarea" />
@@ -144,15 +138,12 @@ export default function CommentCard(props) {
             </div>
           </>
         }
-        {
-          type === 'comment' &&
-          <div className="interact-row">
-            <small className={likes?.includes(user?.uid) ? "active" : ""} onClick={() => likeComment()}>
-              {likes?.includes(user?.uid) ? "Liked" : "Like"}
-            </small>
-            <small onClick={() => setOpenReport(true)}>Report</small>
-          </div>
-        }
+        <div className="interact-row">
+          <small className={likes?.includes(user?.uid) ? "active" : ""} onClick={() => likeComment()}>
+            {likes?.includes(user?.uid) ? "Liked" : "Like"}
+          </small>
+          <small onClick={() => setOpenReport(true)}>Report</small>
+        </div>
       </div>
       <AppModal
         title="Report Comment"
