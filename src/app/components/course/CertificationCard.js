@@ -18,7 +18,7 @@ export default function CertificationCard(props) {
       <div className="icon-container">
         <i className="fal fa-diploma"></i>
       </div>
-      <h4>{name}</h4>
+      <h4>Certificate of {name}</h4>
       <span>{courseName}</span>
       <h6>{convertFireDateToString(dateCompleted)}</h6>
     </div>

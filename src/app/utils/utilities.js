@@ -6,9 +6,16 @@ export const convertFireDateToMonthAndYear = (date) => {
   return `${date?.toDate().toString().split(' ')[1]} ${date?.toDate().toString().split(' ')[3]}`
 }
 
+export const convertFireDateToInputDateFormat = (date) => {
+  return `${date?.toDate().toString().split(' ')[3]}-${monthNames.indexOf(date?.toDate().toString().split(' ')[1]) < 10 ? '0'+monthNames.indexOf(date?.toDate().toString().split(' ')[1]) : monthNames.indexOf(date?.toDate().toString().split(' ')[1])}-${date?.toDate().toString().split(' ')[2]}`
+}
+
 export const msToDays = (ms) => {
   return (ms / (60*60*24*1000))
 }
+
+export const monthNames = ['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
 
 export const msToTime = (ms) => {
     let seconds = Math.floor((ms / 1000) % 60),

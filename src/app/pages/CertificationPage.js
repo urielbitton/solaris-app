@@ -7,11 +7,14 @@ import certificateImg from '../assets/imgs/certificate.png'
 import badgeImg from '../assets/imgs/badge-img.png'
 import html2canvas from 'html2canvas'
 import { Helmet } from 'react-helmet'
+import { useHistory } from "react-router-dom"
+import { convertFireDateToString } from "../utils/utilities"
 
 export default function CertificationPage() {
 
   const { setNavTitle, setNavDescript, myUser } = useContext(StoreContext)
   const studentID = useRouteMatch('/certification/:courseID/:studentID/:certificationID').params.studentID
+  const courseID = useRouteMatch('/certification/:courseID/:studentID/:certificationID').params.courseID
   const certificationID = useRouteMatch('/certification/:courseID/:studentID/:certificationID').params.certificationID
   const [certification, setCertification] = useState({})
   const [renderedImg, setRenderedImg] = useState(null)
@@ -19,6 +22,8 @@ export default function CertificationPage() {
   const captureRef = useRef()
   const downloadableImgRef = useRef()
   const pageAccess = myUser?.userID === studentID || myUser?.instructorID === certification?.instructorID
+  const isCertificateInstructor = myUser?.instructorID === certification?.instructorID
+  const history = useHistory()
 
   const downloadCertification = () => {
     html2canvas(captureRef.current).then(canvas => {
@@ -53,6 +58,7 @@ export default function CertificationPage() {
         <h3>{certification?.name}</h3>
         <h4>Student: {certification?.studentName}</h4>
         <h4>Course: {certification?.courseName}</h4>
+        <h4>Date Issued: {convertFireDateToString(certification?.dateCompleted)}</h4>
       </header>
       <section>
         <div className="certification-container" ref={captureRef}>
@@ -96,6 +102,15 @@ export default function CertificationPage() {
           style={{display:'none'}} 
           ref={downloadableImgRef}
         >Rendered Image</a>
+        {
+          isCertificateInstructor &&
+          <button 
+            className="shadow-hover"
+            onClick={() => {
+              history.push(`/create-certification/${certification?.instructorID}/${courseID}/${studentID}?edit=true&certificationID=${certificationID}`)
+            }}
+          >Edit Certification</button>
+        } 
       </footer>
     </div> :
     <></>

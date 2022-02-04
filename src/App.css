@@ -85,8 +85,16 @@ button.shadow-hover:hover {
 button.delete-btn {
   background: var(--red);
 }
+button.delete-btn:hover {
+  box-shadow: 0 13px 15px 5px #f1605e15;
+}
 button:active {
   transform: scale(0.96)
+}
+button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: auto;
 }
 a { 
   text-decoration: none;

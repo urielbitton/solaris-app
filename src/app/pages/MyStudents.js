@@ -191,6 +191,8 @@ export default function MyStudents() {
             onClick={() => {
               history.push(`/create-certification/${currentCourse?.instructorID}/${currentCourse?.id}/${currentStudent?.userID}`)
             }}
+            title={!completedCourse && "Student must finish the course to be elligible for a certification."}
+            disabled={!completedCourse}
           >
             Award Certification
           </button>

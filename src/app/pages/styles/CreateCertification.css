@@ -2,24 +2,41 @@
   width: 100%;
   display: grid;
   grid-template-columns: auto 670px;
-  grid-gap: 40px 50px;
+  grid-gap: 50px;
+  padding-bottom: 40px;
 }
 .create-certification-page .form-container {
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 25px;
 }
-.create-certification-page .form-container > h3 {
-  margin-bottom: 10px;
+.create-certification-page .form-container .titles {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+}
+.create-certification-page .form-container .titles h3 { 
   color: #444;
   font-size: 20px;
+  margin-bottom: 10px;
+}
+.create-certification-page .form-container .titles h4 span {
+  font-weight: 700;
+  color: #444;
+}
+.create-certification-page .form-container .titles h4 {
+  color: #555;
+  font-weight: 500;
 }
 .create-certification-page .form-container .commoninput {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 15px;
+  width: 100%;
 }
 .create-certification-page .form-container .commoninput.apptextarea {
   align-items: flex-start;
@@ -33,6 +50,12 @@
 .create-certification-page .form-container .commoninput select,
 .create-certification-page .form-container .commoninput textarea {
   flex-basis: 60%;
+}
+.create-certification-page .form-container .btn-group {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .create-certification-page .preview-container {
@@ -136,4 +159,10 @@
 }
 .create-certification-page .certification-container footer img.signature {
   width: 150px;
+}
+
+@media (max-width: 1600px) {
+  .create-certification-page {
+    grid-template-columns: auto;
+  }
 }
