@@ -5,20 +5,20 @@ import ReviewCard from "./ReviewCard"
 
 export default function CourseReviews(props) {
 
-  const { courseID, numberOfReviews, rating } = props
+  const { course, numberOfReviews, rating } = props
   const [reviews, setReviews] = useState([])
 
   const reviewRender = reviews?.map((review,i) => {
     return <ReviewCard 
       review={review} 
-      courseID={courseID}
+      course={course}
       key={i} 
     />
   })
 
   useEffect(() => {
-    getReviewsByCourseID(courseID, setReviews, 20)
-  },[courseID])
+    getReviewsByCourseID(course?.id, setReviews, 20)
+  },[course])
 
   return (
     <div className="course-reviews">

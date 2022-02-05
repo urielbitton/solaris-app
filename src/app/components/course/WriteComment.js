@@ -49,7 +49,8 @@ export default function WriteComment(props) {
         rating: +rating,
         title,
         text,
-        userID: user?.uid ?? "na"
+        userID: user?.uid ?? "na",
+        reviewID: newReviewID
       }
       setSubDB('courses', courseID, 'reviews', newReviewID, reviewObj)
       .then(res => {
@@ -116,7 +117,7 @@ export default function WriteComment(props) {
         <div className="rating-setter"> 
           {starsRender}
           <AppInput 
-            onChange={(e) => setRating(e.target.value)} 
+            onChange={(e) => setRating(+e.target.value)} 
             type="number" 
             min={1} 
             max={5} 
