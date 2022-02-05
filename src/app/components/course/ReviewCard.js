@@ -9,6 +9,7 @@ import { isUserInstructor } from "../../services/userServices"
 import { Link } from "react-router-dom"
 import StarRate from "../ui/StarRate"
 import { deleteSubDB, updateDB } from '../../services/CrudDB'
+import firebase from 'firebase'
 
 export default function ReviewCard(props) {
 
@@ -18,8 +19,8 @@ export default function ReviewCard(props) {
   const { course } = props
   const [isInstructor, setIsInstructor] = useState(false)
   const [editMode, setEditMode] = useState(false)
-  const [editText, setEditText] = useState(text)
-  const [editTitle, setEditTitle] = useState(title)
+  const [editText, setEditText] = useState('')
+  const [editTitle, setEditTitle] = useState('')
   const [editRating, setEditRating] = useState(1)
   const docRef = db.collection('courses')
     .doc(course?.id)
@@ -39,24 +40,28 @@ export default function ReviewCard(props) {
   })
 
   const saveReview = () => {
-    const oldRating = ((course?.rating * course?.numberOfReviews) - rating) / (course?.numberOfReviews-1)
-    const newRating = ((oldRating * (course?.numberOfReviews-1)) + editRating) / course?.numberOfReviews
-    docRef.update({
-      text: editText,
-      title: editTitle,
-      rating: +editRating
-    }).then(() => {
-      updateDB('courses', course?.id, {
-        rating: +newRating
+    if(text.length && title.length) {
+      const oldRating = ((course?.rating * course?.numberOfReviews) - rating) / (course?.numberOfReviews-1)
+      const newRating = ((oldRating * (course?.numberOfReviews-1)) + editRating) / course?.numberOfReviews
+      docRef.update({
+        text: editText,
+        title: editTitle,
+        rating: +editRating
+      }).then(() => {
+        updateDB('courses', course?.id, {
+          rating: +newRating
+        })
+        setEditMode(false)
       })
-      setEditMode(false)
-    })
-    .catch(err => console.log(err))
+      .catch(err => console.log(err))
+    }
   }
 
   const cancelSave = () => {
     setEditMode(false)
     setEditText(text)
+    setEditTitle(title)
+    setEditRating(rating)
   }
 
   const deleteReview = () => {
@@ -66,7 +71,8 @@ export default function ReviewCard(props) {
       deleteSubDB('courses', course?.id, 'reviews', reviewID)
       .then(() => {
         updateDB('courses', course?.id, {
-          rating: oldRating
+          rating: oldRating,
+          numberOfReviews: firebase.firestore.FieldValue.increment(-1)
         })
         .then(() => cancelSave())
         .catch(err => console.log(err)) 
@@ -80,7 +86,11 @@ export default function ReviewCard(props) {
   },[user])
 
   useEffect(() => {
-    setEditRating(rating)
+    if(editMode) {
+      setEditRating(rating)
+      setEditTitle(title)
+      setEditText(text)
+    }
   },[editMode])
   
 
@@ -95,7 +105,7 @@ export default function ReviewCard(props) {
               {isInstructor && <span className="instructor-badge">Instructor</span>}
             </Link>
           </h4>
-          {user?.uid === userID ? <small onClick={() => setEditMode(true)}>Edit</small> : <></>}
+          { user?.uid === userID ? <small onClick={() => setEditMode(true)}>Edit</small> : <></> }
         </div> 
         <h5>{convertFireDateToString(dateAdded)}</h5>
         <>

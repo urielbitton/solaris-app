@@ -11,9 +11,10 @@
   width: 45px;
   height: 45px;
   border-radius: 100%;
+  flex-basis: 45px;
 }
 .review-card .review-body {
-  width: 100%;
+  width: calc(100% - 60px);
 }
 .review-card .titles {
   display: flex;

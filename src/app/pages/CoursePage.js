@@ -230,6 +230,7 @@ export default function CoursePage() {
           <section>
             <CourseReviews
               course={course}
+              courseID={courseID}
               numberOfReviews={course?.numberOfReviews}
               rating={course?.rating}
             />

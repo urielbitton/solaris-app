@@ -11,7 +11,7 @@ import CertificationCard from "../components/course/CertificationCard"
 
 export default function ProfilePage() {
 
-  const { setNavTitle, setNavDescript } = useContext(StoreContext)
+  const { setNavTitle, setNavDescript, myUser } = useContext(StoreContext)
   const userID = useRouteMatch('/profile/:userID').params.userID
   const [profileUser, setProfileUser] = useState({})
   const [courses, setCourses] = useState([])
@@ -19,6 +19,7 @@ export default function ProfilePage() {
   const [certifications, setCertifications] = useState([])
   const enrolledCoursesList = enrolledCourses?.map((course) => course.courseID)
   const history = useHistory()
+  const canViewCertificates = myUser?.userID === profileUser?.userID
 
   const certificationsRender = certifications?.map((certification, i) => {
     return <CertificationCard 
@@ -119,7 +120,7 @@ export default function ProfilePage() {
             </div>
           }
         </section>
-        <section>
+        <section style={{display : canViewCertificates ? 'flex' : 'none'}}>
           <h3>Course Certifications</h3>
           {
             certifications?.length ? 
