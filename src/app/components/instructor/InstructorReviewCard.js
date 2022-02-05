@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import './styles/ReviewCard.css'
+import '../course/styles/ReviewCard.css'
 import Ratings from '../ui/Ratings'
 import { convertFireDateToString } from '../../utils/utilities'
 import {StoreContext} from '../../store/store'
@@ -11,19 +11,19 @@ import StarRate from "../ui/StarRate"
 import { deleteSubDB, updateDB } from '../../services/CrudDB'
 import firebase from 'firebase'
 
-export default function ReviewCard(props) {
+export default function InstructorReviewCard(props) {
 
   const { user } = useContext(StoreContext)
   const {authorName, authorImg, dateAdded, rating, text, title, userID, 
     reviewID } = props.review
-  const { course } = props
+  const { instructor } = props
   const [isInstructor, setIsInstructor] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [editText, setEditText] = useState('')
   const [editTitle, setEditTitle] = useState('')
   const [editRating, setEditRating] = useState(1)
-  const docRef = db.collection('courses')
-    .doc(course?.id)
+  const docRef = db.collection('instructors')
+    .doc(instructor?.instructorID)
     .collection('reviews')
     .doc(reviewID)
 
@@ -43,16 +43,16 @@ export default function ReviewCard(props) {
     if(text.length && title.length) {
       let oldRating
       let newRating = editRating
-      if(course?.numberOfReviews > 1) {
-        oldRating = ((course?.rating * course?.numberOfReviews) - rating) / (course?.numberOfReviews-1)
-        newRating = ((oldRating * (course?.numberOfReviews-1)) + editRating) / course?.numberOfReviews
+      if(instructor?.reviewsCount > 1) {
+        oldRating = ((instructor?.rating * instructor?.reviewsCount) - rating) / (instructor?.reviewsCount-1)
+        newRating = ((oldRating * (instructor?.reviewsCount-1)) + editRating) / instructor?.reviewsCount
       }
       docRef.update({
         text: editText,
         title: editTitle,
         rating: +editRating
       }).then(() => {
-        updateDB('courses', course?.id, {
+        updateDB('instructors', instructor?.instructorID, {
           rating: +newRating
         })
         setEditMode(false)
@@ -72,17 +72,17 @@ export default function ReviewCard(props) {
     const confirm = window.confirm('Are you sure you want to delete this review?')
     if(confirm) {
       let oldRating
-      if(course?.numberOfReviews > 1) {
-        oldRating = ((course?.rating * course?.numberOfReviews) - rating) / (course?.numberOfReviews-1)
+      if(instructor?.reviewsCount > 1) {
+        oldRating = ((instructor?.rating * instructor?.reviewsCount) - rating) / (instructor?.reviewsCount-1)
       }
       else {
         oldRating = 0
       }
-      deleteSubDB('courses', course?.id, 'reviews', reviewID)
+      deleteSubDB('instructors', instructor?.instructorID, 'reviews', reviewID)
       .then(() => {
-        updateDB('courses', course?.id, {
+        updateDB('instructors', instructor?.instructorID, {
           rating: oldRating,
-          numberOfReviews: firebase.firestore.FieldValue.increment(-1)
+          reviewsCount: firebase.firestore.FieldValue.increment(-1)
         })
         .then(() => cancelSave())
         .catch(err => console.log(err)) 

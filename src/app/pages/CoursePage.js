@@ -22,7 +22,6 @@ export default function CoursePage() {
   const [instructor, setInstructor] = useState({})
   const [lessons, setLessons] = useState([])
   const [userCourses, setUserCourses] = useState([])
-  const [instructorReviews, setInstructorReviews] = useState([])
   const [quizes, setQuizes] = useState([])
   const [students, setStudents] = useState([])
   const courseID = useRouteMatch('/courses/course/:courseID')?.params.courseID
@@ -100,10 +99,6 @@ export default function CoursePage() {
   useEffect(() => {
     getCoursesIDEnrolledByUserID(user?.uid, setUserCourses)
   },[user])
-
-  useEffect(() => {
-    getReviewsByInstructorID(course?.instructorID, setInstructorReviews, Infinity)
-  },[course?.instructorID])
 
   useEffect(() => {
     if(location.search.includes('scrollToLessons')) {
@@ -206,8 +201,8 @@ export default function CoursePage() {
                       <span>Course{instructor?.coursesTaught?.length !== 1 ? "s" : ""}</span>
                     </div>
                     <div className="border">
-                      <big>{instructorReviews?.length}</big>
-                      <span>Review{instructorReviews?.length !== 1 ? "s" : ""}</span>
+                      <big>{instructor?.reviewsCount}</big>
+                      <span>Review{instructor?.reviewsCount !== 1 ? "s" : ""}</span>
                     </div>
                     <div className="border">
                       <big>{instructor?.rating}</big>
@@ -236,16 +231,20 @@ export default function CoursePage() {
             />
           </section>
           <section>
-            <WriteComment 
-              course={course}
-              instructor={instructor}
-              courseID={courseID}
-              writeType="review"
-              mainTitle="Write A Review"
-              titleInput="Review Title"
-              messageInput="Review Summary"
-              canReview={courseUserAccess}
-            />
+            {
+              myUser?.instructorID !== instructor?.instructorID ?
+              <WriteComment 
+                course={course}
+                instructor={instructor}
+                courseID={courseID}
+                writeType="review"
+                mainTitle="Write A Review"
+                titleInput="Review Title"
+                messageInput="Review Summary"
+                canReview={courseUserAccess}
+              /> :
+              <></>
+            }
           </section>
           { 
             (isCourseInstructor || myUser?.isAdmin) && 

@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding-bottom: 40px;
 }
 .instructor-page .profile-row {
   width: 100%;
@@ -118,7 +119,9 @@
 }
 .instructor-page .courses-grid-container > h3 {
   margin: 20px 0;
-  font-size: 28px;
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 600;
   color: var(--graytxt);
 }
 
@@ -132,6 +135,31 @@
 .instructor-page .app-modal .followers-flex .student-avatar h5 {
   font-size: 15px;
   color: #444;
+}
+
+.instructor-page .instructor-reviews {
+  width: 700px;
+}
+.instructor-page .instructor-reviews .titles h3 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--graytxt);
+}
+.instructor-page .instructor-reviews .titles h5 {
+  color: #444;
+  font-weight: 600;
+}
+
+.instructor-page .add-comment-container {
+  width: 700px;
+  margin-top: 40px;
+}
+.instructor-page .add-comment-container h3 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--graytxt);
 }
 
 

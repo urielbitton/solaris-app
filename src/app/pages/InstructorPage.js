@@ -9,19 +9,18 @@ import CoursesGrid from "../components/course/CoursesGrid"
 import AppModal from '../components/ui/AppModal'
 import StudentAvatar from '../components/student/StudentAvatar'
 import { getUserByID } from "../services/userServices"
+import InstructorReviews from '../components/instructor/InstructorReviews'
+import WriteInstructorReview from '../components/instructor/WriteInstructorReview'
 
 export default function InstructorPage() {
 
   const {setNavTitle, setNavDescript, user, myUser} = useContext(StoreContext)
   const [instructor, setInstructor] = useState({})
-  const [reviews, setReviews] = useState([])
   const [courses, setCourses] = useState([])
   const [coursesLimit, setCoursesLimit] = useState(10)
   const [followers, setFollowers] = useState([])
   const [showFollowersModal, setShowFollowersModal] = useState(false)
   const instructorID = useRouteMatch('/instructors/instructor/:instructorID')?.params.instructorID
-  const reviewsNumTotal = reviews?.reduce((a,b) => a + b?.rating, 0)
-  const ratingAvg = reviewsNumTotal / reviews.length
   const isCurrentUserFollowing = followers?.findIndex(x => x.userID === user?.uid) > -1
 
   const followersList = followers?.map((follower, i) => {
@@ -33,7 +32,6 @@ export default function InstructorPage() {
 
   useEffect(() => {
     getInstructorByID(instructorID, setInstructor)
-    getReviewsByInstructorID(instructorID, setReviews, Infinity)
     getCoursesByInstructorID(instructorID, setCourses, coursesLimit)
     getFollowersByInstructorID(instructorID, setFollowers)
     setNavTitle('Instructor')
@@ -82,12 +80,12 @@ export default function InstructorPage() {
         </div>
         <hr/>
         <div>
-          <big>{instructor?.coursesTaught?.length}</big>
+          <big>{instructor?.reviewsCount}</big>
           <h5>Review{instructor?.reviewsCount !== 1 ? "s" : ""}</h5>
         </div>
         <hr/>
         <div>
-          <big>{!isNaN(ratingAvg) ? ratingAvg.toFixed(2) : "0"}</big>
+          <big>{instructor?.rating}</big>
           <h5>Average Rating</h5>
         </div>
       </div>
@@ -95,6 +93,20 @@ export default function InstructorPage() {
         <h3>Courses by {instructor?.name}</h3>
         <CoursesGrid courses={courses} />
       </div>
+      <InstructorReviews 
+        instructor={instructor} 
+        instructorID={instructorID}
+        reviewsCount={instructor?.reviewsCount}
+        rating={instructor?.rating}
+      />
+      {
+        myUser?.instructorID !== instructorID ?
+        <WriteInstructorReview 
+          instructor={instructor}
+          instructorID={instructorID}
+        /> :
+        <></>
+      }
       <AppModal
         title={`${instructor?.name}'s Followers`}
         showModal={showFollowersModal}

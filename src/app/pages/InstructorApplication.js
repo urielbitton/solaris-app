@@ -56,7 +56,7 @@ export default function InstructorApplication() {
     })
   }
 
-  const approveAndCreated = () => {
+  const approveAndCreate = () => {
     setLoading(true)
     updateDB('instructorApplications', application?.applicationID, {
       isApproved: true
@@ -70,6 +70,7 @@ export default function InstructorApplication() {
         facebbookUrl: '',
         followersCount: 0,
         instructorID: genNewID,
+        instructorUserID: applicationUser?.userID,
         linkedinUrl: '',
         name: application?.name,
         profilePic: applicationUser?.photoURL,
@@ -234,7 +235,7 @@ export default function InstructorApplication() {
             disabled={disableButton}
           >Approve</button>
           <button 
-            onClick={() => approveAndCreated()}
+            onClick={() => approveAndCreate()}
             disabled={disableButton}
           >Approve & Create Instructor</button>
           <button 
