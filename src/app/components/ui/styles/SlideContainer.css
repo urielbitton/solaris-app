@@ -24,7 +24,7 @@
   left: 0;
   width: 100%;
   opacity: 1;
-  z-index: 1010;
+  z-index: 1000;
 }
 .navigation-container {
   width: 100%;
