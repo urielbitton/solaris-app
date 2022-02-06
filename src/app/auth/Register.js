@@ -16,7 +16,6 @@ import { githubAuth } from "./GithubAuth"
 export default function Register() {
 
   const {setLogAuth, loggingAuth, setLoggingAuth, setAUser, setMyUser} = useContext(StoreContext)
-  const [fullName, setFullName] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('') 
@@ -48,7 +47,7 @@ export default function Register() {
       firebase.auth().onAuthStateChanged(user => {
         if(user && !loggingAuth) {
           user.updateProfile({
-            displayName: `${fullName?.split(' ')[0]} ${fullName?.split(' ')[1]}`,
+            displayName: `${firstName} ${lastName}`,
             photoURL: 'https://i.imgur.com/D4fLSKa.png'
           })
           setDB('users', user.uid, {
