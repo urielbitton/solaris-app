@@ -75,7 +75,7 @@ export default function CourseCard(props) {
               {courseUserAccess && <small className='purchased-badge'><i className='fal fa-check'></i>Purchased</small>}
               <small 
                 className="cost-type" 
-                style={{background: costType === 'pro' ? "var(--orange)" : "var(--color)"}}
+                style={{background: costType === 'pro' ? "var(--warning)" : "var(--color)"}}
               >
                 {costType}
               </small>

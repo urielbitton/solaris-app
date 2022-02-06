@@ -11,10 +11,10 @@ html, body {
   --lightestblue: rgb(211, 237, 255,0.4);
   --babyblue: #C6D9E8;
   --bg: #f8f8fc;
-  --red: #f1605e;
-  --green: #67cf00;
+  --danger: #f1605e;
+  --access: #67cf00;
   --lightRed: #f1605e2a;
-  --orange: #f5c136;
+  --warning: #f5c136;
   --blueShadow: 0 13px 15px 5px rgba(47, 81, 232, 0.12);
   --blueGradient: linear-gradient(90deg, rgba(47,134,255,1) 10%, rgba(120,194,249,1) 100%);
   --shadow: 0 5px 10px rgba(0,0,0,0.1);
@@ -83,7 +83,7 @@ button.shadow-hover:hover {
   box-shadow: var(--blueShadow);
 }
 button.delete-btn {
-  background: var(--red);
+  background: var(--danger);
 }
 button.delete-btn:hover {
   box-shadow: 0 13px 15px 5px #f1605e15;

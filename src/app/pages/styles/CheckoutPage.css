@@ -50,11 +50,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 10px;
   padding: 20px 0;
   border-bottom: 1px solid #eee;
 }
 .checkout-page .items-section .items-row .img-container {
+  min-width: 65px;
   width: 65px;
   height: 65px;
   border-radius: 10px;
@@ -67,6 +69,7 @@
 .checkout-page .items-section .items-row img {
   width: 60px;
   height: 60px;
+  border-radius: 10px;
 }
 .checkout-page .items-section .items-row > div {
   display: flex;
@@ -137,4 +140,10 @@
 }
 .checkout-page .paypal-container.no-access {
   pointer-events: none;
+}
+
+@media (max-width: 1080px) {
+  .checkout-page {
+    grid-template-columns: auto;
+  }
 }

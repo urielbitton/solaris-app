@@ -75,7 +75,7 @@
   color: var(--color);
 }
 .instructor-application-page .main-content section h3 span.rejected {
-  color: var(--red)
+  color: var(--danger)
 }
 .instructor-application-page .main-content > section {
   width: 600px;
@@ -142,7 +142,7 @@
   box-shadow: var(--blueShadow);
 }
 .instructor-application-page .main-content .btn-group button.reject-btn {
-  background: var(--red)
+  background: var(--danger)
 }
 .instructor-application-page .main-content .btn-group button[disabled] {
   opacity: 0.5;
@@ -154,6 +154,9 @@
     grid-template-columns: auto;
   }
   .instructor-application-page .main-content > section {
+    width: 100%;
+  }
+  .instructor-application-page .main-content hr {
     width: 100%;
   }
 }

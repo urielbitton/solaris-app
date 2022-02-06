@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Ratings(props) {
 
-  const {rating, color="var(--orange)", ratingNumber} = props
+  const {rating, color="var(--warning)", ratingNumber} = props
   const highestRate = 5
  
   return ( 

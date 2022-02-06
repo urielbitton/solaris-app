@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
-import { convertFireDateToString } from "../../utils/utilities";
+import { convertFireDateToString, truncateText } from "../../utils/utilities";
 
 export default function StudentRow(props) {
 
@@ -12,12 +12,12 @@ export default function StudentRow(props) {
       className="admin-row student-row"
       onClick={() => history.push(`/profile/${userID}`)}
     >
-      <h6 className="with-img">
+      <h6 className="with-img medium">
         <img src={photoURL} alt="" />
         {firstName} {lastName}
       </h6>
-      <h6 className="medium">{email}</h6>
-      <h6 className="medium">{userID}</h6>
+      <h6 title={email} className="medium">{truncateText(email, 25)}</h6>
+      <h6 title={userID} className="medium">{truncateText(userID, 25)}</h6>
       <h6>{city}</h6>
       <h6>{country}</h6>
       <h6>{convertFireDateToString(dateCreated)}</h6>

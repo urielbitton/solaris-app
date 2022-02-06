@@ -126,7 +126,7 @@
 }
 .review-card .rating-setter i {
   font-size: 19px;
-  color: var(--orange);
+  color: var(--warning);
   cursor: pointer;
 }
 .review-card .rating-setter .appinput {

@@ -18,7 +18,7 @@
   width: 100%;
 }
 .answer-card .header .fa-exclamation-triangle {
-  color: var(--orange);
+  color: var(--warning);
   cursor: pointer;
 }
 .answer-card .header > div {
@@ -35,7 +35,7 @@
   margin-right: 10px;
 }
 .answer-card .header i.fa-times {
-  color: var(--red);
+  color: var(--danger);
 }
 .answer-card .header p {
   color: #333;
@@ -45,12 +45,12 @@
   padding: 4px 10px;
   border-radius: 5px;
   font-size: 14px;
-  background: var(--red);
+  background: var(--danger);
   color: #fff;
   cursor: pointer;
 }
 .answer-card span.true-false.manual-grade {
-  background: var(--orange);
+  background: var(--warning);
 }
 .answer-card.correct .true-false {
   background: var(--color);
@@ -81,7 +81,7 @@
   width: 90%;
 }
 .answer-card .your-answer span {
-  color: var(--red);
+  color: var(--danger);
   font-weight: 600;
 }
 .answer-card.correct .your-answer span {

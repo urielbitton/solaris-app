@@ -26,7 +26,7 @@ export default function AdminInstructorApplications() {
           <header>
             <h5>Application #</h5>
             <h5>Applicant Name</h5>
-            <h5>Email</h5>
+            <h5 className="medium">Email</h5>
             <h5>Category</h5>
             <h5>Years Of Experience</h5>
             <h5>Status</h5>

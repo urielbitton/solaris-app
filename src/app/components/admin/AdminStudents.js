@@ -24,7 +24,7 @@ export default function AdminStudents() {
         <h4>Students</h4>
         <div className="table">
           <header>
-            <h5>Name</h5>
+            <h5 className="medium">Name</h5>
             <h5 className="medium">Email</h5>
             <h5 className="medium">User ID</h5>
             <h5>City</h5>

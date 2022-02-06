@@ -70,7 +70,7 @@
   justify-content: center;
 }
 .navbar .nav-icon-btn.nav-notifs .notifs-num {
-  background: var(--red)
+  background: var(--danger)
 }
 .navbar .nav-icon-btn.nav-messages .notifs-num {
   background: var(--color)
@@ -99,6 +99,7 @@
 }
 .nav-profile-container .img-container img {
   border-radius: 100%;
+  min-width: 100%;
   width: 100%;
   height: 100%;
 }

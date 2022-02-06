@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useHistory, useRouteMatch } from 'react-router'
-import { getCourseByID } from '../services/courseServices'
-import { StoreContext } from '../store/store'
 import './styles/CheckoutPage.css'
+import { useHistory, useRouteMatch } from 'react-router'
+import { getCourseByID, getStudentEnrolledInCourseByCourseID } from '../services/courseServices'
+import { StoreContext } from '../store/store'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { AppInput } from '../components/ui/AppInputs'
 import { db } from '../firebase/fire'
@@ -28,11 +28,13 @@ export default function CheckoutPage() {
   const [phone, setPhone] = useState('')
   const [loading, setLoading] = useState(false)
   const [discount, setDiscount] = useState(0)
+  const [student, setStudent] = useState({})
   const coursePrice = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(course.price)
   const allowPurchase = validateEmail(email) && address.length && city.length && region.length && country.length && postCode.length
   const freeCourse = course.price === 0
   const isProMember = myUser?.isProMember
   const totalPrice = !isProMember ? (course.price * 0.15) + course.price : 0
+  const isAlreadyEnrolled = student?.userID === myUser?.userID
   const history = useHistory()
 
   const product = {
@@ -110,11 +112,16 @@ export default function CheckoutPage() {
   },[courseID])
 
   useEffect(() => {
+    getStudentEnrolledInCourseByCourseID(courseID, myUser?.userID, setStudent)
+  },[myUser])
+
+  useEffect(() => {
     setNavTitle('Checkout')
     setNavDescript('Course: ' + course.title + ` - $${course.price}`)
   },[course])
 
   return (
+    !isAlreadyEnrolled ?
     <div className="checkout-page">
       <div className="side">
         <h3>Course Checkout</h3>
@@ -181,6 +188,7 @@ export default function CheckoutPage() {
         </div>
       </div>
       <PageLoader loading={loading} />
-    </div>
+    </div> :
+    <small>You are already enrolled in this course.</small>
   )
 }

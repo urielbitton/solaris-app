@@ -9,7 +9,7 @@
 }
 .add-comment-container .rating-setter i {
   font-size: 19px;
-  color: var(--orange);
+  color: var(--warning);
   cursor: pointer;
 }
 .add-comment-container .rating-setter .appinput {

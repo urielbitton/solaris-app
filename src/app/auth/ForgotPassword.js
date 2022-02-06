@@ -56,7 +56,7 @@ export default function ForgotPassword() {
         >Back to login</Link>
         <span 
           style={{
-            color: success ? 'var(--color)' : 'var(--red)',
+            color: success ? 'var(--color)' : 'var(--danger)',
             display: showFeedback ? 'block' : 'none'
           }}
           className="feedback"

@@ -153,7 +153,7 @@ export default function CommentCard(props) {
             <AppTextarea onChange={(e) => setEditText(e.target.value)} value={editText} className="review-text-textarea" />
             <div className="edit-actions">
               <small onClick={() => saveComment()}>Save</small>
-              <small onClick={() => deleteComment()} style={{color:'var(--red)'}}>Delete</small>
+              <small onClick={() => deleteComment()} style={{color:'var(--danger)'}}>Delete</small>
               <small onClick={() => cancelSave()}>Cancel</small>
             </div>
           </>

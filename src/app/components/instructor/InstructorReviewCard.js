@@ -156,7 +156,7 @@ export default function InstructorReviewCard(props) {
               <small onClick={() => cancelSave()}>Cancel</small>
               <small 
                 onClick={() => deleteReview()}
-                style={{color:'var(--red)'}}
+                style={{color:'var(--danger)'}}
               >Delete</small>
             </div>
           </>

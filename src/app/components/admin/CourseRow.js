@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StoreContext } from '../../store/store'
 import { getInstructorByID } from '../../services/InstructorServices'
 import { getStudentsByCourseID } from "../../services/courseServices"
-import { convertFireDateToString } from '../../utils/utilities'
+import { convertFireDateToString, truncateText } from '../../utils/utilities'
 import Ratings from '../ui/Ratings'
 import { Link } from "react-router-dom"
 import { updateDB } from '../../services/CrudDB'
@@ -36,8 +36,8 @@ export default function CourseRow(props) {
 
   return (
     <div className="admin-row course-row">
-      <h6 className="long">
-        <Link to={`/courses/course/${id}`}>{title}</Link>
+      <h6 title={title} className="long">
+        <Link to={`/courses/course/${id}`}>{truncateText(title, 45)}</Link>
         <i className="fal fa-pen" onClick={() => history.push(`/edit-course/${id}`)}></i>
       </h6>
       <h6>{price === 0 ? 'Free' : currencyFormat.format(price)}</h6>

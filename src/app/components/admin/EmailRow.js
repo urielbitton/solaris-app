@@ -15,8 +15,8 @@ export default function EmailRow(props) {
         setShowModal(true)
       }}
     >
-      <h6 className="medium">{to}</h6>
-      <h6 className="medium">{adminEmail}</h6>
+      <h6 title={to} className="medium">{truncateText(to, 25)}</h6>
+      <h6 title={adminEmail} className="medium">{truncateText(adminEmail, 25)}</h6>
       <h6>{message.subject}</h6>
       <h6 className="long">
         <div 

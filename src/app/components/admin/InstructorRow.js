@@ -20,11 +20,11 @@ export default function InstructorRow(props) {
 
   return (
     <div className="admin-row instructor-row">
-      <h6 className="with-img">
+      <h6 className="with-img medium">
         <img src={profilePic} alt=""/>
         <Link to={`/instructors/instructor/${instructorID}`}>{name}</Link>
       </h6>
-      <h6>{title}</h6>
+      <h6 className="medium">{title}</h6>
       <h6>{followersCount}</h6>
       <h6 title={coursesTaughtRender}>{coursesTaught.length}</h6>
       <h6>{reviewsCount}</h6>

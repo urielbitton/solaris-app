@@ -23,8 +23,8 @@ export default function AdminInstructors() {
         <h4>All Instructors</h4>
         <div className="table">
           <header>
-            <h5>Instructor</h5>
-            <h5>Title</h5>
+            <h5 className="medium">Instructor</h5>
+            <h5 className="medium">Title</h5>
             <h5>Followers</h5>
             <h5>Courses Taught</h5>
             <h5>Reviews</h5>

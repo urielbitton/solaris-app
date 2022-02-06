@@ -276,7 +276,7 @@ export default function BecomeInstructor() {
         >
           <i 
             className={isSuccess ? "far fa-check-circle" : "far fa-exclamation-circle"}
-            style={{color: isSuccess ? "var(--green)" : "var(--red)"}}
+            style={{color: isSuccess ? "var(--access)" : "var(--danger)"}}
           ></i>
           <h4>{endMessage}</h4>
           <button onClick={() => history.push('/')}>Back Home</button>

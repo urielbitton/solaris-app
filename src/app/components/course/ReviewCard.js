@@ -161,7 +161,7 @@ export default function ReviewCard(props) {
               <small onClick={() => saveReview()}>Save</small>
               <small 
                 onClick={() => deleteReview()}
-                style={{color:'var(--red)'}}
+                style={{color:'var(--danger)'}}
               >Delete</small>
               <small onClick={() => cancelSave()}>Cancel</small>
             </div>
