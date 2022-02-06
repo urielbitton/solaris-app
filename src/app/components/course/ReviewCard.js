@@ -39,6 +39,13 @@ export default function ReviewCard(props) {
     />
   })
 
+  const cancelSave = () => {
+    setEditMode(false)
+    setEditText(text)
+    setEditTitle(title)
+    setEditRating(rating)
+  }
+
   const saveReview = () => {
     if(text.length && title.length) {
       let oldRating
@@ -55,17 +62,10 @@ export default function ReviewCard(props) {
         updateDB('courses', course?.id, {
           rating: +newRating
         })
-        setEditMode(false)
+        cancelSave()
       })
       .catch(err => console.log(err))
     }
-  }
-
-  const cancelSave = () => {
-    setEditMode(false)
-    setEditText(text)
-    setEditTitle(title)
-    setEditRating(rating)
   }
 
   const deleteReview = () => {
@@ -85,9 +85,15 @@ export default function ReviewCard(props) {
           numberOfReviews: firebase.firestore.FieldValue.increment(-1)
         })
         .then(() => cancelSave())
-        .catch(err => console.log(err)) 
+        .catch(err => {
+          console.log(err)
+          cancelSave()
+        }) 
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        cancelSave()
+      })
     }
   }
 
@@ -153,11 +159,11 @@ export default function ReviewCard(props) {
             />
             <div className="edit-actions">
               <small onClick={() => saveReview()}>Save</small>
-              <small onClick={() => cancelSave()}>Cancel</small>
               <small 
                 onClick={() => deleteReview()}
                 style={{color:'var(--red)'}}
               >Delete</small>
+              <small onClick={() => cancelSave()}>Cancel</small>
             </div>
           </>
         }

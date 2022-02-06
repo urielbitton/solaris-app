@@ -1,8 +1,8 @@
 .navbar {
   position: fixed;
   top: 0;
-  right: 9px;
-  width: calc(100% - 259px);
+  right: 5px;
+  width: calc(100% - 255px);
   height: 80px;
   background: #fff;
   border-bottom: 1px solid #eee;

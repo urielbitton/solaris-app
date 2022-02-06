@@ -36,6 +36,11 @@ export default function CommentCard(props) {
     {name: 'Other', value: 'other'}
   ]
 
+  const cancelSave = () => {
+    setEditMode(false)
+    setEditText(text)
+  }
+
   const likeComment = () => {
     if(!likes?.includes(user?.uid)) {
       docRef.update({
@@ -55,11 +60,25 @@ export default function CommentCard(props) {
     }).then(() => {
       setEditMode(false)
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      setEditMode(false)
+      console.log(err)
+    })
   }
-  const cancelSave = () => {
-    setEditMode(false)
-    setEditText(text)
+
+  const deleteComment = () => {
+    const confirm = window.confirm('Are you sure you want to delete this comment?')
+    if(confirm) {
+      docRef.delete()
+      .then(() => {
+        setEditMode(false)
+        console.log('comment deleted');
+      })
+      .catch(err => {
+        setEditMode(false)
+        console.log(err)
+      })
+    }
   }
 
   const sendReport = () => {
@@ -134,6 +153,7 @@ export default function CommentCard(props) {
             <AppTextarea onChange={(e) => setEditText(e.target.value)} value={editText} className="review-text-textarea" />
             <div className="edit-actions">
               <small onClick={() => saveComment()}>Save</small>
+              <small onClick={() => deleteComment()} style={{color:'var(--red)'}}>Delete</small>
               <small onClick={() => cancelSave()}>Cancel</small>
             </div>
           </>

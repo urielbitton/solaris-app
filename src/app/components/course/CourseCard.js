@@ -70,7 +70,6 @@ export default function CourseCard(props) {
                 rating={rating} 
                 ratingNumber 
               />
-              <small>({numberOfReviews})</small>
             </div>
             <div>
               {courseUserAccess && <small className='purchased-badge'><i className='fal fa-check'></i>Purchased</small>}
