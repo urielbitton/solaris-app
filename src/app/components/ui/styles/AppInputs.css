@@ -13,11 +13,6 @@ label.appinput i {
   margin-left: 10px;
 }
 
-.appselect select {
-  background: url(../../../assets/imgs/angle-down.png) no-repeat right #fff;
-  background-position-x: 95%;
-  appearance: none;
-}
 
 /* iOS Style Button */
 .form-switch{display:inline-block;cursor:pointer;-webkit-tap-highlight-color:transparent}

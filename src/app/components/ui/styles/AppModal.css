@@ -38,6 +38,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
   border-bottom: 1px solid #eee;
 }
 .app-modal-container .app-modal header h4 {
@@ -88,4 +90,10 @@
 .app-modal-container .app-modal button[disabled] {
   pointer-events: none;
   opacity: 0.5;
+}
+
+@media (max-width: 900px) {
+  .app-modal-container .app-modal {
+    width: 90%;
+  }
 }

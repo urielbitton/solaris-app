@@ -68,7 +68,7 @@ export default function Navbar() {
         <h1 className="nav-title">{navTitle}</h1>
         { navDescript?.length ? <hr/> : ""}
         <h6 className="nav-descript">{navDescript}</h6>
-        <SearchBar width="300px" showIcon/>
+        <SearchBar width="300px" showIcon />
       </div>
       <div className="side right">
         { adminSettings?.allowDarkMode &&

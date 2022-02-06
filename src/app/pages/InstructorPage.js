@@ -93,7 +93,7 @@ export default function InstructorPage() {
         <h3>Courses by {instructor?.name}</h3>
         <CoursesGrid courses={courses} />
       </div>
-      <InstructorReviews 
+      <InstructorReviews  
         instructor={instructor} 
         instructorID={instructorID}
         reviewsCount={instructor?.reviewsCount}

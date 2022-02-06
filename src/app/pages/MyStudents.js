@@ -156,6 +156,12 @@ export default function MyStudents() {
         className={`slide-bar ${openSlide ? 'open' : ''}`} 
         onClick={(e) => e.stopPropagation()}
       >
+        <div 
+          className="close-container"
+          onClick={() => setOpenSlide(false)}
+        >
+          <i className="fal fa-times"></i>
+        </div>
         <header>
           <img src={currentStudent?.photoURL} alt=""/>
           <h3>{currentStudent?.firstName} {currentStudent?.lastName}</h3>

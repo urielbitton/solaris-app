@@ -319,6 +319,11 @@
   gap: 20px;
   padding-bottom: 20px;
 }
+.course-page .quiz-container > small {
+  color: #777;
+  align-self: flex-start;
+  font-size: 14px;
+}
 .course-page .create-quiz-btn {
   padding: 15px 25px;
   font-size: 15px;

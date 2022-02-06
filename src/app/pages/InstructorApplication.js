@@ -167,15 +167,15 @@ export default function InstructorApplication() {
         >View User Profile</button>
       </div>
       <div className="main-content">
-        <h3>
-          Application Number: {application?.number}
-          {
-            application?.isApproved !== null ? 
-            <span className={application?.isApproved ? 'approved' : 'rejected'}>{application?.isApproved ? ' - Approved' : ' - Rejected'}</span> :
-            ''
-          }
-        </h3>
         <section>
+          <h3>
+            Application Number: {application?.number}
+            {
+              application?.isApproved !== null ? 
+              <span className={application?.isApproved ? 'approved' : 'rejected'}>{application?.isApproved ? ' - Approved' : ' - Rejected'}</span> :
+              ''
+            }
+          </h3>
           <h6>
             Applicant Name
             <span>{application.name}</span>

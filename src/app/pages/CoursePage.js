@@ -174,7 +174,11 @@ export default function CoursePage() {
             <div ref={quizesScrollRef} className="quiz-scroll-ref"/>
             <h3>Quizzes</h3>
             <div className="quiz-container">
-              {quizesRender}
+              {
+                quizes.length ?
+                quizesRender :
+                <small>There are no quizes for this course yet.</small>
+              }
             </div>
             {
               isCourseInstructor ?

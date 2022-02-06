@@ -81,6 +81,7 @@
   width: 100%;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 25px;
 }
 .my-students-page .main-content .students-flex > span {
@@ -229,4 +230,49 @@
 .my-students-page .slide-bar .info-row a {
   color: var(--color);
   font-size: 14px;
+}
+.my-students-page .side-bar .close-container {
+
+}
+.my-students-page .slide-bar .close-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  transition: all 0.2s;
+  cursor: pointer;
+  background: #eee;
+}
+.my-students-page .slide-bar .close-container i {
+  color: #777;
+  font-size: 25px;
+}
+.my-students-page .slide-bar .close-container:hover {
+  background: var(--lightestblue);
+}
+.my-students-page .slide-bar .close-container:hover i {
+  color: var(--color);
+}
+
+
+@media(max-width: 1150px) {
+  .my-students-page {
+    grid-template-columns: auto;
+  }
+  .my-students-page .side-bar {
+    height: auto;
+    padding-bottom: 30px;
+  }
+}
+
+@media(max-width: 450px) {
+  .my-students-page .slide-bar {
+    right: -150%;
+    width: 100%;
+  }
 }

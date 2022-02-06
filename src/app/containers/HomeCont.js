@@ -33,6 +33,7 @@ import MyStudents from "../pages/MyStudents"
 import StudentQuizResults from "../pages/StudentQuizResults"
 import CertificationPage from "../pages/CertificationPage"
 import CreateCertification from "../pages/CreateCertification"
+import Support from "../pages/Support"
 
 export default function HomeCont() {
 
@@ -122,6 +123,9 @@ export default function HomeCont() {
           </Route>
           <Route exact path="/my-students">
             <MyStudents />
+          </Route>
+          <Route exact path="/support">
+            <Support />
           </Route>
           <Route path="/certification/:courseID/:studentID/:certificationID">
             <CertificationPage />
