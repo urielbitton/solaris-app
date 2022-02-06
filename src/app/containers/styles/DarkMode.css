@@ -70,7 +70,10 @@
 .dark-app .answer-card,
 .dark-app .quiz-page .timer-container,
 .dark-app .quiz-item,
-.dark-app .profile-sidebar
+.dark-app .profile-sidebar,
+.dark-app .admin-page .admin-container,
+.dark-app .admin-page .admin-container .table,
+.dark-app .certification-card .contour
 {
   background: var(--dark2);
 }
@@ -160,7 +163,8 @@
 .dark-app .quiz-banner h3,
 .dark-app .quiz-results-page header h3,
 .dark-app .answer-card h5,
-.dark-app .notifications-page header h4
+.dark-app .notifications-page header h4,
+.dark-app .admin-page .admin-container header h5 a
 {
   color: #ccc
 }
@@ -233,7 +237,9 @@
 .dark-app .quiz-page .timer-container span,
 .dark-app .quiz-item header h4,
 .dark-app .quiz-item .multiple-choice .appinput h6,
-.quiz-item .multiple-choice 
+.quiz-item .multiple-choice,
+.dark-app .admin-page .admin-container .table h6,
+.dark-app .admin-page .admin-container .table h6 a
 {
   color: #aaa;
 }
